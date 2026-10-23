@@ -216,7 +216,7 @@
   function detailsHtml(d, a) {
     const p = a.personal || {}, x = a.experience || {};
     return '<dl class="kv">' +
-      '<dt>Email</dt><dd><a href="mailto:' + esc(a.email) + '">' + esc(a.email) + '</a></dd>' +
+      '<dt>Email</dt><dd><a href="mailto:' + esc(encodeURIComponent(a.email)) + '">' + esc(a.email) + '</a></dd>' +
       '<dt>Phone</dt><dd>' + esc(a.phone) + '</dd>' +
       '<dt>Address</dt><dd>' + esc(p.address || '') + '</dd>' +
       '<dt>Date of birth</dt><dd>' + (p.dob ? fmtDay(p.dob) : '<span class="muted">Not given</span>') + '</dd>' +
@@ -454,7 +454,7 @@
     el.compTrain.innerHTML = '<div class="table-wrap" style="border:0;border-radius:0"><table><thead><tr><th scope="col">Employee</th><th scope="col">Module</th><th scope="col">Due</th><th scope="col">Status</th></tr></thead><tbody>' +
       (comp.training.length ? comp.training.map(r => '<tr>' +
         '<td><strong>' + esc(r.e.name) + '</strong><div class="small muted">' + esc(r.e.role) + ' · ' + esc(branchName(d, r.e.branchId)) + '</div></td>' +
-        '<td>' + esc(r.t.name) + (r.t.minutes ? ' <span class="small muted">(' + r.t.minutes + ' min)</span>' : '') + '</td>' +
+        '<td>' + esc(r.t.name) + (r.t.minutes ? ' <span class="small muted">(' + (r.t.minutes >= 60 && r.t.minutes % 60 === 0 ? (r.t.minutes / 60) + ' h' : r.t.minutes + ' min') + ')</span>' : '') + '</td>' +
         '<td>' + fmtDay(r.t.due) + '</td>' +
         '<td>' + (r.days < 0 ? '<span class="badge badge-bad">Overdue ' + esc(daysLabel(r.t.due).replace(' ago', '')) + '</span>' : '<span class="badge badge-warn">Due ' + esc(daysLabel(r.t.due)) + '</span>') + '</td>' +
         '</tr>').join('') : emptyRow(4, 'No training is overdue or due in the next 30 days.')) + '</tbody></table></div>';

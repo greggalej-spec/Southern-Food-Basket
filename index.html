@@ -2,48 +2,51 @@
 <html lang="en" data-root="./">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Southern Food Basket · The South’s basket</title>
-<meta name="description" content="Supermarket and wholesale across San Fernando, Princes Town and Penal. This week’s specials, departments, branch hours and trade accounts. Unofficial concept by Trinovata.">
+<title>Southern Food Basket · Fresh food and fair prices in south Trinidad</title>
+<meta name="description" content="Southern Food Basket: groceries, fresh-cut veg, double-layer cakes and Try Me deals at stores in San Fernando, Princes Town, Penal and Couva. Unofficial concept by Trinovata.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#1D6B35">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
 <link rel="stylesheet" href="assets/css/tokens.css"><link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <header data-sfb-header data-active="home"></header>
-<main id="main">
+<main id="main" data-home>
 
-  <section class="hero" aria-labelledby="hero-title">
-    <div class="container">
-      <div>
-        <p class="eyebrow">Supermarket &amp; wholesale · South Trinidad</p>
-        <h1 id="hero-title" data-hero-headline>Fresh, fair and close to home.</h1>
-        <p class="lede" data-hero-sub>Three branches across south Trinidad, a wholesale desk for businesses, and a team that knows your name.</p>
+  <section class="home-hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">South Trinidad’s neighbourhood grocer</p>
+        <h1 id="hero-title" data-hero-headline>Fresh food and fair prices, <em>close to home.</em></h1>
+        <p class="lede" data-hero-sub>Groceries, fresh-cut veg, double-layer cakes and Try Me deals at our stores across the south.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="specials.html">This week’s specials</a>
-          <a class="btn btn-ghost" href="locations.html">Find a branch</a>
+          <a class="btn btn-accent" href="specials.html">See the Try Me deals</a>
+          <a class="btn btn-ghost" href="locations.html">Find your nearest store</a>
         </div>
-        <p class="hero-note">Open seven days in San Fernando, Princes Town and Penal.</p>
+        <ul class="hero-points" data-hero-points></ul>
       </div>
-      <figure class="pic hero-visual" style="--ar:16/9">
-        <img src="assets/img/hero.svg" width="960" height="540" alt="Illustration of a woven green basket filled with mangoes, pimento peppers, a bundle of bodi, a dasheen leaf and a hops bread, in front of green hills" decoding="async">
+      <figure class="hero-photo">
+        <div class="frame"><img src="assets/img/photos/store-produce.webp" width="800" height="640" alt="The fruits and vegetables section of a Southern Food Basket store, with plantain priced at $8.95" decoding="async" fetchpriority="high"></div>
+        <div class="sticker" aria-hidden="true"><span>Cut veg packs from</span><strong data-sticker-price>$11.95</strong></div>
+        <figcaption>Fruits and vegetables, from the company’s Instagram, 1 Oct 2026.</figcaption>
       </figure>
     </div>
   </section>
 
-  <section class="section section-tight specials-strip" aria-labelledby="specials-title">
+  <section class="section deals-band" aria-labelledby="deals-title">
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">This week</p>
-          <h2 id="specials-title">This week’s specials</h2>
-          <p class="muted"><span data-week-label>Thu 22 – Wed 28 Oct</span>, while stocks last.</p>
+          <p class="eyebrow">Try Me deals</p>
+          <h2 id="deals-title">Deals from our latest posts</h2>
+          <p class="note" data-deals-note></p>
         </div>
-        <a class="more" href="specials.html">All specials <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="more-link" href="specials.html">See all <span data-deals-total>25</span> deals <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
-      <div class="grid" data-specials-strip></div>
-      <p class="price-note">Prices in TTD. Some items are at one or two branches only; each card says where.</p>
+      <ul class="chips" data-dept-chips aria-label="Deals by department"></ul>
+      <div class="deal-grid" data-deals-strip></div>
     </div>
   </section>
 
@@ -51,58 +54,65 @@
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Departments</p>
-          <h2 id="dept-title">What is in the store</h2>
+          <p class="eyebrow">In store</p>
+          <h2 id="dept-title">Shop by department</h2>
         </div>
-        <a class="more" href="departments.html">All departments <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="more-link" href="departments.html">All departments</a>
       </div>
-      <div class="grid dept-grid" data-dept-grid></div>
+      <div class="dept-grid" data-dept-grid></div>
     </div>
   </section>
 
-  <section class="band surface-dark" aria-labelledby="wholesale-title">
-    <div class="container">
-      <div>
-        <p class="eyebrow">Wholesale &amp; export</p>
-        <h2 id="wholesale-title">Trade supply from Princes Town</h2>
-        <p>Case and pallet pricing for mini-marts, restaurants, canteens and caterers, with delivery across the south from the distribution centre.</p>
-        <a class="btn btn-light" href="wholesale.html">Open a trade account</a>
-      </div>
-      <div>
-        <h3 class="band-label">What public records say</h3>
-        <ul class="fact-list" data-wholesale-facts></ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" aria-labelledby="branches-title">
+  <section class="section stores-band" aria-labelledby="stores-title">
     <div class="container">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Branches</p>
-          <h2 id="branches-title">Three branches across the south</h2>
+          <p class="eyebrow">Our stores</p>
+          <h2 id="stores-title">Visit a store near you</h2>
+          <p class="note">Addresses from public directories and the company’s Instagram. Opening hours here are demo hours.</p>
         </div>
-        <a class="more" href="locations.html">Hours and directions <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="more-link" href="locations.html">Hours and directions</a>
       </div>
-      <div class="grid branches-row" data-branches-row></div>
-      <p class="price-note">Branch addresses are from public directories and unverified. Phone numbers on this site are demo numbers.</p>
+      <div class="store-grid" data-store-grid></div>
     </div>
   </section>
 
-  <section class="section section-tight" aria-labelledby="careers-title">
-    <div class="container">
-      <div class="teaser">
-        <div>
-          <p class="eyebrow">Careers</p>
-          <h2 id="careers-title">Work close to home</h2>
-          <p>Three branches and a distribution centre, hiring from the communities they serve. Every applicant can see where their application stands and which documents are still needed.</p>
-          <div class="actions">
-            <a class="btn btn-primary" href="careers/index.html">See open roles</a>
-            <a class="btn btn-ghost" href="portal/index.html">Staff portal</a>
-          </div>
-        </div>
-        <ul class="why-list" data-careers-why></ul>
+  <section class="section" data-community aria-labelledby="community-title">
+    <div class="container split">
+      <figure class="photo-frame"><img src="assets/img/photos/flags-car.webp" width="800" height="600" alt="Southern Food Basket flags flying from a vehicle on the road" loading="lazy" decoding="async"></figure>
+      <div class="band-copy">
+        <p class="eyebrow">Community</p>
+        <h2 id="community-title" data-community-title>Out in the community</h2>
+        <p class="lede" data-community-text></p>
+        <p class="note" data-community-source></p>
+        <a class="btn btn-ghost" data-instagram href="#" target="_blank" rel="noopener">Follow us on Instagram<span class="visually-hidden"> (<span data-instagram-handle>@southernfoodbasket</span>, opens in a new tab)</span></a>
       </div>
+    </div>
+  </section>
+
+  <section class="section stores-band" aria-labelledby="careers-title">
+    <div class="container split reverse">
+      <figure class="photo-frame"><img src="assets/img/photos/team-flags.webp" width="800" height="600" alt="Southern Food Basket staff in red shirts holding the company’s pink and green flags" loading="lazy" decoding="async"></figure>
+      <div class="band-copy">
+        <p class="eyebrow">Careers</p>
+        <h2 id="careers-title">Join the team in red</h2>
+        <p class="lede">Jobs on the shop floor, in the bakery, the warehouse and the office. Apply online in about ten minutes and follow every step.</p>
+        <ul class="why-list" data-careers-why></ul>
+        <div class="cluster">
+          <a class="btn btn-accent" href="careers/index.html">See open jobs</a>
+          <a class="btn btn-ghost" href="portal/index.html">Staff portal</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wholesale-band surface-dark" aria-labelledby="ws-title">
+    <div class="container">
+      <div>
+        <h2 id="ws-title">Buying for a shop, restaurant or caterer?</h2>
+        <p>Case and pallet supply from the Princes Town trade desk.</p>
+      </div>
+      <a class="btn btn-light" href="wholesale.html">Wholesale and trade</a>
     </div>
   </section>
 

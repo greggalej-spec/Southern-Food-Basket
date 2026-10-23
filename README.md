@@ -1,14 +1,15 @@
 # Southern Food Basket — concept site
 
 An unsolicited prototype by Trinovata for Southern Food Basket, a supermarket-and-wholesale business in
-south Trinidad. Not affiliated with the company. Every person, job, price, document, phone number and
-e-mail in it is demo data; the only sourced facts are listed in `SITE.md`.
+south Trinidad. Not affiliated with the company. Version 2 (2026-10-23) uses the company's real logo, photos and
+posted Try Me prices from its public Instagram, in a traditional look aimed at older shoppers and millennials.
+People, jobs, documents, hours and phone numbers are demo data. Sources: `SITE.md`; design law: `DESIGN.md`.
 
 ## What is in it
 
 | Area | Pages | Notes |
 |---|---|---|
-| Public site | `index`, `departments`, `specials`, `wholesale`, `locations`, `about` | static, data from `data/seed.js` |
+| Public site | `index`, `specials` (Try Me deals), `departments`, `wholesale`, `locations`, `about` | static, data from `data/seed.js` |
 | Hiring portal | `careers/index`, `careers/job`, `careers/apply`, `careers/me` | five-step application with a KYC document step; applicant dashboard |
 | HR console | `hr/index` | pipeline board, document review (verify / flag), roles, employee compliance |
 | Employee portal | `portal/index` (demo login), `home`, `schedule`, `leave`, `pay`, `docs`, `profile` | demo roles: Applicant, Employee, HR |
@@ -19,10 +20,10 @@ KYC "uploads" are previewed in the browser only; the store keeps file name, size
 ## Run
 
 ```bash
-python -m http.server 4173
+python -m http.server 4175
 ```
 
-Then open http://localhost:4173/ . Any static server works; there is no build step.
+Then open http://localhost:4175/ . Any static server works; there is no build step.
 
 ## Layout
 
@@ -33,7 +34,7 @@ assets/css/site.css     public pages      assets/css/careers.css · portal.css  
 assets/js/store.js      mock data layer   assets/js/ui.js  header, footer, app shell, helpers
 assets/js/site.js · careers.js · hr.js · portal.js   page logic
 data/seed.js            all demo data (bump `version` when it changes)
-assets/img/             hand-authored SVGs; provenance in SOURCES.md
+assets/img/             logo cut-out and the company's Instagram photos; provenance in SOURCES.md
 ```
 
 ## Deploy

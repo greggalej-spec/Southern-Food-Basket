@@ -36,7 +36,7 @@
 .role-meta li { display: inline-flex; align-items: center; gap: 6px; }
 .role-meta .icon { color: var(--icon); }
 .role-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s3); margin-top: auto; padding-top: var(--s3); border-top: 1px solid var(--line); }
-.role-pay { font: 600 1.125rem/1.2 var(--display); font-variant-numeric: tabular-nums; }
+.role-pay { font: 800 1.125rem/1.2 var(--ui); font-variant-numeric: tabular-nums; }
 .role-posted { margin: 0; font-size: 0.8125rem; color: var(--muted); }
 
 .how-strip { background: var(--wash); border-radius: var(--r-lg); padding: var(--s6) var(--s5); }
@@ -144,7 +144,7 @@
 .composer textarea { min-height: 88px; }
 .composer .actions { display: flex; justify-content: flex-end; }
 .summary-text { white-space: pre-wrap; }
-.offer-card .offer-pay { font: 600 1.75rem/1.1 var(--display); font-variant-numeric: tabular-nums; margin: 0 0 var(--s3); }
+.offer-card .offer-pay { font: 800 1.75rem/1.1 var(--ui); font-variant-numeric: tabular-nums; margin: 0 0 var(--s3); }
 .offer-card .actions { display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s4); }
 .withdraw-row { margin-top: var(--s4); }
 .badge-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }

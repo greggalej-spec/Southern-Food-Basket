@@ -35,8 +35,13 @@
     return cache;
   }
   function update(fn) { const d = load(); fn(d); return save(d); }
+  /* clears every key this site writes (data, session, application drafts, banner), by prefix */
   function reset() {
-    try { localStorage.removeItem(KEY); localStorage.removeItem(SESSION_KEY); sessionStorage.removeItem('sfb-banner-dismissed'); } catch (e) {}
+    try {
+      [localStorage, sessionStorage].forEach(st => {
+        for (let i = st.length - 1; i >= 0; i--) { const k = st.key(i); if (k && k.indexOf('sfb-') === 0) st.removeItem(k); }
+      });
+    } catch (e) {}
     cache = null;
   }
 
@@ -64,7 +69,8 @@
     const s = session();
     if (!s || (roles && roles.length && !roles.includes(s.role))) {
       const r = root || (document.documentElement.getAttribute('data-root') || './');
-      const next = encodeURIComponent(location.pathname.split('/').slice(-2).join('/'));
+      /* keep the query and the tab hash so a deep link survives the demo sign-in */
+      const next = encodeURIComponent(location.pathname.split('/').slice(-2).join('/') + location.search + location.hash);
       location.replace(r + 'portal/index.html?next=' + next);
       return null;
     }
@@ -143,7 +149,8 @@
     const job = byId(d.jobs, applicant.jobId);
     const ids = job ? job.kyc : d.kycDocs.map(x => x.id);
     return ids.map(id => byId(d.kycDocs, id)).filter(Boolean).filter(doc => {
-      if (doc.id === 'work-permit') return applicant.nonNational === true;
+      /* the apply form passes { nonNational }; stored applicants keep it under personal */
+      if (doc.id === 'work-permit') return applicant.nonNational === true || !!(applicant.personal && applicant.personal.nonNational === true);
       return true;
     });
   }
@@ -155,8 +162,18 @@
     updateEmployee(employeeId, e => { e.leaveRequests = e.leaveRequests || []; e.leaveRequests.unshift(r); });
     return r;
   }
+  /* approving leave moves its days into the used balance; un-approving moves them back */
+  const LEAVE_KEY = { Annual: 'annualUsed', Sick: 'sickUsed', Casual: 'casualUsed' };
   function setLeaveStatus(employeeId, leaveId, status) {
-    return updateEmployee(employeeId, e => { const r = (e.leaveRequests || []).find(x => x.id === leaveId); if (r) r.status = status; });
+    return updateEmployee(employeeId, e => {
+      const r = (e.leaveRequests || []).find(x => x.id === leaveId); if (!r) return;
+      const key = LEAVE_KEY[r.type], days = Number(r.days) || 0;
+      if (key && e.leave) {
+        if (r.status !== 'approved' && status === 'approved') e.leave[key] = (e.leave[key] || 0) + days;
+        if (r.status === 'approved' && status !== 'approved') e.leave[key] = Math.max(0, (e.leave[key] || 0) - days);
+      }
+      r.status = status;
+    });
   }
   /* a bare YYYY-MM-DD is a local calendar day, never UTC midnight */
   function parseDay(v) {

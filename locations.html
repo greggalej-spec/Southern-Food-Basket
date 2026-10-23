@@ -2,29 +2,29 @@
 <html lang="en" data-root="./">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Branches · Southern Food Basket</title>
-<meta name="description" content="Southern Food Basket branches in San Fernando, Princes Town and Penal: opening hours, services and directions. Addresses from public directories, unverified. Unofficial concept by Trinovata.">
+<title>Store locations · Southern Food Basket</title>
+<meta name="description" content="Southern Food Basket stores in San Fernando, Princes Town, Penal and Couva: addresses, opening hours and directions. Unofficial concept by Trinovata; hours are demo data.">
 <meta name="robots" content="noindex">
+<meta name="theme-color" content="#1D6B35">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/img/favicon-64.png" type="image/png">
 <link rel="stylesheet" href="assets/css/tokens.css"><link rel="stylesheet" href="assets/css/site.css">
 </head>
 <body>
 <header data-sfb-header data-active="locations"></header>
 <main id="main">
 
-  <section class="page-head">
+  <section class="page-hero" aria-labelledby="loc-title">
     <div class="container">
-      <p class="eyebrow">Locations</p>
-      <h1>Three branches across the south</h1>
-      <p class="lede">San Fernando, Princes Town and Penal. Opening hours, services and directions for each branch.</p>
-      <p class="source">Addresses come from public directories and have not been verified with the company. Phone and WhatsApp numbers on this site are demo numbers.</p>
-      <nav class="jump-nav cluster" aria-label="Branches on this page" data-branch-jumps></nav>
+      <p class="eyebrow">Store locations</p>
+      <h1 id="loc-title">Find your nearest store</h1>
+      <p class="lede">Four stores across the south. Pick one for its address, opening hours and directions.</p>
+      <ul class="chips jump-chips" data-branch-jumps aria-label="Jump to a store"></ul>
     </div>
   </section>
 
-  <div class="branch-list" data-locations></div>
+  <div data-locations></div>
 
 </main>
 <footer data-sfb-footer></footer>

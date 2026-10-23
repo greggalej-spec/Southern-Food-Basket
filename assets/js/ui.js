@@ -1,14 +1,14 @@
-/* Southern Food Basket — shared UI: brand mark, site header/footer, app shell, banner, toasts, dialogs, helpers.
+/* Southern Food Basket — shared UI: logo, site header/footer, app shell, banner, price seal, toasts, dialogs, helpers.
    Every page includes this after store.js. Reads <html data-root="./|../"> to build links. */
 (function () {
   const ROOT = document.documentElement.getAttribute('data-root') || './';
-  const DISCLAIMER = 'Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. All people, jobs, prices and documents are demo data.';
+  const DISCLAIMER = 'Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Hours, people, jobs and documents are demo data; prices and photos are from the company’s public Instagram.';
   const href = p => ROOT + p;
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* Basket glyph: our own asset (DESIGN.md "Mark"). */
-  const LOGO = '<svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><path d="M12 15c0-6 3.5-10 8-10s8 4 8 10" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M5 16h30l-3.2 15.2A4 4 0 0 1 27.9 34H12.1a4 4 0 0 1-3.9-2.8L5 16Z" fill="currentColor"/><path d="M11 20l2.5 10M17 20l1.2 10M23 20l-1.2 10M29 20l-2.5 10M8 24h24M9.5 29h21" fill="none" stroke="#FAF7F0" stroke-width="1.6" stroke-linecap="round"/></svg>';
-  const MONO = '<svg viewBox="0 0 40 40" aria-hidden="true" focusable="false"><rect width="40" height="40" rx="10" fill="currentColor"/><path d="M14 13c0-3.5 2.6-6 6-6s6 2.5 6 6" fill="none" stroke="#FAF7F0" stroke-width="2" stroke-linecap="round"/><path d="M9 14h22l-2.4 11.3A3 3 0 0 1 25.7 28H14.3a3 3 0 0 1-2.9-2.3L9 14Z" fill="#FAF7F0"/><path d="M13.5 17.5l1.8 7.5M19 17.5l.8 7.5M23.5 17.5l-.8 7.5M27 17.5l-1.8 7.5M11 20.5h18" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>';
+  /* The real logo, cut from a company photo (assets/img/SOURCES.md). */
+  const LOGO = '<img src="' + href('assets/img/sfb-logo.webp') + '" alt="Southern Food Basket" width="386" height="176" decoding="async">';
+  const MONO = '<img class="sfb-mark" src="' + href('assets/img/sfb-mark.png') + '" alt="" width="96" height="96" decoding="async">';
 
   const ICONS = {
     home: '<path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8.5Z"/>',
@@ -34,7 +34,10 @@
     logout: '<path d="M10 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h5M15 8l4 4-4 4M19 12H9"/>',
     bell: '<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15L6 16Z"/><path d="M10 21h4"/>',
     truck: '<path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>',
-    basket: '<path d="M5 10h14l-1.5 9H6.5L5 10Z"/><path d="M8 10l3-6M16 10l-3-6M3 10h18"/>'
+    basket: '<path d="M5 10h14l-1.5 9H6.5L5 10Z"/><path d="M8 10l3-6M16 10l-3-6M3 10h18"/>',
+    tag: '<path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9-9-9Z"/><circle cx="8" cy="8" r="1.5"/>',
+    camera: '<rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/>',
+    store: '<path d="M4 10v10h16V10M3 10l2-6h14l2 6M3 10h18M9 20v-6h6v6"/>'
   };
   function icon(name, cls) {
     return '<svg class="icon' + (cls ? ' ' + cls : '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + (ICONS[name] || '') + '</svg>';
@@ -42,56 +45,72 @@
 
   const SITE_NAV = [
     { id: 'home', label: 'Home', href: 'index.html' },
+    { id: 'specials', label: 'Try Me deals', href: 'specials.html' },
     { id: 'departments', label: 'Departments', href: 'departments.html' },
-    { id: 'specials', label: 'Specials', href: 'specials.html' },
     { id: 'wholesale', label: 'Wholesale', href: 'wholesale.html' },
-    { id: 'locations', label: 'Locations', href: 'locations.html' },
-    { id: 'about', label: 'About', href: 'about.html' },
+    { id: 'locations', label: 'Store locations', href: 'locations.html' },
+    { id: 'about', label: 'About us', href: 'about.html' },
     { id: 'careers', label: 'Careers', href: 'careers/index.html' }
   ];
 
-  function brandHtml(opts) {
-    opts = opts || {};
-    return '<a class="brand" href="' + href(opts.href || 'index.html') + '" aria-label="Southern Food Basket home">' + LOGO +
-      '<span><span class="brand-name">Southern Food Basket</span><span class="brand-sub">' + esc(opts.sub || 'The South’s basket') + '</span></span></a>';
+  /* hours[0] is Mon–Sat, hours[1] is Sun & public holidays (demo data) */
+  function todayHours(b) {
+    const rows = (b && b.hours) || [];
+    if (!rows.length) return '';
+    const row = new Date().getDay() === 0 ? (rows[1] || rows[0]) : rows[0];
+    return row ? row[1] : '';
   }
 
   function renderSiteHeader(el) {
     const active = el.getAttribute('data-active') || '';
-    const links = SITE_NAV.map(n => '<a href="' + href(n.href) + '"' + (n.id === active ? ' aria-current="page"' : '') + '>' + esc(n.label) + '</a>').join('');
+    const d = window.SFBStore ? SFBStore.load() : { branches: [] };
+    const first = (d.branches || [])[0];
+    const hrs = todayHours(first);
+    const count = (d.branches || []).length;
+    const navLinks = SITE_NAV.map(n => '<li><a href="' + href(n.href) + '"' + (n.id === active ? ' aria-current="page"' : '') + '>' + esc(n.label) + '</a></li>').join('');
+    const mobileLinks = SITE_NAV.map(n => '<li><a href="' + href(n.href) + '"' + (n.id === active ? ' aria-current="page"' : '') + '><span>' + esc(n.label) + '</span>' + icon('arrow') + '</a></li>').join('');
     el.className = 'site-header';
     el.innerHTML =
       '<a class="skip-link" href="#main">Skip to content</a>' +
-      '<div class="container">' + brandHtml() +
-      '<nav class="nav" aria-label="Primary">' + links + '</nav>' +
-      '<div class="cluster" style="--gap:8px">' +
-      '<a class="btn btn-ghost btn-sm nav-cta" href="' + href('portal/index.html') + '">' + icon('user') + ' Staff portal</a>' +
-      '<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Open menu">' + icon('menu') + '</button>' +
+      '<div class="utility"><div class="container">' +
+      '<p>' + icon('clock') + (hrs ? '<span>' + esc(first.name) + ' open today <strong>' + esc(hrs) + '</strong></span>' : '<span>See store hours</span>') + '<span class="demo-tag">Demo hours</span></p>' +
+      '<nav class="utility-links" aria-label="Quick links"><a href="' + href('locations.html') + '">' + esc(count ? count + ' store locations' : 'Store locations') + '</a><a href="' + href('careers/index.html') + '">Careers</a><a href="' + href('portal/index.html') + '">Staff portal</a></nav>' +
       '</div></div>' +
-      '<div class="mobile-nav" id="mobile-nav">' + links +
-      '<div class="mobile-cta"><a class="btn btn-primary" href="' + href('careers/index.html') + '">See open roles</a>' +
-      '<a class="btn btn-ghost" href="' + href('portal/index.html') + '">' + icon('user') + ' Staff portal</a></div></div>';
-    const btn = el.querySelector('.nav-toggle'), menu = el.querySelector('.mobile-nav');
-    btn.addEventListener('click', () => {
-      const open = menu.classList.toggle('is-open');
+      '<div class="masthead"><div class="container">' +
+      '<a class="brand" href="' + href('index.html') + '" aria-label="Southern Food Basket, home">' + LOGO + '</a>' +
+      '<div class="masthead-actions"><a class="btn btn-ghost" href="' + href('locations.html') + '">' + icon('pin') + 'Find a store</a><a class="btn btn-accent" href="' + href('specials.html') + '">' + icon('tag') + 'Try Me deals</a></div>' +
+      '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">' + icon('menu') + '<span>Menu</span></button>' +
+      '</div></div>' +
+      '<nav class="navband" aria-label="Main"><div class="container"><ul>' + navLinks + '</ul></div></nav>' +
+      '<nav class="mobile-nav" id="mobile-nav" aria-label="Main"><ul>' + mobileLinks + '</ul>' +
+      '<div class="mobile-cta"><a class="btn btn-accent" href="' + href('specials.html') + '">' + icon('tag') + 'Try Me deals</a>' +
+      '<a class="btn btn-ghost" href="' + href('portal/index.html') + '">' + icon('user') + 'Staff portal</a></div></nav>' +
+      '<div class="ribbon" aria-hidden="true"></div>';
+    const btn = el.querySelector('.menu-btn'), menu = el.querySelector('.mobile-nav');
+    const set = open => {
+      menu.classList.toggle('is-open', open);
       btn.setAttribute('aria-expanded', String(open));
-      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-      btn.innerHTML = icon(open ? 'close' : 'menu');
-    });
+      btn.innerHTML = icon(open ? 'close' : 'menu') + '<span>' + (open ? 'Close' : 'Menu') + '</span>';
+    };
+    btn.addEventListener('click', () => set(!menu.classList.contains('is-open')));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menu.classList.contains('is-open')) { set(false); btn.focus(); } });
   }
 
   function renderSiteFooter(el) {
     const d = window.SFBStore ? SFBStore.load() : { branches: [], settings: {} };
-    const branches = (d.branches || []).map(b => '<li><a href="' + href('locations.html#' + esc(b.id)) + '">' + esc(b.name) + '</a></li>').join('');
+    const branches = (d.branches || []).map(b => '<li class="footer-branch"><a href="' + href('locations.html#' + esc(b.id)) + '"><strong>' + esc(b.name) + '</strong></a><span>' + esc(b.short || b.address) + '</span></li>').join('');
+    const ig = (d.settings || {}).instagram;
     el.className = 'site-footer';
     el.innerHTML =
+      '<div class="ribbon" aria-hidden="true"></div>' +
       '<div class="container"><div class="footer-grid">' +
-      '<div>' + brandHtml({ sub: 'Since 1998 · South Trinidad' }) + '<p style="margin-top:16px">Supermarket and wholesale for the south. Fresh produce, meats, pantry staples and bulk supply from three branches.</p></div>' +
-      '<div><h4>Shop</h4><ul><li><a href="' + href('departments.html') + '">Departments</a></li><li><a href="' + href('specials.html') + '">This week’s specials</a></li><li><a href="' + href('wholesale.html') + '">Wholesale &amp; export</a></li></ul></div>' +
-      '<div><h4>Branches</h4><ul>' + branches + '</ul></div>' +
-      '<div><h4>Company</h4><ul><li><a href="' + href('about.html') + '">About</a></li><li><a href="' + href('careers/index.html') + '">Careers</a></li><li><a href="' + href('portal/index.html') + '">Staff portal</a></li><li><a href="' + href('hr/index.html') + '">HR console</a></li></ul></div>' +
+      '<div><a class="brand" href="' + href('index.html') + '" aria-label="Southern Food Basket, home">' + LOGO + '</a><p style="margin-top:16px">Supermarket and wholesale for the south of Trinidad.</p></div>' +
+      '<div><h4>Our stores</h4><ul>' + branches + '</ul></div>' +
+      '<div><h4>Shop</h4><ul><li><a href="' + href('specials.html') + '">Try Me deals</a></li><li><a href="' + href('departments.html') + '">Departments</a></li><li><a href="' + href('wholesale.html') + '">Wholesale and trade</a></li><li><a href="' + href('locations.html') + '">Store hours</a></li></ul></div>' +
+      '<div><h4>Company</h4><ul><li><a href="' + href('about.html') + '">About us</a></li><li><a href="' + href('careers/index.html') + '">Careers</a></li><li><a href="' + href('portal/index.html') + '">Staff portal</a></li><li><a href="' + href('hr/index.html') + '">HR console</a></li>' +
+      (ig ? '<li><a href="' + esc(ig.url) + '" target="_blank" rel="noopener">' + esc(ig.handle) + ' on Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></li>' : '') + '</ul></div>' +
       '</div><div class="footer-bottom"><p>' + esc(DISCLAIMER) + ' Branch addresses are from public directories and unverified.</p>' +
-      '<p><span class="concept-pill">Unofficial concept</span> &nbsp; <button class="link-btn" type="button" data-reset-demo style="color:#DCE5DD">Reset demo data</button></p></div></div>';
+      '<p><span class="concept-pill">Unofficial concept</span> &nbsp; <button class="link-btn" type="button" data-reset-demo style="color:#F3EBDD">Reset demo data</button></p></div></div>';
   }
 
   /* dismissable banner on app-style pages (careers/hr/portal) */
@@ -108,25 +127,26 @@
   }
 
   /* app shell: sidebar + topbar around <main data-app-main> */
+  const MY_PORTAL = [
+    { id: 'home', label: 'Home', href: 'portal/home.html', icon: 'home' },
+    { id: 'schedule', label: 'Schedule', href: 'portal/schedule.html', icon: 'calendar' },
+    { id: 'leave', label: 'Leave', href: 'portal/leave.html', icon: 'sun' },
+    { id: 'pay', label: 'Pay', href: 'portal/pay.html', icon: 'wallet' },
+    { id: 'docs', label: 'Documents & training', href: 'portal/docs.html', icon: 'folder' },
+    { id: 'profile', label: 'Profile', href: 'portal/profile.html', icon: 'user' }
+  ];
   const APP_NAV = {
     applicant: [
       { id: 'me', label: 'My application', href: 'careers/me.html', icon: 'file' },
-      { id: 'jobs', label: 'Browse roles', href: 'careers/index.html', icon: 'search' }
+      { id: 'jobs', label: 'Browse jobs', href: 'careers/index.html', icon: 'search' }
     ],
-    employee: [
-      { id: 'home', label: 'Home', href: 'portal/home.html', icon: 'home' },
-      { id: 'schedule', label: 'Schedule', href: 'portal/schedule.html', icon: 'calendar' },
-      { id: 'leave', label: 'Leave', href: 'portal/leave.html', icon: 'sun' },
-      { id: 'pay', label: 'Pay', href: 'portal/pay.html', icon: 'wallet' },
-      { id: 'docs', label: 'Documents & training', href: 'portal/docs.html', icon: 'folder' },
-      { id: 'profile', label: 'Profile', href: 'portal/profile.html', icon: 'user' }
-    ],
+    employee: MY_PORTAL,
     hr: [
       { id: 'pipeline', label: 'Hiring pipeline', href: 'hr/index.html#pipeline', icon: 'briefcase' },
-      { id: 'roles', label: 'Roles', href: 'hr/index.html#roles', icon: 'grid' },
+      { id: 'roles', label: 'Jobs', href: 'hr/index.html#roles', icon: 'grid' },
       { id: 'compliance', label: 'Compliance', href: 'hr/index.html#compliance', icon: 'shield' },
-      { id: 'home', label: 'My portal', href: 'portal/home.html', icon: 'home' }
-    ]
+      { group: 'My portal' }
+    ].concat(MY_PORTAL)
   };
   const ROLE_LABEL = { applicant: 'Applicant', employee: 'Employee', hr: 'HR' };
 
@@ -138,36 +158,48 @@
     const s = window.SFBStore ? SFBStore.session() : null;
     const role = (s && s.role) || (section === 'hr' ? 'hr' : section === 'careers' ? 'applicant' : 'employee');
     const user = window.SFBStore ? SFBStore.currentUser() : null;
-    const nav = (APP_NAV[role] || []).map(n => '<a href="' + href(n.href) + '"' + (n.id === active ? ' aria-current="page"' : '') + '>' + icon(n.icon) + '<span>' + esc(n.label) + '</span></a>').join('');
+    const nav = (APP_NAV[role] || []).map(n => n.group
+      ? '<p class="app-nav-group">' + esc(n.group) + '</p>'
+      : '<a href="' + href(n.href) + '"' + (n.id === active ? ' aria-current="page"' : '') + '>' + icon(n.icon) + '<span>' + esc(n.label) + '</span></a>').join('');
     const name = user ? user.name : ROLE_LABEL[role] || 'Guest';
     const title = document.body.getAttribute('data-title') || document.title.split('·')[0].trim();
+    if (!main.id) main.id = 'app-main';
 
     const shell = document.createElement('div');
     shell.className = 'app';
     shell.innerHTML =
-      '<aside class="app-sidebar" id="app-sidebar">' +
+      '<a class="skip-link" href="#' + esc(main.id) + '">Skip to content</a>' +
+      '<aside class="app-sidebar" id="app-sidebar" aria-label="Portal menu">' +
       '<a class="app-brand" href="' + href('index.html') + '">' + MONO + '<span>Southern Food Basket<small>' + esc(ROLE_LABEL[role] || '') + ' portal</small></span></a>' +
       '<nav class="app-nav" aria-label="Portal">' + nav + '</nav>' +
       '<div class="app-sidebar-foot">' +
       '<a href="' + href('portal/index.html') + '">' + icon('swap') + '<span>Switch role</span></a>' +
       '<button type="button" data-reset-demo>' + icon('logout') + '<span>Reset demo</span></button>' +
-      '<p class="small">Demo data only. Nothing leaves this browser.</p></div></aside>' +
+      '<p class="small">' + esc(DISCLAIMER) + '</p></div></aside>' +
       '<div class="app-body">' +
       '<header class="app-topbar">' +
-      '<button class="app-menu-btn" type="button" aria-expanded="false" aria-controls="app-sidebar" aria-label="Open portal menu">' + icon('menu') + '</button>' +
+      '<button class="app-menu-btn" type="button" aria-expanded="false" aria-controls="app-sidebar">' + icon('menu') + '<span>Menu</span></button>' +
       '<div class="app-topbar-title"><span class="eyebrow" style="margin:0">' + esc(ROLE_LABEL[role] || '') + '</span><strong>' + esc(title) + '</strong></div>' +
       '<div class="app-user"><span class="app-avatar" aria-hidden="true">' + esc(initials(name)) + '</span><span class="app-user-name">' + esc(name) + '</span></div>' +
       '</header></div>';
     main.parentNode.insertBefore(shell, main);
     shell.querySelector('.app-body').appendChild(main);
     main.classList.add('app-main');
-    const btn = shell.querySelector('.app-menu-btn');
-    btn.addEventListener('click', () => {
-      const open = shell.classList.toggle('sidebar-open');
+
+    const btn = shell.querySelector('.app-menu-btn'), sidebar = shell.querySelector('.app-sidebar');
+    const wide = window.matchMedia('(min-width: 910px)');
+    const set = open => {
+      shell.classList.toggle('sidebar-open', open);
       btn.setAttribute('aria-expanded', String(open));
-      btn.innerHTML = icon(open ? 'close' : 'menu');
-    });
-    shell.addEventListener('click', e => { if (e.target.classList && e.target.classList.contains('app')) shell.classList.remove('sidebar-open'); });
+      btn.innerHTML = icon(open ? 'close' : 'menu') + '<span>' + (open ? 'Close' : 'Menu') + '</span>';
+      /* a closed off-canvas sidebar must leave the tab order and the accessibility tree */
+      if (wide.matches || open) sidebar.removeAttribute('inert'); else sidebar.setAttribute('inert', '');
+    };
+    set(false);
+    btn.addEventListener('click', () => set(!shell.classList.contains('sidebar-open')));
+    shell.addEventListener('click', e => { if (e.target === shell && shell.classList.contains('sidebar-open')) { set(false); btn.focus(); } });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && shell.classList.contains('sidebar-open')) { set(false); btn.focus(); } });
+    (wide.addEventListener ? wide.addEventListener('change', () => set(false)) : wide.addListener(() => set(false)));
   }
 
   /* small helpers */
@@ -238,6 +270,28 @@
     return doc.state;
   }
 
+  /* Price seal, after the company's "1 FOR $x · TRY ME" posts. Decorative: the same price must also be
+     present as text for screen readers (deal cards add a visually hidden line). */
+  const SCALLOP = (function () {
+    const n = 18, rIn = 41, rOut = 53, c = 50, step = Math.PI * 2 / n;
+    let d = '';
+    for (let i = 0; i < n; i++) {
+      const a0 = i * step - Math.PI / 2, a1 = (i + 1) * step - Math.PI / 2, am = (i + 0.5) * step - Math.PI / 2;
+      const p0 = [c + rIn * Math.cos(a0), c + rIn * Math.sin(a0)], p1 = [c + rIn * Math.cos(a1), c + rIn * Math.sin(a1)], q = [c + rOut * Math.cos(am), c + rOut * Math.sin(am)];
+      if (i === 0) d += 'M' + p0[0].toFixed(2) + ' ' + p0[1].toFixed(2);
+      d += 'Q' + q[0].toFixed(2) + ' ' + q[1].toFixed(2) + ' ' + p1[0].toFixed(2) + ' ' + p1[1].toFixed(2);
+    }
+    return d + 'Z';
+  })();
+  function seal(price, opts) {
+    opts = opts || {};
+    const amt = Number(price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    return '<div class="seal" aria-hidden="true"><svg class="seal-bg" viewBox="0 0 100 100" focusable="false"><path d="' + SCALLOP + '" fill="#D3202D"/>' +
+      '<circle cx="50" cy="50" r="35" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 2"/></svg>' +
+      '<div class="seal-in"><span class="seal-qty">' + esc(opts.qty || '1 FOR') + '</span><span class="seal-price">$' + esc(amt) + '</span></div>' +
+      (opts.tryMe === false ? '' : '<span class="seal-try">TRY ME</span>') + '</div>';
+  }
+
   /* toasts */
   let host;
   function toast(msg, kind) {
@@ -245,15 +299,18 @@
     const t = document.createElement('div');
     t.className = 'toast' + (kind ? ' toast-' + kind : ''); t.textContent = msg;
     host.appendChild(t);
-    setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 200ms'; setTimeout(() => t.remove(), 220); }, 3200);
+    setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 200ms'; setTimeout(() => t.remove(), 220); }, 3600);
   }
 
+  let dlgSeq = 0;
   /* confirm({ title, body, okLabel, danger }) -> Promise<boolean> */
   function confirm(opts) {
     opts = opts || {};
     return new Promise(resolve => {
+      const id = 'sfb-dlg-' + (++dlgSeq);
       const dlg = document.createElement('dialog'); dlg.className = 'sfb-dialog';
-      dlg.innerHTML = '<form method="dialog"><div class="dialog-body"><h3>' + esc(opts.title || 'Are you sure?') + '</h3><p>' + esc(opts.body || '') + '</p></div>' +
+      dlg.setAttribute('aria-labelledby', id + '-t'); dlg.setAttribute('aria-describedby', id + '-b');
+      dlg.innerHTML = '<form method="dialog"><div class="dialog-body"><h3 id="' + id + '-t">' + esc(opts.title || 'Are you sure?') + '</h3><p id="' + id + '-b">' + esc(opts.body || '') + '</p></div>' +
         '<div class="dialog-actions"><button class="btn btn-ghost" value="cancel" type="submit">Cancel</button><button class="btn ' + (opts.danger ? 'btn-danger' : 'btn-primary') + '" value="ok" type="submit">' + esc(opts.okLabel || 'Confirm') + '</button></div></form>';
       document.body.appendChild(dlg);
       dlg.addEventListener('close', () => { resolve(dlg.returnValue === 'ok'); dlg.remove(); });
@@ -264,9 +321,11 @@
   function prompt(opts) {
     opts = opts || {};
     return new Promise(resolve => {
+      const id = 'sfb-dlg-' + (++dlgSeq);
       const dlg = document.createElement('dialog'); dlg.className = 'sfb-dialog';
-      dlg.innerHTML = '<form method="dialog"><div class="dialog-body"><h3>' + esc(opts.title || '') + '</h3>' + (opts.body ? '<p>' + esc(opts.body) + '</p>' : '') +
-        '<label for="sfb-prompt-input">' + esc(opts.label || 'Reason') + '</label><textarea id="sfb-prompt-input" placeholder="' + esc(opts.placeholder || '') + '"></textarea></div>' +
+      dlg.setAttribute('aria-labelledby', id + '-t');
+      dlg.innerHTML = '<form method="dialog"><div class="dialog-body"><h3 id="' + id + '-t">' + esc(opts.title || '') + '</h3>' + (opts.body ? '<p>' + esc(opts.body) + '</p>' : '') +
+        '<label for="' + id + '-in">' + esc(opts.label || 'Reason') + '</label><textarea id="' + id + '-in" placeholder="' + esc(opts.placeholder || '') + '"></textarea></div>' +
         '<div class="dialog-actions"><button class="btn btn-ghost" value="cancel" type="submit">Cancel</button><button class="btn btn-primary" value="ok" type="submit">' + esc(opts.okLabel || 'Save') + '</button></div></form>';
       document.body.appendChild(dlg);
       const ta = dlg.querySelector('textarea');
@@ -278,7 +337,7 @@
   /* picture tile with graceful fallback when an image is missing */
   function pic(src, alt, opts) {
     opts = opts || {};
-    const cls = 'pic' + (opts.tone ? ' tone-' + opts.tone : '') + (opts.cls ? ' ' + opts.cls : '');
+    const cls = 'pic' + (opts.cls ? ' ' + opts.cls : '');
     const style = opts.ar ? ' style="--ar:' + esc(opts.ar) + '"' : '';
     return '<figure class="' + cls + '"' + style + '><img src="' + esc(href(src)) + '" alt="' + esc(alt || '') + '" loading="lazy" decoding="async"></figure>';
   }
@@ -310,5 +369,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 
   window.SFBUI = { ROOT, DISCLAIMER, href, esc, icon, LOGO, MONO, SITE_NAV, APP_NAV, initials, parseDate, fmtDate, fmtDateTime, fmtTime, fileSize, qs, MONTHS, DAYS,
-    stageBadge, docBadge, docDisplayState, DOC_STATE, toast, confirm, prompt, pic, wirePics, wireResetButtons };
+    todayHours, stageBadge, docBadge, docDisplayState, DOC_STATE, seal, toast, confirm, prompt, pic, wirePics, wireResetButtons };
 })();

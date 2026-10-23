@@ -1,197 +1,196 @@
-/* Southern Food Basket — public pages: home strips, departments, specials filters, wholesale enquiry (mock),
-   locations, about. One script for all six pages; each block looks for its own hooks and returns if absent.
+/* Southern Food Basket — public pages: home, Try Me deals, departments, wholesale enquiry (mock), locations, about.
+   One script for all six pages; each block looks for its own hooks and returns if absent.
    Data comes from SFBStore (data/seed.js overlaid with localStorage); every string is escaped with SFBUI.esc. */
 (function () {
   if (!window.SFBStore || !window.SFBUI) return;
-  var esc = SFBUI.esc, href = SFBUI.href, icon = SFBUI.icon, pic = SFBUI.pic, wirePics = SFBUI.wirePics, toast = SFBUI.toast;
+  var esc = SFBUI.esc, href = SFBUI.href, icon = SFBUI.icon, pic = SFBUI.pic, wirePics = SFBUI.wirePics, toast = SFBUI.toast, fmtDate = SFBUI.fmtDate, seal = SFBUI.seal;
   var money = SFBStore.money;
   function data() { return SFBStore.load(); }
   function $(sel, scope) { return (scope || document).querySelector(sel); }
   function $all(sel, scope) { return Array.prototype.slice.call((scope || document).querySelectorAll(sel)); }
   function byId(list, id) { return (list || []).filter(function (x) { return x.id === id; })[0] || null; }
 
-  /* alt text for the department illustrations (hand-authored SVGs, see assets/img/SOURCES.md) */
-  var DEPT_ALT = {
-    produce: 'Illustration of a field crate with a dasheen leaf, a mango, pimento peppers and a bundle of bodi',
-    meats: 'Illustration of a counter plate with two cuts of meat, parsley and a snowflake for the frozen range',
-    pantry: 'Illustration of a rice sack, a bottle of cooking oil and a jar of split peas on a shelf',
-    bakery: 'Illustration of hops bread, a loaf and a wheat ear on a board',
-    household: 'Illustration of a spray bottle, a paper roll, a bar of soap and bubbles',
-    wholesale: 'Illustration of boxes and a rice sack stacked on a wooden pallet'
-  };
-
   /* ---------- shared pieces ---------- */
-  function deptName(id) { var d = byId(data().departments, id); return d ? d.name : id; }
+  function dept(id) { return byId(data().departments, id) || { id: id, name: id, short: id }; }
   function branchName(id) { var b = byId(data().branches, id); return b ? b.name : id; }
-  function forAllBranches(sp) { return !sp.branches || sp.branches.length === 0 || sp.branches.indexOf('all') > -1; }
-  function whereText(sp) {
-    if (forAllBranches(sp)) return 'All branches';
-    return sp.branches.map(branchName).join(' · ');
-  }
-  function atBranch(sp, branchId) { return !branchId || branchId === 'all' || forAllBranches(sp) || sp.branches.indexOf(branchId) > -1; }
+  function newestFirst(list) { return list.slice().sort(function (a, b) { return a.posted < b.posted ? 1 : a.posted > b.posted ? -1 : 0; }); }
+  function dealsIn(id) { return (data().specials || []).filter(function (sp) { return sp.dept === id; }); }
+  function minPrice(id) { var l = dealsIn(id); return l.length ? Math.min.apply(null, l.map(function (x) { return x.price; })) : null; }
+  function dollars(v) { return '$' + Number(v).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
 
-  /* money(price, unit) is the only price formatter; split "TTD 9.99 / lb" into amount and per-unit for display */
-  function priceHtml(sp) {
-    var full = money(sp.price, sp.unit);
-    var i = full.indexOf(' / ');
-    var amt = i > -1 ? full.slice(0, i) : full;
-    var per = i > -1 ? full.slice(i + 1) : '';
-    var html = '<p class="special-price price"><span class="amt">' + esc(amt) + '</span>' + (per ? '<span class="per">' + esc(per) + '</span>' : '') + '</p>';
-    if (sp.was != null && sp.was !== '') html += '<p class="was">was <s>' + esc(money(sp.was, sp.unit)) + '</s></p>';
-    return html;
-  }
-  function specialCard(sp) {
-    return '<article class="card special-card">' +
-      '<div class="special-top"><span class="dept">' + esc(deptName(sp.dept)) + '</span>' +
-      (sp.tag ? '<span class="badge badge-clay badge-plain">' + esc(sp.tag) + '</span>' : '') + '</div>' +
-      '<h3>' + esc(sp.name) + '</h3>' + priceHtml(sp) +
-      '<p class="where">' + esc(whereText(sp)) + '</p></article>';
+  function dealCard(sp, opts) {
+    opts = opts || {};
+    var h = opts.h || 'h3';
+    return '<article class="deal">' +
+      '<figure class="deal-photo"><img src="' + esc(href('assets/img/photos/' + sp.img + '.webp')) + '" alt="' + esc(sp.alt || sp.name) + '" width="800" height="667" loading="lazy" decoding="async">' +
+      (sp.isNew ? '<span class="new-corner" aria-hidden="true">NEW</span>' : '') + seal(sp.price) + '</figure>' +
+      '<div class="deal-body"><p class="deal-dept">' + esc(dept(sp.dept).short) + '</p>' +
+      '<' + h + ' class="deal-name">' + esc(sp.name) + '</' + h + '>' +
+      '<p class="deal-price" aria-hidden="true"><span class="qty">1 FOR</span><span class="amt">' + esc(dollars(sp.price)) + '</span></p>' +
+      '<p class="visually-hidden">' + (sp.isNew ? 'New product. ' : '') + 'Price ' + esc(money(sp.price)) + ' each.</p>' +
+      '<p class="deal-meta"><span>Posted ' + esc(fmtDate(sp.posted)) + '</span>' +
+      (sp.couva ? '<span class="couva">' + icon('pin') + 'Couva</span>' : '') + '</p></div></article>';
   }
 
-  /* hours[0] is Mon–Sat, hours[1] is Sun & public holidays; we cannot know public holidays, so Sunday only */
-  function todayHours(b) {
-    var rows = b.hours || [];
-    if (!rows.length) return '';
-    var row = new Date().getDay() === 0 ? (rows[1] || rows[0]) : rows[0];
-    return row ? row[1] : '';
+  function factItem(f) {
+    return '<li class="fact"><p>' + esc(f.text) + '</p><span class="fact-src">Source: ' + esc(f.source) + '</span></li>';
   }
 
-  function factItem(f, srcLabel) {
-    return '<li class="fact"><p>' + esc(f.text) + '</p><span class="fact-src muted">' + esc(srcLabel || 'Source') + ': ' + esc(f.source) + '</span></li>';
-  }
-
-  /* week label appears on several pages */
-  function fillWeekLabel() {
-    var label = (data().settings || {}).weekLabel || '';
-    $all('[data-week-label]').forEach(function (el) { el.textContent = label; });
+  function storeCard(b) {
+    var hrs = SFBUI.todayHours(b);
+    return '<article class="store-card"><h3>' + esc(b.name) + '</h3><address>' + esc(b.address) + '</address>' +
+      (hrs ? '<p class="today">' + icon('clock') + '<span>Today ' + esc(hrs) + '</span><span class="demo-note">Demo hours</span></p>' : '') +
+      '<div class="actions">' +
+      '<a class="btn btn-primary btn-sm" href="' + esc(href('locations.html#' + b.id)) + '">Store details</a>' +
+      '<a class="btn btn-ghost btn-sm" href="' + esc(b.osm) + '" target="_blank" rel="noopener">' + icon('pin') + 'Directions<span class="visually-hidden"> to ' + esc(b.name) + ' (opens OpenStreetMap in a new tab)</span></a>' +
+      '</div></article>';
   }
 
   /* ---------- home ---------- */
   function home() {
+    var root = $('[data-home]');
+    if (!root) return;
     var d = data();
+
     var h = $('[data-hero-headline]'), s = $('[data-hero-sub]');
-    if (h && d.content && d.content.hero) h.textContent = d.content.hero.headline;
     if (s && d.content && d.content.hero) s.textContent = d.content.hero.sub;
 
-    var strip = $('[data-specials-strip]');
-    if (strip) strip.innerHTML = (d.specials || []).slice(0, 4).map(specialCard).join('');
+    var vegFrom = minPrice('fresh'), cakeFrom = minPrice('bakery');
+    var points = $('[data-hero-points]');
+    if (points) {
+      var names = (d.branches || []).map(function (b) { return b.name; });
+      var where = names.length > 1 ? names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1] : names.join('');
+      points.innerHTML =
+        '<li><span class="dot">' + icon('store') + '</span><span>' + esc(names.length + ' stores: ' + where) + '</span></li>' +
+        (vegFrom != null ? '<li><span class="dot">' + icon('tag') + '</span><span>Fresh-cut veg packs from ' + esc(dollars(vegFrom)) + '</span></li>' : '') +
+        (cakeFrom != null ? '<li><span class="dot">' + icon('basket') + '</span><span>Double-layer cakes from ' + esc(dollars(cakeFrom)) + '</span></li>' : '');
+    }
+    var stick = $('[data-sticker-price]');
+    if (stick && vegFrom != null) stick.textContent = dollars(vegFrom);
+
+    /* deals: one from each department first, newest first, then the rest */
+    var all = newestFirst(d.specials || []), seen = {}, picks = [];
+    all.forEach(function (sp) { if (!seen[sp.dept]) { seen[sp.dept] = 1; picks.push(sp); } });
+    all.forEach(function (sp) { if (picks.length < 8 && picks.indexOf(sp) < 0) picks.push(sp); });
+    var strip = $('[data-deals-strip]');
+    if (strip) strip.innerHTML = picks.slice(0, 8).map(function (sp) { return dealCard(sp); }).join('');
+    var total = $('[data-deals-total]');
+    if (total) total.textContent = String((d.specials || []).length);
+    var note = $('[data-deals-note]');
+    if (note) note.textContent = (d.settings || {}).dealsNote || '';
+
+    var chips = $('[data-dept-chips]');
+    if (chips) {
+      chips.innerHTML = (d.departments || []).filter(function (x) { return dealsIn(x.id).length; }).map(function (x) {
+        return '<li><a class="chip" href="' + esc(href('specials.html?dept=' + encodeURIComponent(x.id))) + '">' + esc(x.short) + ' <span class="count">(' + dealsIn(x.id).length + ')</span></a></li>';
+      }).join('');
+    }
 
     var grid = $('[data-dept-grid]');
     if (grid) {
-      grid.innerHTML = (d.departments || []).map(function (dep) {
-        return '<a class="card card-flush dept-card" href="' + esc(href('departments.html#' + dep.id)) + '">' +
-          pic(dep.img, DEPT_ALT[dep.id] || dep.name, { tone: dep.tone }) +
-          '<div class="dept-card-body"><h3>' + esc(dep.name) + icon('arrow') + '</h3><p>' + esc(dep.blurb) + '</p></div></a>';
+      grid.innerHTML = (d.departments || []).filter(function (x) { return x.id !== 'wholesale'; }).map(function (dep) {
+        return '<a class="dept-tile" href="' + esc(href('departments.html#' + dep.id)) + '">' + pic(dep.img, dep.alt || dep.name) +
+          '<span class="label"><strong>' + esc(dep.name) + icon('arrow') + '</strong><span>' + esc(dep.blurb) + '</span></span></a>';
       }).join('');
       wirePics(grid);
     }
 
-    var facts = $('[data-wholesale-facts]');
-    if (facts) facts.innerHTML = ((d.wholesale || {}).sourced || []).slice(0, 2).map(function (f) { return factItem(f); }).join('');
+    var stores = $('[data-store-grid]');
+    if (stores) stores.innerHTML = (d.branches || []).map(storeCard).join('');
 
-    var row = $('[data-branches-row]');
-    if (row) {
-      row.innerHTML = (d.branches || []).map(function (b) {
-        var hrs = todayHours(b);
-        return '<article class="card branch-card"><h3>' + esc(b.name) + '</h3><address>' + esc(b.address) + '</address>' +
-          (hrs ? '<p class="hours-today">' + icon('clock') + '<span>Today, ' + esc(hrs) + '</span></p>' : '') +
-          '<div class="actions">' +
-          '<a class="btn btn-ghost btn-sm" href="' + esc(b.osm) + '" target="_blank" rel="noopener">' + icon('pin') + 'Directions<span class="visually-hidden"> to ' + esc(b.name) + ' (opens OpenStreetMap in a new tab)</span></a>' +
-          '<a class="btn btn-primary btn-sm" href="' + esc(href('locations.html#' + b.id)) + '">Hours &amp; services</a>' +
-          '</div></article>';
-      }).join('');
+    var c = (d.content || {}).community;
+    var comm = $('[data-community]');
+    if (comm && c) {
+      $('[data-community-title]', comm).textContent = c.title;
+      $('[data-community-text]', comm).textContent = c.text;
+      $('[data-community-source]', comm).textContent = 'From ' + c.source + '.';
+      var ig = (d.settings || {}).instagram, igLink = $('[data-instagram]', comm);
+      if (ig && igLink) { igLink.href = ig.url; $('[data-instagram-handle]', igLink).textContent = ig.handle; } else if (igLink) igLink.hidden = true;
     }
 
     var why = $('[data-careers-why]');
     if (why) {
-      why.innerHTML = ((d.content || {}).careersWhy || []).slice(0, 2).map(function (w) {
+      why.innerHTML = ((d.content || {}).careersWhy || []).slice(0, 3).map(function (w) {
         return '<li>' + icon('check') + '<div><strong>' + esc(w.title) + '</strong><p>' + esc(w.text) + '</p></div></li>';
       }).join('');
     }
   }
 
-  /* ---------- departments ---------- */
-  function departments() {
-    var blurbs = $all('[data-dept-blurb]');
-    var weeks = $all('[data-this-week]');
-    if (!blurbs.length && !weeks.length) return;
-    var d = data();
-    blurbs.forEach(function (el) {
-      var dep = byId(d.departments, el.getAttribute('data-dept-blurb'));
-      if (dep) el.textContent = dep.blurb;
-    });
-    weeks.forEach(function (el) {
-      var id = el.getAttribute('data-this-week');
-      var list = (d.specials || []).filter(function (sp) { return sp.dept === id; });
-      if (!list.length) { el.hidden = true; return; }
-      el.hidden = false;
-      el.innerHTML = '<h3>This week</h3><ul>' + list.map(function (sp) {
-        return '<li><span><span class="tw-name">' + esc(sp.name) + '</span>' +
-          (forAllBranches(sp) ? '' : '<span class="tw-where">' + esc(whereText(sp)) + '</span>') + '</span>' +
-          '<span class="tw-price"><span class="num">' + esc(money(sp.price, sp.unit)) + '</span>' +
-          (sp.was != null ? '<s>' + esc(money(sp.was, sp.unit)) + '</s>' : '') + '</span></li>';
-      }).join('') + '</ul>' +
-        '<a class="more" href="' + esc(href('specials.html?dept=' + encodeURIComponent(id))) + '">All ' + esc(deptName(id).toLowerCase()) + ' specials</a>';
-    });
-  }
-
-  /* ---------- specials ---------- */
+  /* ---------- Try Me deals ---------- */
   function specials() {
-    var grid = $('[data-specials-grid]');
+    var grid = $('[data-deals-grid]');
     if (!grid) return;
     var d = data();
-    var branchSel = $('#f-branch'), deptSel = $('#f-dept'), count = $('[data-specials-count]'), clear = $('[data-clear]'), form = $('[data-specials-toolbar]');
-    var branches = d.branches || [], specialsList = d.specials || [];
-    var deptIds = (d.departments || []).map(function (x) { return x.id; }).filter(function (id) {
-      return specialsList.some(function (sp) { return sp.dept === id; });
-    });
+    var list = newestFirst(d.specials || []);
+    var depts = (d.departments || []).filter(function (x) { return dealsIn(x.id).length; });
+    var chipsEl = $('[data-deal-filters]'), couvaBox = $('#f-couva'), count = $('[data-deals-count]'), note = $('[data-deals-note]');
+    if (note) note.textContent = (d.settings || {}).dealsNote || '';
 
-    function option(value, label, selected) {
-      return '<option value="' + esc(value) + '"' + (selected ? ' selected' : '') + '>' + esc(label) + '</option>';
-    }
     function readUrl() {
-      var sp = new URLSearchParams(location.search);
-      var b = sp.get('branch') || 'all', dep = sp.get('dept') || 'all';
-      if (b !== 'all' && !byId(branches, b)) b = 'all';
-      if (dep !== 'all' && deptIds.indexOf(dep) < 0) dep = 'all';
-      return { branch: b, dept: dep };
+      var q = new URLSearchParams(location.search);
+      var dep = q.get('dept') || 'all';
+      if (dep !== 'all' && !depts.some(function (x) { return x.id === dep; })) dep = 'all';
+      return { dept: dep, couva: q.get('couva') === '1' };
     }
-    function writeUrl(state) {
-      var sp = new URLSearchParams(location.search);
-      ['branch', 'dept'].forEach(function (k) { if (state[k] && state[k] !== 'all') sp.set(k, state[k]); else sp.delete(k); });
-      var q = sp.toString();
-      try { history.replaceState(null, '', location.pathname + (q ? '?' + q : '') + location.hash); } catch (e) {}
+    function writeUrl(st) {
+      var q = new URLSearchParams(location.search);
+      if (st.dept !== 'all') q.set('dept', st.dept); else q.delete('dept');
+      if (st.couva) q.set('couva', '1'); else q.delete('couva');
+      var s = q.toString();
+      try { history.replaceState(null, '', location.pathname + (s ? '?' + s : '') + location.hash); } catch (e) {}
     }
-    function describe(state, n) {
-      var s = n + (n === 1 ? ' special' : ' specials');
-      if (state.dept !== 'all') s += ' in ' + deptName(state.dept);
-      if (state.branch !== 'all') s += ' at ' + branchName(state.branch);
-      return s;
+    var state = readUrl();
+
+    function paintChips() {
+      chipsEl.innerHTML = [{ id: 'all', short: 'All deals' }].concat(depts).map(function (x) {
+        var n = x.id === 'all' ? list.length : dealsIn(x.id).length;
+        return '<li><button type="button" class="chip" data-dept="' + esc(x.id) + '" aria-pressed="' + (state.dept === x.id) + '">' + esc(x.short) + ' <span class="count">(' + n + ')</span></button></li>';
+      }).join('');
     }
     function render() {
-      var state = { branch: branchSel.value, dept: deptSel.value };
-      var list = specialsList.filter(function (sp) { return atBranch(sp, state.branch) && (state.dept === 'all' || sp.dept === state.dept); });
-      if (list.length) {
-        grid.innerHTML = list.map(specialCard).join('');
+      var shown = list.filter(function (sp) { return (state.dept === 'all' || sp.dept === state.dept) && (!state.couva || sp.couva); });
+      if (shown.length) {
+        grid.innerHTML = shown.map(function (sp) { return dealCard(sp, { h: 'h2' }); }).join('');
       } else {
-        grid.innerHTML = '<div class="empty"><p>No specials match that branch and department this week.</p><button class="btn btn-ghost btn-sm" type="button" data-clear-inline>Show all specials</button></div>';
-        var b = $('[data-clear-inline]', grid); if (b) b.addEventListener('click', reset);
+        grid.innerHTML = '<div class="empty"><p>No Couva-tagged posts in this department yet.</p><button class="btn btn-ghost btn-sm" type="button" data-show-all>Show every deal</button></div>';
+        $('[data-show-all]', grid).addEventListener('click', function () { state = { dept: 'all', couva: false }; couvaBox.checked = false; paintChips(); render(); });
       }
-      if (count) count.textContent = describe(state, list.length) + ', ' + ((d.settings || {}).weekLabel || 'this week') + '.';
-      if (clear) clear.hidden = state.branch === 'all' && state.dept === 'all';
+      var what = state.dept === 'all' ? 'deals' : dept(state.dept).name.toLowerCase() + ' deals';
+      count.textContent = shown.length + ' ' + (shown.length === 1 ? what.replace(/s$/, '') : what) + (state.couva ? ' tagged Couva' : '');
       writeUrl(state);
     }
-    function reset() { branchSel.value = 'all'; deptSel.value = 'all'; render(); branchSel.focus(); }
-
-    var init = readUrl();
-    branchSel.innerHTML = option('all', 'All branches', init.branch === 'all') + branches.map(function (b) { return option(b.id, b.name, init.branch === b.id); }).join('');
-    deptSel.innerHTML = option('all', 'All departments', init.dept === 'all') + deptIds.map(function (id) { return option(id, deptName(id), init.dept === id); }).join('');
-    branchSel.addEventListener('change', render);
-    deptSel.addEventListener('change', render);
-    if (clear) clear.addEventListener('click', reset);
-    if (form) form.addEventListener('submit', function (e) { e.preventDefault(); render(); });
-    window.addEventListener('popstate', function () { var s = readUrl(); branchSel.value = s.branch; deptSel.value = s.dept; render(); });
+    paintChips();
+    couvaBox.checked = state.couva;
+    chipsEl.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-dept]'); if (!b) return;
+      state.dept = b.getAttribute('data-dept'); paintChips(); render();
+      var again = $('[data-dept="' + state.dept + '"]', chipsEl); if (again) again.focus();
+    });
+    couvaBox.addEventListener('change', function () { state.couva = couvaBox.checked; render(); });
+    window.addEventListener('popstate', function () { state = readUrl(); couvaBox.checked = state.couva; paintChips(); render(); });
     render();
+  }
+
+  /* ---------- departments ---------- */
+  function departments() {
+    var root = $('[data-dept-sections]');
+    if (!root) return;
+    var d = data();
+    var jumps = $('[data-dept-jumps]');
+    if (jumps) jumps.innerHTML = (d.departments || []).map(function (x) { return '<li><a class="chip" href="#' + esc(x.id) + '">' + esc(x.short) + '</a></li>'; }).join('');
+    root.innerHTML = (d.departments || []).map(function (x, i) {
+      var deals = newestFirst(dealsIn(x.id));
+      var rows = deals.length ? '<h3>Recent Try Me deals</h3><ul class="deal-rows">' + deals.map(function (sp) {
+        return '<li><span class="name">' + esc(sp.name) + '</span><span class="when">Posted ' + esc(fmtDate(sp.posted)) + (sp.couva ? ' · Couva' : '') + '</span><span class="amt" aria-label="' + esc(money(sp.price)) + '">' + esc(dollars(sp.price)) + '</span></li>';
+      }).join('') + '</ul><p style="margin-top:16px"><a class="more-link" href="' + esc(href('specials.html?dept=' + encodeURIComponent(x.id))) + '">See these deals with photos ' + icon('arrow') + '</a></p>'
+        : x.id === 'wholesale' ? '<p><a class="btn btn-primary" href="' + esc(href('wholesale.html')) + '">Wholesale and trade accounts</a></p>' : '';
+      return '<section class="dept-section" id="' + esc(x.id) + '" aria-labelledby="' + esc(x.id) + '-title"><div class="container"><div class="split split-top' + (i % 2 ? ' reverse' : '') + '">' +
+        pic(x.img, x.alt || x.name) +
+        '<div><p class="eyebrow">Department</p><h2 id="' + esc(x.id) + '-title">' + esc(x.name) + '</h2><p class="lede">' + esc(x.blurb) + '</p>' + rows + '</div>' +
+        '</div></div></section>';
+    }).join('');
+    wirePics(root);
+    jumpToHash();
   }
 
   /* ---------- wholesale ---------- */
@@ -202,14 +201,14 @@
     var types = $('[data-customer-types]');
     if (types) types.innerHTML = (w.customerTypes || []).map(function (t) { return '<li>' + icon('basket') + '<span>' + esc(t) + '</span></li>'; }).join('');
     var sourced = $('[data-wholesale-sourced]');
-    if (sourced) sourced.innerHTML = (w.sourced || []).map(function (f) { return factItem(f); }).join('');
+    if (sourced) sourced.innerHTML = (w.sourced || []).map(factItem).join('');
 
     var form = $('[data-enquiry]');
     if (!form) return;
     var success = $('[data-enquiry-success]');
     var branchSel = $('#e-branch', form);
     if (branchSel) {
-      branchSel.innerHTML = '<option value="">Choose a branch</option>' + (d.branches || []).map(function (b) {
+      branchSel.innerHTML = '<option value="">Choose a store</option>' + (d.branches || []).map(function (b) {
         return '<option value="' + esc(b.id) + '">' + esc(b.name) + '</option>';
       }).join('');
     }
@@ -217,7 +216,7 @@
       business: function (v) { return v.length >= 2 ? '' : 'Enter your business name.'; },
       contact: function (v) { return v.length >= 2 ? '' : 'Enter a contact name.'; },
       phone: function (v) { return /^[\d\s()+\-]{7,20}$/.test(v) ? '' : 'Enter a phone or WhatsApp number, digits only.'; },
-      branch: function (v) { return v ? '' : 'Choose the branch nearest you.'; },
+      branch: function (v) { return v ? '' : 'Choose the store nearest you.'; },
       buys: function (v) { return v.length >= 10 ? '' : 'Tell us a little about what you buy (at least 10 characters).'; }
     };
     function setError(name, msg) {
@@ -242,11 +241,10 @@
       if (firstBad) { firstBad.focus(); toast('Check the highlighted fields.', 'bad'); return; }
       var business = form.elements.business.value.trim(), contact = form.elements.contact.value.trim();
       var branch = branchName(form.elements.branch.value);
-      try { sessionStorage.setItem('sfb-enquiry-demo', '1'); } catch (err) {}
       if (success) {
         success.innerHTML = '<h3>' + icon('check') + 'Enquiry noted (demo)</h3>' +
-          '<p>In the real thing the Princes Town trade desk would call <span data-contact></span> back within two working days. This is a prototype: nothing was sent and nothing was stored beyond this browser tab.</p>' +
-          '<dl><dt>Business</dt><dd data-business></dd><dt>Nearest branch</dt><dd data-branch></dd></dl>' +
+          '<p>In the real thing the trade desk would call <span data-contact></span> back. This is a prototype: nothing was sent and nothing was stored.</p>' +
+          '<dl><dt>Business</dt><dd data-business></dd><dt>Nearest store</dt><dd data-branch></dd></dl>' +
           '<button class="btn btn-ghost btn-sm" type="button" data-again>Send another enquiry</button>';
         $('[data-contact]', success).textContent = contact;
         $('[data-business]', success).textContent = business;
@@ -271,36 +269,40 @@
     var d = data(), settings = d.settings || {};
     var wa = settings.whatsapp || '', waNote = settings.whatsappNote || 'demo number';
     var jumps = $('[data-branch-jumps]');
-    if (jumps) jumps.innerHTML = (d.branches || []).map(function (b) { return '<a class="btn btn-ghost btn-sm" href="#' + esc(b.id) + '">' + esc(b.name) + '</a>'; }).join('');
+    if (jumps) jumps.innerHTML = (d.branches || []).map(function (b) { return '<li><a class="chip" href="#' + esc(b.id) + '">' + icon('pin') + esc(b.name) + '</a></li>'; }).join('');
 
     root.innerHTML = (d.branches || []).map(function (b) {
       var hours = (b.hours || []).map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>'; }).join('');
       var services = (b.services || []).map(function (s) { return '<span class="badge badge-green badge-plain">' + esc(s) + '</span>'; }).join('');
-      return '<section class="branch" id="' + esc(b.id) + '" aria-labelledby="' + esc(b.id) + '-title"><div class="container"><div class="split">' +
-        '<div><p class="eyebrow">Branch</p><h2 id="' + esc(b.id) + '-title">' + esc(b.name) + '</h2>' +
+      var svcNote = b.servicesSource === 'instagram' ? 'From the products in posts tagged ' + b.name + '.' : 'Demo services for the concept.';
+      return '<section class="branch" id="' + esc(b.id) + '" aria-labelledby="' + esc(b.id) + '-title"><div class="container"><div class="split split-top">' +
+        '<div><p class="eyebrow">Store</p><h2 id="' + esc(b.id) + '-title">' + esc(b.name) + '</h2>' +
         '<address>' + esc(b.address) + '</address>' +
-        '<span class="source muted">Address from public directories, unverified' + (b.source ? ' (' + esc(b.source.replace(/,\s*unverified$/i, '')) + ')' : '') + '.</span>' +
-        '<h3 class="visually-hidden">Services at ' + esc(b.name) + '</h3><div class="cluster services">' + services + '</div>' +
+        '<span class="source-line">Source: ' + esc(b.source) + '.</span>' +
+        '<h3 class="visually-hidden">At this store</h3><div class="cluster services">' + services + '</div><span class="source-line">' + esc(svcNote) + '</span>' +
         '<ul class="contact-list">' +
-        '<li>' + icon('phone') + '<span class="num">' + esc(b.phone) + '</span><span class="source">demo number</span></li>' +
-        (wa ? '<li>' + icon('phone') + '<span>WhatsApp <span class="num">' + esc(wa) + '</span></span><span class="source">' + esc(waNote) + '</span></li>' : '') +
+        '<li>' + icon('phone') + '<span class="num">' + esc(b.phone) + '</span><span class="demo-note">Demo number</span></li>' +
+        (wa ? '<li>' + icon('phone') + '<span>WhatsApp <span class="num">' + esc(wa) + '</span></span><span class="demo-note">' + esc(waNote) + '</span></li>' : '') +
         '</ul>' +
         '<div class="actions">' +
         '<a class="btn btn-primary" href="' + esc(b.osm) + '" target="_blank" rel="noopener">' + icon('pin') + 'Directions<span class="visually-hidden"> to ' + esc(b.name) + ' (opens OpenStreetMap in a new tab)</span></a>' +
-        (wa ? '<button class="btn btn-ghost" type="button" data-whatsapp>WhatsApp (' + esc(waNote) + ')</button>' : '') +
+        (wa ? '<button class="btn btn-ghost" type="button" data-whatsapp>WhatsApp us</button>' : '') +
         '</div></div>' +
         '<div class="card hours-card"><h3>Opening hours</h3><table><thead><tr><th scope="col">Days</th><th scope="col">Hours</th></tr></thead><tbody>' + hours + '</tbody></table>' +
-        '<span class="source">Demo hours for the concept. Public holiday hours follow the Sunday row.</span></div>' +
+        '<span class="source-line">Demo hours for the concept. Public holiday hours follow the Sunday row.</span></div>' +
         '</div></div></section>';
     }).join('');
 
     $all('[data-whatsapp]', root).forEach(function (btn) {
       btn.addEventListener('click', function () { toast('WhatsApp ' + wa + ' is a demo number. Nothing opens in this prototype.'); });
     });
+    jumpToHash();
+  }
 
-    /* footer and home link to locations.html#sando etc.; the sections are rendered after parse, so jump explicitly */
+  /* sections render after parse, so jump to #id explicitly; a malformed fragment is ignored */
+  function jumpToHash() {
     function jump() {
-      var id = decodeURIComponent(location.hash.slice(1));
+      var id; try { id = decodeURIComponent(location.hash.slice(1)); } catch (e) { return; }
       if (!id) return;
       var el = document.getElementById(id);
       if (el) requestAnimationFrame(function () { el.scrollIntoView({ block: 'start' }); });
@@ -314,17 +316,14 @@
     var facts = $('[data-facts]'), values = $('[data-values]');
     if (!facts && !values) return;
     var c = data().content || {};
-    if (facts) facts.innerHTML = (c.facts || []).map(function (f) { return factItem(f); }).join('');
+    if (facts) facts.innerHTML = (c.facts || []).map(factItem).join('');
     if (values) {
       values.innerHTML = (c.values || []).map(function (v) {
-        return '<article class="card value-card"><h3>' + esc(v.title) + '</h3><p>' + esc(v.text) + '</p></article>';
+        return '<article class="value-card"><h3>' + esc(v.title) + '</h3><p>' + esc(v.text) + '</p></article>';
       }).join('');
     }
   }
 
-  function boot() {
-    fillWeekLabel();
-    home(); departments(); specials(); wholesale(); locations(); about();
-  }
+  function boot() { home(); specials(); departments(); wholesale(); locations(); about(); }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 })();

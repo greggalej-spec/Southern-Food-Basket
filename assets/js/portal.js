@@ -25,7 +25,14 @@
   function parseDay(iso) { const p = String(iso).split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); }
   function addDays(d, n) { const x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); x.setDate(x.getDate() + n); return x; }
   function todayIso() { return isoLocal(new Date()); }
-  function fmtDay(iso, opts) { if (!iso) return ''; return UI.fmtDate(isDay(iso) ? iso + 'T00:00:00' : iso, opts); }
+  /* fmtDay keeps the Intl-style options its callers pass and maps them onto SFBUI.fmtDate:
+     { day } alone -> "23"; { day, month } -> "23 Oct"; add weekday -> "Fri 23 Oct"; no options -> "23 Oct 2026". */
+  function fmtDay(iso, opts) {
+    if (!iso) return '';
+    if (!opts) return UI.fmtDate(iso);
+    if (opts.day && !opts.month) { const d = UI.parseDate(iso); return isNaN(d) ? '' : String(d.getDate()); }
+    return UI.fmtDate(iso, { year: opts.year ? undefined : false, weekday: !!opts.weekday });
+  }
   function weekdayShort(iso) { return parseDay(iso).toLocaleDateString('en-GB', { weekday: 'short' }); }
   function cmp(a, b) { a = String(a || ''); b = String(b || ''); return a < b ? -1 : a > b ? 1 : 0; }
   function plural(n, unit) { return n + ' ' + unit + (n === 1 ? '' : 's'); }
@@ -87,7 +94,8 @@
     const n = UI.qs('next');
     if (!n || n.charAt(0) === '/' || n.indexOf('//') !== -1 || n.indexOf(':') !== -1 || n.indexOf('\\') !== -1) return null;
     if (n.split(/[/?#]/).indexOf('..') !== -1) return null;
-    if (!/^[\w\-./?=&%#]+$/.test(n)) return null;
+    /* no percent-encoding at all: an encoded "..", "//" or ":" must not slip past the checks above */
+    if (!/^[\w\-./?=&#]+$/.test(n)) return null;
     return n;
   }
   function destinationFor(role) {
@@ -97,6 +105,14 @@
   }
   function renderLogin() {
     fillIcons(document);
+    /* ?as=applicant|employee|hr signs straight in as that demo role (shareable prototype links) */
+    const as = UI.qs('as');
+    if (as && ROLE_HOME[as]) {
+      const card = document.querySelector('.role-card[data-role="' + as + '"]');
+      S.login(as, card ? card.getAttribute('data-user') : null);
+      location.replace(destinationFor(as));
+      return;
+    }
     const note = el('session-note');
     function paintNote() {
       const s = S.session(), u = S.currentUser();
