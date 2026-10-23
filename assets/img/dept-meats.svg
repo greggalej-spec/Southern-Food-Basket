@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Meats & frozen: counter plate with two cuts, parsley and a snowflake. Hand-authored by Trinovata. -->
+  <rect width="400" height="300" fill="#FDE7DC"/>
+  <circle cx="90" cy="70" r="64" fill="#F3EFE6"/>
+  <rect x="40" y="196" width="320" height="18" rx="6" fill="#E7E2D9"/>
+  <rect x="40" y="214" width="320" height="10" rx="3" fill="#D6CFC3"/>
+  <ellipse cx="200" cy="176" rx="152" ry="60" fill="#FAF7F0"/>
+  <ellipse cx="200" cy="176" rx="130" ry="46" fill="none" stroke="#E7E2D9" stroke-width="4"/>
+  <path d="M106 162C116 118 190 112 208 148C226 182 198 212 160 208C120 204 96 192 106 162Z" fill="#C2410C"/>
+  <path d="M128 170C148 150 176 152 190 174" fill="none" stroke="#FDE7DC" stroke-width="5" stroke-linecap="round"/>
+  <path d="M138 190C154 182 168 186 178 196" fill="none" stroke="#FDE7DC" stroke-width="3" stroke-linecap="round" stroke-opacity=".8"/>
+  <path d="M214 138C250 118 302 136 302 170C302 204 262 216 232 200C206 186 196 150 214 138Z" fill="#9A3412"/>
+  <path d="M236 160C254 150 274 160 282 176" fill="none" stroke="#FDE7DC" stroke-width="4" stroke-linecap="round" stroke-opacity=".85"/>
+  <circle cx="214" cy="198" r="9" fill="#65A30D"/>
+  <circle cx="228" cy="206" r="8" fill="#1F6B3F"/>
+  <circle cx="206" cy="210" r="7" fill="#14532D"/>
+  <g fill="none" stroke="#14532D" stroke-width="5" stroke-linecap="round" transform="translate(330 70)">
+    <path d="M0-32V32M-28-16L28 16M-28 16L28-16"/>
+    <path d="M-9-23L0-32L9-23M-9 23L0 32L9 23M-30-4L-28-16L-16-14M30 4L28 16L16 14M-30 4L-28 16L-16 14M30-4L28-16L16-14"/>
+  </g>
+</svg>

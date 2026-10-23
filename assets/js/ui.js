@@ -172,15 +172,29 @@
 
   /* small helpers */
   function initials(name) { return String(name || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0].toUpperCase()).join('') || 'SF'; }
+  /* Dates: a bare YYYY-MM-DD is a calendar day in the viewer's timezone (never UTC midnight, which
+     renders a day early in Trinidad). Month names are fixed so ICU quirks like "Sept" cannot appear. */
+  const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  function parseDate(v) {
+    if (v instanceof Date) return v;
+    if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) { const p = v.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+    return new Date(v);
+  }
+  /* fmtDate('2026-11-18') -> '18 Nov 2026'; opts.year === false drops the year; opts.weekday adds 'Wed '. */
   function fmtDate(iso, opts) {
     if (!iso) return '';
-    const d = new Date(iso); if (isNaN(d)) return esc(iso);
-    return d.toLocaleDateString('en-GB', opts || { day: 'numeric', month: 'short', year: 'numeric' });
+    const d = parseDate(iso); if (isNaN(d)) return esc(iso);
+    opts = opts || {};
+    const core = d.getDate() + ' ' + MONTHS[d.getMonth()] + (opts.year === false ? '' : ' ' + d.getFullYear());
+    return (opts.weekday ? DAYS[d.getDay()] + ' ' : '') + core;
   }
   function fmtDateTime(iso) {
     if (!iso) return '';
-    const d = new Date(iso); if (isNaN(d)) return esc(iso);
-    return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) + ', ' + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+    const d = parseDate(iso); if (isNaN(d)) return esc(iso);
+    const h = d.getHours(), m = d.getMinutes();
+    const ampm = h >= 12 ? 'pm' : 'am'; const hh = ((h + 11) % 12) + 1;
+    return d.getDate() + ' ' + MONTHS[d.getMonth()] + ', ' + hh + ':' + String(m).padStart(2, '0') + ' ' + ampm;
   }
   function fmtTime(hhmm) {
     if (!hhmm) return '';
@@ -295,6 +309,6 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 
-  window.SFBUI = { ROOT, DISCLAIMER, href, esc, icon, LOGO, MONO, SITE_NAV, APP_NAV, initials, fmtDate, fmtDateTime, fmtTime, fileSize, qs,
+  window.SFBUI = { ROOT, DISCLAIMER, href, esc, icon, LOGO, MONO, SITE_NAV, APP_NAV, initials, parseDate, fmtDate, fmtDateTime, fmtTime, fileSize, qs, MONTHS, DAYS,
     stageBadge, docBadge, docDisplayState, DOC_STATE, toast, confirm, prompt, pic, wirePics, wireResetButtons };
 })();

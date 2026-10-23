@@ -1,0 +1,75 @@
+<!doctype html><html lang="en" data-root="../"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HR console · Southern Food Basket</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/careers.css">
+</head>
+<body data-app="hr" data-active="pipeline" data-title="HR console" data-banner>
+<main data-app-main id="hr-main">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">HR console</p>
+      <h1>Hiring and compliance</h1>
+      <p class="muted">Applications, open roles and the documents that need a decision.</p>
+    </div>
+  </div>
+
+  <div class="stats" id="hr-stats" aria-live="polite"></div>
+
+  <div class="tabs" role="tablist" aria-label="Console sections" id="hr-tabs">
+    <button type="button" role="tab" id="tab-pipeline" data-tab="pipeline" aria-selected="true" aria-controls="pipeline">Hiring pipeline</button>
+    <button type="button" role="tab" id="tab-roles" data-tab="roles" aria-selected="false" aria-controls="roles" tabindex="-1">Roles</button>
+    <button type="button" role="tab" id="tab-compliance" data-tab="compliance" aria-selected="false" aria-controls="compliance" tabindex="-1">Compliance</button>
+  </div>
+
+  <section id="pipeline" role="tabpanel" aria-labelledby="tab-pipeline">
+    <div class="toolbar">
+      <div>
+        <label class="visually-hidden" for="pipe-role">Filter by role</label>
+        <select id="pipe-role"><option value="all">All open roles</option></select>
+      </div>
+      <div>
+        <label class="visually-hidden" for="pipe-search">Search applicants by name</label>
+        <input type="search" id="pipe-search" placeholder="Search by name" autocomplete="off">
+      </div>
+      <p class="small muted" id="pipe-count" style="margin:0" aria-live="polite"></p>
+    </div>
+    <div class="board" id="board" aria-label="Applicants by stage"></div>
+  </section>
+
+  <section id="roles" role="tabpanel" aria-labelledby="tab-roles" hidden>
+    <div class="table-wrap">
+      <table id="roles-table">
+        <thead><tr><th scope="col">Role</th><th scope="col">Branch</th><th scope="col">Type</th><th scope="col">Pay band</th><th scope="col">Posted</th><th scope="col" class="num">Active applicants</th><th scope="col">Status</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+        <tbody id="roles-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="compliance" role="tabpanel" aria-labelledby="tab-compliance" hidden>
+    <div class="compliance-stack">
+      <section class="panel" aria-labelledby="comp-docs-h">
+        <div class="panel-head"><h2 id="comp-docs-h">Employee documents</h2><span class="small muted" id="comp-docs-count"></span></div>
+        <div class="panel-body flush" id="comp-docs"></div>
+      </section>
+      <section class="panel" aria-labelledby="comp-train-h">
+        <div class="panel-head"><h2 id="comp-train-h">Training due</h2><span class="small muted" id="comp-train-count"></span></div>
+        <div class="panel-body flush" id="comp-train"></div>
+      </section>
+      <section class="panel" aria-labelledby="comp-leave-h">
+        <div class="panel-head"><h2 id="comp-leave-h">Leave requests pending</h2><span class="small muted" id="comp-leave-count"></span></div>
+        <div class="panel-body flush" id="comp-leave"></div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true" inert></aside>
+
+<script src="../data/seed.js"></script><script src="../assets/js/store.js"></script><script src="../assets/js/ui.js"></script><script src="../assets/js/hr.js"></script>
+</body></html>

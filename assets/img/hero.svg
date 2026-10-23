@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540">
+  <!-- Southern Food Basket concept: woven basket with mangoes, pimentos, bodi, dasheen leaf and hops bread. Hand-authored by Trinovata, brand palette only. -->
+  <rect width="960" height="540" fill="#FAF7F0"/>
+  <circle cx="660" cy="230" r="210" fill="#E6EFE8"/>
+  <path d="M0 410C150 350 300 372 430 338C580 300 720 340 960 296V540H0Z" fill="#DCEBDD"/>
+  <path d="M0 452C190 412 380 436 520 406C690 370 820 412 960 392V540H0Z" fill="#1F6B3F"/>
+  <path d="M0 492C220 462 420 486 600 456C740 434 860 462 960 452V540H0Z" fill="#14532D"/>
+  <rect y="430" width="960" height="110" fill="#E7E2D9"/>
+  <rect y="430" width="960" height="6" fill="#D6CFC3"/>
+  <ellipse cx="470" cy="474" rx="236" ry="16" fill="#D6CFC3"/>
+  <!-- handle -->
+  <path d="M332 294C332 152 608 152 608 294" fill="none" stroke="#14532D" stroke-width="16" stroke-linecap="round"/>
+  <path d="M332 294C332 152 608 152 608 294" fill="none" stroke="#FAF7F0" stroke-opacity=".35" stroke-width="3" stroke-dasharray="10 14"/>
+  <!-- produce -->
+  <path d="M338 300C300 240 330 190 374 214C404 170 466 202 446 262C434 300 386 326 338 300Z" fill="#1F6B3F"/>
+  <path d="M374 214L404 294" fill="none" stroke="#14532D" stroke-width="4" stroke-linecap="round"/>
+  <path d="M560 304L652 176M574 306L670 190M588 308L688 206M602 310L704 226" fill="none" stroke="#14532D" stroke-width="7" stroke-linecap="round"/>
+  <path d="M608 236L636 262" fill="none" stroke="#FAF7F0" stroke-width="8" stroke-linecap="round"/>
+  <ellipse cx="596" cy="290" rx="50" ry="36" fill="#9A3412" transform="rotate(20 596 290)"/>
+  <ellipse cx="520" cy="270" rx="62" ry="44" fill="#C2410C" transform="rotate(-18 520 270)"/>
+  <ellipse cx="506" cy="256" rx="22" ry="11" fill="#F0B794" fill-opacity=".55" transform="rotate(-18 506 256)"/>
+  <path d="M568 238q10-24 30-16q-14 8-24 24Z" fill="#65A30D"/>
+  <circle cx="450" cy="268" r="22" fill="#65A30D"/>
+  <circle cx="476" cy="288" r="19" fill="#65A30D"/>
+  <path d="M450 246v-12M476 269v-10" fill="none" stroke="#14532D" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="402" cy="286" rx="48" ry="34" fill="#F0B794"/>
+  <path d="M376 280q26-16 52 0" fill="none" stroke="#C2410C" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="392" cy="266" r="3" fill="#FAF7F0"/><circle cx="414" cy="262" r="2.5" fill="#FAF7F0"/><circle cx="426" cy="276" r="2" fill="#FAF7F0"/>
+  <!-- basket -->
+  <path d="M272 304H668L636 442Q630 464 606 464H334Q310 464 304 442Z" fill="#14532D"/>
+  <path d="M292 348H648M304 392H636M316 434H624" fill="none" stroke="#FAF7F0" stroke-opacity=".5" stroke-width="5" stroke-linecap="round"/>
+  <path d="M342 318L354 458M402 318L408 460M470 318V460M538 318L532 460M598 318L586 458" fill="none" stroke="#0B3B22" stroke-width="6" stroke-linecap="round"/>
+  <rect x="258" y="290" width="424" height="26" rx="13" fill="#0B3B22"/>
+  <path d="M280 303H660" fill="none" stroke="#FAF7F0" stroke-opacity=".3" stroke-width="3" stroke-dasharray="14 10"/>
+</svg>

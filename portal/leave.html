@@ -1,0 +1,58 @@
+<!doctype html><html lang="en" data-root="../"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Leave · Southern Food Basket</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/css/tokens.css"><link rel="stylesheet" href="../assets/css/app.css"><link rel="stylesheet" href="../assets/css/portal.css">
+</head>
+<body data-app="portal" data-active="leave" data-title="Leave" data-banner data-page="leave">
+<main data-app-main>
+  <div class="page-head">
+    <div><h1>Leave</h1><p class="muted">Your balances for this leave year, a request form, and the status of every request.</p></div>
+  </div>
+  <div class="two-col">
+    <div class="stack stack-lg">
+      <section class="panel" aria-labelledby="h-req">
+        <div class="panel-head"><h2 id="h-req">Request leave</h2></div>
+        <form class="panel-body" id="leave-form" novalidate>
+          <div class="field">
+            <label for="lv-type">Type</label>
+            <select id="lv-type" name="type" required>
+              <option value="Annual">Annual</option>
+              <option value="Sick">Sick</option>
+              <option value="Casual">Casual</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <div class="field"><label for="lv-from">From</label><input type="date" id="lv-from" name="from" required></div>
+            <div class="field"><label for="lv-to">To</label><input type="date" id="lv-to" name="to" required></div>
+          </div>
+          <p class="hint" id="lv-days" aria-live="polite"></p>
+          <p class="alert alert-warn small" id="lv-warn" hidden></p>
+          <div class="field">
+            <label for="lv-reason">Reason <span class="muted">(optional)</span></label>
+            <textarea id="lv-reason" name="reason" maxlength="200" placeholder="A line for your manager"></textarea>
+          </div>
+          <p class="error-text" id="lv-error" role="alert" hidden></p>
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit">Send request</button>
+          </div>
+          <p class="hint">Requests go to your branch manager. In this demo HR approves them in the HR console.</p>
+        </form>
+      </section>
+      <section class="panel" aria-labelledby="h-hist">
+        <div class="panel-head"><h2 id="h-hist">Requests</h2></div>
+        <div id="leave-history"></div>
+      </section>
+    </div>
+    <aside class="leave-aside">
+      <section class="panel" aria-labelledby="h-bal">
+        <div class="panel-head"><h2 id="h-bal">Balances</h2></div>
+        <div class="panel-body bars" id="bars"></div>
+      </section>
+    </aside>
+  </div>
+</main>
+<script src="../data/seed.js"></script><script src="../assets/js/store.js"></script><script src="../assets/js/ui.js"></script><script src="../assets/js/portal.js"></script>
+</body></html>

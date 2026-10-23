@@ -90,7 +90,14 @@ small, .small { font-size: 0.875rem; }
 .surface-dark a { color: #DCEBDD; }
 .surface-dark .muted { color: #BFCBC0; }
 .surface-dark .eyebrow { color: #F0B794; }
+.surface-dark .btn-light, .surface-dark .btn-light:hover { color: var(--green); }
+.surface-dark .btn-primary, .surface-dark .btn-accent { color: #fff; }
+.surface-dark .btn-ghost { color: #fff; border-color: rgba(255,255,255,.35); }
+.surface-dark .btn-ghost:hover { background: rgba(255,255,255,.08); color: #fff; }
 .divider { border: 0; border-top: 1px solid var(--line); margin: var(--s6) 0; }
+[hidden] { display: none !important; }
+.icon { width: 18px; height: 18px; vertical-align: -3px; flex: none; }
+.btn .icon { width: 18px; height: 18px; }
 
 /* forms */
 label, .label { display: block; font: 600 0.875rem/1.4 var(--ui); margin-bottom: 6px; }

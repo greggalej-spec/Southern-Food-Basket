@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+  <!-- Household: spray bottle, paper roll, soap and bubbles. Hand-authored by Trinovata. -->
+  <rect width="400" height="300" fill="#DCEBDD"/>
+  <circle cx="90" cy="236" r="72" fill="#E6EFE8"/>
+  <rect x="40" y="240" width="320" height="12" rx="4" fill="#D6CFC3"/>
+  <!-- spray bottle -->
+  <path d="M90 240V150Q90 132 108 132H132Q150 132 150 150V240Z" fill="#14532D"/>
+  <rect x="112" y="98" width="16" height="36" fill="#0B3B22"/>
+  <path d="M106 96H164Q176 96 176 108V116H150L140 134H106Z" fill="#0B3B22"/>
+  <path d="M160 116L170 136Q172 142 164 142L150 134" fill="#C2410C"/>
+  <rect x="168" y="100" width="12" height="8" rx="2" fill="#FAF7F0"/>
+  <rect x="100" y="170" width="50" height="40" rx="6" fill="#FAF7F0"/>
+  <path d="M110 184h30M110 194h20" fill="none" stroke="#E7E2D9" stroke-width="3" stroke-linecap="round"/>
+  <!-- paper roll -->
+  <rect x="190" y="150" width="76" height="90" rx="8" fill="#FAF7F0" stroke="#D6CFC3" stroke-width="3"/>
+  <ellipse cx="228" cy="150" rx="38" ry="14" fill="#E7E2D9"/>
+  <ellipse cx="228" cy="150" rx="12" ry="5" fill="#D6CFC3"/>
+  <path d="M266 192Q300 186 300 214V240H266Z" fill="#FAF7F0" stroke="#D6CFC3" stroke-width="3"/>
+  <!-- soap and bubbles -->
+  <rect x="290" y="208" width="80" height="32" rx="10" fill="#C2410C"/>
+  <path d="M302 220h28" fill="none" stroke="#F0B794" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="330" cy="168" r="16" fill="#FAF7F0" fill-opacity=".6" stroke="#FAF7F0" stroke-width="3"/>
+  <circle cx="358" cy="136" r="10" fill="#FAF7F0" fill-opacity=".6" stroke="#FAF7F0" stroke-width="3"/>
+  <circle cx="306" cy="126" r="6" fill="#FAF7F0" fill-opacity=".6" stroke="#FAF7F0" stroke-width="3"/>
+  <circle cx="324" cy="162" r="4" fill="#FAF7F0"/>
+</svg>

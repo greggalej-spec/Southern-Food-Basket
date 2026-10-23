@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en" data-root="./">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Southern Food Basket · The South’s basket</title>
+<meta name="description" content="Supermarket and wholesale across San Fernando, Princes Town and Penal. This week’s specials, departments, branch hours and trade accounts. Unofficial concept by Trinovata.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/tokens.css"><link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header data-sfb-header data-active="home"></header>
+<main id="main">
+
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container">
+      <div>
+        <p class="eyebrow">Supermarket &amp; wholesale · South Trinidad</p>
+        <h1 id="hero-title" data-hero-headline>Fresh, fair and close to home.</h1>
+        <p class="lede" data-hero-sub>Three branches across south Trinidad, a wholesale desk for businesses, and a team that knows your name.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="specials.html">This week’s specials</a>
+          <a class="btn btn-ghost" href="locations.html">Find a branch</a>
+        </div>
+        <p class="hero-note">Open seven days in San Fernando, Princes Town and Penal.</p>
+      </div>
+      <figure class="pic hero-visual" style="--ar:16/9">
+        <img src="assets/img/hero.svg" width="960" height="540" alt="Illustration of a woven green basket filled with mangoes, pimento peppers, a bundle of bodi, a dasheen leaf and a hops bread, in front of green hills" decoding="async">
+      </figure>
+    </div>
+  </section>
+
+  <section class="section section-tight specials-strip" aria-labelledby="specials-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">This week</p>
+          <h2 id="specials-title">This week’s specials</h2>
+          <p class="muted"><span data-week-label>Thu 22 – Wed 28 Oct</span>, while stocks last.</p>
+        </div>
+        <a class="more" href="specials.html">All specials <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="grid" data-specials-strip></div>
+      <p class="price-note">Prices in TTD. Some items are at one or two branches only; each card says where.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="dept-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Departments</p>
+          <h2 id="dept-title">What is in the store</h2>
+        </div>
+        <a class="more" href="departments.html">All departments <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="grid dept-grid" data-dept-grid></div>
+    </div>
+  </section>
+
+  <section class="band surface-dark" aria-labelledby="wholesale-title">
+    <div class="container">
+      <div>
+        <p class="eyebrow">Wholesale &amp; export</p>
+        <h2 id="wholesale-title">Trade supply from Princes Town</h2>
+        <p>Case and pallet pricing for mini-marts, restaurants, canteens and caterers, with delivery across the south from the distribution centre.</p>
+        <a class="btn btn-light" href="wholesale.html">Open a trade account</a>
+      </div>
+      <div>
+        <h3 class="band-label">What public records say</h3>
+        <ul class="fact-list" data-wholesale-facts></ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="branches-title">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Branches</p>
+          <h2 id="branches-title">Three branches across the south</h2>
+        </div>
+        <a class="more" href="locations.html">Hours and directions <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="grid branches-row" data-branches-row></div>
+      <p class="price-note">Branch addresses are from public directories and unverified. Phone numbers on this site are demo numbers.</p>
+    </div>
+  </section>
+
+  <section class="section section-tight" aria-labelledby="careers-title">
+    <div class="container">
+      <div class="teaser">
+        <div>
+          <p class="eyebrow">Careers</p>
+          <h2 id="careers-title">Work close to home</h2>
+          <p>Three branches and a distribution centre, hiring from the communities they serve. Every applicant can see where their application stands and which documents are still needed.</p>
+          <div class="actions">
+            <a class="btn btn-primary" href="careers/index.html">See open roles</a>
+            <a class="btn btn-ghost" href="portal/index.html">Staff portal</a>
+          </div>
+        </div>
+        <ul class="why-list" data-careers-why></ul>
+      </div>
+    </div>
+  </section>
+
+</main>
+<footer data-sfb-footer></footer>
+<script src="data/seed.js"></script><script src="assets/js/store.js"></script><script src="assets/js/ui.js"></script><script src="assets/js/site.js"></script>
+</body></html>

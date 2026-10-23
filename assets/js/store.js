@@ -158,8 +158,16 @@
   function setLeaveStatus(employeeId, leaveId, status) {
     return updateEmployee(employeeId, e => { const r = (e.leaveRequests || []).find(x => x.id === leaveId); if (r) r.status = status; });
   }
+  /* a bare YYYY-MM-DD is a local calendar day, never UTC midnight */
+  function parseDay(v) {
+    if (v instanceof Date) return v;
+    if (typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v)) { const p = v.split('-').map(Number); return new Date(p[0], p[1] - 1, p[2]); }
+    return new Date(v);
+  }
+  function startOfDay(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+  /* inclusive calendar days: daysBetween('2026-12-22', '2026-12-24') -> 3 */
   function daysBetween(a, b) {
-    const ms = new Date(b) - new Date(a); return Math.max(1, Math.round(ms / 86400000) + 1);
+    const ms = startOfDay(parseDay(b)) - startOfDay(parseDay(a)); return Math.max(1, Math.round(ms / 86400000) + 1);
   }
   function setTrainingDone(employeeId, trainingId, done) {
     return updateEmployee(employeeId, e => { const t = (e.training || []).find(x => x.id === trainingId); if (t) { t.done = !!done; t.completedAt = done ? nowIso() : null; } });
@@ -174,9 +182,11 @@
       delete c.bytes; delete c.dataUrl;
     });
   }
+  /* whole calendar days from today to the date: 0 = today, negative = past; stable all day long */
   function daysUntil(dateStr) {
     if (!dateStr) return null;
-    return Math.ceil((new Date(dateStr) - new Date()) / 86400000);
+    const target = parseDay(dateStr); if (isNaN(target)) return null;
+    return Math.round((startOfDay(target) - startOfDay(new Date())) / 86400000);
   }
   function requestSwap(employeeId, shiftDate, note) {
     const r = { id: uid('sw'), shiftDate, note: note || '', status: 'pending', requestedAt: nowIso() };
@@ -187,7 +197,7 @@
   window.SFBStore = {
     KEY, SESSION_KEY, load, save, update, reset, money,
     session, login, logout, requireRole, currentUser,
-    byId, uid, nowIso, jobs, applicantsFor, addApplicant, updateApplicant, setStage, stageLabel,
+    byId, uid, nowIso, parseDay, startOfDay, jobs, applicantsFor, addApplicant, updateApplicant, setStage, stageLabel,
     setDocState, addNote, addMessage, requiredDocsFor,
     updateEmployee, requestLeave, setLeaveStatus, daysBetween, setTrainingDone, setEmployeeDoc, daysUntil, requestSwap
   };
