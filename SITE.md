@@ -3,10 +3,10 @@
 - **What:** concept website + hiring portal with applicant KYC + HR console + employee portal for a real south-Trinidad grocer, built unsolicited. v1 2026-10-22 (modern, own illustrations); v2 2026-10-23 (traditional, real brand) after Gregg judged v1 too modern for older shoppers and millennials. Badged "Unofficial concept" on every page.
 - **Kind:** concept (classification: third-party-media). The logo, product photos and Try Me prices come from the company's own public Instagram, supplied by Gregg on 2026-10-23. No business permission is recorded.
 - **Run:** static; `python -m http.server 4175` in the folder (or the `sfb` entry in `Dev/.claude/launch.json`), open http://localhost:4175/
-- **Deploy:** Vercel (static, no build). Preview only; no production deploy.
-- **URL:** [PREVIEW PENDING]
+- **Deploy:** Vercel project `southern-food-basket` (static, no build), linked in `.vercel/` (gitignored). The first CLI deploy on 2026-10-23 was assigned the Production target by Vercel, so the public alias exists; the per-deploy URL is behind Vercel login.
+- **URL:** https://southern-food-basket.vercel.app (public, noindex; HTTP 200 and rendered in the browser 2026-10-23)
 - **Screenshot:** none in the registry yet
-- **Status:** built (v2), preview pending
+- **Status:** live on the Vercel alias (v2); not linked from anywhere
 - **Publicity:** none. Third-party media and no permission: do not put it on trinovata.com/work or social until the business agrees.
 - **Repo:** greggalej-spec/Southern-Food-Basket (private) · branch `concept-v1` · Source: `_work.json` slug `southern-food-basket`
 
