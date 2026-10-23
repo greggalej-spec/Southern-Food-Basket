@@ -7,7 +7,7 @@
 - **URL:** https://southern-food-basket.vercel.app (public, noindex; HTTP 200 and rendered in the browser 2026-10-23)
 - **Screenshot:** none in the registry yet
 - **Status:** live on the Vercel alias (v2); not linked from anywhere
-- **Publicity:** none. Third-party media and no permission: do not put it on trinovata.com/work or social until the business agrees.
+- **Publicity:** Gregg decided on 2026-10-23 to keep the Vercel alias public so he can share the link with the business. That is the only approved use: do not take the alias down, and do not put the concept on trinovata.com/work or social until the business agrees (third-party media, no permission).
 - **Repo:** greggalej-spec/Southern-Food-Basket (private) · branch `concept-v1` · Source: `_work.json` slug `southern-food-basket`
 
 ## Sourced facts used on the site (verify before any real use)
