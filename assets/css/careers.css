@@ -36,7 +36,7 @@
 .role-meta li { display: inline-flex; align-items: center; gap: 6px; }
 .role-meta .icon { color: var(--icon); }
 .role-foot { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s3); margin-top: auto; padding-top: var(--s3); border-top: 1px solid var(--line); }
-.role-pay { font: 800 1.125rem/1.2 var(--ui); font-variant-numeric: tabular-nums; }
+.role-pay-note { font-size: 0.9375rem; color: var(--muted); }
 .role-posted { margin: 0; font-size: 0.8125rem; color: var(--muted); }
 
 .how-strip { background: var(--wash); border-radius: var(--r-lg); padding: var(--s6) var(--s5); }

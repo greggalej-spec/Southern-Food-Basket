@@ -80,7 +80,7 @@
     const s = session(); if (!s) return null;
     const d = load();
     if (s.role === 'applicant') return byId(d.applicants, s.userId);
-    if (s.role === 'employee' || s.role === 'hr') return byId(d.employees, s.userId);
+    if (s.role === 'employee' || s.role === 'hr' || s.role === 'admin') return byId(d.employees, s.userId);
     return null;
   }
 

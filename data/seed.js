@@ -6,43 +6,53 @@
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 window.SFB_DATA = {
-  version: 5,
+  version: 6,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
     short: 'SFB',
     tagline: 'The south’s neighbourhood grocer',
     founded: 1998, /* source: Del Risco company record (1998); ExportersIndia lists 2000 */
-    whatsapp: '+1 (868) 000-0000', whatsappNote: 'demo number',
+    phone: '+1 868-225-4732', /* head office line, Facebook page and Google Maps */
+    whatsappChannel: 'https://whatsapp.com/channel/0029Vb6ReXbKgsNmzhxABT42', tiktok: 'https://www.tiktok.com/@southernfoodbasket', facebook: 'https://www.facebook.com/Southernfoodbasket/', /* from the Facebook page intro */
     email: 'hello@sfb.example', careersEmail: 'careers@sfb.example',
     instagram: { handle: '@southernfoodbasket', url: 'https://www.instagram.com/southernfoodbasket/' }, /* handle from the downloaded post files; verify */
     dealsNote: 'Prices as posted on Southern Food Basket’s Instagram between June and October 2026. Shelf prices may have changed since.',
     demo: true
   },
 
-  /* hours, phones and the services marked demo are invented; addresses and Couva are sourced as noted */
+  /* Five stores. The company's own Facebook post of September 2026 (employee of the month) names them:
+     Couva, Coffee Street San Fernando, Point Fortin, Penal, St Charles Village Princes Town.
+     Addresses, phone numbers, plus codes, place IDs and opening hours come from each store's Google Maps
+     listing, read on 2026-10-23. hours[0] = Mon–Sat, hours[1] = Sunday; public holiday hours are not published. */
   branches: [
-    { id: 'sando', name: 'San Fernando', short: '99–101 Coffee Street', address: '99–101 Coffee Street, San Fernando',
-      source: 'Panjiva shipment records and tntyellow listing, unverified',
-      hours: [['Mon – Sat', '7:00 am – 9:00 pm'], ['Sun & public holidays', '8:00 am – 1:00 pm']],
-      phone: '(868) 000-0001', services: ['Bakery', 'Deli', 'Meat counter', 'Parking'], servicesSource: 'demo',
-      osm: 'https://www.openstreetmap.org/search?query=Coffee%20Street%2C%20San%20Fernando%2C%20Trinidad' },
-    { id: 'ptown', name: 'Princes Town', short: '229B St Charles Junction', address: '229B St Charles Junction, Manahambre Road, Princes Town',
-      source: 'Dun & Bradstreet and Trinicompass listings, unverified',
-      hours: [['Mon – Sat', '7:00 am – 8:30 pm'], ['Sun & public holidays', '8:00 am – 1:00 pm']],
-      phone: '(868) 000-0002', services: ['Wholesale desk', 'Bakery', 'Meat counter', 'Head office'], servicesSource: 'demo',
-      osm: 'https://www.openstreetmap.org/search?query=St%20Charles%20Junction%2C%20Princes%20Town%2C%20Trinidad' },
+    { id: 'sando', name: 'San Fernando', short: 'Coffee Street', address: 'Coffee Street, San Fernando',
+      plusCode: '7GGR+QF San Fernando', listing: 'Southern Food Basket Market Place', placeId: 'ChIJAzjej_iMNYwRsvY960nc1-s', lat: 10.276923, lng: -61.4587919,
+      phone: '+1 868-225-4732', hours: [['Mon – Sat', '7:00 am – 10:00 pm'], ['Sunday', '7:00 am – 7:00 pm']],
+      source: 'Google Maps listing “Southern Food Basket Market Place”, Coffee St, read 23 Oct 2026', services: [] },
+    { id: 'couva', name: 'Couva', short: '696 Southern Main Road', address: '696 Southern Main Road, Couva',
+      plusCode: 'CG8J+M2 Couva', listing: 'Southern Food Basket Market Place', placeId: 'ChIJEd6aBQDxNYwRB30ofcl7tHo', lat: 10.4166444, lng: -61.4699211,
+      phone: '+1 868-225-4732', hours: [['Mon – Sat', '7:00 am – 10:00 pm'], ['Sunday', '7:00 am – 7:00 pm']],
+      source: 'Google Maps listing, 696 Southern Main Rd, read 23 Oct 2026; the newest store',
+      services: ['In-store bakery', 'Restaurant', 'Meat section', 'Fresh-cut veg packs', 'Health and fitness range'],
+      servicesSource: 'Google reviews of the Couva store and the company’s posts tagged Couva' },
+    { id: 'ptown', name: 'Princes Town', short: 'St Charles Village', address: 'St Charles Junction, Manahambre Road, Princes Town',
+      plusCode: '7H4Q+C4 Woodlands', listing: 'Southern Food Basket Supermarket', placeId: 'ChIJu1WbOoyLNYwRubyL3YjHXM4', lat: 10.2560144, lng: -61.4122009,
+      phone: '+1 868-225-4732', hours: [['Mon – Sat', '7:00 am – 10:00 pm'], ['Sunday', '7:00 am – 7:00 pm']],
+      source: 'Google Maps listing “Southern Food Basket Supermarket”, Manahambre Rd, read 23 Oct 2026. A second listing, “Market Place” on St Charles Rd (+1 868-655-8092, Saturday to 8:00 pm), sits about 60 m away',
+      services: [] },
     { id: 'penal', name: 'Penal', short: 'S.S. Erin Road', address: 'S.S. Erin Road, Penal',
-      source: 'Mapcarta listing, unverified',
-      hours: [['Mon – Sat', '7:30 am – 8:00 pm'], ['Sun & public holidays', '8:00 am – 12:30 pm']],
-      phone: '(868) 000-0003', services: ['Fresh produce', 'Meat counter', 'Parking'], servicesSource: 'demo',
-      osm: 'https://www.openstreetmap.org/search?query=S.S.%20Erin%20Road%2C%20Penal%2C%20Trinidad' },
-    { id: 'couva', name: 'Couva', short: 'Couva', address: 'Couva (street address not in our sources)',
-      source: 'Location tag on the company’s Instagram posts, September and October 2026',
-      hours: [['Mon – Sat', '7:00 am – 9:00 pm'], ['Sun & public holidays', '8:00 am – 1:00 pm']],
-      phone: '(868) 000-0004', services: ['Cakes and bakery', 'Fresh-cut veg packs', 'Health and fitness range'], servicesSource: 'instagram',
-      osm: 'https://www.openstreetmap.org/search?query=Couva%2C%20Trinidad' }
+      plusCode: '5G9R+9R5 Penal', listing: 'Southern Food Basket Market Place', placeId: 'ChIJSaRiqHGPNYwR746VSEW35EI', lat: 10.1683834, lng: -61.4579007,
+      phone: '+1 868-225-4732', hours: [['Mon – Sat', '7:00 am – 10:00 pm'], ['Sunday', '7:00 am – 7:00 pm']],
+      source: 'Google Maps listing, S.S. Erin Rd, read 23 Oct 2026', services: [] },
+    { id: 'pfortin', name: 'Point Fortin', short: '38–40 Point Fortin Main Road', address: '38–40 Point Fortin Main Road, Point Fortin',
+      plusCode: '58G8+2H Point Fortin', listing: 'Southern Food Basket Market Place', placeId: 'ChIJtYwrnEuZNYwRaM_Ury-pNws', lat: 10.1750099, lng: -61.6836083,
+      phone: '+1 868-653-4808', hours: [['Mon – Sat', '7:00 am – 10:00 pm'], ['Sunday', '7:00 am – 7:00 pm']],
+      source: 'Google Maps listing, 38–40 Point Fortin Main Rd, read 23 Oct 2026', services: [] }
   ],
+
+  /* counters the company lists on its Facebook page (not every store has every counter) */
+  storeServices: ['In-house bakery', 'Restaurant', 'Fresh fruit and vegetables', 'Butcher shop', 'Household department', 'Pharmacy'],
 
   /* department lines are described from what the company's posts show; images are the company's own photos */
   departments: [
@@ -131,48 +141,48 @@ window.SFB_DATA = {
   ],
 
   jobs: [
-    { id: 'job-bakery-ptown', title: 'Bakery Attendant', dept: 'Bakery', branchId: 'ptown', type: 'Full-time', shift: 'Early shift from 5:30 am, rota includes Saturdays', payBand: [4200, 4800], payUnit: 'month', posted: '2026-10-12', status: 'open',
+    { id: 'job-bakery-ptown', title: 'Bakery Attendant', dept: 'Bakery', branchId: 'ptown', type: 'Full-time', shift: 'Early shift from 5:30 am, rota includes Saturdays', posted: '2026-10-12', status: 'open',
       summary: 'Bake, pack and present the morning range, keep the bakery spotless and tell customers what came out of the oven.',
       responsibilities: ['Prepare and bake hops bread, sweetbread and loaves to the daily plan', 'Pack, label and date every item; rotate stock', 'Keep the bakery to food-safety standard throughout the shift', 'Serve customers at the bakery counter'],
       requirements: ['Food Handler’s Badge before start date', 'Comfortable with a 5:30 am start', 'Able to lift 20 kg flour bags', 'Bakery or kitchen experience welcome, not required'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'food-badge', 'work-permit'] },
-    { id: 'job-checkout-sando', title: 'Checkout Associate', dept: 'Checkout', branchId: 'sando', type: 'Full-time', shift: 'Rotating 8-hour shifts, including weekends', payBand: [3900, 4400], payUnit: 'month', posted: '2026-10-08', status: 'open',
+    { id: 'job-checkout-sando', title: 'Checkout Associate', dept: 'Checkout', branchId: 'sando', type: 'Full-time', shift: 'Rotating 8-hour shifts, including weekends', posted: '2026-10-08', status: 'open',
       summary: 'The last face a customer sees. Scan, bag, handle cash and card accurately, and keep the queue moving.',
       responsibilities: ['Operate the till and card terminal; balance your float at shift end', 'Bag with care, heavy to light, cold together', 'Spot price mismatches and report them', 'Help with front-end restocking during quiet periods'],
       requirements: ['Numerate and accurate under pressure', 'Clear, polite communication', 'Able to stand for long periods', 'Retail or cash-handling experience welcome'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] },
-    { id: 'job-checkout-penal', title: 'Checkout Associate', dept: 'Checkout', branchId: 'penal', type: 'Part-time', shift: 'Evenings and weekends, 20–25 hours a week', payBand: [24, 27], payUnit: 'hour', posted: '2026-10-15', status: 'open',
+    { id: 'job-checkout-penal', title: 'Checkout Associate', dept: 'Checkout', branchId: 'penal', type: 'Part-time', shift: 'Evenings and weekends, 20–25 hours a week', posted: '2026-10-15', status: 'open',
       summary: 'Evening and weekend till cover at our Penal branch.',
       responsibilities: ['Operate the till and card terminal', 'Bag with care', 'Keep the front end tidy'],
       requirements: ['Available evenings and weekends', 'Numerate and accurate', 'Able to stand for long periods'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] },
-    { id: 'job-perish-penal', title: 'Perishables Attendant', dept: 'Perishables', branchId: 'penal', type: 'Full-time', shift: 'Day shift from 6:30 am, rota includes Sundays', payBand: [4000, 4500], payUnit: 'month', posted: '2026-10-10', status: 'open',
+    { id: 'job-perish-penal', title: 'Perishables Attendant', dept: 'Perishables', branchId: 'penal', type: 'Full-time', shift: 'Day shift from 6:30 am, rota includes Sundays', posted: '2026-10-10', status: 'open',
       summary: 'Receive the morning produce, build the displays and keep the chill chain unbroken.',
       responsibilities: ['Receive and check produce and dairy deliveries', 'Build and refresh displays; cull and record waste', 'Monitor fridge temperatures and log them', 'Advise customers on what is fresh today'],
       requirements: ['Food Handler’s Badge before start date', 'Able to lift 25 kg crates', 'Eye for quality and detail'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'food-badge', 'work-permit'] },
-    { id: 'job-warehouse-ptown', title: 'Warehouse Attendant', dept: 'Warehouse', branchId: 'ptown', type: 'Full-time', shift: 'Two shifts: 6 am – 2 pm or 2 pm – 10 pm', payBand: [4100, 4700], payUnit: 'month', posted: '2026-10-05', status: 'open',
+    { id: 'job-warehouse-ptown', title: 'Warehouse Attendant', dept: 'Warehouse', branchId: 'ptown', type: 'Full-time', shift: 'Two shifts: 6 am – 2 pm or 2 pm – 10 pm', posted: '2026-10-05', status: 'open',
       summary: 'Pick, pack and load wholesale and branch orders at the Princes Town distribution centre.',
       responsibilities: ['Pick orders accurately against the pick list', 'Operate pallet jacks; forklift after certification', 'Receive containers and put away stock by location', 'Keep the floor clear and safe'],
       requirements: ['Able to lift 25 kg repeatedly', 'Comfortable working to targets', 'Forklift licence a plus, training provided'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] },
-    { id: 'job-dispatch-sando', title: 'Delivery Dispatcher', dept: 'Dispatch', branchId: 'sando', type: 'Full-time', shift: 'Day shift, Monday to Saturday', payBand: [4600, 5200], payUnit: 'month', posted: '2026-10-14', status: 'open',
+    { id: 'job-dispatch-sando', title: 'Delivery Dispatcher', dept: 'Dispatch', branchId: 'sando', type: 'Full-time', shift: 'Day shift, Monday to Saturday', posted: '2026-10-14', status: 'open',
       summary: 'Plan the day’s deliveries, brief the drivers and keep customers told when their order will land.',
       responsibilities: ['Build daily routes for three vans', 'Confirm orders with wholesale customers by phone and WhatsApp', 'Track proof of delivery and resolve shortages', 'Keep vehicle checks and fuel logs current'],
       requirements: ['Organised and calm on the phone', 'Knows the roads of south Trinidad', 'Basic spreadsheet skills', 'Driver’s Permit, Class 3 welcome'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] },
-    { id: 'job-wholesale-sando', title: 'Wholesale Sales Representative', dept: 'Wholesale Sales', branchId: 'sando', type: 'Full-time', shift: 'Day shift, on the road three days a week', payBand: [5500, 7000], payUnit: 'month', posted: '2026-10-01', status: 'open',
+    { id: 'job-wholesale-sando', title: 'Wholesale Sales Representative', dept: 'Wholesale Sales', branchId: 'sando', type: 'Full-time', shift: 'Day shift, on the road three days a week', posted: '2026-10-01', status: 'open',
       summary: 'Grow and look after trade accounts across the south: mini-marts, restaurants, canteens and caterers.',
       responsibilities: ['Visit and open trade accounts', 'Quote from the wholesale price list and take orders', 'Hand orders to dispatch and follow through', 'Report weekly on pipeline and collections'],
       requirements: ['Two years in sales or trade supply', 'Own transport and a valid Driver’s Permit', 'Comfortable with quotes, margins and credit terms'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] },
-    { id: 'job-hr-ptown', title: 'HR Assistant', dept: 'HR', branchId: 'ptown', type: 'Full-time', shift: 'Office hours, Monday to Friday', payBand: [5000, 6000], payUnit: 'month', posted: '2026-09-28', status: 'open',
-      summary: 'Keep hiring, onboarding and employee records moving for four stores and the distribution centre.',
+    { id: 'job-hr-ptown', title: 'HR Assistant', dept: 'HR', branchId: 'ptown', type: 'Full-time', shift: 'Office hours, Monday to Friday', posted: '2026-09-28', status: 'open',
+      summary: 'Keep hiring, onboarding and employee records moving for five stores and the distribution centre.',
       responsibilities: ['Screen applications and schedule interviews', 'Check onboarding documents and chase gaps', 'Maintain leave, training and compliance records', 'Prepare payroll inputs'],
       requirements: ['Diploma or certificate in HR or business', 'Careful with confidential information', 'Confident with spreadsheets'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] },
-    { id: 'job-it-ptown', title: 'IT Support Technician', dept: 'IT', branchId: 'ptown', type: 'Full-time', shift: 'Office hours with an on-call rota', payBand: [6000, 7500], payUnit: 'month', posted: '2026-09-20', status: 'closed',
-      summary: 'Keep tills, scales, scanners and the back office running across four stores.',
+    { id: 'job-it-ptown', title: 'IT Support Technician', dept: 'IT', branchId: 'ptown', type: 'Full-time', shift: 'Office hours with an on-call rota', posted: '2026-09-20', status: 'closed',
+      summary: 'Keep tills, scales, scanners and the back office running across five stores.',
       responsibilities: ['First-line support for POS and back office', 'Maintain network and Wi-Fi at each branch', 'Manage user accounts and backups'],
       requirements: ['Two years of IT support', 'POS experience a plus', 'Own transport'],
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] }
@@ -360,6 +370,15 @@ window.SFB_DATA = {
       payslips: [],
       training: [{ id: 'tr-food', name: 'Food safety, level 1', done: true, completedAt: '2023-02-01', minutes: 45 }, { id: 'tr-cust', name: 'Customer care refresher 2026', done: false, due: '2026-11-30', minutes: 25 }],
       compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2027-02-28' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }, { docId: 'food-badge', state: 'verified', expiry: '2026-09-30' }] },
+    { id: 'emp-ria', name: 'Ria Mohammed', role: 'Marketing and Store Operations', dept: 'Head office', branchId: 'sando', startDate: '2022-02-01', employeeNo: 'SFB-0233',
+      email: 'ria.mohammed@sfb.example', phone: '(868) 000-0109', address: 'Demo Street, San Fernando',
+      emergency: { name: 'Sameer Mohammed', relation: 'Brother', phone: '(868) 000-0110' },
+      bank: { bank: 'Demo Bank', masked: '•••• 3307' },
+      leave: { annualEntitled: 16, annualUsed: 4, sickEntitled: 14, sickUsed: 1, casualEntitled: 3, casualUsed: 0 },
+      leaveRequests: [], swapRequests: [],
+      shifts: [{ date: '2026-10-22', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-23', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-26', start: '08:00', end: '16:30', role: 'Head office' }],
+      payslips: [], training: [{ id: 'tr-cust', name: 'Customer care refresher 2026', done: true, completedAt: '2026-08-14', minutes: 25 }],
+      compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2031-04-30' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
     { id: 'emp-andre', name: 'Andre Charles', role: 'Warehouse Attendant', dept: 'Warehouse', branchId: 'ptown', startDate: '2026-09-15', employeeNo: 'SFB-0498',
       email: 'andre.charles@sfb.example', phone: '(868) 000-0107', address: 'Demo Trace, Moruga',
       emergency: { name: 'Patricia Charles', relation: 'Mother', phone: '(868) 000-0108' },
@@ -389,11 +408,11 @@ window.SFB_DATA = {
   ],
 
   content: {
-    hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and Try Me deals at our stores in San Fernando, Princes Town, Penal and Couva.' },
+    hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and Try Me deals at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },
     values: [
       { title: 'Fresh, and ready to cook', text: 'Ready-cut veg packs and fresh herbs sit next to the whole produce, so dinner takes less time.' },
       { title: 'Prices you can see', text: 'Every Try Me deal is posted with its price, in store and on Instagram, before you come in.' },
-      { title: 'Here for the south', text: 'San Fernando, Princes Town, Penal and Couva. We hire from the communities we serve.' },
+      { title: 'Here for the south', text: 'San Fernando, Couva, Princes Town, Penal and Point Fortin. We hire from the communities we serve.' },
       { title: 'Part of the community', text: 'The flag truck on the road, and prize giveaways on the shop floor.' }
     ],
     facts: [
@@ -411,7 +430,7 @@ window.SFB_DATA = {
     careersWhy: [
       { title: 'Paid properly, on time', text: 'Monthly pay by bank transfer, NIS and health surcharge handled, payslips in your portal.' },
       { title: 'Real training', text: 'Food safety, till procedures, manual handling and forklift certification, all on the clock.' },
-      { title: 'Close to home', text: 'Stores in San Fernando, Princes Town, Penal and Couva, so you can work near where you live.' },
+      { title: 'Close to home', text: 'Five stores, from Couva to Point Fortin, so you can work near where you live.' },
       { title: 'A straight process', text: 'You see every stage of your application and every document we still need. No chasing, no silence.' }
     ]
   }

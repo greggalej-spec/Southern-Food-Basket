@@ -14,12 +14,6 @@
   /* ---------- helpers ---------- */
   function branchName(d, id) { const b = S.byId(d.branches, id); return b ? b.name : ''; }
   function fmtDay(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? U.fmtDate(v + 'T12:00:00') : U.fmtDate(v); }
-  function payBand(job) {
-    if (!job || !job.payBand) return '';
-    const a = S.money(job.payBand[0]);
-    const b = S.money(job.payBand[1]).replace(/^[A-Z]{3}\s/, '');
-    return (a + ' – ' + b).replace(/\.00\b/g, '') + ' / ' + job.payUnit;
-  }
   function hrName() { const u = S.currentUser(); return (u && u.name) || 'HR'; }
   function jobLine(d, a) { const j = S.byId(d.jobs, a.jobId); return j ? j.title + ' · ' + branchName(d, j.branchId) : 'Role removed'; }
   function dotClass(state) {
@@ -275,12 +269,12 @@
     }
     if (actionForm === 'offer') {
       const o = a.offer || {};
-      const unit = o.payUnit || (job && job.payUnit) || 'month';
+      const unit = o.payUnit || 'month';
       return '<form class="drawer-action" id="action-form"><h3>Send offer</h3>' +
-        '<div class="form-row"><div class="field"><label for="of-pay">Pay (TTD)</label><input type="number" id="of-pay" min="0" step="0.01" value="' + esc(o.pay != null ? o.pay : (job ? job.payBand[0] : '')) + '" required></div>' +
+        '<div class="form-row"><div class="field"><label for="of-pay">Pay (TTD)</label><input type="number" id="of-pay" min="0" step="0.01" value="' + esc(o.pay != null ? o.pay : '') + '" required></div>' +
         '<div class="field"><label for="of-unit">Per</label><select id="of-unit"><option value="month"' + (unit === 'month' ? ' selected' : '') + '>Month</option><option value="hour"' + (unit === 'hour' ? ' selected' : '') + '>Hour</option></select></div></div>' +
         '<div class="field"><label for="of-start">Start date</label><input type="date" id="of-start" value="' + esc(o.startDate || (a.experience && a.experience.startDate) || '') + '" required></div>' +
-        (job ? '<p class="hint" style="margin-top:0">Band for this role: ' + esc(payBand(job)) + '. Saving moves the applicant to Offer and messages them.</p>' : '') +
+        '<p class="hint" style="margin-top:0">Pay is agreed with the applicant after the interview and is never shown on the job listing. Saving moves the applicant to Offer and messages them.</p>' +
         '<div class="actions"><button class="btn btn-primary btn-sm" type="submit">Send offer</button><button class="btn btn-ghost btn-sm" type="button" data-cancel-action>Cancel</button></div></form>';
     }
     return '';
@@ -401,7 +395,6 @@
         '<td><strong>' + esc(j.title) + '</strong><div class="small muted">' + esc(j.dept) + '</div></td>' +
         '<td>' + esc(branchName(d, j.branchId)) + '</td>' +
         '<td>' + esc(j.type) + '</td>' +
-        '<td class="price">' + esc(payBand(j)) + '</td>' +
         '<td>' + fmtDay(j.posted) + '</td>' +
         '<td class="num">' + active + '</td>' +
         '<td>' + (j.status === 'open' ? '<span class="badge badge-ok">Open</span>' : '<span class="badge">Closed</span>') + '</td>' +

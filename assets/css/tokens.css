@@ -127,6 +127,22 @@ small, .small { font-size: 0.9375rem; }
 .ribbon { height: 24px; background: var(--ribbon) repeat-x left center / 360px 24px; }
 .ribbon-on-dark { filter: none; }
 
+/* storefront glass, from the store exteriors: gold and teal reflective panes, sunburst fanlights,
+   green glass with gold arch and gable inlays, and the pink-and-green zigzag along the facade */
+.zigzag { height: 22px; background: url(../img/glass/zigzag.svg) repeat-x left center / 100px 22px; }
+.facade-band { height: 96px; background: url(../img/glass/facade-band.svg) repeat-x left top / 192px 96px; }
+.store-arch { display: block; width: 64px; height: 32px; background: url(../img/glass/fanlight.svg) no-repeat center bottom / contain; margin-bottom: var(--s2); }
+/* an arched shop window: photo below, sunburst fanlight in the arch, cream facade frame */
+.arch-window { position: relative; margin: 0; aspect-ratio: 5 / 6; overflow: hidden; background: var(--wash);
+  border: 10px solid #F7F4EC; border-radius: 50% 50% var(--r) var(--r) / 41.67% 41.67% var(--r) var(--r);
+  box-shadow: 0 0 0 2px #CFC4AC, var(--shadow-lift); }
+.arch-window img { width: 100%; height: 100%; object-fit: cover; object-position: center 80%; }
+.arch-window::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 41.67%; z-index: 1;
+  background: url(../img/glass/fanlight.svg) no-repeat center bottom / 100% 100%; opacity: .96; }
+.arch-window::after { content: ""; position: absolute; left: 0; right: 0; top: calc(41.67% - 2px); height: 5px; z-index: 1; background: #F7F4EC; }
+.glass-overlay { position: relative; isolation: isolate; overflow: hidden; }
+.glass-overlay::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(../img/glass/glass-grid.svg) repeat left top / 160px 160px; opacity: .13; }
+
 /* forms */
 label, .label { display: block; font: 700 1rem/1.4 var(--ui); margin-bottom: 6px; }
 .hint { font-size: 0.9375rem; color: var(--muted); margin-top: 6px; }
@@ -178,7 +194,7 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .masthead-actions { display: none; gap: var(--s3); align-items: center; }
 .menu-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: var(--r-btn); border: 2px solid var(--green); background: var(--flour); color: var(--green); font: 800 1rem var(--ui); cursor: pointer; }
 .menu-btn .icon { width: 22px; height: 22px; }
-.navband { display: none; background: var(--green); }
+.navband { display: none; background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,0) 55%), var(--green); box-shadow: inset 0 -1px 0 rgba(0,0,0,.12); }
 .navband ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
 .navband a { position: relative; display: block; padding: 15px 18px 17px; color: #fff; text-decoration: none; font: 700 1.0625rem/1.2 var(--ui); transition: background var(--t) var(--ease); }
 .navband a:hover { background: rgba(255,255,255,.1); color: #fff; }
@@ -203,7 +219,7 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 
 /* ---------- site footer ---------- */
 .site-footer { background: var(--leaf); color: #E8E0D4; margin-top: var(--s8); }
-.site-footer .ribbon { background-color: var(--cream); }
+.site-footer .facade-band { background-color: var(--cream); }
 .site-footer .footer-grid { display: grid; gap: var(--s6); padding-block: var(--s7) var(--s6); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
 .site-footer h4 { color: #fff; font: 800 0.875rem/1.3 var(--ui); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--s3); }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
@@ -281,3 +297,6 @@ dialog.sfb-dialog .dialog-actions { display: flex; gap: var(--s3); justify-conte
   .site-header, .site-footer, .concept-banner, .toast-host, .app-sidebar, .app-topbar, .no-print { display: none !important; }
   body { background: #fff; }
 }
+.utility-phone { white-space: nowrap; }
+.utility-phone::before { content: "·"; margin-right: 8px; color: #A9C2AF; }
+@media (max-width: 420px) { .utility-phone { display: none; } }

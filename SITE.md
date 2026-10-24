@@ -13,19 +13,18 @@
 ## Sourced facts used on the site (verify before any real use)
 - Southern Food Basket Limited, Princes Town; key principal listed as Nazim Mohammed — Dun & Bradstreet company profile
 - Founded 1998 — Del Risco company record; an exporter directory (ExportersIndia) gives 2000
-- 99–101 Coffee Street, San Fernando — Panjiva shipment records; tntyellow listing
-- 229B St Charles Junction, Princes Town — Trinicompass listing
-- S.S. Erin Road, Penal–Debe — Mapcarta listing
-- Couva store — location tag on the company's Instagram posts of September and October 2026 (street address not found)
+- Five stores, named in the company's own Facebook post of September 2026 (employee of the month): Couva, Coffee Street San Fernando, Point Fortin, Penal, St Charles Village Princes Town
+- Addresses, phone numbers, plus codes, Google place IDs and opening hours (Mon–Sat 7:00 am–10:00 pm, Sun 7:00 am–7:00 pm) — each store's Google Maps listing, read 2026-10-23. Princes Town has two listings 60 m apart (Supermarket on Manahambre Rd; Market Place on St Charles Rd, +1 868-655-8092, Saturday to 8:00 pm); the site uses the Supermarket listing
+- Counters (in-house bakery, restaurant, fresh fruit and vegetables, butcher shop, household, pharmacy), head-office phone +1 868-225-4732, WhatsApp channel and TikTok — the company's public Facebook page intro
+- Couva store grand opening in California, Couva, dated "09/05/26" on a TikTok screenshot Gregg sent (5 September or 9 May 2026; Couva-tagged posts start 9 September)
 - Imports include table potatoes, cabbage, frozen beef, raisins — Panjiva; exporter listing for beans, fresh fruit, frozen meats, vegetables — ExportersIndia
 - 25 "1 FOR $x · TRY ME" prices with post dates June–October 2026 — the company's Instagram (`data/seed.js` → `specials`)
-- Instagram handle `@southernfoodbasket` — inferred from the downloaded file names; not opened or verified
+- Instagram handle `southernfoodbasket` — listed on the company's Facebook page intro (and in the downloaded file names)
 
 ## Demo data (invented, labelled on the site)
-Opening hours, phone and WhatsApp numbers, e-mail addresses, services at the three directory branches, every job,
-applicant, employee, payslip, rota, leave record and document.
+Every job, applicant, employee, payslip, rota, leave record, document and e-mail address. Job listings never show pay:
+Gregg confirmed the company only discusses pay after the interview (2026-10-23).
 
 ## Known gaps
 - The KYC document list is drawn from general knowledge of Trinidad and Tobago hiring paperwork and must be confirmed with the business.
 - Prices are as posted months ago; a real build would need a price feed or a staff studio to post deals.
-- Couva street address unknown.

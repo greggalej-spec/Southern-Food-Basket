@@ -2,13 +2,13 @@
    Every page includes this after store.js. Reads <html data-root="./|../"> to build links. */
 (function () {
   const ROOT = document.documentElement.getAttribute('data-root') || './';
-  const DISCLAIMER = 'Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Hours, people, jobs and documents are demo data; prices and photos are from the company’s public Instagram.';
+  const DISCLAIMER = 'Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Store hours and phone numbers come from Google Maps, prices and photos from the company’s public Instagram; people, jobs and documents are demo data.';
   const href = p => ROOT + p;
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
-  /* The real logo, cut from a company photo (assets/img/SOURCES.md). */
-  const LOGO = '<img src="' + href('assets/img/sfb-logo.webp') + '" alt="Southern Food Basket" width="386" height="176" decoding="async">';
-  const MONO = '<img class="sfb-mark" src="' + href('assets/img/sfb-mark.png') + '" alt="" width="96" height="96" decoding="async">';
+  /* The real logo, traced to SVG from the company's own artwork (assets/img/SOURCES.md). */
+  const LOGO = '<img src="' + href('assets/img/sfb-logo.svg') + '" alt="Southern Food Basket" width="861" height="393" decoding="async">';
+  const MONO = '<img class="sfb-mark" src="' + href('assets/img/sfb-mark.svg') + '" alt="" width="96" height="96" decoding="async">';
 
   const ICONS = {
     home: '<path d="M3 11.5 12 4l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1v-8.5Z"/>',
@@ -53,7 +53,22 @@
     { id: 'careers', label: 'Careers', href: 'careers/index.html' }
   ];
 
-  /* hours[0] is Mon–Sat, hours[1] is Sun & public holidays (demo data) */
+  /* Google Maps links for a branch. Directions open the store's own listing (destination_place_id) so the
+     route ends at the right building; the query text is the fallback when the place ID is unknown. */
+  function mapsQuery(b) { return (b.listing || 'Southern Food Basket') + ', ' + (b.address || b.name) + ', Trinidad and Tobago'; }
+  function mapsDir(b) {
+    const q = new URLSearchParams({ api: '1', destination: mapsQuery(b) });
+    if (b.placeId) q.set('destination_place_id', b.placeId);
+    return 'https://www.google.com/maps/dir/?' + q.toString();
+  }
+  function mapsView(b) {
+    const q = new URLSearchParams({ api: '1', query: mapsQuery(b) });
+    if (b.placeId) q.set('query_place_id', b.placeId);
+    return 'https://www.google.com/maps/search/?' + q.toString();
+  }
+  function telHref(phone) { return 'tel:' + String(phone || '').replace(/[^\d+]/g, ''); }
+
+  /* hours[0] is Mon–Sat, hours[1] is Sunday (Google Maps listings) */
   function todayHours(b) {
     const rows = (b && b.hours) || [];
     if (!rows.length) return '';
@@ -73,7 +88,7 @@
     el.innerHTML =
       '<a class="skip-link" href="#main">Skip to content</a>' +
       '<div class="utility"><div class="container">' +
-      '<p>' + icon('clock') + (hrs ? '<span>' + esc(first.name) + ' open today <strong>' + esc(hrs) + '</strong></span>' : '<span>See store hours</span>') + '<span class="demo-tag">Demo hours</span></p>' +
+      '<p>' + icon('clock') + (hrs ? '<span>Open today <strong>' + esc(hrs) + '</strong></span>' : '<span>See store hours</span>') + (first && first.phone ? '<a class="utility-phone" href="' + telHref(first.phone) + '">' + esc(first.phone) + '</a>' : '') + '</p>' +
       '<nav class="utility-links" aria-label="Quick links"><a href="' + href('locations.html') + '">' + esc(count ? count + ' store locations' : 'Store locations') + '</a><a href="' + href('careers/index.html') + '">Careers</a><a href="' + href('portal/index.html') + '">Staff portal</a></nav>' +
       '</div></div>' +
       '<div class="masthead"><div class="container">' +
@@ -102,14 +117,14 @@
     const ig = (d.settings || {}).instagram;
     el.className = 'site-footer';
     el.innerHTML =
-      '<div class="ribbon" aria-hidden="true"></div>' +
+      '<div class="facade-band" aria-hidden="true"></div>' +
       '<div class="container"><div class="footer-grid">' +
-      '<div><a class="brand" href="' + href('index.html') + '" aria-label="Southern Food Basket, home">' + LOGO + '</a><p style="margin-top:16px">Supermarket and wholesale for the south of Trinidad.</p></div>' +
+      '<div><a class="brand" href="' + href('index.html') + '" aria-label="Southern Food Basket, home">' + LOGO + '</a><p style="margin-top:16px">Supermarket and wholesale for the south of Trinidad.</p>' + (d.settings && d.settings.phone ? '<p><a href="' + telHref(d.settings.phone) + '">' + esc(d.settings.phone) + '</a></p>' : '') + '</div>' +
       '<div><h4>Our stores</h4><ul>' + branches + '</ul></div>' +
       '<div><h4>Shop</h4><ul><li><a href="' + href('specials.html') + '">Try Me deals</a></li><li><a href="' + href('departments.html') + '">Departments</a></li><li><a href="' + href('wholesale.html') + '">Wholesale and trade</a></li><li><a href="' + href('locations.html') + '">Store hours</a></li></ul></div>' +
       '<div><h4>Company</h4><ul><li><a href="' + href('about.html') + '">About us</a></li><li><a href="' + href('careers/index.html') + '">Careers</a></li><li><a href="' + href('portal/index.html') + '">Staff portal</a></li><li><a href="' + href('hr/index.html') + '">HR console</a></li>' +
       (ig ? '<li><a href="' + esc(ig.url) + '" target="_blank" rel="noopener">' + esc(ig.handle) + ' on Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></li>' : '') + '</ul></div>' +
-      '</div><div class="footer-bottom"><p>' + esc(DISCLAIMER) + ' Branch addresses are from public directories and unverified.</p>' +
+      '</div><div class="footer-bottom"><p>' + esc(DISCLAIMER) + '</p>' +
       '<p><span class="concept-pill">Unofficial concept</span> &nbsp; <button class="link-btn" type="button" data-reset-demo style="color:#F3EBDD">Reset demo data</button></p></div></div>';
   }
 
@@ -146,9 +161,17 @@
       { id: 'roles', label: 'Jobs', href: 'hr/index.html#roles', icon: 'grid' },
       { id: 'compliance', label: 'Compliance', href: 'hr/index.html#compliance', icon: 'shield' },
       { group: 'My portal' }
+    ].concat(MY_PORTAL),
+    admin: [
+      { id: 'deals', label: 'Try Me deals', href: 'admin/index.html#deals', icon: 'tag' },
+      { id: 'posts', label: 'Post maker', href: 'admin/index.html#posts', icon: 'camera' },
+      { id: 'stores', label: 'Stores and hours', href: 'admin/index.html#stores', icon: 'store' },
+      { id: 'notices', label: 'Staff notices', href: 'admin/index.html#notices', icon: 'bell' },
+      { id: 'publish', label: 'Publish', href: 'admin/index.html#publish', icon: 'upload' },
+      { group: 'My portal' }
     ].concat(MY_PORTAL)
   };
-  const ROLE_LABEL = { applicant: 'Applicant', employee: 'Employee', hr: 'HR' };
+  const ROLE_LABEL = { applicant: 'Applicant', employee: 'Employee', hr: 'HR', admin: 'Store admin' };
 
   function renderAppShell() {
     const main = document.querySelector('[data-app-main]');
@@ -156,7 +179,7 @@
     const section = document.body.getAttribute('data-app') || 'portal';
     const active = document.body.getAttribute('data-active') || '';
     const s = window.SFBStore ? SFBStore.session() : null;
-    const role = (s && s.role) || (section === 'hr' ? 'hr' : section === 'careers' ? 'applicant' : 'employee');
+    const role = (s && s.role) || (section === 'hr' ? 'hr' : section === 'admin' ? 'admin' : section === 'careers' ? 'applicant' : 'employee');
     const user = window.SFBStore ? SFBStore.currentUser() : null;
     const nav = (APP_NAV[role] || []).map(n => n.group
       ? '<p class="app-nav-group">' + esc(n.group) + '</p>'
@@ -369,5 +392,5 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot); else boot();
 
   window.SFBUI = { ROOT, DISCLAIMER, href, esc, icon, LOGO, MONO, SITE_NAV, APP_NAV, initials, parseDate, fmtDate, fmtDateTime, fmtTime, fileSize, qs, MONTHS, DAYS,
-    todayHours, stageBadge, docBadge, docDisplayState, DOC_STATE, seal, toast, confirm, prompt, pic, wirePics, wireResetButtons };
+    todayHours, mapsDir, mapsView, telHref, stageBadge, docBadge, docDisplayState, DOC_STATE, seal, toast, confirm, prompt, pic, wirePics, wireResetButtons };
 })();

@@ -11,12 +11,6 @@
   /* date-only strings ("2026-10-12") are parsed as UTC midnight by new Date(); pin them to local noon so the day is right in UTC-4 */
   function fmtDay(v) { return /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? U.fmtDate(v + 'T12:00:00') : U.fmtDate(v); }
   /* "TTD 4,200 – 4,800 / month": one currency, one unit for the whole range */
-  function payBand(job) {
-    if (!job || !job.payBand) return '';
-    const a = S.money(job.payBand[0]);
-    const b = S.money(job.payBand[1]).replace(/^[A-Z]{3}\s/, '');
-    return (a + ' – ' + b).replace(/\.00\b/g, '') + ' / ' + job.payUnit;
-  }
   function todayIso() { const t = new Date(); return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
   function ageOn(dob, today) {
     const [y, m, d] = dob.split('-').map(Number); const [ty, tm, td] = today.split('-').map(Number);
@@ -129,7 +123,7 @@
         return '<article class="card job-card">' +
           '<div><p class="eyebrow">' + esc(j.dept) + '</p><h3>' + esc(j.title) + '</h3></div>' +
           '<ul class="role-meta">' + metaItem('pin', branch) + metaItem('briefcase', j.type) + metaItem('clock', j.shift) + '</ul>' +
-          '<div class="role-foot"><span class="role-pay">' + esc(payBand(j)) + '</span>' +
+          '<div class="role-foot"><span class="role-pay-note">Pay discussed at interview</span>' +
           '<a class="btn btn-primary btn-sm" href="job.html?id=' + encodeURIComponent(j.id) + '" aria-label="View role: ' + esc(j.title) + ', ' + esc(branch) + '">View role ' + icon('arrow') + '</a></div>' +
           '<p class="role-posted">Posted ' + fmtDay(j.posted) + '</p>' +
           '</article>';
@@ -185,7 +179,7 @@
               '<dt>Branch</dt><dd>' + esc(branch) + '</dd>' +
               '<dt>Type</dt><dd>' + esc(job.type) + '</dd>' +
               '<dt>Shift</dt><dd>' + esc(job.shift) + '</dd>' +
-              '<dt>Pay</dt><dd class="role-pay">' + esc(payBand(job)) + '</dd>' +
+              '<dt>Pay</dt><dd>Discussed after your interview</dd>' +
               '<dt>Posted</dt><dd>' + fmtDay(job.posted) + '</dd>' +
             '</dl>' +
             '<a class="btn btn-accent" href="apply.html?id=' + encodeURIComponent(job.id) + '">Apply for this role</a>' +
@@ -240,7 +234,7 @@
 
     root.innerHTML =
       '<div class="apply-head"><p class="eyebrow">Apply</p><h1>' + esc(job.title) + '</h1>' +
-      '<p class="muted">' + esc(branch) + ' · ' + esc(job.type) + ' · ' + esc(payBand(job)) + ' &nbsp;·&nbsp; <a href="job.html?id=' + encodeURIComponent(job.id) + '">Role details</a></p></div>' +
+      '<p class="muted">' + esc(branch) + ' · ' + esc(job.type) + ' &nbsp;·&nbsp; <a href="job.html?id=' + encodeURIComponent(job.id) + '">Role details</a></p></div>' +
       '<div class="card apply-card">' +
         '<ol class="stepper" id="stepper" aria-label="Application steps"></ol>' +
         '<form id="apply-form" novalidate><div id="step-panel"></div><div class="step-nav" id="step-nav"></div></form>' +

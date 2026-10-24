@@ -8,7 +8,7 @@
 
   /* every page except the demo login needs an employee or HR session; requireRole redirects otherwise */
   if (page !== 'login') {
-    const s = SFBStore.requireRole(['employee', 'hr']);
+    const s = SFBStore.requireRole(['employee', 'hr', 'admin']);
     if (!s) return;
   }
 
@@ -86,9 +86,9 @@
   function docName(d, docId) { const doc = S.byId(d.kycDocs, docId); return doc ? doc.name : docId; }
 
   /* ---------- login (portal/index.html) ---------- */
-  const ROLE_HOME = { applicant: 'careers/me.html', employee: 'portal/home.html', hr: 'hr/index.html' };
-  const ROLE_AREA = { applicant: /^careers\//, employee: /^portal\//, hr: /^(portal|hr)\// };
-  const ROLE_LABEL = { applicant: 'Applicant', employee: 'Employee', hr: 'HR' };
+  const ROLE_HOME = { applicant: 'careers/me.html', employee: 'portal/home.html', hr: 'hr/index.html', admin: 'admin/index.html' };
+  const ROLE_AREA = { applicant: /^careers\//, employee: /^portal\//, hr: /^(portal|hr)\//, admin: /^(admin|portal)\// };
+  const ROLE_LABEL = { applicant: 'Applicant', employee: 'Employee', hr: 'HR', admin: 'Store admin' };
   /* ?next= is honoured only when it is a plain relative path inside the site */
   function safeNext() {
     const n = UI.qs('next');

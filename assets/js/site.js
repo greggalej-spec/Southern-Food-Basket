@@ -36,13 +36,16 @@
     return '<li class="fact"><p>' + esc(f.text) + '</p><span class="fact-src">Source: ' + esc(f.source) + '</span></li>';
   }
 
+  function directionsLink(b, cls) {
+    return '<a class="btn ' + (cls || 'btn-ghost btn-sm') + '" href="' + esc(SFBUI.mapsDir(b)) + '" target="_blank" rel="noopener">' + icon('pin') + 'Directions<span class="visually-hidden"> to ' + esc(b.name) + ' (opens Google Maps in a new tab)</span></a>';
+  }
   function storeCard(b) {
     var hrs = SFBUI.todayHours(b);
-    return '<article class="store-card"><h3>' + esc(b.name) + '</h3><address>' + esc(b.address) + '</address>' +
-      (hrs ? '<p class="today">' + icon('clock') + '<span>Today ' + esc(hrs) + '</span><span class="demo-note">Demo hours</span></p>' : '') +
-      '<div class="actions">' +
-      '<a class="btn btn-primary btn-sm" href="' + esc(href('locations.html#' + b.id)) + '">Store details</a>' +
-      '<a class="btn btn-ghost btn-sm" href="' + esc(b.osm) + '" target="_blank" rel="noopener">' + icon('pin') + 'Directions<span class="visually-hidden"> to ' + esc(b.name) + ' (opens OpenStreetMap in a new tab)</span></a>' +
+    return '<article class="store-card"><span class="store-arch" aria-hidden="true"></span><h3>' + esc(b.name) + '</h3><address>' + esc(b.address) + '</address>' +
+      (hrs ? '<p class="today">' + icon('clock') + '<span>Open today ' + esc(hrs) + '</span></p>' : '') +
+      (b.phone ? '<p class="today">' + icon('phone') + '<a href="' + esc(SFBUI.telHref(b.phone)) + '">' + esc(b.phone) + '</a></p>' : '') +
+      '<div class="actions">' + directionsLink(b, 'btn-primary btn-sm') +
+      '<a class="btn btn-ghost btn-sm" href="' + esc(href('locations.html#' + b.id)) + '">Store details</a>' +
       '</div></article>';
   }
 
@@ -267,35 +270,30 @@
     var root = $('[data-locations]');
     if (!root) return;
     var d = data(), settings = d.settings || {};
-    var wa = settings.whatsapp || '', waNote = settings.whatsappNote || 'demo number';
     var jumps = $('[data-branch-jumps]');
     if (jumps) jumps.innerHTML = (d.branches || []).map(function (b) { return '<li><a class="chip" href="#' + esc(b.id) + '">' + icon('pin') + esc(b.name) + '</a></li>'; }).join('');
+    var svc = $('[data-store-services]');
+    if (svc) svc.innerHTML = (d.storeServices || []).map(function (s) { return '<li>' + icon('check') + '<span>' + esc(s) + '</span></li>'; }).join('');
 
     root.innerHTML = (d.branches || []).map(function (b) {
       var hours = (b.hours || []).map(function (r) { return '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>'; }).join('');
       var services = (b.services || []).map(function (s) { return '<span class="badge badge-green badge-plain">' + esc(s) + '</span>'; }).join('');
-      var svcNote = b.servicesSource === 'instagram' ? 'From the products in posts tagged ' + b.name + '.' : 'Demo services for the concept.';
       return '<section class="branch" id="' + esc(b.id) + '" aria-labelledby="' + esc(b.id) + '-title"><div class="container"><div class="split split-top">' +
-        '<div><p class="eyebrow">Store</p><h2 id="' + esc(b.id) + '-title">' + esc(b.name) + '</h2>' +
+        '<div><span class="store-arch" aria-hidden="true"></span><p class="eyebrow">Store</p><h2 id="' + esc(b.id) + '-title">' + esc(b.name) + '</h2>' +
         '<address>' + esc(b.address) + '</address>' +
-        '<span class="source-line">Source: ' + esc(b.source) + '.</span>' +
-        '<h3 class="visually-hidden">At this store</h3><div class="cluster services">' + services + '</div><span class="source-line">' + esc(svcNote) + '</span>' +
+        (b.plusCode ? '<p class="plus-code">Plus code ' + esc(b.plusCode) + '</p>' : '') +
+        (services ? '<h3 class="visually-hidden">At this store</h3><div class="cluster services">' + services + '</div>' + (b.servicesSource ? '<span class="source-line">From ' + esc(b.servicesSource) + '.</span>' : '') : '') +
         '<ul class="contact-list">' +
-        '<li>' + icon('phone') + '<span class="num">' + esc(b.phone) + '</span><span class="demo-note">Demo number</span></li>' +
-        (wa ? '<li>' + icon('phone') + '<span>WhatsApp <span class="num">' + esc(wa) + '</span></span><span class="demo-note">' + esc(waNote) + '</span></li>' : '') +
+        (b.phone ? '<li>' + icon('phone') + '<a class="num" href="' + esc(SFBUI.telHref(b.phone)) + '">' + esc(b.phone) + '</a></li>' : '') +
+        (settings.whatsappChannel ? '<li>' + icon('bell') + '<a href="' + esc(settings.whatsappChannel) + '" target="_blank" rel="noopener">Deals on our WhatsApp channel<span class="visually-hidden"> (opens in a new tab)</span></a></li>' : '') +
         '</ul>' +
-        '<div class="actions">' +
-        '<a class="btn btn-primary" href="' + esc(b.osm) + '" target="_blank" rel="noopener">' + icon('pin') + 'Directions<span class="visually-hidden"> to ' + esc(b.name) + ' (opens OpenStreetMap in a new tab)</span></a>' +
-        (wa ? '<button class="btn btn-ghost" type="button" data-whatsapp>WhatsApp us</button>' : '') +
-        '</div></div>' +
+        '<div class="actions">' + directionsLink(b, 'btn-primary') +
+        '<a class="btn btn-ghost" href="' + esc(SFBUI.mapsView(b)) + '" target="_blank" rel="noopener">View on Google Maps<span class="visually-hidden"> (opens in a new tab)</span></a>' +
+        '</div><span class="source-line">Source: ' + esc(b.source) + '.</span></div>' +
         '<div class="card hours-card"><h3>Opening hours</h3><table><thead><tr><th scope="col">Days</th><th scope="col">Hours</th></tr></thead><tbody>' + hours + '</tbody></table>' +
-        '<span class="source-line">Demo hours for the concept. Public holiday hours follow the Sunday row.</span></div>' +
+        '<span class="source-line">From the store’s Google Maps listing, October 2026. Public holiday hours may differ.</span></div>' +
         '</div></div></section>';
     }).join('');
-
-    $all('[data-whatsapp]', root).forEach(function (btn) {
-      btn.addEventListener('click', function () { toast('WhatsApp ' + wa + ' is a demo number. Nothing opens in this prototype.'); });
-    });
     jumpToHash();
   }
 

@@ -1,0 +1,188 @@
+<!doctype html><html lang="en" data-root="../"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Store admin · Southern Food Basket</title><meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&family=Caprasimo&display=swap" rel="stylesheet">
+<link rel="icon" href="../assets/img/favicon-64.png" type="image/png"><link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/app.css">
+<link rel="stylesheet" href="../assets/css/admin.css">
+</head>
+<body data-app="admin" data-active="deals" data-title="Store admin" data-banner>
+<main data-app-main id="admin-main">
+  <div class="page-head">
+    <div>
+      <p class="eyebrow">Store admin</p>
+      <h1>Run the website</h1>
+      <p class="muted">Post Try Me deals, make the Instagram post, and keep store hours and staff notices up to date.</p>
+    </div>
+  </div>
+
+  <div class="stats" id="admin-stats"></div>
+
+  <div class="tabs" role="tablist" aria-label="Admin sections" id="admin-tabs">
+    <button type="button" role="tab" id="tab-deals" data-tab="deals" aria-selected="true" aria-controls="panel-deals">Try Me deals</button>
+    <button type="button" role="tab" id="tab-posts" data-tab="posts" aria-selected="false" aria-controls="panel-posts" tabindex="-1">Post maker</button>
+    <button type="button" role="tab" id="tab-stores" data-tab="stores" aria-selected="false" aria-controls="panel-stores" tabindex="-1">Stores and hours</button>
+    <button type="button" role="tab" id="tab-notices" data-tab="notices" aria-selected="false" aria-controls="panel-notices" tabindex="-1">Staff notices</button>
+    <button type="button" role="tab" id="tab-publish" data-tab="publish" aria-selected="false" aria-controls="panel-publish" tabindex="-1">Publish</button>
+  </div>
+
+  <!-- 1. Try Me deals -->
+  <section id="panel-deals" role="tabpanel" aria-labelledby="tab-deals" tabindex="-1">
+    <div class="section-intro">
+      <h2 class="admin-h2">Try Me deals</h2>
+      <p class="muted">These are the deals on the public Try Me deals page and the home page, newest first.</p>
+    </div>
+    <div id="deal-saved"></div>
+    <div class="toolbar">
+      <div>
+        <label class="visually-hidden" for="deal-dept">Filter by department</label>
+        <select id="deal-dept"><option value="all">All departments</option></select>
+      </div>
+      <div class="toolbar-search">
+        <label class="visually-hidden" for="deal-search">Search deals by name</label>
+        <input type="search" id="deal-search" placeholder="Search by name" autocomplete="off">
+      </div>
+      <p class="small muted toolbar-count" id="deal-count" aria-live="polite"></p>
+      <button class="btn btn-accent" type="button" id="deal-add">Add a deal</button>
+    </div>
+    <div class="table-wrap">
+      <table class="deals-table">
+        <caption class="visually-hidden">Try Me deals</caption>
+        <thead><tr><th scope="col"><span class="visually-hidden">Photo</span></th><th scope="col">Deal</th><th scope="col">Department</th><th scope="col" class="num">Price</th><th scope="col">Posted</th><th scope="col">Tags</th><th scope="col"><span class="visually-hidden">Actions</span></th></tr></thead>
+        <tbody id="deal-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. Post maker -->
+  <section id="panel-posts" role="tabpanel" aria-labelledby="tab-posts" tabindex="-1" hidden>
+    <div class="section-intro">
+      <h2 class="admin-h2">Post maker</h2>
+      <p class="muted">Turn a deal into a 1080 × 1350 pixel picture for Instagram, with the logo and the Try Me price seal.</p>
+    </div>
+    <div class="post-grid">
+      <div class="post-controls">
+        <div class="field">
+          <label for="post-deal">Deal</label>
+          <select id="post-deal"></select>
+        </div>
+        <div class="field">
+          <label class="check" for="post-headline"><input type="checkbox" id="post-headline"><span>Show the product name as a headline</span></label>
+        </div>
+        <div class="field">
+          <label for="post-focus">Photo position</label>
+          <input type="range" id="post-focus" min="0" max="100" step="1" value="50" aria-describedby="post-focus-hint">
+          <p class="hint" id="post-focus-hint">The photo is cropped to fit the tall post. Slide left or right to choose which part shows.</p>
+        </div>
+        <p class="small muted" id="post-status" role="status"></p>
+        <div class="cluster">
+          <a class="btn btn-primary" id="post-download" href="#" download="sfb-post.png" aria-disabled="true">Download PNG</a>
+        </div>
+        <p class="hint">This makes the same post format the store already uses on Instagram.</p>
+        <div class="field caption-field">
+          <label for="post-caption">Caption</label>
+          <textarea id="post-caption" rows="5"></textarea>
+          <div class="cluster caption-actions">
+            <button class="btn btn-ghost btn-sm" type="button" id="post-copy">Copy caption</button>
+          </div>
+        </div>
+      </div>
+      <figure class="post-figure">
+        <canvas id="post-canvas" class="post-canvas" width="1080" height="1350" role="img" aria-label="Preview of the Instagram post"></canvas>
+        <figcaption class="small muted">Preview, scaled to fit. The download is full size.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 3. Stores and hours -->
+  <section id="panel-stores" role="tabpanel" aria-labelledby="tab-stores" tabindex="-1" hidden>
+    <div class="section-intro">
+      <h2 class="admin-h2">Stores and hours</h2>
+      <p class="muted">Opening hours and phone numbers for each store. The site header, the home page store cards and the Store locations page read these.</p>
+    </div>
+    <div class="store-stack" id="store-list"></div>
+  </section>
+
+  <!-- 4. Staff notices -->
+  <section id="panel-notices" role="tabpanel" aria-labelledby="tab-notices" tabindex="-1" hidden>
+    <div class="section-intro">
+      <h2 class="admin-h2">Staff notices</h2>
+      <p class="muted">Notices show on the home page of the employee portal, for every store or for one store.</p>
+    </div>
+    <div class="two-col">
+      <section class="panel" aria-labelledby="notice-list-h">
+        <div class="panel-head"><h3 id="notice-list-h">Posted notices</h3><span class="small muted" id="notice-count"></span></div>
+        <div class="panel-body flush"><ul class="list" id="notice-list"></ul></div>
+      </section>
+      <section class="panel" aria-labelledby="notice-form-h">
+        <div class="panel-head"><h3 id="notice-form-h">Post a notice</h3></div>
+        <div class="panel-body">
+          <form id="notice-form" novalidate>
+            <div class="field">
+              <label for="n-title">Title</label>
+              <input type="text" id="n-title" name="title" maxlength="100" autocomplete="off">
+              <p class="error-text" id="n-title-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="n-body">Message</label>
+              <textarea id="n-body" name="body" maxlength="400" aria-describedby="n-body-hint"></textarea>
+              <p class="hint" id="n-body-hint"><span id="n-body-count">0</span> of 400 characters</p>
+              <p class="error-text" id="n-body-err" hidden></p>
+            </div>
+            <div class="field">
+              <label for="n-branch">Who sees it</label>
+              <select id="n-branch" name="branch"></select>
+            </div>
+            <div class="field">
+              <label for="n-date">Date</label>
+              <input type="date" id="n-date" name="date">
+              <p class="error-text" id="n-date-err" hidden></p>
+            </div>
+            <button class="btn btn-primary" type="submit">Post notice</button>
+          </form>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <!-- 5. Publish -->
+  <section id="panel-publish" role="tabpanel" aria-labelledby="tab-publish" tabindex="-1" hidden>
+    <div class="section-intro">
+      <h2 class="admin-h2">Publish</h2>
+      <p class="muted">How your changes reach the website.</p>
+    </div>
+    <div class="publish-stack">
+      <section class="panel" aria-labelledby="pub-how-h">
+        <div class="panel-head"><h3 id="pub-how-h">Where your changes live</h3></div>
+        <div class="panel-body">
+          <p>In this prototype, every change you make here is saved in this browser only. You see it on the public pages in this browser straight away, but nobody else does.</p>
+          <p>In a real build, the Save buttons would publish to the live website for every shopper and member of staff.</p>
+          <h4>Compared with the website as shipped</h4>
+          <ul class="list change-list" id="pub-changes"></ul>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="pub-file-h">
+        <div class="panel-head"><h3 id="pub-file-h">Hand your changes to the web team</h3></div>
+        <div class="panel-body">
+          <p>Download a data file with everything in this browser. The web team puts it in place of <code>data/seed.js</code> and the next deploy carries your changes.</p>
+          <button class="btn btn-primary" type="button" id="pub-download">Download data file</button>
+        </div>
+      </section>
+      <section class="panel" aria-labelledby="pub-reset-h">
+        <div class="panel-head"><h3 id="pub-reset-h">Start again</h3></div>
+        <div class="panel-body">
+          <p>Throw away every change made in this browser, including deals, hours, notices and anything changed in the other demo portals. You stay signed in as the store admin.</p>
+          <button class="btn btn-danger" type="button" id="pub-reset">Discard my changes</button>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title" aria-hidden="true" inert></aside>
+
+<script src="../data/seed.js"></script><script src="../assets/js/store.js"></script><script src="../assets/js/ui.js"></script><script src="../assets/js/admin.js"></script>
+</body></html>

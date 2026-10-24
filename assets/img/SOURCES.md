@@ -16,9 +16,16 @@ baked-in logo, "NEW PRODUCT" corner and "1 FOR $x · TRY ME" badge; the site re-
 
 | File | What | From |
 |---|---|---|
-| `sfb-logo.webp` | The cornucopia logo with the "Southern food basket" wordmark, cut out of a photo with a flood-fill script (white sticker outline kept), 386×176 | Post of 4 Oct 2026 (file `…1791128009_4000593303757597256…`) |
-| `sfb-mark.png` | Cornucopia only, transparent, 192×192; used in the portal sidebar and payslip | Same cut-out |
-| `favicon-64.png` | Cornucopia at 64×64 | Same cut-out |
+| `sfb-logo.svg` | The logo as vector paths (five inks: white outline, pink #E73F78, orange #ED6536, brown #542D1A, green #2C8A4F). Traced on 2026-10-23 from the 861 px cut-out below with a colour-clustering contour tracer (scratch script, not in the repo); letterforms and cornucopia are the company's own artwork | Cut-out of the post of 4 Oct 2026 (file `…1791128009_4000593303757597256…`) |
+| `sfb-mark.svg` | The same vector logo clipped to the cornucopia; portal sidebar and payslip | Same trace |
+| `favicon-64.png`, `apple-touch-icon.png` | The cornucopia mark rendered at 64 and 180 px | Same trace |
+| `sfb-logo.webp`, `sfb-mark.png` | The earlier raster cut-out (386×176) kept as a fallback | Same post |
+
+The company's current Facebook profile picture is a Divali edition of a stacked logo (deep crimson "Southern", green "food basket", diyas, crimson-and-green ring), read from the public page on 2026-10-23. It is not used on the site because it is seasonal.
+
+## Storefront glass (`glass/`)
+
+Drawn in code by Trinovata on 2026-10-23 (scratch generator) from photos of the stores' exteriors that Gregg sent in chat: `fanlight.svg` (gold sunburst half-arch with a teal hub, after the arched windows), `glass-grid.svg` (gold and teal reflective panes, after the Couva gable atrium), `facade-band.svg` (white band with the pink-and-green zigzag over green glass with gold arch and gable inlays, after the Market Place store), `zigzag.svg`. No photo pixels are used.
 
 ## Photos (`photos/`)
 
