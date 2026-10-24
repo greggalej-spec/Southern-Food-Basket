@@ -71,6 +71,16 @@
     nav.appendChild(label); nav.appendChild(dock);
     document.body.appendChild(nav);
 
+    // Trinovata credit, per the brand book: mark at its 16px minimum with half-height clear space, ink scrim, Archivo 13px
+    const credit = document.createElement('a');
+    credit.className = 'tvmark'; credit.href = 'https://trinovata.com'; credit.target = '_blank'; credit.rel = 'noopener';
+    const mark = document.createElement('img');
+    mark.src = root + 'assets/img/trinovata-mark-ondark.png'; mark.alt = ''; mark.width = 19; mark.height = 16; mark.decoding = 'async';
+    const words = document.createElement('span'); words.textContent = 'Created by Trinovata Technologies';
+    const note = document.createElement('span'); note.className = 'tvmark-note'; note.textContent = ' (opens trinovata.com)';
+    credit.appendChild(mark); credit.appendChild(words); credit.appendChild(note);
+    document.body.appendChild(credit);
+
     const home = links.find(a => a.hasAttribute('aria-current')) || all;
 
     /* ---------- label and glow ---------- */
@@ -109,6 +119,7 @@
     function setExpanded(open, moveFocus) {
       expanded = open; clearTimeout(autoTimer);
       nav.classList.toggle('is-collapsed', !open);
+      document.documentElement.classList.toggle('sfbx-open', open); // the credit mark steps out of the way
       orb.setAttribute('aria-expanded', String(open));
       track.inert = !open;
       if (open) { settle(); openedAtY = window.scrollY; if (moveFocus) home.focus({ preventScroll: true }); }

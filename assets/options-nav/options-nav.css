@@ -77,13 +77,34 @@
 .sfbx.is-dragging, .sfbx.is-dragging * { transition: none !important; }
 .sfbx.is-dragging .sfbx-orb { transform: scale(1.1); box-shadow: 0 26px 40px -14px rgba(42, 26, 31, .9), inset 0 -7px 14px rgba(0, 0, 0, .4), inset 0 2px 3px rgba(255, 255, 255, .25); }
 
+/* Trinovata credit: bottom-left on phones (beside the sphere when it sits left), bottom-centre on desktop.
+   Brand book: ink scrim rgba(10,10,12,.72) with no blur, #F2F0EB text, gold only in the mark, 6px corners,
+   16px mark with 8px clear space on all sides (so 32px tall), tap area extended to 44px. */
+.tvmark { position: fixed; z-index: 2147482990; left: 14px; bottom: max(14px, env(safe-area-inset-bottom));
+  display: inline-flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 8px; border-radius: 6px;
+  background: rgba(10, 10, 12, .72); border: 1px solid rgba(201, 185, 154, .16); color: #F2F0EB; text-decoration: none; white-space: nowrap;
+  font: 400 13px/1.6 'Archivo', 'Helvetica Neue', Arial, sans-serif; letter-spacing: normal;
+  animation: tvmark-in .6s ease-out 1.4s backwards; transition: opacity .25s ease, left .45s cubic-bezier(.22, 1, .36, 1), visibility 0s; }
+.tvmark::before { content: ""; position: absolute; left: 0; right: 0; top: -6px; bottom: -6px; }
+.tvmark img { display: block; width: auto; height: 16px; flex: none; }
+.tvmark:hover span, .tvmark:focus-visible span { text-decoration: underline; text-underline-offset: 3px; }
+.tvmark:focus-visible { outline: 2px solid #F2F0EB; outline-offset: 2px; }
+.tvmark-note { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+@keyframes tvmark-in { from { opacity: 0; } }
+:root[data-sfbx-side="left"] .tvmark { left: 80px; }
+:root.sfbx-open .tvmark { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .2s ease, visibility 0s linear .2s; }
+@media (min-width: 900px) {
+  .tvmark, :root[data-sfbx-side="left"] .tvmark { left: 50%; transform: translateX(-50%); }
+}
+
 @media (max-width: 480px) {
+  :root[data-sfbx-side="left"] .tvmark { left: 76px; }
   .sfbx-all span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .sfbx-all { padding: 0 12px; }
   .sfbx-track a, .sfbx-min { height: 38px; min-width: 38px; }
   .sfbx-orb { width: 52px; height: 52px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .sfbx, .sfbx *, .sfbx-orb::after { transition: none !important; animation: none !important; }
+  .sfbx, .sfbx *, .sfbx-orb::after, .tvmark { transition: none !important; animation: none !important; }
 }
-@media print { .sfbx { display: none; } }
+@media print { .sfbx, .tvmark { display: none; } }

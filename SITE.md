@@ -15,6 +15,7 @@
 - `/options/` chooser; `/options/a/` The Storefront, `/options/b/` The Weekly Flyer, `/options/c/` Market Day. Each option keeps its own Home; every other link reaches the one shared site.
 - One portal for all designs: `careers/`, `portal/`, `hr/`, `admin/`, plus the inner pages (still in the v2 look).
 - Switcher on every home (`assets/options-nav/`): a pill that compacts to a sphere, draggable to either bottom corner (remembered in localStorage), with cross-page view transitions.
+- Trinovata credit on every home and the chooser (built by `assets/options-nav/options-nav.js`): the on-dark triangle mark (`assets/img/trinovata-mark-ondark.png`, 64 px copy of `Products/Trinovata-Brand/brand/01-logo/trinovata-mark-ondark-alpha.png`) and "Created by Trinovata Technologies", linking to trinovata.com. Bottom-left on phones (beside the sphere when it sits left), bottom-centre from 900 px. Styled to the brand book: ink scrim, #F2F0EB text, 16 px mark with 8 px clear space, 6 px corners, Archivo 13 px. The brand book only approves "Engineered with"; Gregg asked for "Created by" in chat on 2026-10-24.
 - Standalone archives of each design, as they were before the merge: greggalej-spec/sfb-option-a-storefront, -b-weekly-flyer, -c-market-day, -d-grand-entrance (private; each carries its own copy of the portal from `5da9a31`).
 
 ## Social feeds
