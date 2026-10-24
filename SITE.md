@@ -1,14 +1,29 @@
 # Southern Food Basket (fact card)
 
-- **What:** concept website + hiring portal with applicant KYC + HR console + employee portal for a real south-Trinidad grocer, built unsolicited. v1 2026-10-22 (modern, own illustrations); v2 2026-10-23 (traditional, real brand) after Gregg judged v1 too modern for older shoppers and millennials. Badged "Unofficial concept" on every page.
+- **What:** concept website + hiring portal with applicant KYC + HR console + employee portal for a real south-Trinidad grocer, built unsolicited. v1 2026-10-22 (modern, own illustrations); v2 2026-10-23 (traditional, real brand) after Gregg judged v1 too modern for older shoppers and millennials; v3 2026-10-24: four homepage designs on one site, the Grand Entrance (animated store-front arrival) as the main home page, after Gregg rejected the v2 home. Badged "Unofficial concept" on every page.
 - **Kind:** concept (classification: third-party-media). The logo, product photos and Try Me prices come from the company's own public Instagram, supplied by Gregg on 2026-10-23. No business permission is recorded.
-- **Run:** static; `python -m http.server 4175` in the folder (or the `sfb` entry in `Dev/.claude/launch.json`), open http://localhost:4175/
-- **Deploy:** Vercel project `southern-food-basket` (static, no build), linked in `.vercel/` (gitignored). The first CLI deploy on 2026-10-23 was assigned the Production target by Vercel, so the public alias exists; the per-deploy URL is behind Vercel login.
+- **Run:** static; `python -m http.server 4175` in the folder (or the `sfb` / `sfb-options` entries in `Dev/.claude/launch.json`, ports 4175 and 4180), open http://localhost:4175/. The home page is generated: edit `tools/grand-entrance/index.template.html` or `make-scene.js`, then `node tools/grand-entrance/build.js`. `/api/social-feed` only runs on Vercel; locally the feed falls back to the site posts.
+- **Deploy:** Vercel project `southern-food-basket` (static pages plus one Node function, `api/social-feed.js`; no build), linked in `.vercel/` (gitignored). `.vercelignore` keeps `tools/` and the Markdown out of the upload. The first CLI deploy on 2026-10-23 was assigned the Production target by Vercel, so the public alias exists; the per-deploy URL is behind Vercel login.
 - **URL:** https://southern-food-basket.vercel.app (public, noindex; HTTP 200 and rendered in the browser 2026-10-23)
 - **Screenshot:** none in the registry yet
-- **Status:** live on the Vercel alias (v2); not linked from anywhere
+- **Status:** live on the Vercel alias (v3 from 2026-10-24); not linked from anywhere
 - **Publicity:** Gregg decided on 2026-10-23 to keep the Vercel alias public so he can share the link with the business. That is the only approved use: do not take the alias down, and do not put the concept on trinovata.com/work or social until the business agrees (third-party media, no permission).
 - **Repo:** greggalej-spec/Southern-Food-Basket (private) · branch `concept-v1` · Source: `_work.json` slug `southern-food-basket`
+
+## Layout (v3)
+- `/` the main design, Grand Entrance (`assets/css/grand-entrance.css`, `assets/js/grand-entrance.js`, scene generator in `tools/grand-entrance/`)
+- `/options/` chooser; `/options/a/` The Storefront, `/options/b/` The Weekly Flyer, `/options/c/` Market Day. Each option keeps its own Home; every other link reaches the one shared site.
+- One portal for all designs: `careers/`, `portal/`, `hr/`, `admin/`, plus the inner pages (still in the v2 look).
+- Switcher on every home (`assets/options-nav/`): a pill that compacts to a sphere, draggable to either bottom corner (remembered in localStorage), with cross-page view transitions.
+- Social feed on every home (`assets/css|js/social-feed.*`): Instagram posts in a carousel with a full-size viewer, and the TikTok tab.
+- Standalone archives of each design, as they were before the merge: greggalej-spec/sfb-option-a-storefront, -b-weekly-flyer, -c-market-day, -d-grand-entrance (private; each carries its own copy of the portal from `5da9a31`).
+
+## Social feed integration
+- `GET /api/social-feed` returns `{ instagram: { connected, posts }, tiktok: { connected, videos } }`, cached 15 minutes at the edge.
+- Not connected yet: no tokens are set. The Instagram carousel then shows the Try Me posts already in `data/seed.js` (the same ones the admin edits), and the TikTok tab shows TikTok's own creator embed for @southernfoodbasket, which updates by itself.
+- To go live, the store logs in once and the tokens go in Vercel env vars (never in the repo):
+  - `INSTAGRAM_ACCESS_TOKEN`: Instagram API with Instagram Login, business or creator account, scope `instagram_business_basic`; long-lived token, refresh before 60 days.
+  - `TIKTOK_ACCESS_TOKEN`: TikTok Display API, scope `video.list`; the user token lasts 24 hours, so a refresh job is still to build.
 
 ## Sourced facts used on the site (verify before any real use)
 - Southern Food Basket Limited, Princes Town; key principal listed as Nazim Mohammed — Dun & Bradstreet company profile
