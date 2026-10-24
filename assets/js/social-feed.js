@@ -169,6 +169,9 @@
       s.onerror = () => { wait.querySelector('p').textContent = 'The TikTok feed could not load here.'; bq.remove(); };
       document.body.appendChild(s);
     }
+
+    // a #tiktok link opens straight onto the TikTok tab
+    if (location.hash === '#tiktok' && tabs[1]) { select(tabs[1]); host.scrollIntoView({ block: 'start' }); }
   }
 
   /* ---------- full-size viewer (one per page) ---------- */
