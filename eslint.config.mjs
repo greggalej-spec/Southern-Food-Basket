@@ -21,8 +21,9 @@ const eslintConfig = defineConfig([
   ]),
   {
     rules: {
-      // React escapes text; raw HTML is allowed only for the generated home scene and the fixed `js` class
-      // script, each with its own disable comment saying why.
+      // React escapes text; raw HTML is allowed only for the generated home scene (which carries the fixed
+      // FIRST_FRAME camera script inside it) and the fixed `js` class script, each with its own disable comment
+      // saying why.
       "react/no-danger": "error",
       // Photos are pre-sized WebP files served as they were on the static site, inside the ported .pic and
       // .deal-photo boxes; next/image would add wrappers that CSS was not written for.

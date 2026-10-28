@@ -101,6 +101,21 @@ export function todayHours(b: Branch | null | undefined, today: Date | null) {
   return row ? row[1] : "";
 }
 
+/** "7:30 am" → minutes after midnight, or null when the text is not a time. */
+function toMinutes(t: string) {
+  const m = t.trim().match(/^(\d{1,2}):(\d{2})\s*(am|pm)$/i);
+  if (!m) return null;
+  return ((Number(m[1]) % 12) + (/pm/i.test(m[3]) ? 12 : 0)) * 60 + Number(m[2]);
+}
+
+/** Whether today's row ("7:00 am – 9:00 pm") covers `now`, on this device's clock. */
+export function openNow(b: Branch, now: Date) {
+  const t = todayHours(b, now).split(/\s+[–-]\s+/);
+  if (t.length !== 2) return false;
+  const a = toMinutes(t[0]), z = toMinutes(t[1]), m = now.getHours() * 60 + now.getMinutes();
+  return a != null && z != null && m >= a && m < z;
+}
+
 /* Google Maps links for a branch. Directions open the store's own listing (destination_place_id) so the route ends
    at the right building; the query text is the fallback when the place ID is unknown. */
 function mapsQuery(b: Branch) {

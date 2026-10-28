@@ -289,6 +289,33 @@ Gregg chose Option A after reading this plan. The work is on branch `next-rebuil
   the fixed `js` class script, each with a disable comment. `no-img-element` is off: the photos are pre-sized WebP
   inside the ported `.pic` boxes, and `next/image` adds wrappers that CSS was not written for.
 
+**The home page (A5).**
+- `app/(home)/page.tsx` server-renders everything the old script filled in with `innerHTML`: the ticker, shelf,
+  departments, store cards, route map, socials and footer stores. Like `window.SFB_DATA`, it reads the seed only, never
+  a browser's edited copy. Only "Today …" and "Open now" wait for hydration (`StoreToday`), because they read the clock.
+- Behaviour is ported line for line into two modules. `lib/home/entrance.ts` holds the camera, menu, nav spy, shelf,
+  department layouts and carousel (from `grand-entrance.js`). `lib/home/living.ts` holds the flags, crew, bunting,
+  seals and reveals (from `living.js`).
+  - `components/home/home-live.tsx` starts both after hydration. Its cleanup stops every listener, frame, timer and
+    observer, so React's strict-mode double effect leaves nothing behind.
+  - Reveal CSS is gated on `html.lv`, so stopping leaves the page fully visible.
+- Markup the scripts used to inject is now server-rendered: the headline word masks (`.wm`), the nav ink pill, the
+  carousel dots, the menu's `--i` delays and the bunting host. The scripts only add classes and draw.
+- The scene. `npm run scene` runs `make-scene.js` and writes `app/(home)/scene.ts`. The SVG is byte-identical to the
+  static `scene.svg` except for two image paths, which are now root-relative.
+  - `FIRST_FRAME` (`lib/home/camera.ts`) turns the camera's opening-shot maths into an inline script. It rides inside the
+    scene's HTML, so it runs as the page parses and sets the opening viewBox before first paint.
+  - React never sees it as a `<script>` element. React will not run a script it renders on the client and logs an
+    error (seen during Fast Refresh), and this placement avoids that.
+- Parity, checked 2026-10-28: live v4 against `localhost:4176`, 15 page regions at 1280 px.
+  - Matches: text (whitespace aside), element counts, attributes, and classes after the living layer has run.
+  - Differences: the new URLs (`/careers` for `careers/index.html`, root-relative assets) and the seal SVG's
+    `class="seal-bg"` and `focusable="false"` from the shared `PriceSeal`. Both layouts' CSS give that SVG the same box.
+  - Behaviour: same camera viewBox at the top and mid-entrance, at 1280 and 375 px. The shelf arrow scrolls 4 → 1084 px
+    on both, and the carousel and menu behave the same. Neither page overflows at 375 or 910 px.
+  - Not run: reduced motion, which the browser tools cannot emulate. All eight reduced-motion branches are carried over
+    line for line.
+
 **Departure: the skip link.** The old rule hides it with `top: -100px` inside the header. Below a tall demo banner
 (209 px on a phone) that still leaves it on screen. The live site has the same bug: at 375 px on `careers/index.html`
 it sits at top 108.8 px. `tokens.css` now clips it until it has focus. **The same fix is still owed on `concept-v1`.**

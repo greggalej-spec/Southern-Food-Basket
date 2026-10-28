@@ -92,7 +92,7 @@ for (let r = 0; r <= rows; r++) s += `<rect x="${ax0}" y="${f(ay + r * rh - 2.5)
 s += `<path d="M${ax0 - 12} ${ay + 2}L800 ${apex[1] - 14}L${ax1 + 12} ${ay + 2}" fill="none" stroke="#3A86A8" stroke-width="14" stroke-linejoin="miter"/><rect x="${ax0 - 8}" y="${ay}" width="10" height="350" fill="${MUL}"/><rect x="${ax1 - 2}" y="${ay}" width="10" height="350" fill="${MUL}"/>`;
 // canopy with the cornucopia mark on the fascia
 s += `<rect x="520" y="598" width="560" height="30" fill="#F5EFE2"/><rect x="520" y="628" width="560" height="8" fill="#CDBF9F"/><rect x="520" y="596" width="560" height="4" fill="#E4D6B6"/>`;
-s += `<image href="assets/img/sfb-mark.svg" x="785" y="599" width="30" height="28"/>`;
+s += `<image href="/assets/img/sfb-mark.svg" x="785" y="599" width="30" height="28"/>`;
 // storefront glass, now with the shop behind it: ceiling lights and stocked shelf runs seen through a teal tint
 s += `<rect x="470" y="636" width="660" height="76" fill="url(#shop)"/>${[500, 590, 680, 920, 1010, 1080].map(x => `<rect x="${x}" y="641" width="34" height="2.5" rx="1" fill="#FFFDF2"/>`).join('')}` +
   `<rect x="478" y="652" width="246" height="48" fill="url(#stock)"/><rect x="876" y="652" width="246" height="48" fill="url(#stock)"/><rect x="470" y="700" width="660" height="12" fill="#D9C08C"/>`;
@@ -179,7 +179,7 @@ const flag = x => {
   return `<g class="flag" data-pole="${x}"><rect x="${x - 3}" y="186" width="6" height="164" fill="#C9CCCF"/><circle cx="${x}" cy="184" r="6" fill="#E9C460"/>` +
     `<g class="cloth"><path d="${band(k(0), k(1))}" fill="#fff"/><path d="${band(k(0), vTop)}${band(vBot, k(1))}" fill="#E3336F"/>` +
     `<path d="${band(vTop, u => vTop(u) + .035)}${band(u => vBot(u) - .035, vBot)}" fill="#2A8A45"/>` +
-    `<image href="assets/img/sfb-logo.webp" width="861" height="393" transform="matrix(${m.join(' ')})"/></g>` +
+    `<image href="/assets/img/sfb-logo.webp" width="861" height="393" transform="matrix(${m.join(' ')})"/></g>` +
     `<rect class="sleeve" x="${x - 4}" y="${FLAG.top - 2}" width="8" height="${FLAG.h + 4}" rx="2" fill="#1E1A1C"/></g>`;
 };
 s += flag(330) + flag(1150);
