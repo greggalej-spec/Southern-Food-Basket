@@ -15,7 +15,8 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .ge-root{ margin: 0; background: var(--cream); color: var(--ink); font: 400 1.125rem/1.6 var(--ui); -webkit-font-smoothing: antialiased; font-synthesis-weight: none; }
 .ge-root img, .ge-root svg{ display: block; max-width: 100%; }
-.ge-root a{ color: var(--green); text-underline-offset: 3px; }
+/* :where() keeps this at the static sheet's specificity, so the Trinovata credit's own colour (options-nav.css) still wins. */
+:where(.ge-root) a{ color: var(--green); text-underline-offset: 3px; }
 .ge-root h1, .ge-root h2, .ge-root h3{ font-family: var(--display); font-weight: 400; line-height: 1.08; margin: 0 0 14px; text-wrap: balance; }
 .ge-root h2{ font-size: clamp(2rem, 1.4rem + 2.2vw, 3rem); }
 .ge-root p{ margin: 0 0 14px; }
