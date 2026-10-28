@@ -353,13 +353,13 @@ section[id]{scroll-margin-top:96px}
       <div class="nav-panel"><div class="nav-clip">
         <ul>
           <li><a href="index.html" aria-current="page">Home</a></li>
-          <li><a href="../../specials.html">Specials</a></li>
-          <li><a href="../../departments.html">Departments</a></li>
-          <li><a href="../../wholesale.html">Wholesale</a></li>
-          <li><a href="../../locations.html">Store locations</a></li>
-          <li><a href="../../about.html">About us</a></li>
-          <li><a href="../../careers/index.html">Careers</a></li>
-          <li class="nav-staff"><a href="../../portal/index.html">Staff portal</a></li>
+          <li><a href="/specials">Specials</a></li>
+          <li><a href="/departments">Departments</a></li>
+          <li><a href="/wholesale">Wholesale</a></li>
+          <li><a href="/locations">Store locations</a></li>
+          <li><a href="/about">About us</a></li>
+          <li><a href="/careers">Careers</a></li>
+          <li class="nav-staff"><a href="/portal">Staff portal</a></li>
         </ul>
         <span class="nav-ind" aria-hidden="true"></span>
       </div></div>
@@ -411,7 +411,7 @@ section[id]{scroll-margin-top:96px}
           <h2 id="deals-title">Specials</h2>
           <p class="note" data-deals-note>Prices as posted on Southern Food Basket’s Instagram between June and October 2026. Shelf prices may have changed since.</p>
         </div>
-        <a class="link-arrow" href="../../specials.html"><span data-deal-count>See all 25 deals</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="link-arrow" href="/specials"><span data-deal-count>See all 25 deals</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <ul class="windows" data-deals></ul>
     </div>
@@ -424,7 +424,7 @@ section[id]{scroll-margin-top:96px}
           <p class="eyebrow">Inside the store</p>
           <h2 id="dept-title">Shop by department</h2>
         </div>
-        <a class="link-arrow" href="../../departments.html">All departments<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="link-arrow" href="/departments">All departments<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <ul class="bays" data-depts></ul>
     </div>
@@ -438,7 +438,7 @@ section[id]{scroll-margin-top:96px}
           <h2 id="stores-title">Our five stores</h2>
           <p class="note">Every store keeps the same hours: Monday to Saturday <span class="nw">7:00 am – 10:00 pm</span>, Sunday <span class="nw">7:00 am – 7:00 pm</span>.</p>
         </div>
-        <a class="link-arrow" href="../../locations.html">Store details and services<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="link-arrow" href="/locations">Store details and services<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       </div>
       <div class="board">
         <div class="board-in">
@@ -462,8 +462,8 @@ section[id]{scroll-margin-top:96px}
         <p class="lede" style="margin-top:14px">Floor, bakery, warehouse and office roles at five stores from Couva to Point Fortin. Apply on your phone and follow every step.</p>
         <ul class="perks" data-perks></ul>
         <div class="cta-row">
-          <a class="btn btn-teal btn-lg" href="../../careers/index.html">See open jobs<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-          <a class="btn btn-line btn-lg" href="../../portal/index.html">Staff portal</a>
+          <a class="btn btn-teal btn-lg" href="/careers">See open jobs<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          <a class="btn btn-line btn-lg" href="/portal">Staff portal</a>
         </div>
       </div>
     </div>
@@ -495,12 +495,12 @@ section[id]{scroll-margin-top:96px}
         <div>
           <h2 class="ft">Pages</h2>
           <ul class="foot-list">
-            <li><a href="../../specials.html">Specials</a></li>
-            <li><a href="../../departments.html">Departments</a></li>
-            <li><a href="../../wholesale.html">Wholesale</a></li>
-            <li><a href="../../about.html">About us</a></li>
-            <li><a href="../../careers/index.html">Careers</a></li>
-            <li><a href="../../portal/index.html">Staff portal</a></li>
+            <li><a href="/specials">Specials</a></li>
+            <li><a href="/departments">Departments</a></li>
+            <li><a href="/wholesale">Wholesale</a></li>
+            <li><a href="/about">About us</a></li>
+            <li><a href="/careers">Careers</a></li>
+            <li><a href="/portal">Staff portal</a></li>
           </ul>
         </div>
         <div>
@@ -632,7 +632,7 @@ section[id]{scroll-margin-top:96px}
   if (deptEl) deptEl.innerHTML = (D.departments || []).filter(function (d) { return d.id !== 'wholesale'; }).slice(0, 6).map(function (d) {
     var label = String(d.name).length <= 20 ? d.name : (d.short || d.name), shortL = d.short || label;
     var ph = PHOTO[d.id] || { img: d.img, alt: d.alt };
-    return '<li class="bay"><a href="../../departments.html#' + encodeURIComponent(d.id) + '">' +
+    return '<li class="bay"><a href="/departments#' + encodeURIComponent(d.id) + '">' +
       '<div class="bay-sign"><h3><span class="l-full">' + esc(label) + '</span><span class="l-short">' + esc(shortL) + '</span></h3></div>' +
       '<div class="bay-window"><img src="../../' + esc(ph.img) + '" width="800" height="600" loading="lazy" alt="' + esc(ph.alt) + '"></div>' +
       '<div class="bay-body"><p>' + esc(d.blurb) + '</p><span class="bay-more">See the aisle' + ARROW + '</span></div>' +
@@ -645,7 +645,7 @@ section[id]{scroll-margin-top:96px}
     var st = storeStatus(b, now) || {};
     var newest = b.id === 'couva';
     return '<li class="store">' +
-      '<div><h3 class="store-name"><a href="../../locations.html#' + encodeURIComponent(b.id) + '">' + esc(b.name) + '</a>' + (newest ? '<span class="store-tag">Newest store</span>' : '') + '</h3>' +
+      '<div><h3 class="store-name"><a href="/locations#' + encodeURIComponent(b.id) + '">' + esc(b.name) + '</a>' + (newest ? '<span class="store-tag">Newest store</span>' : '') + '</h3>' +
       '<p class="store-addr">' + esc(b.address) + '</p><p class="store-phone">Phone ' + esc(telShow(b.phone)) + '</p></div>' +
       '<div class="store-hours">' + (st.known ? '<p class="status' + (st.open ? '' : ' closed') + '"><span class="dot" aria-hidden="true"></span>' + esc(st.label) + '</p>' : '') +
       '<p>Today ' + esc(st.today || '') + '</p></div>' +

@@ -5,7 +5,7 @@
 (function () {
   'use strict';
   const DESIGNS = [
-    { id: 'd', path: 'index.html', short: 'Main', face: '★', label: 'Main design · Grand Entrance', aria: 'Main design, Grand Entrance' },
+    { id: 'd', path: '', short: 'Main', face: '★', label: 'Main design · Grand Entrance', aria: 'Main design, Grand Entrance' },
     { id: 'a', path: 'options/a/index.html', short: 'A', face: 'A', label: 'Option A · The Storefront', aria: 'Option A, The Storefront' },
     { id: 'b', path: 'options/b/index.html', short: 'B', face: 'B', label: 'Option B · The Weekly Flyer', aria: 'Option B, The Weekly Flyer' },
     { id: 'c', path: 'options/c/index.html', short: 'C', face: 'C', label: 'Option C · Market Day', aria: 'Option C, Market Day' }

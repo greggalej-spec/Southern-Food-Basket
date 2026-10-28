@@ -316,6 +316,15 @@ Gregg chose Option A after reading this plan. The work is on branch `next-rebuil
   - Not run: reduced motion, which the browser tools cannot emulate. All eight reduced-motion branches are carried over
     line for line.
 
+**The design options (A9).** `options/` moved to `public/options/` unchanged, apart from links.
+- Page links point at the new routes (`/specials`, `/careers#roles`, `/hr`, …). Asset links stay relative and resolve
+  under `public/`. The switcher's Main entry is now the site root instead of `index.html`.
+- They still read `window.SFB_DATA` from `/data/seed.js`. That URL is now a route handler (`app/data/seed.js/route.ts`)
+  that prints `lib/seed.ts`, so there is still one seed. It makes the 8 image paths relative again, because these pages
+  prefix them with `../../`. Like the home page, they show the seed, never a browser's edited copy.
+- Checked 2026-10-28 on `localhost:4176`: all four pages load the seed, no image is broken, and every asset link
+  answers 200.
+
 **Departure: the skip link.** The old rule hides it with `top: -100px` inside the header. Below a tall demo banner
 (209 px on a phone) that still leaves it on screen. The live site has the same bug: at 375 px on `careers/index.html`
 it sits at top 108.8 px. `tokens.css` now clips it until it has focus. **The same fix is still owed on `concept-v1`.**
