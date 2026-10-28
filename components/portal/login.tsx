@@ -49,7 +49,7 @@ export function PortalLogin() {
   const note = s && u && !leaving && !signOutPending() && !(hydrated && roleParam(queryParam("as")));
 
   return (
-    <SiteFrame css={["app", "portal"]} page="login" banner>
+    <SiteFrame active="portal" css={["app", "portal"]} page="login" banner>
       <section className="section">
         <div className="container login-wrap">
           <p className="eyebrow">Staff portal</p>

@@ -19,7 +19,8 @@
 :where([data-css~="app"]) .app-sidebar-foot a:hover, :where([data-css~="app"]) .app-sidebar-foot button:hover{ background: rgba(255,255,255,.07); color: #fff; }
 :where([data-css~="app"]) .app-sidebar-foot p{ color: #9FB3A3; margin: var(--s3) 12px 0; }
 :where([data-css~="app"]) .app-body{ min-width: 0; display: flex; flex-direction: column; }
-:where([data-css~="app"]) .app-topbar{ position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: var(--s4); min-height: 64px; padding: 0 var(--s4); background: rgba(255,248,241,.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+:where([data-css~="app"]) .app-topbar{ position: sticky; top: 10px; z-index: 30; display: flex; align-items: center; gap: var(--s4); min-height: 64px; margin: 10px 10px 0; padding: 0 var(--s3) 0 var(--s4);
+  background: var(--paper); border-radius: 16px; box-shadow: var(--shadow-bar); } /* the home's floating paper bar, solid, no blur (DESIGN.md "Staff tools") */
 :where([data-css~="app"]) .app-menu-btn{ display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; height: 44px; padding: 0 12px; border: 2px solid var(--green); border-radius: var(--r-btn); background: var(--flour); color: var(--green); font: 800 0.9375rem var(--ui); cursor: pointer; flex: none; }
 :where([data-css~="app"]) .app-menu-btn .icon{ width: 22px; height: 22px; }
 :where([data-css~="app"]) .app-topbar-title{ display: flex; flex-direction: column; min-width: 0; }
@@ -33,7 +34,7 @@
   :where([data-css~="app"]) .app-sidebar{ position: sticky; top: 0; height: 100dvh; transform: none; }
   :where([data-css~="app"]) .app.sidebar-open::before{ display: none; }
   :where([data-css~="app"]) .app-menu-btn{ display: none; }
-  :where([data-css~="app"]) .app-topbar{ padding: 0 var(--s6); }
+  :where([data-css~="app"]) .app-topbar{ top: 14px; margin: 14px 18px 0; padding: 0 var(--s4) 0 var(--s5); }
   :where([data-css~="app"]) .app-main{ padding: var(--s6) var(--s6) var(--s9); }
 }
 
@@ -147,7 +148,8 @@
 :where([data-css~="app"]) .icon-btn .icon{ width: 20px; height: 20px; }
 
 /* tabs */
-:where([data-css~="app"]) .tabs{ display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: var(--s5); overflow-x: auto; }
+:where([data-css~="app"]) .tabs{ display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: var(--s5); overflow-x: auto;
+  scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; } /* a slim bar still says "more tabs" on a phone */
 :where([data-css~="app"]) .tabs button{ background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font: 600 0.9375rem var(--ui); color: var(--muted); cursor: pointer; white-space: nowrap; margin-bottom: -1px; }
 :where([data-css~="app"]) .tabs button[aria-selected="true"]{ color: var(--ink); border-color: var(--clay); }
 

@@ -233,7 +233,8 @@ Gregg chose Option A after reading this plan. The work is on branch `next-rebuil
 - `tools/port/scope-css.mjs` generates `styles/*.css` from `assets/css/*.css`:
   - The home sheet is scoped under `body.ge-root`.
   - Each page sheet is scoped under `:where([data-css~="<name>"])`, which adds no specificity.
-  - A `<Scope css={[…]} page="…">` wrapper with `display: contents` stands in for the old `<body data-…>`.
+  - A `<Scope css={[…]} page="…">` wrapper stands in for the old `<body data-…>`. It is an ordinary block, not
+    `display: contents`, because Next's scroll-on-navigate needs a page's first element to have a box.
   - Dialogs and sheets portal into the Scope, so page CSS still reaches them.
 - Cascade layers: Tailwind's preflight sits in `base`, the ported CSS sits in `components`, and utilities beat both.
   Preflight wipes the browser defaults the old CSS relied on (link underlines, bullets, heading sizes, form fonts), so

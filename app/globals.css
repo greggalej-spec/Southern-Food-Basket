@@ -152,8 +152,3 @@
     bottom: revert;
   }
 }
-
-/* A <Scope> wrapper takes the place of the old <body data-…> and must not add a box. */
-[data-css] {
-  display: contents;
-}
