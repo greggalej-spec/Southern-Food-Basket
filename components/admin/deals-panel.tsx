@@ -168,7 +168,7 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
         <p className="small muted toolbar-count" id="deal-count" aria-live="polite">
           {shown.length === all.length ? plural(all.length, "deal") : shown.length + " of " + plural(all.length, "deal")}
         </p>
-        <button className="btn btn-accent" type="button" id="deal-add" ref={addRef} onClick={(e) => openDealDrawer(null, e.currentTarget)}>
+        <button className="btn btn-primary" type="button" id="deal-add" ref={addRef} onClick={(e) => openDealDrawer(null, e.currentTarget)}>
           Add a deal
         </button>
       </div>

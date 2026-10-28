@@ -1,12 +1,12 @@
 /* Ported from assets/css/site.css by tools/port/scope-css.mjs (scope:site). Edit here; the static file is retired. */
-/* Southern Food Basket — public pages (home, deals, departments, wholesale, locations, about).
-   Requires tokens.css. Traditional supermarket structure, loud prices, calm everything else (DESIGN.md v2). */
+/* Southern Food Basket — public detail pages (specials, departments, wholesale, locations, about). The home is its
+   own document (home.css); these pages carry its chrome from tokens.css and go deeper on each band (DESIGN.md v3). */
 :where([data-css~="site"]){ font-size: 1.125rem; }
 :where([data-css~="site"]) main p{ line-height: 1.65; }
 
 /* ---------- section headings ---------- */
-:where([data-css~="site"]) .section-head{ display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--s3) var(--s5); margin-bottom: var(--s6); }
-:where([data-css~="site"]) .section-head > div{ max-width: 62ch; }
+:where([data-css~="site"]) .section-head{ display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--s4) var(--s5); margin-bottom: var(--s6); }
+:where([data-css~="site"]) .section-head > div{ max-width: 64ch; }
 :where([data-css~="site"]) .section-head h2{ margin-bottom: var(--s2); }
 :where([data-css~="site"]) .section-head p{ margin: 0; }
 :where([data-css~="site"]) .more-link{ display: inline-flex; align-items: center; gap: 6px; font-weight: 800; color: var(--green); text-decoration: none; padding: 8px 0; border-bottom: 2px solid currentColor; }
@@ -15,30 +15,13 @@
 :where([data-css~="site"]) .note .icon{ width: 16px; height: 16px; color: var(--clay); margin-right: 4px; }
 :where([data-css~="site"]) .source-line{ display: block; font-size: 0.875rem; color: var(--muted); margin-top: var(--s2); }
 
-/* ---------- home hero ---------- */
-:where([data-css~="site"]) .home-hero{ padding-block: var(--s6) var(--s7); background: var(--flour); }
+/* ---------- two-column hero (about, wholesale) ---------- */
 :where([data-css~="site"]) .hero-grid{ display: grid; gap: var(--s7); align-items: center; }
 :where([data-css~="site"]) .hero-grid > *{ min-width: 0; }
-:where([data-css~="site"]) .hero-copy h1{ margin-bottom: var(--s4); }
-:where([data-css~="site"]) .hero-copy h1 em{ font-style: normal; color: var(--pink); }
 :where([data-css~="site"]) .hero-actions{ display: flex; flex-wrap: wrap; gap: var(--s3); margin: var(--s5) 0 var(--s6); }
 :where([data-css~="site"]) .hero-actions .btn{ min-height: 56px; padding-inline: var(--s6); font-size: 1.125rem; }
-:where([data-css~="site"]) .hero-points{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
-:where([data-css~="site"]) .hero-points li{ display: flex; gap: var(--s3); align-items: center; font-weight: 700; font-size: 1.0625rem; }
-:where([data-css~="site"]) .hero-points .dot{ width: 40px; height: 40px; border-radius: 50%; background: var(--pink-wash); color: var(--clay); display: inline-grid; place-items: center; flex: none; }
-:where([data-css~="site"]) .hero-points .dot .icon{ width: 20px; height: 20px; vertical-align: 0; }
-:where([data-css~="site"]) .hero-photo{ position: relative; margin: var(--s4) var(--s2) 0; }
-:where([data-css~="site"]) .hero-photo .arch-window{ max-width: 460px; margin-inline: auto; }
-:where([data-css~="site"]) .hero-photo figcaption{ font-size: 0.875rem; color: var(--muted); margin: var(--s3) auto 0; max-width: 460px; text-align: center; }
-:where([data-css~="site"]) .sticker{ position: absolute; z-index: 2; top: 30%; left: -6px; width: 128px; aspect-ratio: 1; border-radius: 50%; background: var(--yellow); color: var(--ink);
-  display: grid; place-content: center; text-align: center; gap: 2px; transform: rotate(-8deg); box-shadow: 0 6px 14px -6px rgba(42,26,31,.45); border: 3px dashed rgba(42,26,31,.25); padding: 10px; }
-:where([data-css~="site"]) .sticker span{ font: 800 0.8125rem/1.15 var(--ui); text-transform: uppercase; letter-spacing: .02em; }
-:where([data-css~="site"]) .sticker strong{ font: 400 1.5rem/1 var(--price); }
 @media (min-width: 910px) {
-  :where([data-css~="site"]) .home-hero{ padding-block: var(--s7) var(--s8); }
   :where([data-css~="site"]) .hero-grid{ grid-template-columns: 1.05fr .95fr; }
-  :where([data-css~="site"]) .sticker{ width: 148px; left: 0; top: 34%; }
-  :where([data-css~="site"]) .sticker strong{ font-size: 1.75rem; }
 }
 
 /* ---------- deals band ---------- */
@@ -51,58 +34,12 @@
 :where([data-css~="site"]) .chip .count{ font-weight: 600; opacity: .8; }
 :where([data-css~="site"]) .deal-meta .couva{ display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: var(--clay); }
 
-/* ---------- departments grid (home) ---------- */
-:where([data-css~="site"]) .dept-grid{ display: grid; gap: var(--s4); grid-template-columns: 1fr; }
-:where([data-css~="site"]) .dept-tile{ display: flex; flex-direction: column; background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; text-decoration: none; color: var(--ink); box-shadow: var(--shadow); transition: transform var(--t) var(--ease), box-shadow var(--t) var(--ease); }
-:where([data-css~="site"]) .dept-tile:hover{ transform: translateY(-2px); box-shadow: var(--shadow-lift); color: var(--ink); }
-:where([data-css~="site"]) .dept-tile .pic{ border-radius: 0; --ar: 4 / 3; }
-:where([data-css~="site"]) .dept-tile .label{ display: grid; gap: 4px; padding: 14px 16px 18px; }
-:where([data-css~="site"]) .dept-tile strong{ display: flex; align-items: center; justify-content: space-between; gap: var(--s2); font: 800 1.1875rem/1.25 var(--ui); }
-:where([data-css~="site"]) .dept-tile strong .icon{ color: var(--clay); }
-:where([data-css~="site"]) .dept-tile .label span{ font-size: 1rem; color: var(--muted); line-height: 1.5; }
-@media (max-width: 639px) {
-  :where([data-css~="site"]) .dept-grid{ grid-template-columns: 1fr 1fr; gap: var(--s3); }
-  :where([data-css~="site"]) .dept-tile .label{ padding: 10px 12px 12px; }
-  :where([data-css~="site"]) .dept-tile strong{ font-size: 1rem; }
-  :where([data-css~="site"]) .dept-tile strong .icon, :where([data-css~="site"]) .dept-tile .label span{ display: none; }
-}
-@media (min-width: 640px) { :where([data-css~="site"]) .dept-grid{ grid-template-columns: 1fr 1fr; } }
-@media (min-width: 910px) { :where([data-css~="site"]) .dept-grid{ grid-template-columns: repeat(3, 1fr); gap: var(--s5); } }
-
-/* ---------- stores band ---------- */
-:where([data-css~="site"]) .stores-band{ background: var(--wash); }
-:where([data-css~="site"]) .store-grid{ display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); }
-:where([data-css~="site"]) .store-card{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s5); display: flex; flex-direction: column; gap: var(--s2); box-shadow: var(--shadow); }
-:where([data-css~="site"]) .store-card .store-arch{ margin: -4px 0 4px; }
-:where([data-css~="site"]) .store-card h3{ font-family: var(--display); font-weight: 400; font-size: 1.625rem; margin: 0; color: var(--green); }
-:where([data-css~="site"]) .store-card address{ font-style: normal; color: var(--ink); }
-:where([data-css~="site"]) .store-card .today{ display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-weight: 700; }
-:where([data-css~="site"]) .store-card .today .icon{ color: var(--clay); }
-:where([data-css~="site"]) .store-card .actions{ display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: auto; padding-top: var(--s3); }
-:where([data-css~="site"]) .demo-note{ font: 700 0.75rem/1.2 var(--ui); padding: 2px 8px; border-radius: var(--pill); background: var(--wash); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; border: 1px solid var(--line-strong); }
-
 /* ---------- photo + text bands ---------- */
 :where([data-css~="site"]) .photo-frame{ margin: 0; border: 6px solid var(--flour); border-radius: var(--r-lg); overflow: hidden; box-shadow: var(--shadow-lift); outline: 1px solid var(--line); }
 :where([data-css~="site"]) .photo-frame img{ width: 100%; aspect-ratio: 4 / 3; object-fit: cover; }
-:where([data-css~="site"]) .band-copy .lede{ margin-bottom: var(--s5); }
-:where([data-css~="site"]) .why-list{ list-style: none; margin: 0 0 var(--s5); padding: 0; display: grid; gap: var(--s4); }
-:where([data-css~="site"]) .why-list li{ display: flex; gap: var(--s3); align-items: flex-start; }
-:where([data-css~="site"]) .why-list .icon{ color: var(--green); margin-top: 3px; }
-:where([data-css~="site"]) .why-list strong{ display: block; font-size: 1.125rem; }
-:where([data-css~="site"]) .why-list p{ margin: 2px 0 0; color: var(--muted); }
 @media (min-width: 910px) { :where([data-css~="site"]) .split.reverse > :first-child{ order: 2; } }
 
-:where([data-css~="site"]) .wholesale-band{ position: relative; isolation: isolate; overflow: hidden; }
-:where([data-css~="site"]) .wholesale-band::before{ content: ""; position: absolute; inset: 0; z-index: -1; background: url(/assets/img/glass/glass-grid.svg) repeat left top / 160px 160px; opacity: .13; }
-:where([data-css~="site"]) .wholesale-band .container{ display: grid; gap: var(--s4); align-items: center; padding-block: var(--s7); }
-:where([data-css~="site"]) .wholesale-band h2{ margin-bottom: var(--s2); }
-:where([data-css~="site"]) .wholesale-band p{ margin: 0; color: #E6DED2; }
-@media (min-width: 910px) { :where([data-css~="site"]) .wholesale-band .container{ grid-template-columns: 1fr auto; gap: var(--s6); } }
-
 /* ---------- inner page hero ---------- */
-:where([data-css~="site"]) .page-hero{ position: relative; background: var(--flour); padding-block: var(--s6) calc(var(--s7) + 22px); }
-:where([data-css~="site"]) .page-hero::after{ content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 22px; background: url(/assets/img/glass/zigzag.svg) repeat-x left center / 100px 22px; }
-:where([data-css~="site"]) .page-hero h1{ margin-bottom: var(--s3); }
 :where([data-css~="site"]) .page-hero .lede{ margin-bottom: 0; }
 :where([data-css~="site"]) .page-hero .hero-grid{ gap: var(--s6); }
 :where([data-css~="site"]) .page-hero .photo-frame img{ aspect-ratio: 16 / 10; }
@@ -188,5 +125,4 @@
 
 @media (max-width: 420px) {
   :where([data-css~="site"]) .hero-actions .btn{ width: 100%; }
-  :where([data-css~="site"]) .store-card .actions .btn{ flex: 1 1 auto; }
 }

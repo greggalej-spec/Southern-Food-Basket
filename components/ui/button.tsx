@@ -3,13 +3,14 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 
 // The look lives in styles/tokens.css (.btn: sturdy, labelled, 48 px tall); this keeps Base UI's behaviour.
+// Variants follow DESIGN.md's button meanings: sign = act or join (public), primary = main action (staff tools).
 const buttonVariants = cva("btn", {
   variants: {
     variant: {
       primary: "btn-primary",
-      accent: "btn-accent",
+      sign: "btn-sign",
+      outline: "btn-outline",
       ghost: "btn-ghost",
-      light: "btn-light",
       danger: "btn-danger",
     },
     size: {

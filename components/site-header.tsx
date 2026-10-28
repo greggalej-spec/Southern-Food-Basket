@@ -3,17 +3,17 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/icon";
-import { telHref, todayHours } from "@/lib/format";
-import { useData, useHydrated } from "@/lib/store";
 
+// Design D's floating top bar (app/(home)/page.tsx), with page links where the home has #anchors. The home is its own
+// document, so this is a second copy of that markup; DESIGN.md "One design" keeps the two in step.
 export const SITE_NAV = [
-  { id: "home", label: "Home", href: "/" },
+  { id: "careers", label: "Careers", href: "/careers" },
   { id: "specials", label: "Specials", href: "/specials" },
+  { id: "locations", label: "Stores", href: "/locations" },
   { id: "departments", label: "Departments", href: "/departments" },
   { id: "wholesale", label: "Wholesale", href: "/wholesale" },
-  { id: "locations", label: "Store locations", href: "/locations" },
   { id: "about", label: "About us", href: "/about" },
-  { id: "careers", label: "Careers", href: "/careers" },
+  { id: "portal", label: "Staff portal", href: "/portal" },
 ] as const;
 
 export type SiteNavId = (typeof SITE_NAV)[number]["id"];
@@ -24,24 +24,29 @@ export function Logo() {
 }
 
 export function SiteHeader({ active }: { active?: SiteNavId }) {
-  const d = useData();
-  const hydrated = useHydrated();
   const [open, setOpen] = useState(false);
+  const bar = useRef<HTMLDivElement>(null);
   const btn = useRef<HTMLButtonElement>(null);
-  const first = d.branches[0];
-  // The clock is read only after hydration; the prerendered page shows the Mon–Sat hours.
-  const hrs = todayHours(first, hydrated ? new Date() : null);
-  const count = d.branches.length;
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== "Escape") return;
+    const close = (refocus: boolean) => {
       setOpen(false);
-      btn.current?.focus();
+      if (refocus) btn.current?.focus();
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") close(true);
+    };
+    // a tap anywhere outside the bar closes the menu, as the home's does
+    const onDown = (e: PointerEvent) => {
+      if (!bar.current?.contains(e.target as Node)) close(false);
     };
     document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
+    document.addEventListener("pointerdown", onDown);
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.removeEventListener("pointerdown", onDown);
+    };
   }, [open]);
 
   const current = (id: SiteNavId) => (id === active ? ("page" as const) : undefined);
@@ -51,87 +56,43 @@ export function SiteHeader({ active }: { active?: SiteNavId }) {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <div className="utility">
-        <div className="container">
-          <p>
-            <Icon name="clock" />
-            {hrs ? (
-              <span>
-                Open today <strong>{hrs}</strong>
-              </span>
-            ) : (
-              <span>See store hours</span>
-            )}
-            {first?.phone && (
-              <a className="utility-phone" href={telHref(first.phone)}>
-                {first.phone}
-              </a>
-            )}
-          </p>
-          <nav className="utility-links" aria-label="Quick links">
-            <Link href="/locations">{count ? count + " store locations" : "Store locations"}</Link>
-            <Link href="/careers">Careers</Link>
-            <Link href="/portal">Staff portal</Link>
-          </nav>
-        </div>
-      </div>
-      <div className="masthead">
-        <div className="container">
-          <Link className="brand" href="/" aria-label="Southern Food Basket, home">
-            <Logo />
-          </Link>
-          <div className="masthead-actions">
-            <Link className="btn btn-ghost" href="/locations">
-              <Icon name="pin" />
-              Find a store
-            </Link>
-            <Link className="btn btn-accent" href="/specials">
-              <Icon name="tag" />
-              Specials
-            </Link>
-          </div>
-          <button ref={btn} className="menu-btn" type="button" aria-expanded={open} aria-controls="mobile-nav" onClick={() => setOpen(!open)}>
-            <Icon name={open ? "close" : "menu"} />
-            <span>{open ? "Close" : "Menu"}</span>
-          </button>
-        </div>
-      </div>
-      <nav className="navband" aria-label="Main">
-        <div className="container">
-          <ul>
-            {SITE_NAV.map((n) => (
-              <li key={n.id}>
-                <Link href={n.href} aria-current={current(n.id)}>
-                  {n.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-      <nav className={open ? "mobile-nav is-open" : "mobile-nav"} id="mobile-nav" aria-label="Main">
-        <ul>
+      <div className="topbar" ref={bar}>
+        <Link className="brand" href="/" aria-label="Southern Food Basket, home">
+          <Logo />
+        </Link>
+        <nav className="topnav" aria-label="Main">
           {SITE_NAV.map((n) => (
-            <li key={n.id}>
-              <Link href={n.href} aria-current={current(n.id)}>
-                <span>{n.label}</span>
-                <Icon name="arrow" />
-              </Link>
-            </li>
+            <Link key={n.id} href={n.href} aria-current={current(n.id)}>
+              {n.label}
+            </Link>
           ))}
-        </ul>
-        <div className="mobile-cta">
-          <Link className="btn btn-accent" href="/specials">
-            <Icon name="tag" />
-            Specials
+        </nav>
+        <nav className="quick" aria-label="Quick links">
+          <Link className="quick-jobs" href="/careers" aria-current={current("careers")}>
+            Careers
           </Link>
-          <Link className="btn btn-ghost" href="/portal">
-            <Icon name="user" />
-            Staff portal
+          <Link className="quick-stores" href="/locations" aria-current={current("locations")}>
+            <Icon name="pin" />
+            <span className="qs-label">Stores</span>
           </Link>
-        </div>
-      </nav>
-      <div className="ribbon" aria-hidden="true" />
+        </nav>
+        <button ref={btn} className="menu-btn" type="button" aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(!open)}>
+          <span className="bars" aria-hidden="true" />
+          <span className="label">{open ? "Close" : "Menu"}</span>
+        </button>
+        <nav className={open ? "mobile-menu is-open" : "mobile-menu"} id="mobile-menu" aria-label="Main">
+          <Link href="/">
+            <span>Home</span>
+            <Icon name="arrow" />
+          </Link>
+          {SITE_NAV.map((n) => (
+            <Link key={n.id} href={n.href} aria-current={current(n.id)}>
+              <span>{n.label}</span>
+              <Icon name="arrow" />
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   );
 }

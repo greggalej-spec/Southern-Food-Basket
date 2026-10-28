@@ -22,10 +22,10 @@ export default function WholesalePage() {
             <h1 id="ws-title">Trade supply for the south</h1>
             <p className="lede">Case and pallet supply for mini-marts, restaurants, canteens and caterers, from the trade desk at Princes Town.</p>
             <div className="hero-actions">
-              <a className="btn btn-accent" href="#enquiry">
+              <a className="btn btn-sign" href="#enquiry">
                 Ask about a trade account
               </a>{" "}
-              <Link className="btn btn-ghost" href="/locations#ptown">
+              <Link className="btn btn-outline" href="/locations#ptown">
                 Princes Town store
               </Link>
             </div>

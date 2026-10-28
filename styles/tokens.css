@@ -1,22 +1,26 @@
 /* Ported from assets/css/tokens.css by tools/port/scope-css.mjs (copy). Edit here; the static file is retired. */
-/* Southern Food Basket — tokens + primitives. Law: DESIGN.md (v2, traditional, real brand).
-   Token NAMES are kept from v1 so every page re-themes; their values now come from the company's logo. */
+/* Southern Food Basket — tokens + primitives. Law: DESIGN.md (v3: one design, the Grand Entrance's).
+   Token NAMES are kept from v1 so every page re-themes; their values are design D's (styles/home.css .ge-root). */
 :root {
   /* brand */
   --pink: #E3336F;          /* logo raspberry: ribbons, large display text, decorative fills */
-  --clay: #B8195A;          /* pink ink: accent buttons, eyebrows, pink text */
+  --clay: #B8195A;          /* pink ink: eyebrows, active states, pink text */
+  --pink-ink: var(--clay);  /* the home's name for it */
   --clay-dark: #8F1446;
   --pink-wash: #FCE4EC;
   --green-brand: #2A8A45;   /* logo green: decorative only */
-  --green: #1D6B35;         /* green ink: primary buttons, links, nav band */
-  --leaf: #123F22;          /* deep green: footer, utility bar, portal sidebar */
+  --green: #1D6B35;         /* green ink: links, the staff tools' main buttons */
+  --leaf: #123F22;          /* deep green: footer, portal sidebar */
   --green-wash: #E3F2E6;
   --red: #D3202D;           /* price seals, NEW corner */
+  --sign: #C81A35;          /* the store sign's red: act-and-join buttons */
   --yellow: #FFD21A;        /* price pills, active nav marker */
   --orange: #F26A2E;        /* fruit orange: icons and dots only */
-  /* neutrals, tinted toward the brand pink */
-  --cream: #FFF8F1; --flour: #FFFDFA; --wash: #F8EEE6; --ink: #2A1A1F; --muted: #66525A;
-  --line: #EBDDD3; --line-strong: #D9C6BA; --icon: #8A767C; --lime: #4E9F3D;
+  /* the store front's glass and fanlights */
+  --gold: #E9C460; --teal: #2F918A; --teal-ink: #1C6863; --teal-deep: #164F4B; --teal-light: #A3DCD5;
+  /* neutrals, tinted toward the brand pink and the facade cream */
+  --cream: #FBF6EC; --flour: #FFFDFA; --paper: var(--flour); --facade: #F3ECDD; --wash: var(--facade); --ink: #2A1A1F; --muted: #5E4E54;
+  --line: #E6DCC8; --line-strong: #CFC4AC; --icon: #8A767C; --lime: #4E9F3D;
   /* status (always with a text label) */
   --ok: #3F6212; --ok-bg: #ECFCCB; --warn: #92400E; --warn-bg: #FEF3C7;
   --bad: #991B1B; --bad-bg: #FEE2E2; --info: #1E3A8A; --info-bg: #DBEAFE;
@@ -26,8 +30,9 @@
   --price: var(--font-alfa), "Alfa Slab One", "Rockwell Extra Bold", Rockwell, Georgia, serif;
   /* space, shape, motion */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
-  --r-sm: 6px; --r: 12px; --r-lg: 18px; --pill: 999px; --r-btn: 10px;
+  --r-sm: 6px; --r: 14px; --r-lg: 22px; --pill: 999px; --r-btn: 12px;
   --shadow: 0 1px 2px rgba(42,26,31,.06), 0 6px 18px -12px rgba(42,26,31,.22);
+  --shadow-bar: 0 8px 24px -14px rgba(18,63,34,.45);
   --shadow-lift: 0 2px 4px rgba(42,26,31,.08), 0 18px 36px -20px rgba(42,26,31,.32);
   --ease: cubic-bezier(.22,.8,.3,1); --t: 180ms;
   --container: 1200px; --measure: 68ch;
@@ -42,10 +47,12 @@ body {
 }
 img, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
-h1, h2 { font-family: var(--display); font-weight: 400; line-height: 1.1; margin: 0 0 var(--s4); letter-spacing: 0; text-wrap: balance; color: var(--ink); }
+h1, h2 { font-family: var(--display); font-weight: 400; line-height: 1.08; margin: 0 0 var(--s4); letter-spacing: 0; text-wrap: balance; color: var(--ink); }
 h3, h4 { font-family: var(--ui); font-weight: 800; line-height: 1.25; margin: 0 0 var(--s3); text-wrap: balance; }
-h1 { font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem); }
+h1 { font-size: clamp(2.4rem, 1.6rem + 3vw, 3.75rem); }
 h2 { font-size: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem); }
+main section h2 { font-size: clamp(2rem, 1.4rem + 2.2vw, 3rem); }  /* public bands, as the home's */
+.app-main h2 { font-size: clamp(1.5rem, 1.3rem + .8vw, 1.875rem); }
 h3 { font-size: 1.25rem; }
 h4 { font-size: 1.0625rem; }
 p { margin: 0 0 var(--s4); max-width: var(--measure); }
@@ -54,7 +61,10 @@ a { color: var(--green); text-underline-offset: 3px; text-decoration-thickness: 
 a:hover { color: var(--leaf); }
 small, .small { font-size: 0.9375rem; }
 .muted { color: var(--muted); }
-.eyebrow { font: 800 0.875rem/1.2 var(--ui); letter-spacing: 0.1em; text-transform: uppercase; color: var(--clay); margin: 0 0 var(--s3); }
+/* design D's eyebrow: the store's fanlight, then the label. Eyebrows inside cards take .bare and drop the mark. */
+.eyebrow { display: flex; align-items: center; gap: 10px; font: 800 0.875rem/1.2 var(--ui); letter-spacing: 0.12em; text-transform: uppercase; color: var(--clay); margin: 0 0 var(--s3); }
+.eyebrow::before { content: ""; width: 34px; height: 17px; flex: none; background: url(/assets/img/glass/fanlight.svg) no-repeat center bottom / contain; }
+.eyebrow.bare::before { display: none; }
 .lede { font-size: 1.25rem; line-height: 1.55; color: var(--muted); }
 .num, .price, table td.num { font-variant-numeric: tabular-nums; }
 /* pinned to the top-left of its containing block so a hidden label deep inside a horizontal scroller
@@ -62,7 +72,9 @@ small, .small { font-size: 0.9375rem; }
 .visually-hidden { position: absolute !important; left: 0; top: 0; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 @media (max-width: 420px) { .btn { white-space: normal; text-align: center; } }
 :focus-visible { outline: 3px solid var(--clay); outline-offset: 2px; border-radius: var(--r-sm); }
-.surface-dark :focus-visible, .site-footer :focus-visible, .utility :focus-visible, .navband :focus-visible, .app-sidebar :focus-visible { outline-color: var(--yellow); }
+.site-footer :focus-visible, .app-sidebar :focus-visible { outline-color: var(--yellow); }
+/* clear the sticky top bar on anchor jumps */
+html { scroll-padding-top: 96px; }
 ::selection { background: var(--pink-wash); }
 [hidden] { display: none !important; }
 .icon { width: 20px; height: 20px; vertical-align: -4px; flex: none; }
@@ -79,28 +91,27 @@ small, .small { font-size: 0.9375rem; }
 .split > * { min-width: 0; }
 @media (min-width: 910px) { .split { grid-template-columns: 1fr 1fr; } }
 
-/* buttons: sturdy, labelled, 48 px tall */
+/* buttons: sturdy, labelled, 48 px tall; each colour means one thing (DESIGN.md, Structure) */
 .btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--s2); min-height: 48px; padding: 0 var(--s5);
-  border-radius: var(--r-btn); border: 2px solid transparent; font: 700 1.0625rem/1.1 var(--ui); text-decoration: none; cursor: pointer;
+  border-radius: var(--r-btn); border: 2px solid transparent; font: 800 1.0625rem/1.1 var(--ui); text-decoration: none; cursor: pointer;
   transition: background var(--t) var(--ease), color var(--t) var(--ease), border-color var(--t) var(--ease), transform var(--t) var(--ease); white-space: nowrap; }
 .btn:active { transform: translateY(1px); }
 .btn-primary { background: var(--green); color: #fff; }
 .btn-primary:hover { background: var(--leaf); color: #fff; }
-.btn-accent { background: var(--clay); color: #fff; }
-.btn-accent:hover { background: var(--clay-dark); color: #fff; }
-.btn-ghost { background: var(--flour); color: var(--green); border-color: var(--line-strong); }
-.btn-ghost:hover { background: var(--green-wash); border-color: var(--green); color: var(--leaf); }
-.btn-light { background: var(--flour); color: var(--green); }
-.btn-light:hover { background: var(--cream); }
+/* red = act and join (public and careers pages) */
+.btn-sign { background: var(--sign); color: #fff; box-shadow: 0 6px 16px -8px rgba(200,26,53,.7); }
+.btn-sign:hover { background: #A5142B; color: #fff; }
+/* teal glass = the stores */
+.btn-glass { color: #fff; background: linear-gradient(135deg, #24807A, var(--teal-ink) 55%, #237A74); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 16px -8px rgba(22,79,75,.7); }
+.btn-glass:hover { background: var(--teal-deep); color: #fff; }
+/* the second choice; .btn-ghost is the staff tools' name for the same button */
+.btn-outline, .btn-ghost { background: var(--paper); color: var(--green); border-color: var(--line-strong); }
+.btn-outline:hover, .btn-ghost:hover { background: var(--paper); border-color: var(--green); color: var(--green); }
 .btn-sm { min-height: 40px; padding: 0 var(--s4); font-size: 0.9375rem; }
 .btn-danger { background: var(--bad-bg); color: var(--bad); }
 .btn-danger:hover { background: #FECACA; color: var(--bad); }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: .55; cursor: not-allowed; }
 .link-btn { background: none; border: 0; padding: 0; color: var(--green); font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
-.surface-dark .btn-light, .surface-dark .btn-light:hover { color: var(--green); }
-.surface-dark .btn-primary, .surface-dark .btn-accent { color: #fff; }
-.surface-dark .btn-ghost { background: transparent; color: #fff; border-color: rgba(255,255,255,.45); }
-.surface-dark .btn-ghost:hover { background: rgba(255,255,255,.1); color: #fff; }
 
 /* badges */
 .badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px; border-radius: var(--pill); font: 700 0.8125rem/1.4 var(--ui); background: var(--wash); color: #45343A; white-space: nowrap; }
@@ -116,33 +127,30 @@ small, .small { font-size: 0.9375rem; }
 /* cards, surfaces */
 .card { background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: var(--s5); }
 .card-flush { padding: 0; overflow: hidden; }
-.surface-dark { background: var(--leaf); color: #F6EEE4; }
-.surface-dark h1, .surface-dark h2, .surface-dark h3 { color: #fff; }
-.surface-dark a:not(.btn) { color: #FFE680; }
-.surface-dark .muted { color: #CFDCD2; }
-.surface-dark .eyebrow { color: var(--yellow); }
-.surface-pink { background: var(--pink-wash); }
-.divider { border: 0; border-top: 1px solid var(--line); margin: var(--s6) 0; }
 
 /* the wave ribbon from the company's flags */
 .ribbon { height: 24px; background: var(--ribbon) repeat-x left center / 360px 24px; }
-.ribbon-on-dark { filter: none; }
 
-/* storefront glass, from the store exteriors: gold and teal reflective panes, sunburst fanlights,
-   green glass with gold arch and gable inlays, and the pink-and-green zigzag along the facade */
-.zigzag { height: 22px; background: url(/assets/img/glass/zigzag.svg) repeat-x left center / 100px 22px; }
+/* storefront glass, from the store exteriors: the facade under the footer */
 .facade-band { height: 96px; background: url(/assets/img/glass/facade-band.svg) repeat-x left top / 192px 96px; }
-.store-arch { display: block; width: 64px; height: 32px; background: url(/assets/img/glass/fanlight.svg) no-repeat center bottom / contain; margin-bottom: var(--s2); }
-/* an arched shop window: photo below, sunburst fanlight in the arch, cream facade frame */
-.arch-window { position: relative; margin: 0; aspect-ratio: 5 / 6; overflow: hidden; background: var(--wash);
-  border: 10px solid #F7F4EC; border-radius: 50% 50% var(--r) var(--r) / 41.67% 41.67% var(--r) var(--r);
-  box-shadow: 0 0 0 2px #CFC4AC, var(--shadow-lift); }
-.arch-window img { width: 100%; height: 100%; object-fit: cover; object-position: center 80%; }
-.arch-window::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 41.67%; z-index: 1;
-  background: url(/assets/img/glass/fanlight.svg) no-repeat center bottom / 100% 100%; opacity: .96; }
-.arch-window::after { content: ""; position: absolute; left: 0; right: 0; top: calc(41.67% - 2px); height: 5px; z-index: 1; background: #F7F4EC; }
-.glass-overlay { position: relative; isolation: isolate; overflow: hidden; }
-.glass-overlay::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(/assets/img/glass/glass-grid.svg) repeat left top / 160px 160px; opacity: .13; }
+
+/* design D's band opening on every public page: fanlight eyebrow, Caprasimo headline, a wave ribbon straddling the
+   lower edge. Global, because the careers pages load careers.css and not site.css. */
+.page-hero { position: relative; background: var(--cream); padding-block: var(--s7) var(--s8); }
+.page-hero::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: -12px; height: 24px; pointer-events: none; background: var(--ribbon) repeat-x 0 center / 360px 24px; }
+.page-hero h1 { margin-bottom: var(--s4); }
+.page-hero .cluster { margin-top: var(--s5); }
+.page-hero-grid { display: grid; gap: var(--s7); align-items: center; }
+.page-hero-grid > * { min-width: 0; }
+@media (min-width: 910px) { .page-hero-grid { grid-template-columns: 1.1fr .9fr; } }
+
+/* the home's arched shop window (home.css .arch-photo, keep the two in step): the photo starts under the sill of a
+   sunburst fanlight that fills the top 42% of the arch, so faces land in clear glass */
+.arch-photo { position: relative; margin: 0; width: 100%; aspect-ratio: 5 / 6; max-width: 460px; overflow: hidden; background: #F7F4EC;
+  border: 10px solid #F7F4EC; border-radius: 50% 50% 16px 16px / 41.67% 41.67% 16px 16px; box-shadow: 0 0 0 2px #CFC4AC, var(--shadow); }
+.arch-photo img { position: absolute; left: -7.5%; top: 41.5%; width: 115%; max-width: none; height: auto; }
+.arch-photo::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 41.67%; z-index: 1; background: url(/assets/img/glass/fanlight.svg) no-repeat center bottom / 100% 100%; }
+.page-hero-grid .arch-photo { justify-self: center; }
 
 /* forms */
 label, .label { display: block; font: 700 1rem/1.4 var(--ui); margin-bottom: 6px; }
@@ -177,57 +185,70 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .concept-banner button { background: var(--flour); border: 1px solid #E9A8BF; color: inherit; border-radius: var(--r-sm); padding: 6px 14px; font: 700 0.875rem var(--ui); cursor: pointer; flex: none; }
 .concept-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--pill); background: var(--pink-wash); color: var(--clay-dark); font: 800 0.75rem/1.2 var(--ui); letter-spacing: 0.08em; text-transform: uppercase; }
 
-/* ---------- site header: utility bar, masthead, nav band, ribbon ---------- */
-.site-header { position: relative; z-index: 40; }
-.utility { background: var(--leaf); color: #F3EBDD; font-size: 0.9375rem; }
-.utility .container { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); min-height: 40px; }
-.utility p { margin: 0; max-width: none; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.utility strong { color: #fff; }
-.utility a { color: #F3EBDD; text-decoration: none; font-weight: 700; }
-.utility a:hover { color: #fff; text-decoration: underline; }
-.utility .icon { color: var(--yellow); width: 18px; height: 18px; }
-.utility-links { display: none; gap: var(--s5); }
-.demo-tag { font: 700 0.75rem/1.2 var(--ui); padding: 2px 8px; border-radius: var(--pill); background: rgba(255,255,255,.14); color: #F3EBDD; text-transform: uppercase; letter-spacing: .06em; }
-.masthead { background: var(--flour); }
-.masthead .container { display: flex; align-items: center; justify-content: space-between; gap: var(--s4); min-height: 84px; padding-block: var(--s2); }
-.brand { display: inline-flex; align-items: center; text-decoration: none; }
-.brand img { height: 60px; width: auto; }
-.masthead-actions { display: none; gap: var(--s3); align-items: center; }
-.menu-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 16px; border-radius: var(--r-btn); border: 2px solid var(--green); background: var(--flour); color: var(--green); font: 800 1rem var(--ui); cursor: pointer; }
-.menu-btn .icon { width: 22px; height: 22px; }
-.navband { display: none; background: linear-gradient(180deg, rgba(255,255,255,.13), rgba(255,255,255,0) 55%), var(--green); box-shadow: inset 0 -1px 0 rgba(0,0,0,.12); }
-.navband ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; }
-.navband a { position: relative; display: block; padding: 15px 18px 17px; color: #fff; text-decoration: none; font: 700 1.0625rem/1.2 var(--ui); transition: background var(--t) var(--ease); }
-.navband a:hover { background: rgba(255,255,255,.1); color: #fff; }
-.navband a[aria-current="page"]::after { content: ""; position: absolute; left: 18px; right: 18px; bottom: 7px; height: 4px; border-radius: 2px; background: var(--yellow); }
-.site-header .ribbon { background-color: var(--flour); }
-.mobile-nav { display: none; background: var(--flour); border-top: 2px solid var(--green); }
-.mobile-nav.is-open { display: block; }
-.mobile-nav ul { list-style: none; margin: 0; padding: 0; }
-.mobile-nav a { display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding: 0 var(--s4); color: var(--ink); text-decoration: none; font: 700 1.125rem var(--ui); border-bottom: 1px solid var(--line); }
-.mobile-nav a .icon { color: var(--clay); }
-.mobile-nav a[aria-current="page"] { color: var(--clay); background: var(--pink-wash); }
-.mobile-nav .mobile-cta { padding: var(--s4); display: grid; gap: var(--s3); }
-@media (min-width: 640px) { .utility-links { display: flex; } }
-@media (min-width: 910px) {
-  .brand img { height: 76px; }
-  .masthead .container { min-height: 104px; }
-  .masthead-actions { display: flex; }
-  .navband { display: block; }
-  .menu-btn, .mobile-nav { display: none !important; }
+/* ---------- top bar: design D's floating bar (styles/home.css "floating top bar"), sticky here ----------
+   On the home it is fixed over the scene; on a sub-page it sits in the flow and sticks, so it never covers the hero. */
+.site-header { position: sticky; top: 10px; z-index: 40; margin: 10px 10px 0; }
+.topbar { position: relative; display: flex; align-items: center; gap: 16px; padding: 8px 10px 8px 14px; border-radius: 16px; background: var(--paper); box-shadow: var(--shadow-bar); }
+.topbar .brand { display: block; flex: none; text-decoration: none; }
+.topbar .brand img { height: 44px; width: auto; }
+.topnav { display: none; margin-left: auto; gap: 2px; }
+.topnav a { position: relative; color: var(--ink); text-decoration: none; font: 700 1rem/1.2 var(--ui); padding: 10px 14px; border-radius: 10px; transition: color var(--t) var(--ease), background var(--t) var(--ease); white-space: nowrap; }
+.topnav a:hover { color: var(--green); background: #EEF6F2; }
+/* the home's moving ink, standing still on the current page */
+.topnav a[aria-current="page"] { color: var(--green); background: #E6F3EE; }
+.topnav a[aria-current="page"]::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 5px; height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--pink), var(--gold), var(--teal)); }
+.quick { display: flex; gap: 4px; margin-left: auto; }
+.quick a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 46px; min-width: 46px; padding: 0 12px; border-radius: 10px; font: 800 1rem/1 var(--ui); text-decoration: none; }
+.quick .icon { width: 20px; height: 20px; vertical-align: 0; }
+.quick-jobs { background: var(--sign); color: #fff; }
+.quick-jobs:hover { background: #A5142B; color: #fff; }
+.quick-stores { color: var(--teal-deep); background: #E3F1EF; }
+.quick-stores:hover { color: var(--teal-deep); background: #D2EAE6; }
+.menu-btn { display: inline-flex; align-items: center; gap: 10px; min-height: 46px; padding: 0 14px; border-radius: 10px; border: 2px solid var(--green); background: var(--paper); color: var(--green); font: 800 1rem var(--ui); cursor: pointer; transition: background var(--t) var(--ease), color var(--t) var(--ease); }
+.menu-btn[aria-expanded="true"] { background: var(--green); color: #fff; }
+.menu-btn .bars { position: relative; width: 18px; height: 2.5px; border-radius: 2px; background: currentColor; }
+.menu-btn .bars::before, .menu-btn .bars::after { content: ""; position: absolute; left: 0; width: 100%; height: 100%; border-radius: 2px; background: currentColor; transition: transform .3s cubic-bezier(.22,1,.36,1); }
+.menu-btn .bars::before { transform: translateY(-6px); }
+.menu-btn .bars::after { transform: translateY(6px); }
+.menu-btn[aria-expanded="true"] .bars { background: transparent; }
+.menu-btn[aria-expanded="true"] .bars::before { transform: rotate(45deg); }
+.menu-btn[aria-expanded="true"] .bars::after { transform: rotate(-45deg); }
+.mobile-menu { position: absolute; top: calc(100% + 8px); left: 0; right: 0; display: none; padding: 8px; border-radius: 14px; background: var(--paper); box-shadow: var(--shadow-lift); }
+.mobile-menu.is-open { display: grid; }
+.mobile-menu a { display: flex; align-items: center; justify-content: space-between; min-height: 56px; padding: 0 14px; font: 700 1.125rem var(--ui); color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--line); }
+.mobile-menu a:last-child { border-bottom: 0; }
+.mobile-menu a:hover { color: var(--green); }
+.mobile-menu a[aria-current="page"] { color: var(--green); background: #E6F3EE; border-radius: 10px; }
+.mobile-menu a .icon { color: var(--clay); }
+@media (max-width: 420px) {
+  .topbar { gap: 8px; padding: 7px 7px 7px 11px; }
+  .topbar .brand img { height: 36px; }
+  .menu-btn { padding: 0 13px; }
+  .menu-btn .label, .quick-stores .qs-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .quick-stores { padding: 0; }
+  .quick-jobs { padding: 0 10px; }
 }
-@media (min-width: 910px) and (max-width: 1080px) { .navband a { padding-inline: 13px; } .navband a[aria-current="page"]::after { left: 13px; right: 13px; } }
+@media (max-width: 340px) { .topbar .brand img { height: 31px; } }
+@media (min-width: 980px) {
+  .site-header { top: 14px; margin: 14px 18px 0; }
+  .topbar { padding-inline: 18px 12px; }
+  .topbar .brand img { height: 52px; }
+  .topnav { display: flex; }
+  .menu-btn, .mobile-menu, .quick { display: none !important; }
+}
+@media (min-width: 980px) and (max-width: 1120px) { .topnav a { padding-inline: 10px; } .topnav a[aria-current="page"]::after { left: 10px; right: 10px; } }
 
-/* ---------- site footer ---------- */
+/* ---------- site footer: design D's (styles/home.css "footer"), the store front's band over deep green ---------- */
 .site-footer { background: var(--leaf); color: #E8E0D4; margin-top: var(--s8); }
 .site-footer .facade-band { background-color: var(--cream); }
-.site-footer .footer-grid { display: grid; gap: var(--s6); padding-block: var(--s7) var(--s6); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
-.site-footer h4 { color: #fff; font: 800 0.875rem/1.3 var(--ui); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: var(--s3); }
+.site-footer .footer-grid { display: grid; gap: var(--s6); padding-block: var(--s7) var(--s5); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.site-footer h4 { color: #fff; font: 800 0.875rem/1.3 var(--ui); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--s3); }
+.site-footer .brand { display: inline-block; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .site-footer a { color: #F3EBDD; text-decoration: none; }
 .site-footer a:hover { color: #fff; text-decoration: underline; }
 .site-footer p { color: #D6CDBF; font-size: 1rem; }
-.site-footer .brand img { height: 72px; }
+.site-footer .brand img { height: 70px; width: auto; }
 .footer-branch strong { display: block; color: #fff; }
 .footer-branch span { font-size: 0.9375rem; color: #D6CDBF; }
 .footer-bottom { border-top: 1px solid rgba(255,255,255,.14); padding-block: var(--s5); display: grid; gap: var(--s3); font-size: 0.9375rem; color: #D6CDBF; }
@@ -300,6 +321,3 @@ dialog.sfb-dialog .dialog-actions { display: flex; gap: var(--s3); justify-conte
   .site-header, .site-footer, .concept-banner, .toast-host, [data-sonner-toaster], .app-sidebar, .app-topbar, .no-print { display: none !important; }
   body { background: #fff; }
 }
-.utility-phone { white-space: nowrap; }
-.utility-phone::before { content: "·"; margin-right: 8px; color: #A9C2AF; }
-@media (max-width: 420px) { .utility-phone { display: none; } }

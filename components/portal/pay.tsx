@@ -89,7 +89,7 @@ function PayBody({ me, d }: { me: Employee; d: Seed }) {
             <article className="payslip" aria-labelledby="ps-title">
               <div className="payslip-head">
                 <div>
-                  <p className="eyebrow">Payslip</p>
+                  <p className="eyebrow bare">Payslip</p>
                   <h2 id="ps-title" className="payslip-title">
                     {p.period}
                   </h2>

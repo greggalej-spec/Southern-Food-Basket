@@ -99,7 +99,7 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
               {todays ? (
                 <div className="shift-today">
                   <div>
-                    <p className="eyebrow">{todayLabel}</p>
+                    <p className="eyebrow bare">{todayLabel}</p>
                     <div className="shift-time">{shiftRange(todays)}</div>
                     <div className="small">{todays.role}</div>
                   </div>
@@ -108,7 +108,7 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
               ) : (
                 <div className="shift-today is-off">
                   <div>
-                    <p className="eyebrow">{todayLabel}</p>
+                    <p className="eyebrow bare">{todayLabel}</p>
                     <div className="shift-time">Off today</div>
                   </div>
                 </div>

@@ -171,7 +171,7 @@ export function AppShell({
               <span>{open ? "Close" : "Menu"}</span>
             </button>
             <div className="app-topbar-title">
-              <span className="eyebrow" style={{ margin: 0 }}>
+              <span className="eyebrow bare" style={{ margin: 0 }}>
                 {ROLE_LABEL[role]}
               </span>
               <strong>{title}</strong>

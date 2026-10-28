@@ -57,7 +57,7 @@ export function DeptSections() {
                 </>
               ) : x.id === "wholesale" ? (
                 <p>
-                  <Link className="btn btn-primary" href="/wholesale">
+                  <Link className="btn btn-outline" href="/wholesale">
                     Wholesale and trade accounts
                   </Link>
                 </p>

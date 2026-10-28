@@ -80,7 +80,7 @@ function MeView() {
           This demo session is not linked to an application. Browse the open roles to start one, or switch role from the demo login.
         </p>
         <p>
-          <Link className="btn btn-primary" href="/careers">
+          <Link className="btn btn-sign" href="/careers">
             Browse roles
           </Link>{" "}
           <Link className="btn btn-ghost" href="/portal">
@@ -338,7 +338,7 @@ function MeView() {
           </section>
           {ap.interview && (
             <div className="card">
-              <p className="eyebrow">Interview</p>
+              <p className="eyebrow bare">Interview</p>
               <h3 style={{ fontSize: "1.25rem" }}>{fmtDateTime(ap.interview.at)}</h3>
               <dl className="kv">
                 <dt>Where</dt>
@@ -351,7 +351,7 @@ function MeView() {
           {o && (
             <div className="card offer-card">
               <div className="badge-row" style={{ justifyContent: "space-between" }}>
-                <p className="eyebrow" style={{ margin: 0 }}>
+                <p className="eyebrow bare" style={{ margin: 0 }}>
                   Offer
                 </p>
                 {o.status === "accepted" ? (
@@ -377,7 +377,7 @@ function MeView() {
               </dl>
               {o.status === "sent" && !closed && (
                 <div className="actions">
-                  <button className="btn btn-primary" type="button" id="offer-accept" onClick={accept}>
+                  <button className="btn btn-sign" type="button" id="offer-accept" onClick={accept}>
                     Accept offer
                   </button>
                   <button className="btn btn-ghost" type="button" id="offer-decline" onClick={decline}>

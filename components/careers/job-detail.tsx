@@ -29,7 +29,7 @@ export function JobDetail({ id }: { id: string }) {
           {(job ? "Applications for " + job.title + " at " + branchName(d, job.branchId) + " have closed." : "The link may be out of date.") +
             " The roles we are hiring for now are listed on the careers page."}
         </p>
-        <Link className="btn btn-primary" href="/careers">
+        <Link className="btn btn-sign" href="/careers">
           See open roles
         </Link>
       </div>
@@ -89,7 +89,7 @@ export function JobDetail({ id }: { id: string }) {
               <dt>Posted</dt>
               <dd>{fmtDate(job.posted)}</dd>
             </dl>
-            <Link className="btn btn-accent" href={"/careers/" + encodeURIComponent(job.id) + "/apply"}>
+            <Link className="btn btn-sign" href={"/careers/" + encodeURIComponent(job.id) + "/apply"}>
               Apply for this role
             </Link>
             <Link className="btn btn-ghost" href="/careers">

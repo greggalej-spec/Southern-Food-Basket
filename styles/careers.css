@@ -7,14 +7,7 @@
 :where([data-css~="careers"]) .btn .icon{ width: 18px; height: 18px; }
 
 /* ---------- index: hero, why, roles, how ---------- */
-:where([data-css~="careers"]) .careers-hero{ padding-block: var(--s8) var(--s7); }
-:where([data-css~="careers"]) .careers-hero .lede{ color: #CFDCD2; max-width: 56ch; }
-:where([data-css~="careers"]) .careers-hero .cluster{ margin-top: var(--s5); --gap: var(--s4); }
-:where([data-css~="careers"]) .careers-hero .cluster a:not(.btn){ color: #DCEBDD; }
-:where([data-css~="careers"]) .careers-hero .btn-light{ color: var(--green); }
-:where([data-css~="careers"]) .careers-hero .btn-light:hover{ color: var(--leaf); }
-:where([data-css~="careers"]) #apply-root{ scroll-margin-top: 88px; } /* step changes scroll here, clear of the sticky header */
-@media (min-width: 910px) { :where([data-css~="careers"]) .careers-hero{ padding-block: var(--s9) var(--s8); } }
+:where([data-css~="careers"]) #apply-root{ scroll-margin-top: 96px; } /* step changes scroll here, clear of the sticky top bar */
 
 :where([data-css~="careers"]) .section-tight{ padding-top: 0; }
 :where([data-css~="careers"]) .roles-head{ margin-bottom: var(--s5); }

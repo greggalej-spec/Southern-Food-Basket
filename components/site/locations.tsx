@@ -39,7 +39,6 @@ export function LocationsList() {
         <div className="container">
           <div className="split split-top">
             <div>
-              <span className="store-arch" aria-hidden="true" />
               <p className="eyebrow">Store</p>
               <h2 id={b.id + "-title"}>{b.name}</h2>
               <address>{b.address}</address>
@@ -76,11 +75,11 @@ export function LocationsList() {
                 ) : null}
               </ul>
               <div className="actions">
-                <a className="btn btn-primary" href={mapsDir(b)} target="_blank" rel="noopener">
+                <a className="btn btn-sign" href={mapsDir(b)} target="_blank" rel="noopener">
                   <Icon name="pin" />
                   Directions<span className="visually-hidden">{" to " + b.name + " (opens Google Maps in a new tab)"}</span>
                 </a>
-                <a className="btn btn-ghost" href={mapsView(b)} target="_blank" rel="noopener">
+                <a className="btn btn-outline" href={mapsView(b)} target="_blank" rel="noopener">
                   View on Google Maps<span className="visually-hidden"> (opens in a new tab)</span>
                 </a>
               </div>

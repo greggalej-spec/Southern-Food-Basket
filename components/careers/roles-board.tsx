@@ -113,7 +113,7 @@ export function RolesBoard() {
             return (
               <article className="card job-card" key={j.id}>
                 <div>
-                  <p className="eyebrow">{j.dept}</p>
+                  <p className="eyebrow bare">{j.dept}</p>
                   <h3>{j.title}</h3>
                 </div>
                 <ul className="role-meta">
@@ -123,7 +123,7 @@ export function RolesBoard() {
                 </ul>
                 <div className="role-foot">
                   <span className="role-pay-note">Pay discussed at interview</span>
-                  <Link className="btn btn-primary btn-sm" href={"/careers/" + encodeURIComponent(j.id)} aria-label={"View role: " + j.title + ", " + branch}>
+                  <Link className="btn btn-outline btn-sm" href={"/careers/" + encodeURIComponent(j.id)} aria-label={"View role: " + j.title + ", " + branch}>
                     {"View role "}
                     <Icon name="arrow" />
                   </Link>

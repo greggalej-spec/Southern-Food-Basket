@@ -48,7 +48,7 @@ export function ApplyView({ id }: { id: string }) {
       <div className="empty">
         <h2 style={{ fontSize: "1.5rem" }}>{job ? "This role is no longer open" : "We could not find that role"}</h2>
         <p style={{ marginInline: "auto" }}>Pick a role from the careers page to start an application.</p>
-        <Link className="btn btn-primary" href="/careers">
+        <Link className="btn btn-sign" href="/careers">
           See open roles
         </Link>
       </div>
@@ -721,12 +721,12 @@ function ApplyCard({ job, jobHref }: { job: Job; jobHref: string }) {
           )}
           <span className="spacer"></span>
           {step < 5 ? (
-            <button className="btn btn-primary" type="submit">
+            <button className="btn btn-sign" type="submit">
               {"Continue "}
               <Icon name="arrow" />
             </button>
           ) : (
-            <button className="btn btn-accent" type="submit" id="submit-btn">
+            <button className="btn btn-sign" type="submit" id="submit-btn">
               Submit application
             </button>
           )}

@@ -149,7 +149,7 @@ export function EnquiryForm() {
           {error("buys", "e-buys")}
         </div>
         <div className="enquiry-actions">
-          <button className="btn btn-accent" type="submit">
+          <button className="btn btn-sign" type="submit">
             Send enquiry
           </button>
           <p className="hint">Demo form: nothing is sent.</p>
