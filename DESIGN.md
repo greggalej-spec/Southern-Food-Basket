@@ -47,13 +47,33 @@ Status colours (ok / warn / bad / info) keep their v1 values and always carry a 
   "TRY ME" banner below. `SFBUI.seal(price)`. Only on product photos.
 - **NEW corner** from the posts' "NEW PRODUCT" ribbon. Only on items the post marked new.
 
+## Brand logic on the home page (design D, Grand Entrance)
+Each motif means one thing, so a shopper learns it once:
+- **Wave = movement.** Ribbons between sections (three at most) and the route line joining the five stores.
+- **Seal = a price.** Only on product photos, never as decoration.
+- **Fanlight arch = people.** Taken from the store's arched windows; it frames the careers photo and the
+  "In loving memory" card, nothing else.
+- **Red = act, and join.** Primary buttons and the staff polos; the careers line is "Be a part of the family,
+  join the team!" (Gregg, 2026-10-28).
+- **Teal glass = the stores.** "Find your store" buttons and the stores band.
+- **Pink and green flags = the company.** Drawn from its real flags, logo included, flying as cloth.
+- **The memorial card is still.** No motion and no ornament beyond the arch; the family supplies any words or
+  photograph.
+- **Living layer** (`assets/js/living.js`): hand-written physics, no libraries. Cloth flags with soft, shadow-only
+  fold shading; a crew whose arms are jointed and who each wave on their own rhythm; palms that rock and lean
+  into scroll gusts; birds; bunting over the specials; swinging seals; word-mask reveals. Every job sleeps off
+  screen; under reduced motion none of it runs and the scene holds a still pose. No reflections or glints on
+  the glass (removed at Gregg's request, 2026-10-28). The hero is labelled a prototype: final visuals and drone
+  footage come when the project begins.
+
 ## Structure
 - Public pages: utility bar (hours, branches, staff link) → logo masthead → green nav band with yellow active
   marker → wave ribbon → content → deep-green footer listing every branch.
 - Mobile: masthead shows the logo and a labelled "Menu" button; the menu opens as a full-width list with
   56 px rows.
 - Cards have a 1 px warm border and almost no shadow; no nested cards; no side-stripe borders.
-- Motion 150–250 ms ease-out on hover and open/close only; `prefers-reduced-motion` removes it.
+- Motion 150–250 ms ease-out on hover and open/close only; `prefers-reduced-motion` removes it. The one
+  exception is the home page's living layer (Brand logic, above).
 
 ## Imagery
 Real only. The logo is cut from a company photo; product and store photos are the company's own Instagram

@@ -29,7 +29,7 @@ main section[id], #inside { scroll-margin-top: 88px; } /* clear the fixed top ba
 .btn:active { transform: translateY(1px); }
 .btn-sign { background: var(--sign); color: #fff; box-shadow: 0 6px 16px -8px rgba(200,26,53,.7); }
 .btn-sign:hover { background: #A5142B; color: #fff; }
-.btn-glass { color: #fff; background: linear-gradient(135deg, #2E8C86, var(--teal-ink) 55%, #237A74); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 16px -8px rgba(22,79,75,.7); }
+.btn-glass { color: #fff; background: linear-gradient(135deg, #24807A, var(--teal-ink) 55%, #237A74); box-shadow: inset 0 1px 0 rgba(255,255,255,.35), 0 6px 16px -8px rgba(22,79,75,.7); }
 .btn-glass:hover { background: var(--teal-deep); color: #fff; }
 .btn-outline { color: var(--green); border-color: #CFC4AC; background: var(--paper); }
 .btn-outline:hover { border-color: var(--green); }
@@ -250,7 +250,7 @@ main:focus { outline: none; }
 .counters li::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), #C99A35); }
 
 /* stores on the glass facade */
-.band-stores { background: linear-gradient(180deg, #1E6E68, var(--teal-deep)); color: #F3FAF8; padding-top: 0; isolation: isolate; overflow: hidden; }
+.band-stores { background: linear-gradient(180deg, #1A625D, var(--teal-deep)); color: #F3FAF8; padding-top: 0; isolation: isolate; overflow: hidden; }
 .band-stores::before { content: ""; position: absolute; inset: 0; z-index: -1; background: url(../img/glass/glass-grid.svg) repeat left top / 180px 180px; opacity: .1; }
 .band-stores h2 { color: #fff; }
 .facade-top { height: 96px; background: url(../img/glass/facade-band.svg) repeat-x left top / 192px 96px; margin-bottom: 64px; }
