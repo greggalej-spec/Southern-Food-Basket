@@ -63,7 +63,9 @@ prices, stores or claims (SITE.md lists every source); no checkout; nothing to p
 
 1. **Stack.** Keep the static, zero-dependency site, or migrate to Next.js + shadcn/ui. Migration buys the
    component ecosystem; it costs a rebuild of every page and the portals, a build step and dependency upkeep, and it
-   departs from the approved "no libraries" motion direction. Gregg decides.
+   departs from the approved "no libraries" motion direction. Gregg decides. Plan and cost, written 2026-10-28:
+   `docs/plan/rebuild-nextjs-shadcn.md`. It recommends staying static for the pitch and making the rebuild the paid
+   engagement.
 2. **Tagline "Fresh finds. Southern roots."** Written by ChatGPT, not the company's. Use only if the owners adopt it.
 3. **An AI assistant or chatbot** (ai-elements, chatbot, LocalMode). Not in the PRD. ai-elements is deprecated at
    the end of November 2026.

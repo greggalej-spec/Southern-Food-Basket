@@ -1,0 +1,222 @@
+# Rebuilding Southern Food Basket on Next.js + shadcn/ui: plan and cost
+
+Plan only; nothing has been started. Written 2026-10-28 because Gregg asked: "Write me a plan and cost for rebuilding
+the site on Next.js and shadcn, without starting it." It answers item 1 of "Blocked: decision needed" in
+`docs/audit/directive-gap.md`.
+
+Every hour figure is a judgement estimate. The pricing ledger (`~/.trinovata/pricing-ledger.jsonl`) does not exist
+yet, so nothing has calibrated these figures. Every price is TTD. Re-run them with `node tools/rebuild-cost.mjs`; it
+reads its rates from `Products/Trinovata-Docs/.claude/worktrees/pricing/finance/menu.mjs`.
+
+## The answer
+
+| Scope | Hours | Gregg's time at cost | Floor (2.5×) | List (3.0×) |
+|---|---|---|---|---|
+| **A. Port the concept**: same mock, no backend | 80–122 | 12,800–19,520 | 32,000–48,800 | 38,400–58,560 |
+| **B. Make it real**: accounts, database, KYC vault, live admin (normal client) | 150–226 | 24,000–36,160 | 60,000–90,400 | 72,000–108,480 |
+| B with the "involved" client factor (×1.2) | 180–271 | 28,800–43,392 | 72,000–108,480 | 86,400–130,176 |
+| House menu cross-check for B, normal | 183 | | 73,460 | 88,152 |
+| House menu cross-check for B, involved | 219 | | 88,092 | 105,710 |
+
+**Recommendation: do not rebuild the concept now.** Option A spends about 100 unbilled hours, and the owners would see
+almost no difference: same pages, same look, still demo data. Pitch with the static site. If the family says yes,
+Option B becomes the paid engagement, and the Next.js port is folded into it rather than paid for twice.
+
+The one case for starting sooner would be a reusable grocer or retail template that Trinovata resells. That is not
+recorded as a goal anywhere, so it is Gregg's call.
+
+## 1. Why this is on the table
+
+ChatGPT wrote a directive that Gregg pasted on 2026-10-28; it recommends Next.js, shadcn/ui and React component
+libraries. Today's site is static and has no dependencies at all. It was built from 22 to 28 October: 12 commits over
+4 active days (`git log`). The stack question is real because the next stage of this site needs a server. The portal,
+HR console and KYC uploads only become useful with accounts, a database and private file storage, and a static site
+can't provide those. Swapping components alone doesn't justify the move. A backend does.
+
+## 2. What the rebuild has to reproduce
+
+| Surface | Today | Size | Becomes |
+|---|---|---|---|
+| Home (Grand Entrance) | `tools/grand-entrance/` builds `index.html`; camera in `assets/js/grand-entrance.js`, physics in `assets/js/living.js` | 66 KB SVG; 304 + 446 lines | `app/page.tsx` (server) plus one client component |
+| Public pages ×5 | departments, specials, wholesale, locations, about; `site.js` | 327 lines | `app/(site)/…` |
+| Careers ×4 | `careers/{index,job,apply,me}`; `careers.js` (5-step application) | 613 lines | `/careers`, `/careers/[jobId]`, `/careers/[jobId]/apply`, `/careers/me` |
+| HR console | `hr/index.html`; `hr.js` | 504 lines | `/hr` |
+| Store admin | `admin/index.html`; `admin.js`: specials, Instagram post maker, stores and hours, staff notices, publish | 989 lines | `/admin` |
+| Employee portal ×7 | `portal/*`; `portal.js` | 489 lines | `/portal/…` |
+| Design options | `options/{index,a,b,c}`, styles and scripts inline | 2,867 lines | `public/options/`, unchanged |
+| Data | `data/seed.js` (15 collections), `store.js` (localStorage, `sfb-data-v1`) | 438 + 221 lines | `lib/seed.ts` (typed), `lib/store.ts` |
+| Shared UI | `ui.js`: `esc`, `seal`, icons, dates | 396 lines | `components/` |
+| Styles | 8 files; tokens in `tokens.css` | 1,587 lines | `app/globals.css` with Tailwind `@theme` |
+
+## 3. Target stack
+
+Versions are from `npm view`, run 2026-10-28:
+
+- `next` 16.4.3 (needs Node ≥ 20.9; use Node 24 LTS on Vercel)
+- `react` 19.3.1
+- `tailwindcss` 4.3.3
+- `shadcn` CLI 4.23.0
+
+`motion` 14.7.1 exists, but this plan doesn't use it. The approved direction is hand-written motion with no libraries
+(`DESIGN.md`, Brand logic).
+
+shadcn copies MIT components into the repo. They pull in Radix UI (or Base UI) primitives, `lucide-react`,
+`class-variance-authority`, `clsx`, `tailwind-merge` and `tw-animate-css`.
+
+**What maps where:**
+- **Forms** (application, wholesale, leave, admin editors): Field/Form, Input, Textarea, Select, RadioGroup, Checkbox,
+  and Calendar with Popover for dates.
+- **HR**: the applicant drawer is a Sheet; the KYC flag reason and the shift-swap request are Dialogs.
+- **Lists**: tables are Table (TanStack Data Table only if sorting is needed); admin sections are Tabs.
+- **Feedback**: statuses are Badge, still with a text label per `DESIGN.md`; toasts are Sonner.
+- **Stepper**: shadcn has none, so the existing hand-built stepper becomes a component.
+
+**Left out** (licences verified in the gap map):
+- cosscom/ui: AGPL-3.0.
+- react-bits: Commons Clause.
+- vercel/ai-elements: deprecated at the end of November 2026.
+- Kokonut Pro and magic-mcp: paid tier and API key.
+
+## 4. Where shadcn's defaults break the design law
+
+Each of these is overridden in phase A1. None of them can be left at the default.
+
+- **Background.** shadcn's background is white. `DESIGN.md` says never pure white: use `--cream` `#FFF8F1` and
+  `--flour` `#FFFDFA`.
+- **Fonts.** create-next-app ships Geist. Use Caprasimo, Atkinson Hyperlegible Next and Alfa Slab One through
+  `next/font`. A0 confirms that Atkinson Hyperlegible Next is in `next/font`'s list.
+- **Cards.** shadcn cards use `rounded-xl` and `shadow-sm`. The law is a 1 px warm border and almost no shadow.
+- **Motion.** Open and close animations from `tw-animate-css` stay within 150–250 ms ease-out, and each gets a
+  `motion-reduce:` variant.
+- **Contrast.** Focus rings and muted text are re-checked at 4.5:1 against the new surfaces with the existing contrast
+  scan.
+- **Banned styles.** QA greps for glass blur, gradient text and side-stripe borders.
+
+## 5. The hard parts
+
+1. **React must not own the living scene.** `living.js` rewrites `rotate()` and path `d` attributes about 60 times a
+   second, and React would overwrite them on any re-render. The plan:
+   - Keep `make-scene.js` as a build step that emits the SVG string.
+   - Render that string once with `dangerouslySetInnerHTML`. It is trusted markup from our own generator; this is the
+     only permitted use, and lint bans it everywhere else.
+   - Port `living.js` and `grand-entrance.js` to TypeScript without changing what they do.
+   - One client component starts them in `useEffect` and stops them on unmount.
+
+   The server render is the still pose, which is also the reduced-motion frame, so those visitors see the right
+   picture before any JavaScript loads.
+2. **localStorage under server rendering.** The server has no localStorage. The store becomes a hook on
+   `useSyncExternalStore` that uses the seed as its server snapshot. Without that, every app page throws hydration
+   warnings.
+3. **Escaping.** React escapes text by default, so the `SFBUI.esc()` rule becomes "no `dangerouslySetInnerHTML`
+   except the scene", enforced by lint.
+4. **Keep the live alias safe.** The owners see southern-food-basket.vercel.app. The rebuild deploys to a separate
+   Vercel project, previews only, until parity passes. Switching production is Gregg's deploy.
+5. **Old links keep working.** `*.html` URLs such as `/careers/job.html?id=…` redirect to the new routes through
+   `next.config` or `vercel.ts`.
+6. **Private files can't leak.** Next serves only `public/`. `docs/`, `SITE.md` and `tools/` stay off the site even
+   without `.vercelignore`, which is an improvement on today.
+
+## 6. Option A: port the concept
+
+Still a clickable mock with demo logins and nothing stored or sent.
+
+| Phase | Hours | Done when |
+|---|---|---|
+| A0 Baseline and setup: Lighthouse and screenshots of the live static site; Next 16, Tailwind 4, shadcn init, fonts, lint rules, separate Vercel project | 3–5 | Baseline report saved; blank app builds and previews |
+| A1 Tokens into `@theme`; shadcn variables mapped to `DESIGN.md`; section 4 overrides | 4–6 | A token page renders every pair; the contrast scan passes |
+| A2 Public shell (utility bar, masthead, nav band, ribbon, footer and disclaimer) and app shell (sidebar, demo banner); typed seed; store hook; demo role guard | 6–10 | Every route renders its shell; the guard redirects without a session |
+| A3 Public pages ×5; `PriceSeal` component | 8–12 | Specials branch filter and wholesale enquiry work as today |
+| A4 Grand Entrance home: scene build step, camera and living layer as one client component | 10–16 | Side by side with the live site at 375/910/1280: same pose, same motion; still under reduced motion |
+| A5 Careers: roles, role detail, 5-step application with autosave and local-only KYC preview, applicant dashboard | 10–14 | A full application persists through a reload; the store holds metadata only |
+| A6 HR console: pipeline, applicant Sheet, verify/flag, roles table, compliance | 8–12 | Moving a card and flagging a document show up on the applicant dashboard |
+| A7 Store admin: specials, post maker, stores and hours, notices, publish | 10–14 | A published special appears on `/specials` |
+| A8 Employee portal ×7: login, home, schedule and swap, leave, payslips (printable), docs, profile | 8–12 | Leave request and payslip print work as today |
+| A9 Options A–C copied to `public/options/`; portal links repointed | 1–3 | Chooser and side-by-side toggle work |
+| A10 QA and parity: screenshot diff, contrast, reduced motion, keyboard, Playwright smoke of the three journeys, Lighthouse against the A0 baseline | 10–14 | All pass. This also produces the before/after the gap map lists as missing |
+| A11 Preview deploy, `.html` redirects, private-path 404 check, handover notes | 2–4 | Preview URL loaded and checked |
+| **Total** | **80–122** | |
+
+## 7. Option B: make it real
+
+This is Option A without A9 (the options pages are a pitch device), plus:
+
+| Phase | Hours | What it adds |
+|---|---|---|
+| B1 Accounts and roles | 12–16 | Real sign-in for applicants, staff, HR and admin, with role checks on the server rather than in the browser |
+| B2 Database and row-level security | 14–20 | Jobs, applicants, stages, notes, messages, employees, leave, specials, stores, announcements; seed migration |
+| B3 KYC document vault | 14–22 | Private storage, short-lived signed links, type and size checks, an access log, retention and deletion |
+| B4 Admin publishes for real | 8–12 | Image upload; specials go live with cache revalidation |
+| B5 Notifications | 4–6 | Status emails to applicants, alerts to HR |
+| B6 Security review | 6–10 | Auth and RLS tests, upload abuse, an OWASP pass (`security` agent) |
+| B7 Privacy notice and consent wording | 3–5 | Drafts for the owners and counsel to approve |
+| B8 Real content and training | 6–10 | Owner-supplied jobs, hours and photos (`docs/shotlist.md`); a staff walkthrough |
+| B9 Local search | 4–6 | Store schema per branch, sitemap, Google Business Profile links |
+| **Added** | **71–107** | **Production total 150–226** |
+
+**Not included:**
+- **Payroll.** Real payslips need the company's payroll system, which is unknown; quote it after discovery.
+- **Online shopping.** The PRD has no checkout.
+- **Photo and drone shoot.** Subcontracted and quoted separately, as `menu.mjs` does for `photo-shoot`.
+- **Any AI assistant.**
+
+**Running costs:**
+- The house menu carries hosting at 20 USD/month and the domain at 15 USD/year.
+- A database, storage and email provider come on top. Pick them from the Vercel Marketplace and price them at signup;
+  they are not quoted here.
+- Vercel's free Hobby plan is for non-commercial use, so a live business site needs a paid plan.
+
+**The legal question B cannot settle.** The application collects government ID, BIR and NIS numbers, a Certificate of
+Character and bank details. Keeping those makes the business the holder of sensitive personal data. Trinidad and
+Tobago's Data Protection Act, 2011 is understood to be only partly in force; that is general knowledge and was not
+checked in this session. B3 and B7 build the mechanism. The owners and their counsel decide retention, who can see
+what, and the consent wording before a single real document is collected.
+
+## 8. How the cost is worked out
+
+The formula is `TTD = hours × 20 USD × 8 (FX) × markup`. Each of those comes from `RATES` in `menu.mjs`:
+
+- **Rate.** 20 USD/h is Gregg's time at cost.
+- **Markup.** 2.5× is the floor, a 60% gross margin; list is 3.0×. Customer-facing ballparks are shown ±20%.
+- **Client factor.** The "involved" factor (×1.2: several stakeholders, assets still to gather) is a reasonable
+  default for a family business that is still gathering its assets after a recent bereavement. It is internal and never shown to the client
+  (`menu.mjs`). Gregg decides.
+- **Cross-check.** `buildQuote()` was run on the production scope. The menu has no item for an employee portal or a
+  document vault, so those ride on `integration-custom` ×2.
+- **What agreement proves.** The two methods agree within 3% at the midpoint (188 h against 183 h), but both rest on
+  judgement inputs.
+- **No market anchor yet.** `finance/rate-card.md` §0 records Juniper House at 3,000–5,000 TTD for a brochure site.
+  Option B's list price (88,152) is 18–29× that because it is a platform, not a brochure, and nobody has tested
+  whether a south Trinidad grocer will pay it.
+- **Not modelled.** Claude usage cost.
+- **Phasing.** If the price is the obstacle, `buildPhasedQuote()` can split it. For example, phase 1 is the public site
+  and live applications; phase 2 is HR, the portal and the document vault.
+
+## 9. Risks
+
+- **The approved look regresses.** v4 is the version Gregg deployed for people to see. Mitigation: screenshot parity at
+  375/910/1280 against the live static site before anything replaces it.
+- **Dependency upkeep.** Dozens of packages, a Next major roughly every year, and Node versions retiring on Vercel
+  (Node 20 is deprecated from 1 October 2026). The static site has none of this.
+- **The motion direction drifts.** It stays hand-written and Motion is not added. If a later session reaches for a
+  library, that is a design-law change and must be recorded in `DESIGN.md` first.
+- **Hours spent before a yes.** Option A is about 100 unbilled hours on a concept the business has not asked for.
+- **Sensitive data.** Option B only; see the legal paragraph in section 7.
+
+## 10. Decisions for Gregg
+
+1. Stay static (recommended), Option A now, or Option B as the engagement.
+2. If B: the client factor (normal or involved), and whether to phase it.
+3. If B: the owners and counsel own the KYC retention and consent policy; agree that before quoting B3.
+4. Options A–C: carry them into the rebuild or archive them once the home is chosen.
+5. Backend provider. Supabase is what TradeLynq already runs on, through the Marketplace; one stack is cheaper to
+   maintain than two.
+
+## 11. When to come back to this
+
+- **The owners respond well or ask for a price.** This plan is the scope for the SOW. Run the `new-client` skill to
+  open `Dev/Clients/<name>`, then generate the paperwork from `finance/docs.mjs` with the same item ids
+  `tools/rebuild-cost.mjs` uses.
+- **The pricing ledger has three or more delivered jobs.** Re-run `node tools/rebuild-cost.mjs`, and check the hour
+  ranges in sections 6 and 7 against what the ledger proposes.
+- **Someone proposes adding a React library to the static site.** It can't be done without this rebuild; point them
+  here.
