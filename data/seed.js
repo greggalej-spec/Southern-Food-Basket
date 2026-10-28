@@ -408,10 +408,10 @@ window.SFB_DATA = {
   ],
 
   content: {
-    hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and Try Me deals at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },
+    hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and specials at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },
     values: [
       { title: 'Fresh, and ready to cook', text: 'Ready-cut veg packs and fresh herbs sit next to the whole produce, so dinner takes less time.' },
-      { title: 'Prices you can see', text: 'Every Try Me deal is posted with its price, in store and on Instagram, before you come in.' },
+      { title: 'Prices you can see', text: 'Every special is posted with its price, in store and on Instagram, before you come in.' },
       { title: 'Here for the south', text: 'San Fernando, Couva, Princes Town, Penal and Point Fortin. We hire from the communities we serve.' },
       { title: 'Part of the community', text: 'The flag truck on the road, and prize giveaways on the shop floor.' }
     ],
@@ -428,8 +428,9 @@ window.SFB_DATA = {
       img: 'assets/img/photos/flags-car.webp', alt: 'Southern Food Basket flags flying from a vehicle on the road'
     },
     careersWhy: [
-      { title: 'Paid properly, on time', text: 'Monthly pay by bank transfer, NIS and health surcharge handled, payslips in your portal.' },
-      { title: 'Real training', text: 'Food safety, till procedures, manual handling and forklift certification, all on the clock.' },
+      // Only what this portal itself does: pay and training terms are the company's to state (see docs/audit).
+      { title: 'Apply in about ten minutes', text: 'One form on your phone or computer. It saves as you go, so you can stop and come back.' },
+      { title: 'Know what to bring', text: 'Each job lists the documents it needs, such as a Food Handler’s Badge for food-handling roles.' },
       { title: 'Close to home', text: 'Five stores, from Couva to Point Fortin, so you can work near where you live.' },
       { title: 'A straight process', text: 'You see every stage of your application and every document we still need. No chasing, no silence.' }
     ]

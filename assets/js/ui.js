@@ -45,7 +45,7 @@
 
   const SITE_NAV = [
     { id: 'home', label: 'Home', href: 'index.html' },
-    { id: 'specials', label: 'Try Me deals', href: 'specials.html' },
+    { id: 'specials', label: 'Specials', href: 'specials.html' },
     { id: 'departments', label: 'Departments', href: 'departments.html' },
     { id: 'wholesale', label: 'Wholesale', href: 'wholesale.html' },
     { id: 'locations', label: 'Store locations', href: 'locations.html' },
@@ -93,12 +93,12 @@
       '</div></div>' +
       '<div class="masthead"><div class="container">' +
       '<a class="brand" href="' + href('index.html') + '" aria-label="Southern Food Basket, home">' + LOGO + '</a>' +
-      '<div class="masthead-actions"><a class="btn btn-ghost" href="' + href('locations.html') + '">' + icon('pin') + 'Find a store</a><a class="btn btn-accent" href="' + href('specials.html') + '">' + icon('tag') + 'Try Me deals</a></div>' +
+      '<div class="masthead-actions"><a class="btn btn-ghost" href="' + href('locations.html') + '">' + icon('pin') + 'Find a store</a><a class="btn btn-accent" href="' + href('specials.html') + '">' + icon('tag') + 'Specials</a></div>' +
       '<button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-nav">' + icon('menu') + '<span>Menu</span></button>' +
       '</div></div>' +
       '<nav class="navband" aria-label="Main"><div class="container"><ul>' + navLinks + '</ul></div></nav>' +
       '<nav class="mobile-nav" id="mobile-nav" aria-label="Main"><ul>' + mobileLinks + '</ul>' +
-      '<div class="mobile-cta"><a class="btn btn-accent" href="' + href('specials.html') + '">' + icon('tag') + 'Try Me deals</a>' +
+      '<div class="mobile-cta"><a class="btn btn-accent" href="' + href('specials.html') + '">' + icon('tag') + 'Specials</a>' +
       '<a class="btn btn-ghost" href="' + href('portal/index.html') + '">' + icon('user') + 'Staff portal</a></div></nav>' +
       '<div class="ribbon" aria-hidden="true"></div>';
     const btn = el.querySelector('.menu-btn'), menu = el.querySelector('.mobile-nav');
@@ -121,7 +121,7 @@
       '<div class="container"><div class="footer-grid">' +
       '<div><a class="brand" href="' + href('index.html') + '" aria-label="Southern Food Basket, home">' + LOGO + '</a><p style="margin-top:16px">Supermarket and wholesale for the south of Trinidad.</p>' + (d.settings && d.settings.phone ? '<p><a href="' + telHref(d.settings.phone) + '">' + esc(d.settings.phone) + '</a></p>' : '') + '</div>' +
       '<div><h4>Our stores</h4><ul>' + branches + '</ul></div>' +
-      '<div><h4>Shop</h4><ul><li><a href="' + href('specials.html') + '">Try Me deals</a></li><li><a href="' + href('departments.html') + '">Departments</a></li><li><a href="' + href('wholesale.html') + '">Wholesale and trade</a></li><li><a href="' + href('locations.html') + '">Store hours</a></li></ul></div>' +
+      '<div><h4>Shop</h4><ul><li><a href="' + href('specials.html') + '">Specials</a></li><li><a href="' + href('departments.html') + '">Departments</a></li><li><a href="' + href('wholesale.html') + '">Wholesale and trade</a></li><li><a href="' + href('locations.html') + '">Store hours</a></li></ul></div>' +
       '<div><h4>Company</h4><ul><li><a href="' + href('about.html') + '">About us</a></li><li><a href="' + href('careers/index.html') + '">Careers</a></li><li><a href="' + href('portal/index.html') + '">Staff portal</a></li><li><a href="' + href('hr/index.html') + '">HR console</a></li>' +
       (ig ? '<li><a href="' + esc(ig.url) + '" target="_blank" rel="noopener">' + esc(ig.handle) + ' on Instagram<span class="visually-hidden"> (opens in a new tab)</span></a></li>' : '') + '</ul></div>' +
       '</div><div class="footer-bottom"><p>' + esc(DISCLAIMER) + '</p>' +
@@ -163,7 +163,7 @@
       { group: 'My portal' }
     ].concat(MY_PORTAL),
     admin: [
-      { id: 'deals', label: 'Try Me deals', href: 'admin/index.html#deals', icon: 'tag' },
+      { id: 'deals', label: 'Specials', href: 'admin/index.html#deals', icon: 'tag' },
       { id: 'posts', label: 'Post maker', href: 'admin/index.html#posts', icon: 'camera' },
       { id: 'stores', label: 'Stores and hours', href: 'admin/index.html#stores', icon: 'store' },
       { id: 'notices', label: 'Staff notices', href: 'admin/index.html#notices', icon: 'bell' },

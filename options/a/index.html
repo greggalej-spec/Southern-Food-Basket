@@ -130,7 +130,7 @@ section[id]{scroll-margin-top:96px}
 .sec-head p.note{margin-top:12px;color:var(--muted);max-width:62ch;font-size:1.0625rem}
 .cornice{height:14px;background:linear-gradient(var(--trim) 0 6px,var(--line) 6px 7px,var(--sand) 7px 11px,var(--line) 11px 12px,transparent 12px)}
 
-/* ---------- Try Me deals: arched shop windows ---------- */
+/* ---------- Specials: arched shop windows ---------- */
 .deals{background:var(--sand)}
 .windows{display:grid;grid-template-columns:repeat(4,1fr);gap:44px 28px}
 .win{container-type:inline-size;position:relative;display:flex;flex-direction:column}
@@ -353,7 +353,7 @@ section[id]{scroll-margin-top:96px}
       <div class="nav-panel"><div class="nav-clip">
         <ul>
           <li><a href="index.html" aria-current="page">Home</a></li>
-          <li><a href="../../specials.html">Try Me deals</a></li>
+          <li><a href="../../specials.html">Specials</a></li>
           <li><a href="../../departments.html">Departments</a></li>
           <li><a href="../../wholesale.html">Wholesale</a></li>
           <li><a href="../../locations.html">Store locations</a></li>
@@ -373,9 +373,9 @@ section[id]{scroll-margin-top:96px}
       <div class="wrap">
         <p class="eyebrow">The south’s neighbourhood grocer</p>
         <h1 id="hero-title" data-hero-title>Fresh food and fair prices, close to home.</h1>
-        <p class="lede" data-hero-sub>Groceries, fresh-cut veg, double-layer cakes and Try Me deals at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.</p>
+        <p class="lede" data-hero-sub>Groceries, fresh-cut veg, double-layer cakes and specials at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.</p>
         <div class="cta-row">
-          <a class="btn btn-red btn-lg" href="#deals"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>See this week’s Try Me deals</a>
+          <a class="btn btn-red btn-lg" href="#deals"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L3 13V3h10l7.6 7.6a2 2 0 0 1 0 2.8z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>See this week’s specials</a>
           <a class="btn btn-line btn-lg" href="#stores"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Find your store</a>
         </div>
       </div>
@@ -408,7 +408,7 @@ section[id]{scroll-margin-top:96px}
       <div class="sec-head">
         <div>
           <p class="eyebrow">In the shop window</p>
-          <h2 id="deals-title">Try Me deals</h2>
+          <h2 id="deals-title">Specials</h2>
           <p class="note" data-deals-note>Prices as posted on Southern Food Basket’s Instagram between June and October 2026. Shelf prices may have changed since.</p>
         </div>
         <a class="link-arrow" href="../../specials.html"><span data-deal-count>See all 25 deals</span><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
@@ -495,7 +495,7 @@ section[id]{scroll-margin-top:96px}
         <div>
           <h2 class="ft">Pages</h2>
           <ul class="foot-list">
-            <li><a href="../../specials.html">Try Me deals</a></li>
+            <li><a href="../../specials.html">Specials</a></li>
             <li><a href="../../departments.html">Departments</a></li>
             <li><a href="../../wholesale.html">Wholesale</a></li>
             <li><a href="../../about.html">About us</a></li>
@@ -602,7 +602,7 @@ section[id]{scroll-margin-top:96px}
   }
   if (D.settings && D.settings.dealsNote) { var dn = document.querySelector('[data-deals-note]'); if (dn) dn.textContent = D.settings.dealsNote; }
 
-  /* Try Me deals: eight newest, as arched shop windows */
+  /* Specials: eight newest, as arched shop windows */
   var deptShort = {};
   (D.departments || []).forEach(function (d) { deptShort[d.id] = d.short || d.name; });
   var specials = (D.specials || []).map(function (s, i) { return { s: s, i: i }; })
@@ -618,7 +618,7 @@ section[id]{scroll-margin-top:96px}
       '<div class="win-ledge" aria-hidden="true"></div>' +
       '<div class="win-text"><p class="win-dept">' + esc(deptShort[s.dept] || '') + '</p>' +
       '<h3 class="win-name">' + esc(s.name) + '</h3>' +
-      '<p class="sr-only">Try Me deal: 1 for $' + esc(money(s.price)) + ' TTD.</p>' +
+      '<p class="sr-only">Special: 1 for $' + esc(money(s.price)) + ' TTD.</p>' +
       '<p class="win-meta"><span>Posted ' + fmtDate(s.posted) + '</span>' + (s.couva ? '<span class="loc">' + PIN + 'Couva</span>' : '') + '</p></div>' +
       '</li>';
   }).join('');

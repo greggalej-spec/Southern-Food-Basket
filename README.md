@@ -2,14 +2,14 @@
 
 An unsolicited prototype by Trinovata for Southern Food Basket, a supermarket-and-wholesale business in
 south Trinidad. Not affiliated with the company. Version 2 (2026-10-23) uses the company's real logo, photos and
-posted Try Me prices from its public Instagram, in a traditional look aimed at older shoppers and millennials.
+posted special prices from its public Instagram, in a traditional look aimed at older shoppers and millennials.
 People, jobs, documents, hours and phone numbers are demo data. Sources: `SITE.md`; design law: `DESIGN.md`.
 
 ## What is in it
 
 | Area | Pages | Notes |
 |---|---|---|
-| Public site | `index`, `specials` (Try Me deals), `departments`, `wholesale`, `locations`, `about` | static, data from `data/seed.js` |
+| Public site | `index`, `specials`, `departments`, `wholesale`, `locations`, `about` | static, data from `data/seed.js` |
 | Hiring portal | `careers/index`, `careers/job`, `careers/apply`, `careers/me` | five-step application with a KYC document step; applicant dashboard |
 | HR console | `hr/index` | pipeline board, document review (verify / flag), roles, employee compliance |
 | Employee portal | `portal/index` (demo login), `home`, `schedule`, `leave`, `pay`, `docs`, `profile` | demo roles: Applicant, Employee, HR |

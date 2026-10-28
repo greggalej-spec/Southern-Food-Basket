@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Southern Food Basket · Supermarket and wholesale, south Trinidad</title>
-<meta name="description" content="Southern Food Basket: five supermarkets across south Trinidad. Try Me deals, store hours, careers and the staff portal. Unofficial concept by Trinovata.">
+<meta name="description" content="Southern Food Basket: five supermarkets across south Trinidad. Jobs, this week's specials, store hours and the staff portal. Unofficial concept by Trinovata.">
 <meta name="robots" content="noindex">
 <meta name="theme-color" content="#1D6B35">
+<script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&family=Caprasimo&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/img/favicon-64.png" type="image/png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -20,11 +21,14 @@
 <header class="topbar" id="topbar">
   <a class="brand" href="#top" aria-label="Southern Food Basket, top of page"><img src="assets/img/sfb-logo.svg" width="861" height="393" alt="Southern Food Basket"></a>
   <nav class="topnav" aria-label="Main">
-    <a href="#deals">Try Me deals</a><a href="#aisles">Departments</a><a href="#stores">Store locations</a><a href="careers/index.html">Careers</a><a href="portal/index.html">Staff portal</a>
+    <a href="careers/index.html">Careers</a><a href="#deals">Specials</a><a href="#stores">Stores</a><a href="#aisles">Departments</a><a href="#who">About us</a><a href="portal/index.html">Staff portal</a>
+  </nav>
+  <nav class="quick" aria-label="Quick links">
+    <a class="quick-jobs" href="careers/index.html">Careers</a><a class="quick-stores" href="#stores"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-6.5-5.8-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.2-6.5 11-6.5 11Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" fill="currentColor"/></svg><span class="qs-label">Stores</span></a>
   </nav>
   <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu"><span class="bars" aria-hidden="true"></span><span class="label">Menu</span></button>
   <nav class="mobile-menu" id="mobile-menu" aria-label="Main">
-    <a href="#deals">Try Me deals</a><a href="#aisles">Departments</a><a href="#stores">Store locations</a><a href="careers/index.html">Careers</a><a href="portal/index.html">Staff portal</a>
+    <a href="careers/index.html">Careers</a><a href="#deals">Specials</a><a href="#stores">Stores</a><a href="#aisles">Departments</a><a href="#who">About us</a><a href="portal/index.html">Staff portal</a>
   </nav>
 </header>
 
@@ -43,43 +47,142 @@
       <h2>Come on in.</h2>
       <p>The team in red is ready for you at all five stores, seven days a week.</p>
       <div class="intro-actions">
-        <a class="btn btn-sign" href="#deals">See the Try Me deals</a>
+        <a class="btn btn-sign" href="careers/index.html">See open jobs</a>
+        <a class="btn btn-outline" href="#deals">See the specials</a>
         <a class="btn btn-glass" href="#stores">Find your store</a>
       </div>
     </div>
-    <p class="concept-note">Animated illustration, standing in for drone footage of the store front.</p>
+    <p class="concept-note">Prototype. Final visuals and drone footage are added when the project begins.</p>
+    <a class="skip-pill" id="skip-intro" href="#inside">Skip intro<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l6 6 6-6M6 12l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
     <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
   </div>
 </section>
 
 <main id="inside" tabindex="-1">
 
+  <a class="ticker" href="#deals"><span class="visually-hidden">See this week's specials</span><span class="ticker-tag" aria-hidden="true">Specials</span><span class="ticker-win" aria-hidden="true"><span class="ticker-track" id="ticker"></span></span></a>
+
+  <section class="band band-carousel" id="highlights" aria-labelledby="hl-title">
+    <div class="wrap">
+      <h2 class="visually-hidden" id="hl-title">At Southern Food Basket</h2>
+      <div class="carousel" id="carousel" aria-roledescription="carousel" aria-label="Highlights">
+        <div class="car-track">
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="1 of 5">
+            <figure class="slide-photo"><img src="assets/img/photos/team-flags.webp" width="800" height="600" alt="Southern Food Basket staff in red shirts holding the company's pink and green flags"></figure>
+            <div class="slide-copy"><p class="eyebrow"><span class="fan" aria-hidden="true"></span>Now hiring</p><h3>Be a part of the family, join the team!</h3><p>Shop floor, bakery, warehouse and office jobs at five stores. Apply online in about ten minutes.</p><a class="btn btn-sign" href="careers/index.html">See open jobs</a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="2 of 5">
+            <figure class="slide-photo"><img src="assets/img/photos/veg-chunky.webp" width="800" height="667" alt="A tray of chunky cut vegetables" loading="lazy"></figure>
+            <div class="slide-copy"><p class="eyebrow"><span class="fan" aria-hidden="true"></span>Specials</p><h3>1 for the price on the post</h3><p>Every special goes up on Instagram as “1 FOR $x · TRY ME”. The newest are on the shelf below.</p><a class="btn btn-outline" href="#deals">See the specials</a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="3 of 5">
+            <figure class="slide-photo"><img src="assets/img/photos/veg-stir-fry.webp" width="800" height="667" alt="A tray of cut stir fry vegetables" loading="lazy"></figure>
+            <div class="slide-copy"><p class="eyebrow"><span class="fan" aria-hidden="true"></span>Fresh and cut veg</p><h3>Ready-cut veg packs</h3><p>Chunky, stir fry and chow mein packs, cut and ready to cook, beside the whole produce.</p><a class="btn btn-outline" href="departments.html#fresh">Fresh and cut veg</a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="4 of 5">
+            <figure class="slide-photo"><img src="assets/img/photos/cake-red-velvet.webp" width="800" height="667" alt="A 9-inch red velvet cake in a clear cake box" loading="lazy"></figure>
+            <div class="slide-copy"><p class="eyebrow"><span class="fan" aria-hidden="true"></span>Cakes and bakery</p><h3>Double-layer cakes</h3><p>Sponge, chocolate, coconut, almond crumble and red velvet, in 7-inch and 9-inch sizes.</p><a class="btn btn-outline" href="departments.html#bakery">Cakes and bakery</a></div>
+          </article>
+          <article class="slide" role="group" aria-roledescription="slide" aria-label="5 of 5">
+            <figure class="slide-photo"><img src="assets/img/photos/flags-car.webp" width="800" height="600" alt="Southern Food Basket flags flying from a vehicle on the road" loading="lazy"></figure>
+            <div class="slide-copy"><p class="eyebrow"><span class="fan" aria-hidden="true"></span>Five stores</p><h3>Look for the pink and green flags</h3><p>Couva, San Fernando, Princes Town, Penal and Point Fortin.</p><a class="btn btn-glass" href="#stores">Find your store</a></div>
+          </article>
+        </div>
+        <div class="car-controls">
+          <button class="round car-prev" type="button" aria-label="Previous slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="car-dots"></div>
+          <button class="round car-play" type="button" aria-label="Pause the slides"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6v12M15 6v12" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5Z" fill="currentColor"/></svg></button>
+          <button class="round car-next" type="button" aria-label="Next slide"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="band band-deals" id="deals" aria-labelledby="deals-title">
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Try Me deals</p>
+          <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Specials</p>
           <h2 id="deals-title">On the shelf right now</h2>
           <p class="note" id="deals-note"></p>
         </div>
-        <div class="shelf-controls" aria-label="Scroll the deals">
-          <button class="round" type="button" data-shelf="-1" aria-label="Previous deals"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <button class="round" type="button" data-shelf="1" aria-label="More deals"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="shelf-controls" aria-label="Scroll the specials">
+          <button class="round" type="button" data-shelf="-1" aria-label="Previous specials"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <button class="round" type="button" data-shelf="1" aria-label="More specials"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
       </div>
-      <div class="shelf" id="shelf" tabindex="0" aria-label="Try Me deals, scroll sideways"></div>
+      <div class="shelf" id="shelf" tabindex="0" aria-label="Specials, scroll sideways"></div>
+      <p class="more"><a href="specials.html">All specials, with filters</a></p>
+    </div>
+  </section>
+
+  <section class="band band-careers" id="careers" aria-labelledby="careers-title">
+    <div class="ribbon" aria-hidden="true"></div>
+    <div class="wrap careers">
+      <figure class="arch-photo"><img src="assets/img/photos/team-flags.webp" width="800" height="600" alt="Southern Food Basket staff in red shirts holding the company's pink and green flags" loading="lazy"></figure>
+      <div>
+        <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Careers</p>
+        <h2 id="careers-title">Be a part of the family, join the team!</h2>
+        <p class="lede">Shop floor, bakery, warehouse and office jobs across five stores, with one online application for all of them.</p>
+        <ul class="why" id="why"></ul>
+        <div class="row"><a class="btn btn-sign" href="careers/index.html">See open jobs</a><a class="btn btn-outline" href="portal/index.html">Staff portal</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band-who" id="who" aria-labelledby="who-title">
+    <div class="ribbon" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Who is Southern Food Basket?</p>
+          <h2 id="who-title">A family grocer for the south</h2>
+        </div>
+      </div>
+      <div class="who">
+        <article class="who-card who-founder">
+          <div class="who-arch" aria-hidden="true"><span>NM</span></div>
+          <p class="who-role">In loving memory</p>
+          <h3>Nazim Mohammed</h3>
+          <p>Father of the family behind Southern Food Basket, and principal of Southern Food Basket Limited, Princes Town.</p>
+          <p class="who-small">His story and photograph will go here in the family's own words, when they are ready to share them.</p>
+        </article>
+        <article class="who-card who-family">
+          <p class="who-year" aria-hidden="true">1998</p>
+          <h3>A family business</h3>
+          <p>Southern Food Basket is a family business, serving the south since 1998: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
+          <p class="who-small">The team in red runs the shop floor, and the pink-and-green flags go out on the music truck.</p>
+        </article>
+        <article class="who-card who-where">
+          <h3>Where we are</h3>
+          <svg class="route" id="route" viewBox="0 0 360 300" aria-hidden="true" focusable="false"></svg>
+          <ol class="route-list" id="route-list" aria-label="Our five stores"></ol>
+          <p class="who-small" id="route-cap">Each store placed from its Google Maps listing; the line joins them in order.</p>
+        </article>
+      </div>
     </div>
   </section>
 
   <section class="band band-aisles" id="aisles" aria-labelledby="aisles-title">
+    <div class="ribbon" aria-hidden="true"></div>
     <div class="wrap">
       <div class="section-head">
         <div>
-          <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Walk the aisles</p>
+          <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Departments</p>
           <h2 id="aisles-title">Everything under one glass roof</h2>
         </div>
+        <fieldset class="layout-switch" id="layout-switch">
+          <legend><span class="concept-tag">Concept</span> Choose how departments look</legend>
+          <div class="seg">
+            <label><input type="radio" name="dept-layout" value="tiles"><span>Tiles</span></label>
+            <label><input type="radio" name="dept-layout" value="photos"><span>Big photos</span></label>
+            <label><input type="radio" name="dept-layout" value="bays"><span>Shop windows</span></label>
+            <label><input type="radio" name="dept-layout" value="compare"><span>Side by side</span></label>
+          </div>
+        </fieldset>
       </div>
-      <div class="aisles" id="aisle-grid"></div>
+      <div class="dept" id="dept" data-layout="tiles"></div>
+      <div class="dept-compare" id="dept-compare" hidden></div>
       <ul class="counters" id="counters" aria-label="In our stores"></ul>
     </div>
   </section>
@@ -98,16 +201,13 @@
     </div>
   </section>
 
-  <section class="band band-careers" id="careers" aria-labelledby="careers-title">
-    <div class="wrap careers">
-      <figure class="arch-photo"><img src="assets/img/photos/team-flags.webp" width="800" height="600" alt="Southern Food Basket staff in red shirts holding the company's pink and green flags" loading="lazy"></figure>
+  <section class="social-band" aria-labelledby="social-title">
+    <div class="wrap social">
       <div>
-        <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Careers</p>
-        <h2 id="careers-title">Join the team in red</h2>
-        <p class="lede">Shop floor, bakery, warehouse and office jobs at five stores. Apply online in about ten minutes, add your documents as you go, and follow every step. Pay is talked through at your interview.</p>
-        <ul class="why" id="why"></ul>
-        <div class="row"><a class="btn btn-sign" href="careers/index.html">See open jobs</a><a class="btn btn-outline" href="portal/index.html">Staff portal</a></div>
+        <h2 id="social-title">Follow the specials</h2>
+        <p>New products, giveaways and the week's specials, as the stores post them.</p>
       </div>
+      <ul class="social-links" id="social-links"></ul>
     </div>
   </section>
 
@@ -118,12 +218,13 @@
   <div class="wrap footer-grid">
     <div><img class="footer-logo" src="assets/img/sfb-logo.svg" width="861" height="393" alt="Southern Food Basket"><p>Supermarket and wholesale for the south of Trinidad.</p><p id="footer-phone"></p></div>
     <div><h3>Our stores</h3><ul id="footer-stores"></ul></div>
-    <div><h3>Visit</h3><ul><li><a href="#deals">Try Me deals</a></li><li><a href="#aisles">Departments</a></li><li><a href="#stores">Store hours</a></li><li><a href="specials.html">All Try Me deals</a></li><li><a href="careers/index.html">Careers</a></li><li><a href="portal/index.html">Staff portal</a></li><li><a href="hr/index.html">HR console</a></li></ul></div>
+    <div><h3>Visit</h3><ul><li><a href="careers/index.html">Careers</a></li><li><a href="#deals">Specials</a></li><li><a href="specials.html">All specials</a></li><li><a href="#aisles">Departments</a></li><li><a href="#stores">Store hours</a></li><li><a href="about.html">About us</a></li><li><a href="portal/index.html">Staff portal</a></li><li><a href="hr/index.html">HR console</a></li></ul></div>
   </div>
   <div class="wrap legal"><p>Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Store hours and phone numbers come from Google Maps; prices and photos from the company's public Instagram. The opening animation is an illustration.</p></div>
 </footer>
 
 <script src="data/seed.js"></script>
 <script src="assets/js/grand-entrance.js"></script>
+<script src="assets/js/living.js"></script>
 </body>
 </html>

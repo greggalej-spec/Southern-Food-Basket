@@ -1,4 +1,4 @@
-/* Southern Food Basket — public pages: home, Try Me deals, departments, wholesale enquiry (mock), locations, about.
+/* Southern Food Basket — public pages: home, specials, departments, wholesale enquiry (mock), locations, about.
    One script for all six pages; each block looks for its own hooks and returns if absent.
    Data comes from SFBStore (data/seed.js overlaid with localStorage); every string is escaped with SFBUI.esc. */
 (function () {
@@ -119,7 +119,7 @@
     }
   }
 
-  /* ---------- Try Me deals ---------- */
+  /* ---------- Specials ---------- */
   function specials() {
     var grid = $('[data-deals-grid]');
     if (!grid) return;
@@ -183,7 +183,7 @@
     if (jumps) jumps.innerHTML = (d.departments || []).map(function (x) { return '<li><a class="chip" href="#' + esc(x.id) + '">' + esc(x.short) + '</a></li>'; }).join('');
     root.innerHTML = (d.departments || []).map(function (x, i) {
       var deals = newestFirst(dealsIn(x.id));
-      var rows = deals.length ? '<h3>Recent Try Me deals</h3><ul class="deal-rows">' + deals.map(function (sp) {
+      var rows = deals.length ? '<h3>Recent specials</h3><ul class="deal-rows">' + deals.map(function (sp) {
         return '<li><span class="name">' + esc(sp.name) + '</span><span class="when">Posted ' + esc(fmtDate(sp.posted)) + (sp.couva ? ' · Couva' : '') + '</span><span class="amt" aria-label="' + esc(money(sp.price)) + '">' + esc(dollars(sp.price)) + '</span></li>';
       }).join('') + '</ul><p style="margin-top:16px"><a class="more-link" href="' + esc(href('specials.html?dept=' + encodeURIComponent(x.id))) + '">See these deals with photos ' + icon('arrow') + '</a></p>'
         : x.id === 'wholesale' ? '<p><a class="btn btn-primary" href="' + esc(href('wholesale.html')) + '">Wholesale and trade accounts</a></p>' : '';

@@ -1,7 +1,7 @@
 # Southern Food Basket (fact card)
 
 - **What:** concept website + hiring portal with applicant KYC + HR console + employee portal for a real south-Trinidad grocer, built unsolicited. v1 2026-10-22 (modern, own illustrations); v2 2026-10-23 (traditional, real brand) after Gregg judged v1 too modern for older shoppers and millennials; v3 2026-10-24: four homepage designs on one site, the Grand Entrance (animated store-front arrival) as the main home page, after Gregg rejected the v2 home. Badged "Unofficial concept" on every page.
-- **Kind:** concept (classification: third-party-media). The logo, product photos and Try Me prices come from the company's own public Instagram, supplied by Gregg on 2026-10-23. No business permission is recorded.
+- **Kind:** concept (classification: third-party-media). The logo, product photos and special prices come from the company's own public Instagram, supplied by Gregg on 2026-10-23. No business permission is recorded.
 - **Run:** static; `python -m http.server 4175` in the folder (or the `sfb` / `sfb-options` entries in `Dev/.claude/launch.json`, ports 4175 and 4180), open http://localhost:4175/. The home page is generated: edit `tools/grand-entrance/index.template.html` or `make-scene.js`, then `node tools/grand-entrance/build.js`.
 - **Deploy:** Vercel project `southern-food-basket` (static, no build), linked in `.vercel/` (gitignored). `.vercelignore` keeps `tools/` and the Markdown out of the upload. The first CLI deploy on 2026-10-23 was assigned the Production target by Vercel, so the public alias exists; the per-deploy URL is behind Vercel login.
 - **URL:** https://southern-food-basket.vercel.app (public, noindex; HTTP 200 and rendered in the browser 2026-10-23)
@@ -23,6 +23,9 @@
 
 ## Sourced facts used on the site (verify before any real use)
 - Southern Food Basket Limited, Princes Town; key principal listed as Nazim Mohammed — Dun & Bradstreet company profile
+- Nazim Mohammed was the owners' father and passed away recently; the family would want a memory of him on the site — Gregg, in chat, 2026-10-28. Spelling heard as both Nazim and Nasim; the site uses Nazim (Dun & Bradstreet) until the family confirms. The home "In loving memory" card carries only his name, "father of the family" and "principal": no dates, story, quote or photo until the family supplies and approves them
+- "A family business" and the careers line "Be a part of the family, join the team!" — Gregg, in chat, 2026-10-28 (confirm both with the owners)
+- The hero says "Prototype. Final visuals and drone footage are added when the project begins." — Gregg's direction, 2026-10-28: no generated art; real visuals come with the job
 - Founded 1998 — Del Risco company record; an exporter directory (ExportersIndia) gives 2000
 - Five stores, named in the company's own Facebook post of September 2026 (employee of the month): Couva, Coffee Street San Fernando, Point Fortin, Penal, St Charles Village Princes Town
 - Addresses, phone numbers, plus codes, Google place IDs and opening hours (Mon–Sat 7:00 am–10:00 pm, Sun 7:00 am–7:00 pm) — each store's Google Maps listing, read 2026-10-23. Princes Town has two listings 60 m apart (Supermarket on Manahambre Rd; Market Place on St Charles Rd, +1 868-655-8092, Saturday to 8:00 pm); the site uses the Supermarket listing

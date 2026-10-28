@@ -1,4 +1,4 @@
-/* Southern Food Basket — store admin: Try Me deals, Instagram post maker, stores and hours, staff notices, publish.
+/* Southern Food Basket — store admin: specials, Instagram post maker, stores and hours, staff notices, publish.
    Role: admin (SFBStore.requireRole). All state lives in SFBStore (localStorage). The public pages in the same
    browser read the same data, so a save here shows on specials.html, locations.html and the portal straight away.
    Photos are picked from the existing library by file stem: no file bytes or data URLs ever go into the store. */
@@ -82,7 +82,7 @@
     const d = S.load(), sp = d.specials || [];
     const stat = (label, value, sub) => '<div class="stat"><div class="stat-label">' + esc(label) + '</div><div class="stat-value">' + esc(String(value)) + '</div><div class="stat-sub">' + esc(sub) + '</div></div>';
     $('admin-stats').innerHTML =
-      stat('Live deals', sp.length, 'on the Try Me deals page') +
+      stat('Live deals', sp.length, 'on the Specials page') +
       stat('Tagged Couva', sp.filter(x => x.couva).length, 'deals with the Couva pin') +
       stat('Stores', (d.branches || []).length, 'hours and phone numbers') +
       stat('Staff notices', (d.announcements || []).length, 'on the employee portal');
@@ -147,7 +147,7 @@
   });
 
   /* =====================================================================
-     1. Try Me deals
+     1. Specials
      ===================================================================== */
   const dealEl = { dept: $('deal-dept'), search: $('deal-search'), count: $('deal-count'), rows: $('deal-rows'), add: $('deal-add'), saved: $('deal-saved') };
   let dealDept = 'all', dealQuery = '';
@@ -192,8 +192,8 @@
     if (!sp) { dealEl.saved.innerHTML = ''; return; }
     const url = U.href('specials.html') + '?' + new URLSearchParams({ dept: sp.dept }).toString();
     dealEl.saved.innerHTML = '<div class="alert alert-ok">' + icon('check') +
-      '<p><strong>' + esc(sp.name) + '</strong> is saved and live on the Try Me deals page in this browser. ' +
-      '<a href="' + esc(url) + '" target="_blank" rel="noopener">Open the Try Me deals page<span class="visually-hidden"> (opens in a new tab)</span></a> · ' +
+      '<p><strong>' + esc(sp.name) + '</strong> is saved and live on the Specials page in this browser. ' +
+      '<a href="' + esc(url) + '" target="_blank" rel="noopener">Open the Specials page<span class="visually-hidden"> (opens in a new tab)</span></a> · ' +
       '<button class="link-btn" type="button" data-make-post="' + esc(sp.id) + '">Make an Instagram post of it</button></p></div>';
   }
   function refreshDeals() { renderStats(); renderDealFilter(); renderDeals(); renderPostSelect(); }
@@ -220,7 +220,7 @@
   async function removeDeal(id, opener) {
     const d = S.load(), sp = S.byId(d.specials, id);
     if (!sp) { refreshDeals(); return; }
-    const ok = await U.confirm({ title: 'Remove this deal?', body: sp.name + ' comes off the Try Me deals page and the home page in this browser.', okLabel: 'Remove deal', danger: true });
+    const ok = await U.confirm({ title: 'Remove this deal?', body: sp.name + ' comes off the Specials page and the home page in this browser.', okLabel: 'Remove deal', danger: true });
     if (!ok) { if (opener && document.contains(opener)) opener.focus(); return; }
     const rows = Array.from(dealEl.rows.querySelectorAll('tr[data-id]'));
     const i = rows.findIndex(r => r.getAttribute('data-id') === id);
@@ -230,7 +230,7 @@
     if (drawerOpen) closeDrawer(false);
     setSavedNote(null);
     refreshDeals();
-    U.toast('Removed. ' + sp.name + ' is off the Try Me deals page in this browser.', 'ok');
+    U.toast('Removed. ' + sp.name + ' is off the Specials page in this browser.', 'ok');
     const target = nextId ? dealEl.rows.querySelector('[data-edit="' + cssEsc(nextId) + '"]') : null;
     (target || dealEl.add).focus();
   }
@@ -271,7 +271,7 @@
 
     drawer.innerHTML =
       '<div class="drawer-head"><div><h2 id="drawer-title" tabindex="-1">' + (sp ? 'Edit deal' : 'Add a deal') + '</h2>' +
-      '<p class="drawer-sub">' + (sp ? 'Changes show on the Try Me deals page when you save.' : 'The new deal goes to the top of the Try Me deals page when you save.') + '</p></div>' +
+      '<p class="drawer-sub">' + (sp ? 'Changes show on the Specials page when you save.' : 'The new deal goes to the top of the Specials page when you save.') + '</p></div>' +
       '<button class="icon-btn" type="button" id="drawer-close" aria-label="Close without saving">' + icon('close') + '</button></div>' +
       '<div class="drawer-body">' +
       '<div class="deal-preview" aria-hidden="true"><p class="preview-label">Preview, as shoppers see it</p><div id="dp-card"></div></div>' +
@@ -365,7 +365,7 @@
       if (!shownDeals(S.load()).some(x => x.id === savedId)) { dealDept = 'all'; dealQuery = ''; dealEl.search.value = ''; }
       refreshDeals();
       setSavedNote(saved);
-      U.toast('Saved. It is live on the Try Me deals page in this browser.', 'ok');
+      U.toast('Saved. It is live on the Specials page in this browser.', 'ok');
       const btn = dealEl.rows.querySelector('[data-edit="' + cssEsc(savedId) + '"]');
       if (btn) btn.focus();
     });
@@ -429,7 +429,7 @@
     const d = S.load(), keep = postEl.deal.value, list = newestFirst(d.specials || []);
     postEl.deal.innerHTML = list.length
       ? list.map(sp => '<option value="' + esc(sp.id) + '">' + esc(sp.name + ' · ' + S.money(sp.price)) + '</option>').join('')
-      : '<option value="">No deals yet. Add one under Try Me deals.</option>';
+      : '<option value="">No deals yet. Add one under Specials.</option>';
     postEl.deal.disabled = !list.length;
     if (postDealChosen && list.some(sp => sp.id === keep)) postEl.deal.value = keep;
     else { postDealChosen = false; if (list.length) postEl.deal.value = list[0].id; }
@@ -681,7 +681,7 @@
     if (!sp) {
       ctx.clearRect(0, 0, W, H);
       setDownload(null);
-      setPostStatus('There are no deals to make a post from. Add one under Try Me deals first.', true);
+      setPostStatus('There are no deals to make a post from. Add one under Specials first.', true);
       postEl.canvas.setAttribute('aria-label', 'Empty post preview');
       return;
     }
@@ -914,7 +914,7 @@
      5. Publish
      ===================================================================== */
   const AREAS = [
-    { keys: ['specials'], label: 'Try Me deals' },
+    { keys: ['specials'], label: 'Specials' },
     { keys: ['branches'], label: 'Store hours and phone numbers' },
     { keys: ['announcements'], label: 'Staff notices' }
   ];
