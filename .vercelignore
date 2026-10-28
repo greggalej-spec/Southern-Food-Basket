@@ -2,3 +2,5 @@ _capture.html
 tools/
 *.md
 .claude/
+.env*
+.next/
