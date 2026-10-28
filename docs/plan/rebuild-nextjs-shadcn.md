@@ -325,6 +325,42 @@ Gregg chose Option A after reading this plan. The work is on branch `next-rebuil
 - Checked 2026-10-28 on `localhost:4176`: all four pages load the seed, no image is broken, and every asset link
   answers 200.
 
+**The page tracks (A3, A6–A8; careers).** Five tracks ran in parallel, each in its own folders, and were reviewed,
+checked in the browser and committed one at a time: public pages `646a451`, HR `7b3a46a`, portal `f8502ba`, careers
+`f9d2b5f`, admin `efb80d6`. Anything that depends on the session or the browser's copy of the data renders after
+hydration; the server render shows the seed. Departures, each kept small on purpose:
+- Public: the specials page shows every deal on first paint until the query is read. There is no popstate listener,
+  as in `site.js`; the URL writes use `replaceState`, so they add no history entries.
+- Careers: KYC previews use object URLs instead of `FileReader`. The "Application submitted" toast is raised by
+  `/careers/me` from `?submitted=1`, which it then removes. The roles board shows every role until the query is read.
+- HR and admin: the drawer is the shared Sheet, which exists in the DOM only while open (the static page kept it with
+  `aria-hidden` and `inert`); Base UI traps focus instead of the old Tab wrap. `<main>` keeps the shell's id
+  `app-main` (static: `hr-main`, `admin-main`); nothing targets either. Admin closes the off-canvas sidebar by
+  clicking the shell's menu button, because the shell owns that state.
+- Admin, on purpose: the publish panel's hand-off file is now `seed.ts` in `lib/seed.ts`'s shape, and its copy names
+  that file. A `window.SFB_DATA` script would hand the web team a file this build never reads.
+- Portal: sign-out navigates to `/portal` first and the sign-in page ends the session, because logging out while a
+  portal page is mounted wakes its role guard. The document input is remounted after each upload.
+- Dev only: `router.refresh()` and Fast Refresh rewrite the address to Next's own copy of it, which drops a hash set
+  through `location.hash`. The app never calls `refresh()`, and real clicks and keys keep the hash.
+
+**Old addresses (A11, first half).** `next.config.ts` redirects the static site's `.html` addresses with 307s, so
+the alias can still be pointed back at the static site. The query passes through, so `?dept=` and `?next=` keep
+working.
+- `job.html?id=` and `apply.html?id=` go to `/careers/[id]` and `/careers/[id]/apply` only when the id is slug
+  characters. Anything else goes to `/careers`. The old `?id=` stays on the new address; the pages ignore it.
+- `/options` and `/options/a|b|c` go to their `index.html`, because `public/` serves files, not folders, and the
+  pages' relative links need the `/options/` base that Next's trailing-slash redirect would drop.
+- Checked with curl on 2026-10-28:
+  - Every old address answered 307 to its route.
+  - `?id=..%2Fhr`, `?id=x%2F%2Fevil.com` and `?id=JOB` fell back to `/careers`.
+  - `/portal/evil.html` gave 404.
+  - `/SITE.md`, `/docs/…` and `/tools/…` gave 404.
+
+**The static site removed.** The HTML pages, `assets/css/`, `assets/js/`, `data/seed.js` and the old home template are
+deleted, along with their lint ignores. The image provenance note moved from `assets/img/SOURCES.md` to
+`docs/SOURCES.md`, so the site no longer serves it.
+
 **Departure: the skip link.** The old rule hides it with `top: -100px` inside the header. Below a tall demo banner
 (209 px on a phone) that still leaves it on screen. The live site has the same bug: at 375 px on `careers/index.html`
 it sits at top 108.8 px. `tokens.css` now clips it until it has focus. **The same fix is still owed on `concept-v1`.**

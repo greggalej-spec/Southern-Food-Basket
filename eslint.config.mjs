@@ -12,9 +12,7 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
-    // The static site this app replaces. Each file is deleted once its pages are ported; remove the line with it.
-    "assets/js/**",
-    "data/**",
+    // The CommonJS scripts behind `npm run scene`, which write app/(home)/scene.ts.
     "tools/grand-entrance/**",
     // Plain script served as-is from public/, shared with the option pages.
     "public/assets/options-nav/**",

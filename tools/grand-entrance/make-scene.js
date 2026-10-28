@@ -167,7 +167,7 @@ for (let i = -12; i < 24; i++) { const x = 60 + i * 130; s += `<path d="M${x} 79
 s += `<rect x="700" y="770" width="200" height="14" fill="#F3F1EA" opacity=".8"/><rect x="700" y="790" width="200" height="14" fill="#F3F1EA" opacity=".8"/><rect x="700" y="810" width="200" height="14" fill="#F3F1EA" opacity=".8"/>`;
 // company flags on the wing roofs, drawn after the real ones (team-flags.webp): white field, a swept pink edge top and
 // bottom each with a green line inside, the full logo across the middle, a black sleeve on the pole.
-// assets/js/living.js drapes this same design (FLAG, vTop, vBot) on a cloth simulation; this flat cloth is the
+// lib/home/living.ts drapes this same design (FLAG, vTop, vBot) on a cloth simulation; this flat cloth is the
 // no-JS and reduced-motion version. Cloth 150×100, hoist pinned 4 units right of the pole.
 const FLAG = { w: 150, h: 100, top: 194 };
 const vTop = u => .15 - .06 * u + .012 * Math.sin(Math.PI * u), vBot = u => .89 - .07 * u + .012 * Math.sin(Math.PI * u);

@@ -18,7 +18,7 @@ export const SITE_NAV = [
 
 export type SiteNavId = (typeof SITE_NAV)[number]["id"];
 
-/** The real logo, traced to SVG from the company's own artwork (public/assets/img/SOURCES.md). */
+/** The real logo, traced to SVG from the company's own artwork (docs/SOURCES.md). */
 export function Logo() {
   return <img src="/assets/img/sfb-logo.svg" alt="Southern Food Basket" width="861" height="393" decoding="async" />;
 }

@@ -5,38 +5,53 @@ south Trinidad. Not affiliated with the company. Version 2 (2026-10-23) uses the
 posted special prices from its public Instagram, in a traditional look aimed at older shoppers and millennials.
 People, jobs, documents, hours and phone numbers are demo data. Sources: `SITE.md`; design law: `DESIGN.md`.
 
+This branch (`next-rebuild`) is the same site ported to Next.js 16, Tailwind 4 and shadcn. Plan and port log:
+`docs/plan/rebuild-nextjs-shadcn.md`.
+
 ## What is in it
 
-| Area | Pages | Notes |
+| Area | Routes | Notes |
 |---|---|---|
-| Public site | `index`, `specials`, `departments`, `wholesale`, `locations`, `about` | static, data from `data/seed.js` |
-| Hiring portal | `careers/index`, `careers/job`, `careers/apply`, `careers/me` | five-step application with a KYC document step; applicant dashboard |
-| HR console | `hr/index` | pipeline board, document review (verify / flag), roles, employee compliance |
-| Employee portal | `portal/index` (demo login), `home`, `schedule`, `leave`, `pay`, `docs`, `profile` | demo roles: Applicant, Employee, HR |
+| Public site | `/`, `/specials`, `/departments`, `/wholesale`, `/locations`, `/about` | the home is the Grand Entrance scene |
+| Hiring portal | `/careers`, `/careers/[id]`, `/careers/[id]/apply`, `/careers/me` | five-step application with a KYC document step; applicant dashboard |
+| HR console | `/hr` | pipeline board, document review (verify / flag), roles, employee compliance |
+| Store admin | `/admin` | specials, Instagram post maker, store hours, staff notices, publish |
+| Employee portal | `/portal` (demo login), `/portal/home`, `schedule`, `leave`, `pay`, `docs`, `profile` | demo roles: Applicant, Employee, HR, Store admin |
+| Design options | `/options/index.html`, `/options/a/`, `b/`, `c/` | the three earlier home designs, static, in `public/options/` |
 
-No backend. State lives in `localStorage` through `assets/js/store.js`; "Reset demo" in any footer clears it.
-KYC "uploads" are previewed in the browser only; the store keeps file name, size, type and dates, never bytes.
+No backend. State lives in `localStorage` through `lib/store.ts` (seed in `lib/seed.ts`); "Reset demo" in any footer
+clears it. KYC "uploads" are previewed in the browser only; the store keeps file name, size, type and dates, never
+bytes. The static site's `.html` addresses redirect to these routes (`next.config.ts`).
 
 ## Run
 
 ```bash
-python -m http.server 4175
+npm install
 ```
 
-Then open http://localhost:4175/ . Any static server works; there is no build step.
+```bash
+npm run dev
+```
+
+Then open http://localhost:3000/ (the `sfb-next` entry in `Dev/.claude/launch.json` uses port 4176). After editing
+`tools/grand-entrance/make-scene.js`, run `npm run scene` to rebuild `app/(home)/scene.ts`.
 
 ## Layout
 
 ```
-assets/css/tokens.css   tokens + primitives (DESIGN.md is the law)
-assets/css/app.css      portal / HR shell and components
-assets/css/site.css     public pages      assets/css/careers.css · portal.css  section extras
-assets/js/store.js      mock data layer   assets/js/ui.js  header, footer, app shell, helpers
-assets/js/site.js · careers.js · hr.js · portal.js   page logic
-data/seed.js            all demo data (bump `version` when it changes)
-assets/img/             logo cut-out and the company's Instagram photos; provenance in SOURCES.md
+app/(home)/             the Grand Entrance home (its own root layout); scene.ts is generated
+app/(sfb)/              every other route, one folder per area
+components/             site and app shells, shared parts; one folder per area (site, careers, hr, admin, portal, home)
+components/ui/          shadcn components
+lib/store.ts            mock data layer (useSyncExternalStore over localStorage)
+lib/seed.ts             all demo data (bump `version` when it changes)
+lib/<area>/             helpers per area
+styles/                 tokens.css (DESIGN.md is the law) and the section stylesheets
+public/assets/img/      logo and the company's Instagram photos; provenance in docs/SOURCES.md
+tools/grand-entrance/   the scene generator
 ```
 
 ## Deploy
 
-Vercel, static. Preview deploys only from this branch (`concept-v1`); production is a human decision.
+Preview deploys only, to a separate Vercel project. The live alias still serves the static site from `concept-v1`;
+production is a human decision.

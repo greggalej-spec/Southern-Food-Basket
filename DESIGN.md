@@ -10,7 +10,7 @@ change here first.
 the store from Instagram. Familiar supermarket structure, loud prices, calm everything else. Copy is plain,
 specific and warm; no exclamation marks in headings; no "unbeatable / amazing / adventure / elevate / seamless".
 
-## Colour (tokens in `assets/css/tokens.css`; names kept from v1 so every page re-themes)
+## Colour (tokens in `styles/tokens.css`; names kept from v1 so every page re-themes)
 | Token | Hex | Role | Contrast |
 |---|---|---|---|
 | `--pink` brand raspberry | `#E3336F` | logo pink: ribbons, large headings, decorative fills | large text only (4.0:1 on cream) |
@@ -59,7 +59,7 @@ Each motif means one thing, so a shopper learns it once:
 - **Pink and green flags = the company.** Drawn from its real flags, logo included, flying as cloth.
 - **The memorial card is still.** No motion and no ornament beyond the arch; the family supplies any words or
   photograph.
-- **Living layer** (`assets/js/living.js`): hand-written physics, no libraries. Cloth flags with soft, shadow-only
+- **Living layer** (`lib/home/living.ts`): hand-written physics, no libraries. Cloth flags with soft, shadow-only
   fold shading; a crew whose arms are jointed and who each wave on their own rhythm; palms that rock and lean
   into scroll gusts; birds; bunting over the specials; swinging seals; word-mask reveals. Every job sleeps off
   screen; under reduced motion none of it runs and the scene holds a still pose. No reflections or glints on
@@ -78,7 +78,7 @@ Each motif means one thing, so a shopper learns it once:
 ## Imagery
 Real only. The logo is cut from a company photo; product and store photos are the company's own Instagram
 posts, cropped to remove their baked-in logo and price badges (prices are re-rendered as live text). No photos
-of children; event photos only of staff in uniform. Provenance in `assets/img/SOURCES.md`.
+of children; event photos only of staff in uniform. Provenance in `docs/SOURCES.md`.
 
 ## Honesty
 - Footer disclaimer on every page; dismissable banner on careers, HR and portal pages.
@@ -88,10 +88,9 @@ of children; event photos only of staff in uniform. Provenance in `assets/img/SO
   company's posts.
 
 ## Contract for page builders
-- Every page: `<html lang="en" data-root="./">` (`../` in subfolders). Load `tokens.css`, the section stylesheet,
-  then `data/seed.js`, `store.js`, `ui.js`, the page script. Fonts: one Google Fonts link for Caprasimo,
-  Atkinson Hyperlegible Next and Alfa Slab One.
-- Public pages: `<header data-sfb-header data-active="…">` and `<footer data-sfb-footer>`.
-- App pages: `<body data-app="portal|careers|hr" data-active="…" data-banner>` with `<main data-app-main>`.
-- Strings go through `SFBUI.esc()` or `textContent`. Prices via `SFBStore.money()` (TTD) or `SFBUI.seal()`.
-  Dates via `SFBUI.fmtDate()`. State only in `SFBStore`; never store file bytes.
+- Fonts come from `lib/fonts.ts` (`next/font`): Caprasimo, Atkinson Hyperlegible Next and Alfa Slab One.
+- Public pages render inside `<SiteFrame>`; app pages inside `<AppShell app="…" active="…">`. Each names the
+  section stylesheets it needs (`css={["app", "hr"]}`), which load from `styles/`.
+- React escapes text; `dangerouslySetInnerHTML` is banned by lint except for the generated home scene. Prices via
+  `money()` from `lib/format.ts` (TTD) or `<PriceSeal>`; dates via `fmtDate()`. State only through `lib/store.ts`
+  (`useData`, `update`); never store file bytes.

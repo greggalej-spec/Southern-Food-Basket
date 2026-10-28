@@ -1,5 +1,7 @@
 # Image provenance
 
+The files listed here are in `public/assets/img/`. This note sits in `docs/` so the site never serves it.
+
 Policy (DESIGN.md v2): real imagery only. No stock, no AI-generated food, no photos of children.
 
 Every image here comes from Southern Food Basket's own public Instagram posts, which Gregg downloaded and
@@ -10,7 +12,7 @@ permission.
 
 Processing: cropped and resized with ffmpeg to 800 px wide WebP (quality 80). Product crops remove the company's
 baked-in logo, "NEW PRODUCT" corner and "1 FOR $x · TRY ME" badge; the site re-renders prices as live text from
-`data/seed.js`. Post dates come from the Unix timestamp in each downloaded file name.
+`lib/seed.ts`. Post dates come from the Unix timestamp in each downloaded file name.
 
 ## Brand
 

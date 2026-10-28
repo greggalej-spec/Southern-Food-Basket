@@ -297,7 +297,7 @@ dialog.sfb-dialog .dialog-actions { display: flex; gap: var(--s3); justify-conte
   *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
 }
 @media print {
-  .site-header, .site-footer, .concept-banner, .toast-host, .app-sidebar, .app-topbar, .no-print { display: none !important; }
+  .site-header, .site-footer, .concept-banner, .toast-host, [data-sonner-toaster], .app-sidebar, .app-topbar, .no-print { display: none !important; }
   body { background: #fff; }
 }
 .utility-phone { white-space: nowrap; }

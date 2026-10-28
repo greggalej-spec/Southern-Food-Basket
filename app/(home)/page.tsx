@@ -1,5 +1,6 @@
 import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { HomeLive } from "@/components/home/home-live";
 import { StoreToday } from "@/components/home/store-today";
 import { PriceSeal } from "@/components/price-seal";
@@ -201,9 +202,9 @@ export default function HomePage() {
           ))}
         </nav>
         <nav className="quick" aria-label="Quick links">
-          <a className="quick-jobs" href="/careers">
+          <Link className="quick-jobs" href="/careers">
             Careers
-          </a>
+          </Link>
           <a className="quick-stores" href="#stores">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 21s-6.5-5.8-6.5-11A6.5 6.5 0 0 1 18.5 10c0 5.2-6.5 11-6.5 11Z" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" />
@@ -249,9 +250,9 @@ export default function HomePage() {
             <h2>Come on in.</h2>
             <p>The team in red is ready for you at all five stores, seven days a week.</p>
             <div className="intro-actions">
-              <a className="btn btn-sign" href="/careers">
+              <Link className="btn btn-sign" href="/careers">
                 See open jobs
-              </a>
+              </Link>
               <a className="btn btn-outline" href="#deals">
                 See the specials
               </a>
@@ -393,7 +394,7 @@ export default function HomePage() {
               ))}
             </div>
             <p className="more">
-              <a href="/specials">All specials, with filters</a>
+              <Link href="/specials">All specials, with filters</Link>
             </p>
           </div>
         </section>
@@ -421,12 +422,12 @@ export default function HomePage() {
                 ))}
               </ul>
               <div className="row">
-                <a className="btn btn-sign" href="/careers">
+                <Link className="btn btn-sign" href="/careers">
                   See open jobs
-                </a>
-                <a className="btn btn-outline" href="/portal">
+                </Link>
+                <Link className="btn btn-outline" href="/portal">
                   Staff portal
-                </a>
+                </Link>
               </div>
             </div>
           </div>
@@ -650,14 +651,14 @@ export default function HomePage() {
           <div>
             <h3>Visit</h3>
             <ul>
-              <li><a href="/careers">Careers</a></li>
+              <li><Link href="/careers">Careers</Link></li>
               <li><a href="#deals">Specials</a></li>
-              <li><a href="/specials">All specials</a></li>
+              <li><Link href="/specials">All specials</Link></li>
               <li><a href="#aisles">Departments</a></li>
               <li><a href="#stores">Store hours</a></li>
-              <li><a href="/about">About us</a></li>
-              <li><a href="/portal">Staff portal</a></li>
-              <li><a href="/hr">HR console</a></li>
+              <li><Link href="/about">About us</Link></li>
+              <li><Link href="/portal">Staff portal</Link></li>
+              <li><Link href="/hr">HR console</Link></li>
             </ul>
           </div>
         </div>

@@ -2,7 +2,8 @@
 
 - **What:** concept website + hiring portal with applicant KYC + HR console + employee portal for a real south-Trinidad grocer, built unsolicited. v1 2026-10-22 (modern, own illustrations); v2 2026-10-23 (traditional, real brand) after Gregg judged v1 too modern for older shoppers and millennials; v3 2026-10-24: four homepage designs on one site, the Grand Entrance (animated store-front arrival) as the main home page, after Gregg rejected the v2 home. Badged "Unofficial concept" on every page.
 - **Kind:** concept (classification: third-party-media). The logo, product photos and special prices come from the company's own public Instagram, supplied by Gregg on 2026-10-23. No business permission is recorded.
-- **Run:** static; `python -m http.server 4175` in the folder (or the `sfb` / `sfb-options` entries in `Dev/.claude/launch.json`, ports 4175 and 4180), open http://localhost:4175/. The home page is generated: edit `tools/grand-entrance/index.template.html` or `make-scene.js`, then `node tools/grand-entrance/build.js`.
+- **Run:** on `concept-v1` (the static site): `python -m http.server 4175` in the folder (or the `sfb` / `sfb-options` entries in `Dev/.claude/launch.json`, ports 4175 and 4180). On `next-rebuild` (the Next.js port): `npm run dev`, or the `sfb-next` entry on port 4176. The home scene is generated: edit `tools/grand-entrance/make-scene.js`, then `npm run scene`.
+- **Rebuild:** branch `next-rebuild` ports the site to Next.js 16 + Tailwind 4 + shadcn, page for page, still a mock with no backend. It deploys as previews to a separate Vercel project and does not touch the live alias. Plan and port log: `docs/plan/rebuild-nextjs-shadcn.md`.
 - **Deploy:** Vercel project `southern-food-basket` (static, no build), linked in `.vercel/` (gitignored). `.vercelignore` keeps `tools/` and the Markdown out of the upload. The first CLI deploy on 2026-10-23 was assigned the Production target by Vercel, so the public alias exists; the per-deploy URL is behind Vercel login.
 - **URL:** https://southern-food-basket.vercel.app (public, noindex; HTTP 200 and rendered in the browser 2026-10-23)
 - **Screenshot:** none in the registry yet
@@ -11,11 +12,11 @@
 - **Repo:** greggalej-spec/Southern-Food-Basket (private) · branch `concept-v1` · Source: `_work.json` slug `southern-food-basket`
 
 ## Layout (v3)
-- `/` the main design, Grand Entrance (`assets/css/grand-entrance.css`, `assets/js/grand-entrance.js`, scene generator in `tools/grand-entrance/`)
-- `/options/` chooser; `/options/a/` The Storefront, `/options/b/` The Weekly Flyer, `/options/c/` Market Day. Each option keeps its own Home; every other link reaches the one shared site.
-- One portal for all designs: `careers/`, `portal/`, `hr/`, `admin/`, plus the inner pages (still in the v2 look).
-- Switcher on every home (`assets/options-nav/`): a pill that compacts to a sphere, draggable to either bottom corner (remembered in localStorage), with cross-page view transitions.
-- Trinovata credit on every home and the chooser (built by `assets/options-nav/options-nav.js`): the on-dark triangle mark (`assets/img/trinovata-mark-ondark.png`, 64 px copy of `Products/Trinovata-Brand/brand/01-logo/trinovata-mark-ondark-alpha.png`) and "Created by Trinovata Technologies", linking to trinovata.com. Bottom-left on phones (beside the sphere when it sits left), bottom-centre from 900 px. Styled to the brand book: ink scrim, #F2F0EB text, 16 px mark with 8 px clear space, 6 px corners, Archivo 13 px. The brand book only approves "Engineered with"; Gregg asked for "Created by" in chat on 2026-10-24.
+- `/` the main design, Grand Entrance (`app/(home)/`, `styles/home.css`, `lib/home/`, scene generator in `tools/grand-entrance/`)
+- `/options/` chooser; `/options/a/` The Storefront, `/options/b/` The Weekly Flyer, `/options/c/` Market Day (static pages in `public/options/`, reached at `…/index.html`). Each option keeps its own Home; every other link reaches the one shared site.
+- One portal for all designs: `/careers`, `/portal`, `/hr`, `/admin`, plus the inner pages (still in the v2 look).
+- Switcher on every home (`public/assets/options-nav/`): a pill that compacts to a sphere, draggable to either bottom corner (remembered in localStorage), with cross-page view transitions.
+- Trinovata credit on every home and the chooser (built by `public/assets/options-nav/options-nav.js`): the on-dark triangle mark (`public/assets/img/trinovata-mark-ondark.png`, 64 px copy of `Products/Trinovata-Brand/brand/01-logo/trinovata-mark-ondark-alpha.png`) and "Created by Trinovata Technologies", linking to trinovata.com. Bottom-left on phones (beside the sphere when it sits left), bottom-centre from 900 px. Styled to the brand book: ink scrim, #F2F0EB text, 16 px mark with 8 px clear space, 6 px corners, Archivo 13 px. The brand book only approves "Engineered with"; Gregg asked for "Created by" in chat on 2026-10-24.
 - Standalone archives of each design, as they were before the merge: greggalej-spec/sfb-option-a-storefront, -b-weekly-flyer, -c-market-day, -d-grand-entrance (private; each carries its own copy of the portal from `5da9a31`).
 
 ## Social feeds
@@ -32,7 +33,7 @@
 - Counters (in-house bakery, restaurant, fresh fruit and vegetables, butcher shop, household, pharmacy), head-office phone +1 868-225-4732, WhatsApp channel and TikTok — the company's public Facebook page intro
 - Couva store grand opening in California, Couva, dated "09/05/26" on a TikTok screenshot Gregg sent (5 September or 9 May 2026; Couva-tagged posts start 9 September)
 - Imports include table potatoes, cabbage, frozen beef, raisins — Panjiva; exporter listing for beans, fresh fruit, frozen meats, vegetables — ExportersIndia
-- 25 "1 FOR $x · TRY ME" prices with post dates June–October 2026 — the company's Instagram (`data/seed.js` → `specials`)
+- 25 "1 FOR $x · TRY ME" prices with post dates June–October 2026 — the company's Instagram (`lib/seed.ts` → `specials`)
 - Instagram handle `southernfoodbasket` — listed on the company's Facebook page intro (and in the downloaded file names)
 
 ## Demo data (invented, labelled on the site)
