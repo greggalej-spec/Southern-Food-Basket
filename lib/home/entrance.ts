@@ -200,7 +200,9 @@ export function startEntrance(): { stage: Stage | null; stop: () => void } {
       if (document.startViewTransition && !reduce.matches) {
         const root = document.documentElement;
         root.classList.add("vt-dept"); // the cards morph; the page-to-page bloom stays out of it
-        document.startViewTransition(() => apply(v)).finished.finally(() => root.classList.remove("vt-dept"));
+        const vt = document.startViewTransition(() => apply(v));
+        vt.ready.catch(() => {}); // a quick second switch skips this one; that is not an error
+        vt.finished.finally(() => root.classList.remove("vt-dept"));
       } else apply(v);
     };
     apply(layout);
