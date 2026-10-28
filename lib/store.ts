@@ -140,9 +140,21 @@ export function useHydrated() {
   return useSyncExternalStore(noSubscribe, () => true, () => false);
 }
 
-/** ?next= is honoured only when it is a plain path inside the site. */
+const NEXT_BASE = "http://sfb.invalid";
+
+/** ?next= is honoured only when it is a path inside the site. It is parsed, not pattern-matched: the URL parser drops
+ *  tabs and newlines (`/\t/evil.example`) and resolves dot segments (`/.//evil.example` becomes `//evil.example`), and
+ *  either would leave a protocol-relative link to another site. */
 export function safeNext(next: string | null | undefined) {
-  return next && /^\/(?![/\\])/.test(next) ? next : null;
+  if (!next || next[0] !== "/") return null;
+  let u: URL;
+  try {
+    u = new URL(next, NEXT_BASE);
+  } catch {
+    return null;
+  }
+  if (u.origin !== NEXT_BASE || u.pathname.startsWith("//")) return null;
+  return u.pathname + u.search + u.hash;
 }
 
 /** The session when it has one of these roles. Otherwise sends the visitor to the demo sign-in, keeping the query

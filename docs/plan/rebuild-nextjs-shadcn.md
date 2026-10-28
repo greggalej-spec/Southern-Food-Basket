@@ -278,7 +278,9 @@ Gregg chose Option A after reading this plan. The work is on branch `next-rebuil
   Mon–Sat row.
 - `useRequireRole([…])` guards each portal page. It renders nothing until hydrated, then sends anyone without the role to
   `/portal?next=…` with the query and hash kept. The login page must pass `next` through `safeNext()`, which allows only
-  paths on this site.
+  paths on this site. It parses the value rather than matching a pattern, because the URL parser drops tabs and
+  newlines and resolves `/.//`, and either can turn a path into a link to another site. The login page also keeps
+  `portal.js`'s role-area check (`ROLE_AREA`), so an applicant's `next` cannot open `/hr`.
 - The page chrome is `SiteFrame` (public and careers pages) and `AppShell` (portals). Their markup is the old markup;
   19 measured metrics each match the live `specials.html` and `hr/index.html` at 1280 px.
 - In `AppShell`, the HR and admin tab links (`/hr#roles`) are plain `<a>`, so `hashchange` fires as the old tab code
