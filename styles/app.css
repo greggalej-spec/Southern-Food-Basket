@@ -1,0 +1,200 @@
+/* Ported from assets/css/app.css by tools/port/scope-css.mjs (scope:app). Edit here; the static file is retired. */
+/* Southern Food Basket — app shell (careers dashboard, HR console, employee portal). Requires tokens.css. */
+:where([data-css~="app"]) .app{ display: grid; min-height: 100dvh; grid-template-columns: 1fr; background: var(--cream); }
+:where([data-css~="app"]) .app-sidebar{ position: fixed; inset: 0 auto 0 0; width: 272px; transform: translateX(-100%); transition: transform var(--t) var(--ease); z-index: 60;
+  background: var(--leaf); color: #DCE5DD; display: flex; flex-direction: column; padding: var(--s5) var(--s4); gap: var(--s5); overflow-y: auto; }
+:where([data-css~="app"]) .app.sidebar-open .app-sidebar{ transform: none; box-shadow: var(--shadow-lift); }
+:where([data-css~="app"]) .app.sidebar-open::before{ content: ""; position: fixed; inset: 0; background: rgba(18,63,34,.5); z-index: 50; }
+:where([data-css~="app"]) .app-brand{ display: flex; align-items: center; gap: 10px; color: #fff; text-decoration: none; font: 400 1.0625rem/1.15 var(--display); }
+:where([data-css~="app"]) .app-brand .sfb-mark{ width: 46px; height: 46px; flex: none; }
+:where([data-css~="app"]) .app-brand small{ display: block; font: 700 0.75rem/1 var(--ui); letter-spacing: 0.1em; text-transform: uppercase; color: #A9C2AF; margin-top: 6px; }
+:where([data-css~="app"]) .app-nav{ display: grid; gap: 2px; }
+:where([data-css~="app"]) .app-nav a{ display: flex; align-items: center; gap: 12px; padding: 12px; border-radius: var(--r-sm); color: #E3EBE4; text-decoration: none; font: 700 1rem var(--ui); transition: background var(--t) var(--ease); }
+:where([data-css~="app"]) .app-nav a:hover{ background: rgba(255,255,255,.08); color: #fff; }
+:where([data-css~="app"]) .app-nav a[aria-current="page"]{ background: rgba(255,255,255,.14); color: #fff; box-shadow: inset 0 -3px 0 var(--yellow); }
+:where([data-css~="app"]) .app-nav-group{ margin: var(--s4) 12px var(--s1); font: 800 0.75rem/1.2 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: #A9C2AF; }
+:where([data-css~="app"]) .app-nav .icon, :where([data-css~="app"]) .app-sidebar-foot .icon{ width: 20px; height: 20px; flex: none; opacity: .9; }
+:where([data-css~="app"]) .app-sidebar-foot{ margin-top: auto; display: grid; gap: 4px; border-top: 1px solid rgba(255,255,255,.12); padding-top: var(--s4); }
+:where([data-css~="app"]) .app-sidebar-foot a, :where([data-css~="app"]) .app-sidebar-foot button{ display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: var(--r-sm); color: #DCE5DD; background: none; border: 0; font: 600 0.875rem var(--ui); cursor: pointer; text-decoration: none; text-align: left; }
+:where([data-css~="app"]) .app-sidebar-foot a:hover, :where([data-css~="app"]) .app-sidebar-foot button:hover{ background: rgba(255,255,255,.07); color: #fff; }
+:where([data-css~="app"]) .app-sidebar-foot p{ color: #9FB3A3; margin: var(--s3) 12px 0; }
+:where([data-css~="app"]) .app-body{ min-width: 0; display: flex; flex-direction: column; }
+:where([data-css~="app"]) .app-topbar{ position: sticky; top: 0; z-index: 30; display: flex; align-items: center; gap: var(--s4); min-height: 64px; padding: 0 var(--s4); background: rgba(255,248,241,.96); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+:where([data-css~="app"]) .app-menu-btn{ display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; height: 44px; padding: 0 12px; border: 2px solid var(--green); border-radius: var(--r-btn); background: var(--flour); color: var(--green); font: 800 0.9375rem var(--ui); cursor: pointer; flex: none; }
+:where([data-css~="app"]) .app-menu-btn .icon{ width: 22px; height: 22px; }
+:where([data-css~="app"]) .app-topbar-title{ display: flex; flex-direction: column; min-width: 0; }
+:where([data-css~="app"]) .app-topbar-title strong{ font: 400 1.1875rem/1.2 var(--display); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+:where([data-css~="app"]) .app-user{ margin-left: auto; display: flex; align-items: center; gap: 10px; min-width: 0; }
+:where([data-css~="app"]) .app-user-name{ font: 600 0.875rem var(--ui); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 140px; }
+:where([data-css~="app"]) .app-avatar{ width: 36px; height: 36px; border-radius: 50%; background: var(--green); color: #fff; display: inline-flex; align-items: center; justify-content: center; font: 700 0.8125rem var(--ui); flex: none; }
+:where([data-css~="app"]) .app-main{ padding: var(--s5) var(--s4) var(--s9); width: 100%; max-width: 1280px; margin-inline: auto; }
+@media (min-width: 910px) {
+  :where([data-css~="app"]) .app{ grid-template-columns: 272px 1fr; }
+  :where([data-css~="app"]) .app-sidebar{ position: sticky; top: 0; height: 100dvh; transform: none; }
+  :where([data-css~="app"]) .app.sidebar-open::before{ display: none; }
+  :where([data-css~="app"]) .app-menu-btn{ display: none; }
+  :where([data-css~="app"]) .app-topbar{ padding: 0 var(--s6); }
+  :where([data-css~="app"]) .app-main{ padding: var(--s6) var(--s6) var(--s9); }
+}
+
+/* page header inside app-main */
+:where([data-css~="app"]) .page-head{ display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--s4); margin-bottom: var(--s5); }
+:where([data-css~="app"]) .page-head h1{ font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem); margin: 0; }
+:where([data-css~="app"]) .page-head p{ margin: 6px 0 0; }
+
+/* stats */
+:where([data-css~="app"]) .stats{ display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); margin-bottom: var(--s5); }
+:where([data-css~="app"]) .stat{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s4) var(--s5); }
+:where([data-css~="app"]) .stat .stat-label{ font: 700 0.75rem/1.3 var(--ui); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+:where([data-css~="app"]) .stat .stat-value{ font: 800 2rem/1.1 var(--ui); font-variant-numeric: tabular-nums; margin-top: 6px; }
+:where([data-css~="app"]) .stat .stat-sub{ font-size: 0.8125rem; color: var(--muted); margin-top: 4px; }
+@media (max-width: 640px) {
+  :where([data-css~="app"]) .stats{ gap: var(--s3); }
+  :where([data-css~="app"]) .stat{ padding: var(--s4); }
+  :where([data-css~="app"]) .stat .stat-value{ font-size: 1.5rem; overflow-wrap: normal; word-break: keep-all; }
+}
+
+/* panels */
+:where([data-css~="app"]) .panel{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); }
+:where([data-css~="app"]) .panel-head{ display: flex; align-items: center; justify-content: space-between; gap: var(--s3); padding: var(--s4) var(--s5); border-bottom: 1px solid var(--line); }
+:where([data-css~="app"]) .panel-head h2, :where([data-css~="app"]) .panel-head h3{ margin: 0; font: 800 1.125rem/1.3 var(--ui); }
+:where([data-css~="app"]) .panel-body{ padding: var(--s5); }
+:where([data-css~="app"]) .panel-body.flush{ padding: 0; }
+:where([data-css~="app"]) .two-col{ display: grid; gap: var(--s5); }
+:where([data-css~="app"]) .two-col > *{ min-width: 0; }
+@media (min-width: 1100px) { :where([data-css~="app"]) .two-col{ grid-template-columns: 2fr 1fr; align-items: start; } }
+:where([data-css~="app"]) .panel-head{ flex-wrap: wrap; }
+:where([data-css~="app"]) .panel, :where([data-css~="app"]) .stat, :where([data-css~="app"]) .card{ min-width: 0; }
+:where([data-css~="app"]) .kv dd, :where([data-css~="app"]) .list .grow, :where([data-css~="app"]) .doc-row .doc-file{ overflow-wrap: anywhere; }
+
+/* lists */
+:where([data-css~="app"]) .list{ list-style: none; margin: 0; padding: 0; }
+:where([data-css~="app"]) .list > li{ display: flex; gap: var(--s4); align-items: flex-start; padding: var(--s4) var(--s5); border-bottom: 1px solid var(--line); }
+:where([data-css~="app"]) .list > li:last-child{ border-bottom: 0; }
+:where([data-css~="app"]) .list .grow{ flex: 1; min-width: 0; }
+:where([data-css~="app"]) .list strong{ display: block; font-weight: 700; }
+:where([data-css~="app"]) .list .meta{ font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+
+/* document rows (KYC) */
+:where([data-css~="app"]) .doc-row{ display: grid; grid-template-columns: 1fr auto; gap: var(--s3) var(--s4); align-items: center; padding: var(--s4) var(--s5); border-bottom: 1px solid var(--line); }
+:where([data-css~="app"]) .doc-row:last-child{ border-bottom: 0; }
+:where([data-css~="app"]) .doc-row .doc-name{ font-weight: 700; }
+:where([data-css~="app"]) .doc-row .doc-desc{ font-size: 0.9375rem; color: var(--muted); margin-top: 2px; max-width: 60ch; }
+:where([data-css~="app"]) .doc-row .doc-file{ font-size: 0.875rem; color: var(--muted); margin-top: 6px; display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+/* phones: one column, the status badge drops under the document name so the text keeps the full width */
+@media (max-width: 639px) {
+  :where([data-css~="app"]) .doc-row{ grid-template-columns: minmax(0, 1fr); gap: var(--s2); padding: var(--s4); }
+  :where([data-css~="app"]) .doc-row > .badge, :where([data-css~="app"]) .doc-row .badge{ justify-self: start; }
+  :where([data-css~="app"]) .doc-row .doc-actions{ justify-content: flex-start; }
+  :where([data-css~="app"]) .doc-preview{ width: 44px; height: 44px; }
+}
+:where([data-css~="app"]) .doc-row .doc-actions{ display: flex; flex-wrap: wrap; gap: var(--s2); justify-content: flex-end; grid-column: 1 / -1; }
+:where([data-css~="app"]) .doc-row .doc-reason{ grid-column: 1 / -1; background: var(--bad-bg); color: var(--bad); border-radius: var(--r-sm); padding: 8px 12px; font-size: 0.875rem; }
+@media (min-width: 640px) { :where([data-css~="app"]) .doc-row{ grid-template-columns: 1fr auto auto; } :where([data-css~="app"]) .doc-row .doc-actions{ grid-column: auto; } }
+:where([data-css~="app"]) .doc-preview{ width: 56px; height: 56px; border-radius: var(--r-sm); object-fit: cover; border: 1px solid var(--line); background: var(--wash); }
+:where([data-css~="app"]) .dropzone{ border: 2px dashed var(--line-strong); border-radius: var(--r); padding: var(--s5); text-align: center; background: var(--flour); transition: border-color var(--t) var(--ease), background var(--t) var(--ease); }
+:where([data-css~="app"]) .dropzone.is-over{ border-color: var(--green); background: var(--green-wash); }
+:where([data-css~="app"]) .dropzone input[type="file"]{ position: absolute; width: 1px; height: 1px; opacity: 0; }
+
+/* stepper */
+:where([data-css~="app"]) .stepper{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: var(--s6); list-style: none; padding: 0; }
+:where([data-css~="app"]) .stepper li{ font: 700 0.75rem/1.3 var(--ui); color: var(--muted); padding-top: 10px; border-top: 3px solid var(--line); }
+:where([data-css~="app"]) .stepper li.is-done{ border-color: var(--green); color: var(--green); }
+:where([data-css~="app"]) .stepper li.is-current{ border-color: var(--clay); color: var(--ink); }
+:where([data-css~="app"]) .stepper li span{ display: none; }
+@media (min-width: 640px) { :where([data-css~="app"]) .stepper li span{ display: inline; } }
+
+/* status tracker (applicant) */
+:where([data-css~="app"]) .tracker{ display: grid; gap: var(--s3); list-style: none; padding: 0; margin: 0; }
+:where([data-css~="app"]) .tracker li{ display: flex; gap: var(--s3); align-items: flex-start; }
+:where([data-css~="app"]) .tracker .dot{ width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--line-strong); background: var(--flour); display: inline-flex; align-items: center; justify-content: center; flex: none; color: #fff; }
+:where([data-css~="app"]) .tracker .dot .icon{ width: 14px; height: 14px; }
+:where([data-css~="app"]) .tracker li.is-done .dot{ background: var(--green); border-color: var(--green); }
+:where([data-css~="app"]) .tracker li.is-current .dot{ border-color: var(--clay); box-shadow: 0 0 0 4px var(--pink-wash); }
+:where([data-css~="app"]) .tracker li.is-bad .dot{ background: var(--bad); border-color: var(--bad); }
+:where([data-css~="app"]) .tracker strong{ display: block; }
+:where([data-css~="app"]) .tracker .meta{ font-size: 0.8125rem; color: var(--muted); }
+
+/* timeline */
+:where([data-css~="app"]) .timeline{ list-style: none; margin: 0; padding: 0 0 0 var(--s4); border-left: 2px solid var(--line); display: grid; gap: var(--s3); }
+:where([data-css~="app"]) .timeline li{ position: relative; font-size: 0.9375rem; }
+:where([data-css~="app"]) .timeline li::before{ content: ""; position: absolute; left: calc(-1 * var(--s4) - 6px); top: 8px; width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
+:where([data-css~="app"]) .timeline time{ display: block; font-size: 0.75rem; color: var(--muted); }
+
+/* kanban (HR pipeline) */
+:where([data-css~="app"]) .board{ display: grid; grid-auto-flow: column; grid-auto-columns: minmax(250px, 1fr); gap: var(--s4); overflow-x: auto; padding-bottom: var(--s3); scroll-snap-type: x proximity; }
+:where([data-css~="app"]) .board-col{ position: relative; background: var(--wash); border-radius: var(--r); padding: var(--s3); min-height: 200px; scroll-snap-align: start; }
+:where([data-css~="app"]) .board-col-head{ display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 10px; font: 700 0.8125rem var(--ui); }
+:where([data-css~="app"]) .board-col-head .count{ background: var(--flour); border-radius: var(--pill); padding: 1px 8px; font-size: 0.75rem; color: var(--muted); }
+:where([data-css~="app"]) .board-card{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--s3) var(--s4); margin-bottom: var(--s2); cursor: pointer; text-align: left; width: 100%; font: inherit; color: inherit; transition: box-shadow var(--t) var(--ease), transform var(--t) var(--ease); }
+:where([data-css~="app"]) .board-card:hover{ box-shadow: var(--shadow); transform: translateY(-1px); }
+:where([data-css~="app"]) .board-card strong{ display: block; font-weight: 700; }
+:where([data-css~="app"]) .board-card .meta{ font-size: 0.8125rem; color: var(--muted); margin-top: 2px; }
+:where([data-css~="app"]) .board-card .docs{ margin-top: 8px; display: flex; gap: 4px; flex-wrap: wrap; }
+:where([data-css~="app"]) .board-card .docdot{ width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+:where([data-css~="app"]) .board-card .docdot.ok{ background: var(--lime); } :where([data-css~="app"]) .board-card .docdot.warn{ background: #F59E0B; } :where([data-css~="app"]) .board-card .docdot.bad{ background: #DC2626; }
+
+/* drawer */
+:where([data-css~="app"]) .drawer{ position: fixed; inset: 0 0 0 auto; width: min(100%, 560px); background: var(--flour); z-index: 70; transform: translateX(100%); transition: transform var(--t) var(--ease); display: flex; flex-direction: column; box-shadow: var(--shadow-lift); }
+:where([data-css~="app"]) .drawer.is-open{ transform: none; }
+:where([data-css~="app"]) .drawer-backdrop{ position: fixed; inset: 0; background: rgba(18,63,34,.5); z-index: 65; opacity: 0; pointer-events: none; transition: opacity var(--t) var(--ease); }
+:where([data-css~="app"]) .drawer-backdrop.is-open{ opacity: 1; pointer-events: auto; }
+:where([data-css~="app"]) .drawer-head{ display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s3); padding: var(--s5); border-bottom: 1px solid var(--line); }
+:where([data-css~="app"]) .drawer-head h2{ margin: 0; font-size: 1.375rem; }
+:where([data-css~="app"]) .drawer-body{ padding: var(--s5); overflow-y: auto; flex: 1; }
+:where([data-css~="app"]) .drawer-foot{ padding: var(--s4) var(--s5); border-top: 1px solid var(--line); background: var(--wash); display: flex; flex-wrap: wrap; gap: var(--s2); }
+:where([data-css~="app"]) .icon-btn{ width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line-strong); background: var(--flour); color: var(--ink); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex: none; }
+:where([data-css~="app"]) .icon-btn .icon{ width: 20px; height: 20px; }
+
+/* tabs */
+:where([data-css~="app"]) .tabs{ display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: var(--s5); overflow-x: auto; }
+:where([data-css~="app"]) .tabs button{ background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font: 600 0.9375rem var(--ui); color: var(--muted); cursor: pointer; white-space: nowrap; margin-bottom: -1px; }
+:where([data-css~="app"]) .tabs button[aria-selected="true"]{ color: var(--ink); border-color: var(--clay); }
+
+/* schedule */
+:where([data-css~="app"]) .week{ display: grid; gap: var(--s2); grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+:where([data-css~="app"]) .day{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r-sm); padding: var(--s3); min-height: 120px; }
+:where([data-css~="app"]) .day.is-today{ border-color: var(--green); box-shadow: 0 0 0 3px var(--green-wash); }
+:where([data-css~="app"]) .day .day-name{ font: 700 0.75rem/1.3 var(--ui); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+:where([data-css~="app"]) .day .day-date{ font: 800 1.125rem/1.2 var(--ui); margin: 2px 0 8px; }
+:where([data-css~="app"]) .day .shift{ background: var(--green-wash); color: var(--green); border-radius: var(--r-sm); padding: 8px 10px; font: 600 0.8125rem/1.3 var(--ui); }
+:where([data-css~="app"]) .day .shift small{ display: block; font-weight: 500; color: var(--muted); margin-top: 2px; }
+:where([data-css~="app"]) .day .off{ color: var(--muted); font-size: 0.8125rem; }
+
+/* leave balances */
+:where([data-css~="app"]) .bars{ display: grid; gap: var(--s3); }
+:where([data-css~="app"]) .bar{ display: grid; gap: 6px; }
+:where([data-css~="app"]) .bar-head{ display: flex; justify-content: space-between; font-size: 0.875rem; }
+:where([data-css~="app"]) .bar-track{ height: 8px; background: var(--wash); border-radius: var(--pill); overflow: hidden; }
+:where([data-css~="app"]) .bar-fill{ height: 100%; background: var(--green); border-radius: var(--pill); }
+
+/* payslip */
+:where([data-css~="app"]) .payslip{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s6); }
+:where([data-css~="app"]) .payslip-head{ display: flex; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; border-bottom: 1px solid var(--line); padding-bottom: var(--s4); margin-bottom: var(--s4); }
+:where([data-css~="app"]) .payslip table{ font-variant-numeric: tabular-nums; }
+:where([data-css~="app"]) .payslip tfoot td{ font-weight: 700; border-top: 2px solid var(--ink); border-bottom: 0; }
+:where([data-css~="app"]) .payslip .net{ font: 800 2rem/1.1 var(--ui); }
+
+/* role cards on demo login */
+:where([data-css~="app"]) .role-cards{ display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); }
+:where([data-css~="app"]) .role-card{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s5); text-align: left; font: inherit; color: inherit; cursor: pointer; transition: box-shadow var(--t) var(--ease), transform var(--t) var(--ease), border-color var(--t) var(--ease); display: grid; gap: var(--s3); }
+:where([data-css~="app"]) .role-card:hover{ box-shadow: var(--shadow-lift); transform: translateY(-2px); border-color: var(--green); }
+:where([data-css~="app"]) .role-card .icon{ width: 28px; height: 28px; color: var(--green); }
+:where([data-css~="app"]) .role-card strong{ font: 400 1.375rem/1.2 var(--display); }
+:where([data-css~="app"]) .role-card .who{ font-size: 0.875rem; color: var(--muted); }
+
+/* alerts */
+:where([data-css~="app"]) .alert{ border-radius: var(--r-sm); padding: var(--s3) var(--s4); font-size: 0.9375rem; display: flex; gap: var(--s3); align-items: flex-start; }
+:where([data-css~="app"]) .alert .icon{ width: 20px; height: 20px; flex: none; margin-top: 2px; }
+:where([data-css~="app"]) .alert-warn{ background: var(--warn-bg); color: var(--warn); }
+:where([data-css~="app"]) .alert-bad{ background: var(--bad-bg); color: var(--bad); }
+:where([data-css~="app"]) .alert-ok{ background: var(--ok-bg); color: var(--ok); }
+:where([data-css~="app"]) .alert-info{ background: var(--info-bg); color: var(--info); }
+
+/* generic helpers for app pages */
+:where([data-css~="app"]) .toolbar{ display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; margin-bottom: var(--s4); }
+:where([data-css~="app"]) .toolbar select, :where([data-css~="app"]) .toolbar input{ width: auto; min-width: 160px; max-width: 100%; }
+:where([data-css~="app"]) .toolbar > *{ min-width: 0; max-width: 100%; }
+:where([data-css~="app"]) .kv{ display: grid; grid-template-columns: max-content 1fr; gap: 6px var(--s4); font-size: 0.9375rem; }
+:where([data-css~="app"]) .kv dt{ color: var(--muted); } :where([data-css~="app"]) .kv dd{ margin: 0; }
+:where([data-css~="app"]) .icon{ width: 18px; height: 18px; vertical-align: -3px; }

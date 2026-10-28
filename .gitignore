@@ -8,3 +8,10 @@ node_modules/
 .vercel
 .env*
 .claude/
+
+# next.js app (next-rebuild)
+/.next/
+/out/
+*.tsbuildinfo
+next-env.d.ts
+*.pem

@@ -220,3 +220,51 @@ The formula is `TTD = hours × 20 USD × 8 (FX) × markup`. Each of those comes 
   ranges in sections 6 and 7 against what the ledger proposes.
 - **Someone proposes adding a React library to the static site.** It can't be done without this rebuild; point them
   here.
+
+## 12. Port log (Option A, started 2026-10-28)
+
+Gregg chose Option A after reading this plan. The work is on branch `next-rebuild`, in the worktree
+`.claude/worktrees/next-rebuild`. Preview locally with the `sfb-next` entry in `Dev/.claude/launch.json` (port 4176).
+
+**How the old CSS is carried over (A1).**
+- There are two root layouts. `app/(home)` loads only `styles/home.css` and has no Tailwind at all.
+  `app/(sfb)` loads Tailwind, shadcn and the other ported stylesheets. Crossing between them is a full page load, as
+  it is on the static site. `app/global-not-found.tsx` serves unmatched URLs.
+- `tools/port/scope-css.mjs` generates `styles/*.css` from `assets/css/*.css`:
+  - The home sheet is scoped under `body.ge-root`.
+  - Each page sheet is scoped under `:where([data-css~="<name>"])`, which adds no specificity.
+  - A `<Scope css={[…]} page="…">` wrapper with `display: contents` stands in for the old `<body data-…>`.
+  - Dialogs and sheets portal into the Scope, so page CSS still reaches them.
+- Cascade layers: Tailwind's preflight sits in `base`, the ported CSS sits in `components`, and utilities beat both.
+  Preflight wipes the browser defaults the old CSS relied on (link underlines, bullets, heading sizes, form fonts), so
+  `globals.css` restores them property by property. Elements that shadcn owns (`[data-slot]`) and Sonner are left out.
+- The shadcn components were rewritten to emit the old class names (`.btn`, `.badge`, `.card`, `.panel`, `.drawer`,
+  `.tabs`, `.table-wrap`, `.field`, `.toast`). Base UI supplies the behaviour: focus trap, portals, aria and the toast
+  queue. The look has one source, the ported CSS.
+
+**Departures from section 3.**
+- Selects, date fields, checkboxes and radios stay as native controls, as they are on the live site.
+  - The reasons: parity, the system date picker on phones, and older shoppers who know these controls.
+  - Removed: the shadcn Select, Popover, Calendar, Checkbox, RadioGroup and Separator.
+  - Uninstalled: `lucide-react`, `next-themes`, `react-day-picker` and `date-fns`. The icons stay the hand-drawn set
+    from `ui.js`.
+- Toasts call Sonner with a class (`toast-ok`, `toast-bad`), not `toast.success`/`toast.error`. Those add an icon the
+  old toasts never had.
+
+**Traps found (each is fixed; keep them in mind for the page tracks).**
+- **`--muted` means two things.** shadcn uses it as a background; `tokens.css` uses it as the muted text colour.
+  shadcn's unlayered `:root` won, and every lede and hint went near-invisible. `globals.css` now maps shadcn's
+  `--color-muted*` straight to brand tokens and never redefines `--muted`.
+- **Tailwind generates utilities for some legacy class names.** It generates `container`, `grid` and `grow`, and the
+  utilities layer beats the ported rule (`.container` lost its gutter). `@source not inline(…)` blocks them. Re-run
+  `node tools/port/tw-collisions.mjs .` after porting more markup.
+- **A Base UI portal with `container={null}` waits forever.** The Scope context is `undefined` outside a Scope (portal
+  to `body`) and `null` only before its node mounts.
+- **The dev watcher misses some edits.** On this machine `C:\Users\Gregg\Dev` is a junction to `D:\Dev`, and the
+  Turbopack watcher missed CSS edits. Restart the dev server to see stylesheet changes.
+- **`next/font` has no metrics for Atkinson Hyperlegible Next.** It uses `adjustFontFallback: false`, and the dev
+  warning about it is expected.
+
+**Left as it is for parity, to revisit after A10.** These are kept exactly as they were and are not new choices:
+- The ported CSS keeps `#fff` text on dark bands.
+- The home header and the app top bar keep `backdrop-filter: blur(10px)`.

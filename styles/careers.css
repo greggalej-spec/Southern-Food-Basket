@@ -1,0 +1,155 @@
+/* Ported from assets/css/careers.css by tools/port/scope-css.mjs (scope:careers). Edit here; the static file is retired. */
+/* Southern Food Basket — careers pages (index, job, apply) plus small extras for me.html and hr/index.html.
+   Requires tokens.css. Does not restyle anything tokens.css or app.css already covers. Law: DESIGN.md. */
+
+/* icons: tokens.css does not size .icon (app.css does); public careers pages need this */
+:where([data-css~="careers"]) .icon{ width: 18px; height: 18px; flex: none; vertical-align: -3px; }
+:where([data-css~="careers"]) .btn .icon{ width: 18px; height: 18px; }
+
+/* ---------- index: hero, why, roles, how ---------- */
+:where([data-css~="careers"]) .careers-hero{ padding-block: var(--s8) var(--s7); }
+:where([data-css~="careers"]) .careers-hero .lede{ color: #CFDCD2; max-width: 56ch; }
+:where([data-css~="careers"]) .careers-hero .cluster{ margin-top: var(--s5); --gap: var(--s4); }
+:where([data-css~="careers"]) .careers-hero .cluster a:not(.btn){ color: #DCEBDD; }
+:where([data-css~="careers"]) .careers-hero .btn-light{ color: var(--green); }
+:where([data-css~="careers"]) .careers-hero .btn-light:hover{ color: var(--leaf); }
+:where([data-css~="careers"]) #apply-root{ scroll-margin-top: 88px; } /* step changes scroll here, clear of the sticky header */
+@media (min-width: 910px) { :where([data-css~="careers"]) .careers-hero{ padding-block: var(--s9) var(--s8); } }
+
+:where([data-css~="careers"]) .section-tight{ padding-top: 0; }
+:where([data-css~="careers"]) .roles-head{ margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .roles-head h2{ margin-bottom: 0; }
+
+:where([data-css~="careers"]) .roles-toolbar{ display: flex; flex-wrap: wrap; gap: var(--s3) var(--s4); align-items: flex-end; margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .roles-toolbar .field{ margin: 0; flex: 1 1 160px; }
+:where([data-css~="careers"]) .roles-toolbar .roles-count{ margin: 0 0 10px; color: var(--muted); font-size: 0.9375rem; flex: 1 1 100%; }
+@media (min-width: 640px) {
+  :where([data-css~="careers"]) .roles-toolbar .field{ flex: 0 1 240px; }
+  :where([data-css~="careers"]) .roles-toolbar .roles-count{ flex: 1 1 auto; text-align: right; }
+}
+
+:where([data-css~="careers"]) .role-list{ display: grid; gap: var(--s4); }
+@media (min-width: 760px) { :where([data-css~="careers"]) .role-list{ grid-template-columns: 1fr 1fr; } }
+:where([data-css~="careers"]) .job-card{ display: flex; flex-direction: column; gap: var(--s3); }
+:where([data-css~="careers"]) .job-card .eyebrow{ margin-bottom: 6px; }
+:where([data-css~="careers"]) .job-card h3{ margin: 0; }
+:where([data-css~="careers"]) .role-meta{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 16px; color: var(--muted); font-size: 0.9rem; }
+:where([data-css~="careers"]) .role-meta li{ display: inline-flex; align-items: center; gap: 6px; }
+:where([data-css~="careers"]) .role-meta .icon{ color: var(--icon); }
+:where([data-css~="careers"]) .role-foot{ display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--s3); margin-top: auto; padding-top: var(--s3); border-top: 1px solid var(--line); }
+:where([data-css~="careers"]) .role-pay-note{ font-size: 0.9375rem; color: var(--muted); }
+:where([data-css~="careers"]) .role-posted{ margin: 0; font-size: 0.8125rem; color: var(--muted); }
+
+:where([data-css~="careers"]) .how-strip{ background: var(--wash); border-radius: var(--r-lg); padding: var(--s6) var(--s5); }
+:where([data-css~="careers"]) .how-strip h2{ font-size: 1.5rem; margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .how-strip ol{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); counter-reset: step; }
+@media (min-width: 760px) { :where([data-css~="careers"]) .how-strip ol{ grid-template-columns: repeat(5, 1fr); gap: var(--s5); } }
+:where([data-css~="careers"]) .how-strip li{ counter-increment: step; position: relative; padding-left: 40px; }
+@media (min-width: 760px) { :where([data-css~="careers"]) .how-strip li{ padding-left: 0; padding-top: 40px; } }
+:where([data-css~="careers"]) .how-strip li::before{ content: counter(step); position: absolute; top: 0; left: 0; width: 28px; height: 28px; border-radius: 50%; background: var(--green); color: #fff; font: 700 0.8125rem/28px var(--ui); text-align: center; }
+:where([data-css~="careers"]) .how-strip strong{ display: block; }
+:where([data-css~="careers"]) .how-strip li p{ font-size: 0.875rem; color: var(--muted); margin: 2px 0 0; }
+:where([data-css~="careers"]) .how-strip .how-foot{ margin: var(--s5) 0 0; font-size: 0.9375rem; }
+
+/* ---------- job detail ---------- */
+:where([data-css~="careers"]) .job-head{ margin-bottom: var(--s6); }
+:where([data-css~="careers"]) .job-head h1{ margin-bottom: var(--s3); }
+:where([data-css~="careers"]) .job-head .role-meta{ font-size: 1rem; }
+:where([data-css~="careers"]) .back-link{ display: inline-flex; align-items: center; gap: 6px; font-weight: 600; text-decoration: none; margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .back-link .icon{ transform: rotate(180deg); }
+:where([data-css~="careers"]) .back-link:hover{ text-decoration: underline; }
+:where([data-css~="careers"]) .job-layout{ display: grid; gap: var(--s6); align-items: start; }
+@media (min-width: 910px) {
+  :where([data-css~="careers"]) .job-layout{ grid-template-columns: minmax(0, 1fr) 360px; gap: var(--s7); }
+  :where([data-css~="careers"]) .job-aside{ position: sticky; top: 88px; }
+}
+:where([data-css~="careers"]) .job-body h2{ font-size: 1.5rem; margin-top: var(--s6); }
+:where([data-css~="careers"]) .job-body h2:first-child{ margin-top: 0; }
+:where([data-css~="careers"]) .job-body ul{ display: grid; gap: 8px; margin: 0; }
+:where([data-css~="careers"]) .job-aside .card + .card{ margin-top: var(--s4); }
+:where([data-css~="careers"]) .job-aside .kv{ display: grid; grid-template-columns: max-content 1fr; gap: 8px var(--s4); font-size: 0.9375rem; margin: 0 0 var(--s5); }
+:where([data-css~="careers"]) .job-aside .kv dt{ color: var(--muted); }
+:where([data-css~="careers"]) .job-aside .kv dd{ margin: 0; }
+:where([data-css~="careers"]) .job-aside .kv .role-pay{ font-size: 1.25rem; }
+:where([data-css~="careers"]) .job-aside .btn{ width: 100%; }
+:where([data-css~="careers"]) .job-aside .btn + .btn{ margin-top: var(--s2); }
+:where([data-css~="careers"]) .need-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
+:where([data-css~="careers"]) .need-list li{ display: flex; gap: 10px; align-items: flex-start; font-size: 0.9rem; }
+:where([data-css~="careers"]) .need-list .icon{ color: var(--green); margin-top: 3px; }
+:where([data-css~="careers"]) .need-list strong{ display: block; }
+:where([data-css~="careers"]) .need-list .muted{ font-size: 0.8125rem; display: block; }
+:where([data-css~="careers"]) .need-list .badge{ margin-top: 4px; }
+
+/* ---------- apply ---------- */
+:where([data-css~="careers"]) .apply-wrap{ max-width: 800px; margin-inline: auto; }
+:where([data-css~="careers"]) .apply-head{ margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .apply-head h1{ font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.5rem); margin-bottom: var(--s2); }
+:where([data-css~="careers"]) .apply-card{ padding: var(--s5) var(--s4); }
+@media (min-width: 640px) { :where([data-css~="careers"]) .apply-card{ padding: var(--s6); } }
+:where([data-css~="careers"]) .stepper li button{ all: unset; cursor: pointer; display: block; width: 100%; color: inherit; font: inherit; }
+:where([data-css~="careers"]) .stepper li button:hover{ color: var(--leaf); }
+:where([data-css~="careers"]) .stepper li button:focus-visible{ outline: 3px solid var(--clay); outline-offset: 2px; border-radius: var(--r-sm); }
+:where([data-css~="careers"]) .step-title{ font-size: 1.5rem; margin-bottom: var(--s2); }
+:where([data-css~="careers"]) .step-title:focus{ outline: none; }
+:where([data-css~="careers"]) .step-intro{ color: var(--muted); margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .step-nav{ display: flex; justify-content: space-between; align-items: center; gap: var(--s3); margin-top: var(--s6); padding-top: var(--s5); border-top: 1px solid var(--line); }
+:where([data-css~="careers"]) .step-nav .spacer{ flex: 1; }
+:where([data-css~="careers"]) .avail{ display: grid; gap: 10px; margin: 0; }
+@media (min-width: 640px) { :where([data-css~="careers"]) .avail{ grid-template-columns: 1fr 1fr; } }
+:where([data-css~="careers"]) .demo-note{ font-size: 0.875rem; color: var(--muted); background: var(--wash); border-radius: var(--r-sm); padding: 10px 14px; margin: 0 0 var(--s5); }
+
+/* file input styled as a button: the real input covers the label so clicks and Tab both reach it */
+:where([data-css~="careers"]) .file-btn{ position: relative; overflow: hidden; }
+:where([data-css~="careers"]) .file-btn input[type="file"]{ position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; font-size: 0; }
+:where([data-css~="careers"]) .file-btn:focus-within{ outline: 3px solid var(--clay); outline-offset: 2px; }
+
+/* document rows: preview + text inside the first grid cell */
+:where([data-css~="careers"]) .doc-list{ border: 1px solid var(--line); border-radius: var(--r); background: var(--flour); }
+:where([data-css~="careers"]) .doc-main{ display: flex; gap: var(--s3); align-items: flex-start; min-width: 0; }
+:where([data-css~="careers"]) .doc-text{ min-width: 0; }
+:where([data-css~="careers"]) .doc-ph{ width: 56px; height: 56px; border-radius: var(--r-sm); background: var(--wash); border: 1px solid var(--line); display: inline-flex; align-items: center; justify-content: center; color: var(--icon); flex: none; }
+:where([data-css~="careers"]) .doc-ph .icon{ width: 24px; height: 24px; }
+:where([data-css~="careers"]) .doc-expiry{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 8px; font: 600 0.8125rem/1.3 var(--ui); }
+:where([data-css~="careers"]) .doc-expiry input[type="date"]{ width: auto; min-height: 36px; padding: 6px 10px; font-size: 0.875rem; }
+:where([data-css~="careers"]) .doc-row .error-text{ margin-top: 8px; }
+:where([data-css~="careers"]) .doc-row .badge{ align-self: start; }
+:where([data-css~="careers"]) .doc-foot{ padding: var(--s3) var(--s5); border-top: 1px solid var(--line); background: var(--wash); border-radius: 0 0 var(--r) var(--r); }
+:where([data-css~="careers"]) .doc-foot .hint{ margin: 0; }
+
+/* review */
+:where([data-css~="careers"]) .review-section{ padding: var(--s4) 0; border-bottom: 1px solid var(--line); }
+:where([data-css~="careers"]) .review-section:first-child{ padding-top: 0; }
+:where([data-css~="careers"]) .review-head{ display: flex; justify-content: space-between; align-items: baseline; gap: var(--s3); margin-bottom: var(--s3); }
+:where([data-css~="careers"]) .review-head h3{ margin: 0; font-size: 1.125rem; }
+:where([data-css~="careers"]) .review-kv{ display: grid; grid-template-columns: max-content 1fr; gap: 6px var(--s4); font-size: 0.9375rem; margin: 0; }
+:where([data-css~="careers"]) .review-kv dt{ color: var(--muted); }
+:where([data-css~="careers"]) .review-kv dd{ margin: 0; overflow-wrap: anywhere; }
+@media (max-width: 420px) { :where([data-css~="careers"]) .review-kv{ grid-template-columns: 1fr; gap: 2px; } :where([data-css~="careers"]) .review-kv dd{ margin-bottom: 8px; } }
+:where([data-css~="careers"]) .review-docs{ list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+:where([data-css~="careers"]) .review-docs li{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; font-size: 0.9375rem; }
+:where([data-css~="careers"]) .consent{ display: grid; gap: var(--s3); margin: var(--s5) 0; }
+
+/* ---------- me.html / hr extras (app shell pages) ---------- */
+:where([data-css~="careers"]) .board-card .meta{ display: block; }
+:where([data-css~="careers"]) .board-card .docs .docdot{ flex: none; }
+:where([data-css~="careers"]) .board-empty{ padding: 8px 6px; margin: 0; font-size: 0.8125rem; color: var(--muted); }
+:where([data-css~="careers"]) .drawer-head .who{ margin: 4px 0 8px; font-size: 0.9375rem; color: var(--muted); }
+:where([data-css~="careers"]) .drawer-action{ background: var(--wash); border-radius: var(--r-sm); padding: var(--s4); margin-bottom: var(--s5); }
+:where([data-css~="careers"]) .drawer-action h3{ font-size: 1.0625rem; margin-bottom: var(--s3); }
+:where([data-css~="careers"]) .drawer-action .actions{ display: flex; gap: var(--s2); flex-wrap: wrap; margin-top: var(--s3); }
+:where([data-css~="careers"]) .drawer-foot select{ width: auto; min-height: 36px; padding: 6px 10px; font-size: 0.875rem; }
+:where([data-css~="careers"]) .drawer .tabs{ margin-bottom: var(--s4); }
+:where([data-css~="careers"]) .drawer .kv{ margin: 0; }
+:where([data-css~="careers"]) .drawer .doc-row{ padding-inline: 0; }
+:where([data-css~="careers"]) .composer{ display: grid; gap: var(--s3); margin-top: var(--s4); }
+:where([data-css~="careers"]) .composer textarea{ min-height: 88px; }
+:where([data-css~="careers"]) .composer .actions{ display: flex; justify-content: flex-end; }
+:where([data-css~="careers"]) .summary-text{ white-space: pre-wrap; }
+:where([data-css~="careers"]) .offer-card .offer-pay{ font: 800 1.75rem/1.1 var(--ui); font-variant-numeric: tabular-nums; margin: 0 0 var(--s3); }
+:where([data-css~="careers"]) .offer-card .actions{ display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s4); }
+:where([data-css~="careers"]) .withdraw-row{ margin-top: var(--s4); }
+:where([data-css~="careers"]) .badge-row{ display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+:where([data-css~="careers"]) .me-head p{ margin: 6px 0 0; }
+:where([data-css~="careers"]) .row-actions{ display: flex; flex-wrap: wrap; gap: var(--s2); }
+:where([data-css~="careers"]) .compliance-stack > * + *{ margin-top: var(--s5); }
+:where([data-css~="careers"]) .table-wrap .small{ margin: 0; }

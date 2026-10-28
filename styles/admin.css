@@ -1,0 +1,113 @@
+/* Ported from assets/css/admin.css by tools/port/scope-css.mjs (scope:admin). Edit here; the static file is retired. */
+/* Southern Food Basket — store admin (admin/index.html). Requires tokens.css + app.css.
+   Only what those two lack; every class here is scoped to the admin page. */
+
+:where([data-css~="admin"]) [role="tabpanel"]:focus{ outline: none; }
+:where([data-css~="admin"]) .section-intro{ margin-bottom: var(--s4); }
+:where([data-css~="admin"]) .section-intro p{ margin: 4px 0 0; }
+:where([data-css~="admin"]) .admin-h2{ font-size: 1.5rem; margin: 0; }
+:where([data-css~="admin"]) code{ font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 0.9375em; background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+/* toolbar: the search grows, the Add button sits at the end */
+:where([data-css~="admin"]) .toolbar-search{ flex: 1 1 200px; }
+:where([data-css~="admin"]) .toolbar-search input{ width: 100%; }
+:where([data-css~="admin"]) .toolbar-count{ margin: 0; }
+:where([data-css~="admin"]) #deal-saved:empty{ display: none; }
+:where([data-css~="admin"]) #deal-saved{ margin-bottom: var(--s4); }
+:where([data-css~="admin"]) #deal-saved .alert p{ margin: 0; }
+:where([data-css~="admin"]) #deal-saved .alert a, :where([data-css~="admin"]) #deal-saved .alert .link-btn{ color: inherit; font-weight: 700; }
+
+/* ---------- deals table ---------- */
+:where([data-css~="admin"]) .deals-table td{ vertical-align: middle; }
+:where([data-css~="admin"]) .deals-table .col-photo{ width: 76px; padding-right: 0; }
+:where([data-css~="admin"]) .admin-thumb{ width: 64px; height: 64px; border-radius: var(--r-sm); object-fit: cover; background: var(--wash); border: 1px solid var(--line); }
+:where([data-css~="admin"]) .deals-table .deal-cell-name{ font-weight: 700; min-width: 180px; }
+:where([data-css~="admin"]) .deals-table .price-cell{ font-weight: 700; white-space: nowrap; }
+:where([data-css~="admin"]) .deals-table .tag-cell .badge + .badge{ margin-left: 4px; }
+:where([data-css~="admin"]) .deals-table .actions-cell{ white-space: nowrap; text-align: right; }
+:where([data-css~="admin"]) .deals-table .actions-cell .btn + .btn{ margin-left: var(--s2); }
+:where([data-css~="admin"]) .deals-table .empty-cell{ text-align: center; padding: var(--s6) var(--s4); color: var(--muted); }
+:where([data-css~="admin"]) .deals-table .empty-cell p{ margin: 0 auto var(--s3); }
+:where([data-css~="admin"]) .cell-label{ display: none; }
+/* below 1280 px the seven columns do not fit beside the sidebar (the Edit and Remove buttons would scroll out of
+   sight), so each row becomes a small card: photo, then the details stacked, then the actions */
+@media (max-width: 1279px) {
+  :where([data-css~="admin"]) .table-wrap .deals-table{ min-width: 0; }
+  :where([data-css~="admin"]) .deals-table, :where([data-css~="admin"]) .deals-table tbody{ display: block; }
+  :where([data-css~="admin"]) .deals-table thead{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  :where([data-css~="admin"]) .deals-table tr{ display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px var(--s3); padding: var(--s4); border-bottom: 1px solid var(--line); }
+  :where([data-css~="admin"]) .deals-table tr:last-child{ border-bottom: 0; }
+  :where([data-css~="admin"]) .deals-table td{ display: block; padding: 0; border: 0; text-align: left; }
+  :where([data-css~="admin"]) .deals-table .col-photo{ grid-column: 1; grid-row: 1 / span 3; width: auto; }
+  :where([data-css~="admin"]) .deals-table td:not(.col-photo):not(.actions-cell):not(.empty-cell){ grid-column: 2; }
+  :where([data-css~="admin"]) .deals-table .cell-label{ display: inline; }
+  :where([data-css~="admin"]) .deals-table .deal-cell-name{ min-width: 0; }
+  :where([data-css~="admin"]) .deals-table td.num{ text-align: left; }
+  :where([data-css~="admin"]) .deals-table .dept-cell, :where([data-css~="admin"]) .deals-table .posted-cell{ font-size: 0.9375rem; color: var(--muted); }
+  :where([data-css~="admin"]) .deals-table .tag-cell:empty{ display: none; }
+  :where([data-css~="admin"]) .deals-table .actions-cell{ grid-column: 1 / -1; text-align: left; display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s2); }
+  :where([data-css~="admin"]) .deals-table .actions-cell .btn + .btn{ margin-left: 0; }
+  :where([data-css~="admin"]) .deals-table .empty-cell{ grid-column: 1 / -1; }
+}
+/* tablet widths and the 910 px sidebar layout: the actions sit on the right of each card */
+@media (min-width: 560px) and (max-width: 1279px) {
+  :where([data-css~="admin"]) .deals-table tr{ grid-template-columns: 64px minmax(0, 1fr) auto; }
+  :where([data-css~="admin"]) .deals-table .actions-cell{ grid-column: 3; grid-row: 1 / span 3; align-self: center; margin-top: 0; justify-content: flex-end; }
+}
+
+/* ---------- deal drawer ---------- */
+:where([data-css~="admin"]) .deal-preview{ margin: 0 0 var(--s5); }
+:where([data-css~="admin"]) .deal-preview .preview-label{ font: 800 0.8125rem/1.3 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--s2); }
+:where([data-css~="admin"]) .deal-preview .deal{ max-width: 300px; }
+:where([data-css~="admin"]) .deal-preview .deal-meta .couva{ display: inline-flex; align-items: center; gap: 4px; font-weight: 700; color: var(--clay); }
+@media (max-width: 559px) { :where([data-css~="admin"]) .deal-preview .deal{ max-width: none; } }
+:where([data-css~="admin"]) .drawer-body .check + .check{ margin-top: var(--s3); }
+:where([data-css~="admin"]) .photo-pick{ display: flex; gap: var(--s3); align-items: center; }
+:where([data-css~="admin"]) .photo-pick select{ flex: 1; min-width: 0; }
+:where([data-css~="admin"]) .photo-pick img{ width: 64px; height: 64px; flex: none; }
+:where([data-css~="admin"]) .drawer-foot .spacer{ flex: 1; }
+:where([data-css~="admin"]) .drawer-head .drawer-sub{ margin: 4px 0 0; font-size: 0.9375rem; color: var(--muted); }
+
+/* ---------- post maker ---------- */
+:where([data-css~="admin"]) .post-grid{ display: grid; gap: var(--s6); align-items: start; }
+:where([data-css~="admin"]) .post-grid > *{ min-width: 0; }
+@media (min-width: 1100px) { :where([data-css~="admin"]) .post-grid{ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+:where([data-css~="admin"]) .post-controls .cluster{ margin-bottom: var(--s2); }
+:where([data-css~="admin"]) .post-controls input[type="range"]{ width: 100%; height: 44px; accent-color: var(--green); margin: 0; }
+:where([data-css~="admin"]) #post-status{ min-height: 1.5em; margin: 0 0 var(--s3); }
+:where([data-css~="admin"]) #post-status.is-bad{ color: var(--bad); font-weight: 600; }
+:where([data-css~="admin"]) .caption-field{ margin-top: var(--s5); }
+:where([data-css~="admin"]) .caption-actions{ margin-top: var(--s2); }
+:where([data-css~="admin"]) .post-figure{ margin: 0; }
+:where([data-css~="admin"]) .post-canvas{ display: block; width: 100%; max-width: 540px; height: auto; aspect-ratio: 1080 / 1350; border: 1px solid var(--line); border-radius: var(--r); background: var(--wash); box-shadow: var(--shadow); }
+:where([data-css~="admin"]) .post-figure figcaption{ margin-top: var(--s2); }
+
+/* ---------- stores and hours ---------- */
+:where([data-css~="admin"]) .store-stack > * + *{ margin-top: var(--s5); }
+:where([data-css~="admin"]) .store-head-sub{ font-size: 0.9375rem; color: var(--muted); }
+:where([data-css~="admin"]) .store-split{ display: grid; gap: var(--s5); }
+:where([data-css~="admin"]) .store-split > *{ min-width: 0; }
+@media (min-width: 1100px) { :where([data-css~="admin"]) .store-split{ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; } }
+:where([data-css~="admin"]) .store-split .kv{ margin: 0 0 var(--s4); font-size: 1rem; }
+:where([data-css~="admin"]) .store-links{ margin-bottom: var(--s3); }
+:where([data-css~="admin"]) .store-source{ font-size: 0.875rem; color: var(--muted); margin: 0; }
+:where([data-css~="admin"]) .store-form{ background: var(--wash); border-radius: var(--r-sm); padding: var(--s4); }
+:where([data-css~="admin"]) .store-form h4{ margin-bottom: var(--s3); }
+:where([data-css~="admin"]) .store-form .field:last-of-type{ margin-bottom: var(--s4); }
+:where([data-css~="admin"]) .store-form input{ background: var(--flour); }
+
+/* ---------- staff notices ---------- */
+:where([data-css~="admin"]) .notice-body{ margin: 6px 0 0; font-size: 1rem; overflow-wrap: anywhere; }
+:where([data-css~="admin"]) #notice-list .btn{ flex: none; }
+:where([data-css~="admin"]) #notice-list .empty-row{ color: var(--muted); }
+:where([data-css~="admin"]) #notice-list .meta{ font-size: 0.9375rem; margin-top: 2px; }
+
+/* ---------- publish ---------- */
+:where([data-css~="admin"]) .publish-stack > * + *{ margin-top: var(--s5); }
+:where([data-css~="admin"]) .change-list > li{ padding-inline: 0; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--s2) var(--s4); }
+:where([data-css~="admin"]) .change-list .badge{ flex: none; }
+
+@media (max-width: 420px) {
+  :where([data-css~="admin"]) .photo-pick img{ width: 52px; height: 52px; }
+  :where([data-css~="admin"]) .drawer-foot .btn{ flex: 1 1 auto; }
+}

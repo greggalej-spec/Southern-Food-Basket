@@ -1,0 +1,159 @@
+/* Every page except the home (which has its own root layout and styles/home.css).
+   Layer order: theme < base (preflight, shadcn base, browser defaults put back) < components (the ported site CSS)
+   < utilities. Design law: DESIGN.md and .impeccable.md. */
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* Ported page CSS. tokens.css is global, as it was on every page. Each other file is scoped to a
+   <Scope css="…"> wrapper with zero added specificity, so pages see the same stylesheets they loaded before. */
+@import "../styles/tokens.css" layer(components);
+@import "../styles/app.css" layer(components);
+@import "../styles/site.css" layer(components);
+@import "../styles/careers.css" layer(components);
+@import "../styles/portal.css" layer(components);
+@import "../styles/admin.css" layer(components);
+
+/* Legacy class names Tailwind would also generate as utilities, and the utilities layer would beat the ported rule
+   (.container lost its gutter). Found by tools/port/tw-collisions.mjs; re-run it after porting more markup. */
+@source not inline("{container,grid,grow}");
+
+/* There is no dark theme. The variant stays defined so shadcn's dark: classes never match the OS setting. */
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-sans: var(--ui);
+  --font-heading: var(--display);
+  --font-price: var(--price);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  /* --muted is the brand's muted TEXT colour (tokens.css), so shadcn's pair maps straight to tokens instead of
+     redefining it as a background. */
+  --color-muted-foreground: var(--muted);
+  --color-muted: var(--wash);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+/* shadcn's variables, pointed at the brand tokens in styles/tokens.css. Never pure white: cards and popovers are
+   flour, the page is cream. */
+:root {
+  --background: var(--cream);
+  --foreground: var(--ink);
+  --card: var(--flour);
+  --card-foreground: var(--ink);
+  --popover: var(--flour);
+  --popover-foreground: var(--ink);
+  --primary: var(--green);
+  --primary-foreground: var(--flour);
+  --secondary: var(--wash);
+  --secondary-foreground: var(--ink);
+  --accent: var(--green-wash);
+  --accent-foreground: var(--leaf);
+  --destructive: var(--bad);
+  --border: var(--line);
+  --input: var(--line-strong);
+  --ring: var(--green);
+  --radius: 10px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+    -webkit-tap-highlight-color: revert;
+  }
+
+  /* The ported pages were written against the browser's defaults, not preflight. Put back what preflight takes
+     away for every element except shadcn components, which carry data-slot and are written against preflight.
+     Sonner's toast list stays on preflight too. */
+  :where(body *):not([data-slot], [data-sonner-toaster], [data-sonner-toaster] *) {
+    margin: revert;
+    padding: revert;
+    border: revert;
+    outline: revert;
+  }
+  :where(body :is(h1, h2, h3, h4, h5, h6)):not([data-slot]) {
+    font-size: revert;
+    font-weight: revert;
+  }
+  :where(body a):not([data-slot]) {
+    color: revert;
+    text-decoration: revert;
+  }
+  :where(body :is(ol, ul, menu)):not([data-slot], [data-sonner-toaster]) {
+    list-style: revert;
+  }
+  :where(body :is(button, input, select, optgroup, textarea)):not([data-slot]),
+  :where(body input):not([data-slot])::file-selector-button {
+    font: revert;
+    font-feature-settings: revert;
+    font-variation-settings: revert;
+    letter-spacing: revert;
+    color: revert;
+    border-radius: revert;
+    background-color: revert;
+    opacity: revert;
+  }
+  :where(body input):not([data-slot])::file-selector-button {
+    margin-inline-end: revert;
+  }
+  :where(body :is(input, textarea)):not([data-slot])::placeholder {
+    opacity: revert;
+    color: revert;
+  }
+  :where(body :is(img, svg, video, canvas, audio, iframe, embed, object)):not([data-slot], [data-slot] *) {
+    display: revert;
+    vertical-align: revert;
+  }
+  :where(body table):not([data-slot]) {
+    text-indent: revert;
+    border-color: revert;
+    border-collapse: revert;
+  }
+  :where(body hr):not([data-slot]) {
+    height: revert;
+    color: revert;
+  }
+  :where(body :is(code, kbd, samp, pre)):not([data-slot]) {
+    font-family: revert;
+    font-feature-settings: revert;
+    font-variation-settings: revert;
+    font-size: revert;
+  }
+  :where(body :is(small, sub, sup)):not([data-slot]) {
+    font-size: revert;
+    line-height: revert;
+    position: revert;
+    vertical-align: revert;
+    top: revert;
+    bottom: revert;
+  }
+}
+
+/* A <Scope> wrapper takes the place of the old <body data-…> and must not add a box. */
+[data-css] {
+  display: contents;
+}
