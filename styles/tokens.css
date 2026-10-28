@@ -139,6 +139,7 @@ html { scroll-padding-top: 96px; }
 .page-hero { position: relative; background: var(--cream); padding-block: var(--s7) var(--s8); }
 .page-hero::after { content: ""; position: absolute; z-index: 2; left: 0; right: 0; bottom: -12px; height: 24px; pointer-events: none; background: var(--ribbon) repeat-x 0 center / 360px 24px; }
 .page-hero h1 { margin-bottom: var(--s4); }
+.page-hero p { max-width: 66ch; }
 .page-hero .cluster { margin-top: var(--s5); }
 .page-hero-grid { display: grid; gap: var(--s7); align-items: center; }
 .page-hero-grid > * { min-width: 0; }

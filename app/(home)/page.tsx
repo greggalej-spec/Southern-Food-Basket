@@ -4,8 +4,10 @@ import Link from "next/link";
 import { HomeLive } from "@/components/home/home-live";
 import { StoreToday } from "@/components/home/store-today";
 import { PriceSeal } from "@/components/price-seal";
+import { StoreRouteMap } from "@/components/store-route";
 import { fmtDate, mapsDir, telHref } from "@/lib/format";
 import { FIRST_FRAME } from "@/lib/home/camera";
+import { storeRoute } from "@/lib/route";
 import { SEED } from "@/lib/seed";
 import type { Department } from "@/lib/types";
 import { SCENE } from "./scene";
@@ -151,27 +153,8 @@ function DeptCard({ x, named }: { x: Department; named: boolean }) {
   );
 }
 
-/* ---------- where we are: the five stores placed from their Google Maps coordinates ---------- */
-const ROUTE = [["couva", "r"], ["sando", "l"], ["ptown", "b"], ["penal", "r"], ["pfortin", "b"]] as const;
-const LAB = { r: [12, 5, "start"], l: [-12, 5, "end"], b: [0, 24, "middle"] } as const;
-const STOPS = ROUTE.flatMap(([id, side]) => {
-  const b = D.branches.find((x) => x.id === id);
-  return b && typeof b.lat === "number" ? [{ b, side }] : [];
-});
-const route = (() => {
-  if (STOPS.length < 2) return null;
-  const kx = Math.cos(((STOPS.reduce((s, x) => s + x.b.lat, 0) / STOPS.length) * Math.PI) / 180);
-  const xs = STOPS.map((s) => s.b.lng * kx), ys = STOPS.map((s) => -s.b.lat);
-  const W = 360, H = 300, pad = 46, x0 = Math.min(...xs), y0 = Math.min(...ys), sx = Math.max(...xs) - x0, sy = Math.max(...ys) - y0;
-  const sc = Math.min((W - 2 * pad) / sx, (H - 2 * pad) / sy), ox = (W - sx * sc) / 2, oy = (H - sy * sc) / 2;
-  const pts = STOPS.map((_, i) => [ox + (xs[i] - x0) * sc, oy + (ys[i] - y0) * sc]);
-  let d = "M" + pts[0].map((n) => n.toFixed(1)).join(" ");
-  for (let i = 0; i < pts.length - 1; i++) { // Catmull-Rom through the stores, written as cubic Béziers
-    const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
-    d += "C" + [p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6, p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6, p2[0], p2[1]].map((n) => n.toFixed(1)).join(" ");
-  }
-  return { d, pts };
-})();
+/* ---------- where we are: the five stores placed from their Google Maps coordinates (lib/route.ts) ---------- */
+const route = storeRoute(D.branches);
 
 const SOCIALS = (
   [
@@ -464,34 +447,10 @@ export default function HomePage() {
               </article>
               <article className="who-card who-where">
                 <h3>Where we are</h3>
-                <svg className="route" id="route" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
-                  {route ? (
-                    <>
-                      <path className="route-pink" d={route.d} pathLength={1} />
-                      <path className="route-green" d={route.d} pathLength={1} />
-                      {STOPS.map((s, i) => {
-                        const l = LAB[s.side], p = route.pts[i];
-                        return (
-                          <g key={s.b.id} className="route-stop" style={vars({ "--i": String(i) })}>
-                            <circle cx={p[0].toFixed(1)} cy={p[1].toFixed(1)} r="7" />
-                            <text x={(p[0] + l[0]).toFixed(1)} y={(p[1] + l[1]).toFixed(1)} textAnchor={l[2]}>
-                              {s.b.name}
-                            </text>
-                          </g>
-                        );
-                      })}
-                      <g className="route-north">
-                        <path d="M22 34 L30 14 L38 34 L30 29Z" />
-                        <text x="30" y="50" textAnchor="middle">
-                          N
-                        </text>
-                      </g>
-                    </>
-                  ) : null}
-                </svg>
+                {route ? <StoreRouteMap route={route} id="route" /> : null}
                 <ol className="route-list" id="route-list" aria-label="Our five stores">
                   {route
-                    ? STOPS.map((s) => (
+                    ? route.stops.map((s) => (
                         <li key={s.b.id}>
                           <a href={"#store-" + s.b.id}>{s.b.name}</a>
                         </li>
@@ -503,6 +462,9 @@ export default function HomePage() {
                 </p>
               </article>
             </div>
+            <p className="more">
+              <Link href="/about">The family, every store and the public record</Link>
+            </p>
           </div>
         </section>
 
@@ -563,6 +525,9 @@ export default function HomePage() {
                 <li key={s}>{s}</li>
               ))}
             </ul>
+            <p className="more">
+              <Link href="/departments">Every department, with its specials</Link>
+            </p>
           </div>
         </section>
 
@@ -602,6 +567,11 @@ export default function HomePage() {
                 </article>
               ))}
             </div>
+            <p className="more">
+              <Link className="btn btn-outline" href="/locations">
+                The full week&apos;s hours, plus codes and maps
+              </Link>
+            </p>
           </div>
         </section>
 

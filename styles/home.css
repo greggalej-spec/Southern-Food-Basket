@@ -141,6 +141,9 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .eyebrow.light{ color: var(--yellow); }
 .ge-root .fan{ width: 34px; height: 17px; background: url(/assets/img/glass/fanlight.svg) no-repeat center bottom / contain; flex: none; }
 .ge-root .note{ font-size: 1rem; color: var(--muted); margin: 0; }
+/* a band's link to its detail page: a full 44 px target, not just the line of text */
+.ge-root .more{ margin: 24px 0 0; }
+.ge-root .more a:not(.btn){ display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; }
 .ge-root .note.light{ color: #D5ECE8; }
 .ge-root .lede{ font-size: 1.25rem; color: var(--muted); }
 
