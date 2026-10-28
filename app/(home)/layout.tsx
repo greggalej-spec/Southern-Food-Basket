@@ -14,6 +14,7 @@ export default function HomeRootLayout({ children }: { children: React.ReactNode
   return (
     <html lang="en" className={fontVars} suppressHydrationWarning>
       <head>
+        {/* eslint-disable-next-line react/no-danger -- fixed string above, no input */}
         <script dangerouslySetInnerHTML={{ __html: JS_CLASS }} />
         {/* eslint-disable-next-line @next/next/no-css-tags -- the same file the static option pages load from public/ */}
         <link rel="stylesheet" href="/assets/options-nav/options-nav.css" />

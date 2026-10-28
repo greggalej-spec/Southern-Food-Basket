@@ -265,6 +265,32 @@ Gregg chose Option A after reading this plan. The work is on branch `next-rebuil
 - **`next/font` has no metrics for Atkinson Hyperlegible Next.** It uses `adjustFontFallback: false`, and the dev
   warning about it is expected.
 
+**The shared layer (A4).** Page tracks build on these and do not reinvent them.
+- `lib/store.ts` replaces `store.js`. The keys, the version guard and `reset()` are unchanged, so a browser's demo data
+  carries across.
+  - Pages read through `useData()` and `useSession()`. The server and the first client render see the seed, and the
+    browser's own copy replaces it after hydration.
+  - Read helpers take the data as their first argument (`jobs(d, …)`, `applicantsFor(d, id)`), so they work on what
+    the hook returned. Write helpers (`setStage`, `requestLeave`, …) load, clone, save and notify every subscriber.
+  - A change in another tab arrives through the `storage` event.
+- Anything that reads the clock or the session waits for `useHydrated()`. Next refuses `new Date()` while
+  prerendering a client component, and the session only exists in the browser. `todayHours(b, null)` falls back to the
+  Mon–Sat row.
+- `useRequireRole([…])` guards each portal page. It renders nothing until hydrated, then sends anyone without the role to
+  `/portal?next=…` with the query and hash kept. The login page must pass `next` through `safeNext()`, which allows only
+  paths on this site.
+- The page chrome is `SiteFrame` (public and careers pages) and `AppShell` (portals). Their markup is the old markup;
+  19 measured metrics each match the live `specials.html` and `hr/index.html` at 1280 px.
+- In `AppShell`, the HR and admin tab links (`/hr#roles`) are plain `<a>`, so `hashchange` fires as the old tab code
+  expects. Links to other pages use `next/link`.
+- Lint enforces the input rule: `react/no-danger` is an error. Raw HTML is allowed only for the generated home scene and
+  the fixed `js` class script, each with a disable comment. `no-img-element` is off: the photos are pre-sized WebP
+  inside the ported `.pic` boxes, and `next/image` adds wrappers that CSS was not written for.
+
+**Departure: the skip link.** The old rule hides it with `top: -100px` inside the header. Below a tall demo banner
+(209 px on a phone) that still leaves it on screen. The live site has the same bug: at 375 px on `careers/index.html`
+it sits at top 108.8 px. `tokens.css` now clips it until it has focus. **The same fix is still owed on `concept-v1`.**
+
 **Left as it is for parity, to revisit after A10.** These are kept exactly as they were and are not new choices:
 - The ported CSS keeps `#fff` text on dark bands.
 - The home header and the app top bar keep `backdrop-filter: blur(10px)`.
