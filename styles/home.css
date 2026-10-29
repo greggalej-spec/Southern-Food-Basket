@@ -46,7 +46,7 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .ge-root .topbar.is-scrolled .brand{ transform: scale(.88); }
 .ge-root .brand img{ height: 44px; width: auto; }
 .ge-root .topnav{ display: none; position: relative; margin-left: auto; gap: 2px; }
-.ge-root .topnav a{ position: relative; z-index: 1; color: var(--ink); text-decoration: none; font: 700 1rem var(--ui); padding: 10px 14px; border-radius: 10px; transition: color .2s ease; }
+.ge-root .topnav a{ position: relative; z-index: 1; color: var(--ink); text-decoration: none; font: 700 1rem var(--ui); white-space: nowrap; padding: 10px 14px; border-radius: 10px; transition: color .2s ease; }
 .ge-root .topnav a:hover, .ge-root .topnav a.is-active{ color: var(--green); }
 .ge-root .topnav .ink{ position: absolute; z-index: 0; top: 0; left: 0; height: 100%; width: 0; border-radius: 10px; background: #E6F3EE; opacity: 0; pointer-events: none;
   transition: transform .32s cubic-bezier(.22,1,.36,1), width .32s cubic-bezier(.22,1,.36,1), opacity .2s ease; }
@@ -86,6 +86,8 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   .ge-root .quick-jobs{ padding: 0 10px; }
 }
 @media (max-width: 340px) { .ge-root .brand img{ height: 31px; } }
+/* eight links fit from 980 px with the padding a little tighter, up to where the full padding fits */
+@media (min-width: 980px) and (max-width: 1099px) { .ge-root .topnav a{ padding-inline: 10px; } .ge-root .topnav .ink::after{ left: 10px; right: 10px; } }
 @media (min-width: 980px) { .ge-root .topnav{ display: flex; } .ge-root .menu-btn, .ge-root .mobile-menu, .ge-root .quick{ display: none !important; } .ge-root .brand img{ height: 52px; } .ge-root .topbar{ left: 18px; right: 18px; top: 14px; padding-inline: 18px 12px; } }
 
 /* ---------- the arrival ---------- */

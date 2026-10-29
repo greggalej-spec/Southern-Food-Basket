@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { DOC_STATE, docDisplayState } from "@/lib/format";
+import { decisionLine } from "@/components/hr/hr-bits";
 import { CLOSED_STAGES, MAIN_STAGES, branchName, dotClass, fmtDay, jobLine } from "@/lib/hr/hr";
-import { requiredDocsFor, stageLabel, useData } from "@/lib/store";
+import { hrStageLabel } from "@/lib/hr/plain";
+import { requiredDocsFor, useData } from "@/lib/store";
 import type { Applicant, Seed } from "@/lib/types";
 
 // The hiring pipeline tab from hr.js: the role filter, the name search and the board, one column per stage plus
-// "Closed". A card opens the applicant drawer.
+// "Closed", headed in HR's plain words. A card opens the applicant drawer and says where a sent decision stands.
 
 type OpenDrawer = (id: string, from: HTMLElement) => void;
 
@@ -20,12 +22,15 @@ function BoardCard({ d, a, onOpen }: { d: Seed; a: Applicant; onOpen: OpenDrawer
     counts[cls || "none"]++;
     return <span key={doc.id} className={cls ? "docdot " + cls : "docdot"} title={doc.name + ": " + (DOC_STATE[st] || DOC_STATE.missing).label}></span>;
   });
-  const summary = counts.ok + " verified, " + counts.warn + " awaiting review, " + counts.bad + " need attention, " + counts.none + " not provided";
+  const summary = counts.ok + " verified, " + counts.warn + " to check, " + counts.bad + " need a new copy, " + counts.none + " not provided";
+  const decision = decisionLine(a, { short: true });
+  const closedAs = a.stage === "withdrawn" && a.offer?.status === "declined" ? "Declined the offer" : hrStageLabel(d, a.stage);
   return (
     <button type="button" className="board-card" data-app-id={a.id} aria-haspopup="dialog" onClick={(e) => onOpen(a.id, e.currentTarget)}>
       <strong>{a.name}</strong>
       <span className="meta">{jobLine(d, a)}</span>
-      <span className="meta">{"Submitted " + fmtDay(a.submittedAt) + (CLOSED_STAGES.includes(a.stage) ? " · " + stageLabel(d, a.stage) : "")}</span>
+      <span className="meta">{"Applied " + fmtDay(a.submittedAt) + (CLOSED_STAGES.includes(a.stage) ? " · " + closedAs : "")}</span>
+      {decision ? <span className={"meta board-decision" + (decision.sealed ? " is-sealed" : "")}>{decision.text}</span> : null}
       <span className="docs" aria-hidden="true">
         {dots}
       </span>
@@ -47,7 +52,7 @@ export function PipelineBoard({ ready, onOpen }: { ready: boolean; onOpen: OpenD
   const q = search.trim().toLowerCase();
   if (q) apps = apps.filter((a) => (a.name || "").toLowerCase().includes(q));
   apps = apps.slice().sort((x, y) => (y.submittedAt || "").localeCompare(x.submittedAt || ""));
-  const cols = MAIN_STAGES.map((id) => ({ id, label: stageLabel(d, id), items: apps.filter((a) => a.stage === id) })).concat([
+  const cols = MAIN_STAGES.map((id) => ({ id, label: hrStageLabel(d, id), items: apps.filter((a) => a.stage === id) })).concat([
     { id: "closed", label: "Closed", items: apps.filter((a) => CLOSED_STAGES.includes(a.stage)) },
   ]);
 
@@ -56,10 +61,10 @@ export function PipelineBoard({ ready, onOpen }: { ready: boolean; onOpen: OpenD
       <div className="toolbar">
         <div>
           <label className="visually-hidden" htmlFor="pipe-role">
-            Filter by role
+            Filter by job
           </label>
           <select id="pipe-role" value={roleFilter} onChange={(e) => setRoleFilter(e.target.value)}>
-            <option value="all">All open roles</option>
+            <option value="all">All open jobs</option>
             {ready
               ? open.map((j) => (
                   <option key={j.id} value={j.id}>
@@ -79,7 +84,7 @@ export function PipelineBoard({ ready, onOpen }: { ready: boolean; onOpen: OpenD
           {ready ? apps.length + (apps.length === 1 ? " applicant" : " applicants") + (q || roleFilter !== "all" ? " match" : "") : null}
         </p>
       </div>
-      <div className="board" id="board" aria-label="Applicants by stage">
+      <div className="board" id="board" aria-label="Applicants by stage" data-tour="hr-pipeline">
         {ready
           ? cols.map((c) => (
               <section key={c.id} className="board-col" aria-labelledby={"col-" + c.id}>

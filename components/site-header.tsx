@@ -9,6 +9,7 @@ import { Icon } from "@/components/icon";
 export const SITE_NAV = [
   { id: "careers", label: "Careers", href: "/careers" },
   { id: "specials", label: "Specials", href: "/specials" },
+  { id: "offers", label: "Offers", href: "/offers" },
   { id: "locations", label: "Stores", href: "/locations" },
   { id: "departments", label: "Departments", href: "/departments" },
   { id: "wholesale", label: "Wholesale", href: "/wholesale" },

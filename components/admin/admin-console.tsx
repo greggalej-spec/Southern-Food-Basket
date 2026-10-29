@@ -1,185 +1,120 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import { AppShell } from "@/components/app-shell";
+import { AccessPanel } from "@/components/admin/access-panel";
+import { AuditPanel } from "@/components/admin/audit-panel";
+import { CodesPanel } from "@/components/admin/codes-panel";
 import { DealsPanel } from "@/components/admin/deals-panel";
+import { ListPanel } from "@/components/admin/list-panel";
+import { NewsletterPanel } from "@/components/admin/newsletter-panel";
 import { NoticesPanel } from "@/components/admin/notices-panel";
 import { PostMaker } from "@/components/admin/post-maker";
+import { PromosPanel } from "@/components/admin/promos-panel";
 import { PublishPanel } from "@/components/admin/publish-panel";
+import { NoAccess, SectionHead } from "@/components/admin/section";
+import { StaffUpdatesPanel } from "@/components/admin/staff-updates-panel";
 import { StoresPanel } from "@/components/admin/stores-panel";
-import { TABS, goToTab, tabOf, type AdminTab } from "@/lib/admin/helpers";
+import { TodayPanel } from "@/components/admin/today-panel";
+import { can } from "@/lib/access";
+import { TABS, TAB_PERMS, goToTab, itemOf, tabOf, type AdminTab } from "@/lib/admin/helpers";
 import { useData, useRequireRole } from "@/lib/store";
-import type { Seed } from "@/lib/types";
 
-// The store admin, ported from admin/index.html and assets/js/admin.js: stats and the five hash tabs (#deals, #posts,
-// #stores, #notices, #publish). Role: admin. The headings, tabs and section intros render on the server, as the
-// static HTML did; each tab's content fills in once the session is known.
-
-const TAB_LABEL: Record<AdminTab, string> = { deals: "Specials", posts: "Post maker", stores: "Stores and hours", notices: "Staff notices", publish: "Publish" };
-const INTRO: Record<AdminTab, string> = {
-  deals: "These are the deals on the public Specials page and the home page, newest first.",
-  posts: "Turn a deal into a 1080 × 1350 pixel picture for Instagram, with the logo and the price seal.",
-  stores: "Opening hours and phone numbers for each store. The site header, the home page store cards and the Store locations page read these.",
-  notices: "Notices show on the home page of the employee portal, for every store or for one store.",
-  publish: "How your changes reach the website.",
-};
+// The office console: one page for the store admin, marketing and the owner's office. The sidebar (AppShell) is the
+// navigation; the URL hash picks the section (#today, #promos, ... see TABS), and "#promos/<id>" opens one item in
+// it. Only the current section renders. Each one checks access itself: a hidden menu item is not access control, so
+// a hash for a section this session cannot use shows what is missing, never the content.
 
 function subscribeHash(cb: () => void) {
   window.addEventListener("hashchange", cb);
   return () => window.removeEventListener("hashchange", cb);
 }
-const currentTab = () => tabOf(location.hash);
-const serverTab = (): AdminTab => "deals";
+const readHash = () => location.hash;
+const serverHash = () => "";
 
-/* the off-canvas sidebar links point at these tabs: close it so the section is not left hidden behind it */
-function closeSidebar() {
+/* On a phone the sidebar is off-canvas: a link in it must close it, or the section stays hidden behind it. */
+function closeSidebar(tab: AdminTab) {
   const shell = document.querySelector(".app.sidebar-open");
-  if (!shell) return false;
+  if (!shell) return;
   shell.querySelector<HTMLElement>(".app-menu-btn")?.click();
-  document.getElementById("panel-" + currentTab())?.focus({ preventScroll: true });
-  return true;
-}
-
-function Stat({ label, value, sub }: { label: string; value: number; sub: string }) {
-  return (
-    <div className="stat">
-      <div className="stat-label">{label}</div>
-      <div className="stat-value">{String(value)}</div>
-      <div className="stat-sub">{sub}</div>
-    </div>
-  );
-}
-
-function AdminStats({ d }: { d: Seed }) {
-  const sp = d.specials || [];
-  return (
-    <>
-      <Stat label="Live deals" value={sp.length} sub="on the Specials page" />
-      <Stat label="Tagged Couva" value={sp.filter((x) => x.couva).length} sub="deals with the Couva pin" />
-      <Stat label="Stores" value={(d.branches || []).length} sub="hours and phone numbers" />
-      <Stat label="Staff notices" value={(d.announcements || []).length} sub="on the employee portal" />
-    </>
-  );
+  document.getElementById("sec-" + tab)?.focus({ preventScroll: true });
 }
 
 export function AdminConsole() {
-  const s = useRequireRole(["admin"]);
+  const s = useRequireRole(["admin", "marketing", "owner"]);
   const d = useData();
-  const tab = useSyncExternalStore(subscribeHash, currentTab, serverTab);
-  const ready = !!s;
-  const tabsRef = useRef<HTMLDivElement>(null);
-  // showTick re-runs showTab for the tab already showing (a click on it, or "Make an Instagram post of it").
-  const [showTick, setShowTick] = useState(0);
-  const [hashSeq, setHashSeq] = useState(0);
+  const hash = useSyncExternalStore(subscribeHash, readHash, serverHash);
+  const tab = tabOf(hash);
+  const item = itemOf(hash);
+  // The post maker's chosen deal, and a tick that re-runs it when "Make an Instagram post" picks a deal again.
   const [postChoice, setPostChoice] = useState<string | null>(null);
+  const [showTick, setShowTick] = useState(0);
 
-  /* on a phone the tab strip scrolls sideways: bring the selected tab into view */
+  // A new section closes the phone sidebar and starts at the top; a new item inside the same section ("#promos/<id>")
+  // leaves the page where it is.
   useEffect(() => {
-    const tabsEl = tabsRef.current, sel = document.getElementById("tab-" + tab);
-    if (!sel || !tabsEl || tabsEl.scrollWidth <= tabsEl.clientWidth) return;
-    const br = sel.getBoundingClientRect(), tr = tabsEl.getBoundingClientRect();
-    if (br.left < tr.left) tabsEl.scrollLeft -= tr.left - br.left + 16;
-    else if (br.right > tr.right) tabsEl.scrollLeft += br.right - tr.right + 16;
-  }, [tab, showTick]);
+    closeSidebar(tab);
+    window.scrollTo({ top: 0 });
+  }, [tab]);
 
   useEffect(() => {
-    const onHash = () => setHashSeq((n) => n + 1);
-    window.addEventListener("hashchange", onHash);
-    /* a sidebar link to the tab already showing fires no hashchange, so close the sidebar here */
+    /* a sidebar link to the section already showing fires no hashchange, so close the sidebar here */
     const onClick = (e: MouseEvent) => {
       const a = (e.target as Element | null)?.closest?.(".app-nav a");
       if (!a) return;
       const h = (a.getAttribute("href") || "").split("#")[1];
-      if (h && (TABS as readonly string[]).includes(h) && location.hash === "#" + h) closeSidebar();
+      if (h && (TABS as readonly string[]).includes(h) && tabOf(location.hash) === h) closeSidebar(h as AdminTab);
     };
     document.addEventListener("click", onClick);
-    return () => {
-      window.removeEventListener("hashchange", onHash);
-      document.removeEventListener("click", onClick);
-    };
+    return () => document.removeEventListener("click", onClick);
   }, []);
-
-  // After a hash change has shown its tab: close the sidebar and bring the tabs back into view.
-  useEffect(() => {
-    if (!hashSeq) return;
-    closeSidebar();
-    const top = tabsRef.current?.getBoundingClientRect().top ?? 0;
-    if (top < 64) window.scrollTo({ top: Math.max(0, window.scrollY + top - 80) });
-  }, [hashSeq]);
-
-  function goTab(id: AdminTab) {
-    if (currentTab() === id) setShowTick((n) => n + 1);
-    else goToTab(id);
-  }
 
   function makePost(id: string) {
     setPostChoice(id);
-    goTab("posts");
+    setShowTick((n) => n + 1);
+    goToTab("posts");
   }
 
-  function panel(id: AdminTab, content: React.ReactNode) {
-    return (
-      <section id={"panel-" + id} role="tabpanel" aria-labelledby={"tab-" + id} tabIndex={-1} hidden={tab !== id}>
-        <div className="section-intro">
-          <h2 className="admin-h2">{TAB_LABEL[id]}</h2>
-          <p className="muted">{INTRO[id]}</p>
-        </div>
-        {ready ? content : null}
-      </section>
-    );
+  const perms = TAB_PERMS[tab];
+  const allowed = !!s && (!perms.length || perms.some((p) => can(d, s, p)));
+
+  function content() {
+    switch (tab) {
+      case "today":
+        return <TodayPanel />;
+      case "deals":
+        return <DealsPanel onMakePost={makePost} />;
+      case "posts":
+        return <PostMaker active showTick={showTick} choice={postChoice} onChoose={setPostChoice} />;
+      case "stores":
+        return <StoresPanel />;
+      case "notices":
+        return <NoticesPanel />;
+      case "publish":
+        return <PublishPanel />;
+      case "staffnews":
+        return <StaffUpdatesPanel heading={false} />;
+      case "promos":
+        return <PromosPanel item={item} />;
+      case "codes":
+        return <CodesPanel />;
+      case "newsletter":
+        return <NewsletterPanel item={item} />;
+      case "list":
+        return <ListPanel item={item} />;
+      case "access":
+        return <AccessPanel item={item} />;
+      case "audit":
+        return <AuditPanel item={item} />;
+    }
   }
 
   return (
-    <AppShell app="admin" active={tab} title="Store admin" css={["app", "admin"]}>
-      <div className="page-head">
-        <div>
-          <p className="eyebrow">Store admin</p>
-          <h1>Run the website</h1>
-          <p className="muted">Post specials, make the Instagram post, and keep store hours and staff notices up to date.</p>
-        </div>
-      </div>
-
-      <div className="stats" id="admin-stats">
-        {ready ? <AdminStats d={d} /> : null}
-      </div>
-
-      <div
-        className="tabs"
-        role="tablist"
-        aria-label="Admin sections"
-        id="admin-tabs"
-        ref={tabsRef}
-        onKeyDown={(e) => {
-          if (!["ArrowRight", "ArrowLeft", "Home", "End"].includes(e.key)) return;
-          e.preventDefault();
-          const i = TABS.indexOf(currentTab());
-          const n = e.key === "Home" ? TABS[0] : e.key === "End" ? TABS[TABS.length - 1] : TABS[(i + (e.key === "ArrowRight" ? 1 : TABS.length - 1)) % TABS.length];
-          goToTab(n);
-          document.getElementById("tab-" + n)?.focus();
-        }}
-      >
-        {TABS.map((t) => (
-          <button
-            key={t}
-            type="button"
-            role="tab"
-            id={"tab-" + t}
-            data-tab={t}
-            aria-selected={t === tab}
-            aria-controls={"panel-" + t}
-            tabIndex={t === tab ? 0 : -1}
-            onClick={() => goTab(t)}
-          >
-            {TAB_LABEL[t]}
-          </button>
-        ))}
-      </div>
-
-      {panel("deals", <DealsPanel onMakePost={makePost} />)}
-      {panel("posts", <PostMaker active={tab === "posts"} showTick={showTick} choice={postChoice} onChoose={setPostChoice} />)}
-      {panel("stores", <StoresPanel />)}
-      {panel("notices", <NoticesPanel />)}
-      {panel("publish", <PublishPanel />)}
+    <AppShell app="admin" active={tab} title="Office console" css={["app", "admin"]}>
+      <section id={"sec-" + tab} className="admin-section" tabIndex={-1} aria-labelledby={"sec-" + tab + "-h"}>
+        <SectionHead id={tab} />
+        {!s ? null : allowed ? content() : <NoAccess id={tab} perms={perms} />}
+      </section>
     </AppShell>
   );
 }

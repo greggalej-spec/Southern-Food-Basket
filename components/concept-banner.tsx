@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useSyncExternalStore } from "react";
 import { DISCLAIMER } from "@/lib/format";
 
@@ -35,7 +36,7 @@ export function ConceptBanner() {
     <div className="concept-banner" role="note">
       <div className="container">
         <p>
-          <strong>Demo.</strong> {DISCLAIMER} Nothing you enter leaves this browser.
+          <strong>Demo.</strong> {DISCLAIMER} Nothing you enter leaves this browser. <Link href="/tour">Take the guided tour</Link>
         </p>
         <button type="button" onClick={dismiss}>
           Got it

@@ -9,7 +9,7 @@ import type { Employee, LeaveStatus, Role, Seed } from "@/lib/types";
 // The frame and the small renderers every employee portal page shares, from portal.js.
 
 // Every page except the demo login needs an employee, HR or admin session (HR and admin also have "My portal").
-const PORTAL_ROLES: Role[] = ["employee", "hr", "admin"];
+const PORTAL_ROLES: Role[] = ["employee", "hr", "admin", "marketing", "owner"];
 
 /** An employee portal page: the app shell, the role guard, and the signed-in employee's record. The body renders
  *  once both exist, which is after hydration, so it may read the clock. */

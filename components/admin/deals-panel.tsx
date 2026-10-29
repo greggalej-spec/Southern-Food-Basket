@@ -6,10 +6,11 @@ import { DealDrawer } from "@/components/admin/deal-drawer";
 import { useConfirm } from "@/components/confirm";
 import { Icon } from "@/components/icon";
 import { toast } from "@/components/ui/sonner";
+import { attempt } from "@/lib/admin/guard";
 import { cssEsc, dept, photoSrc, plural, retailDepts, shownDeals } from "@/lib/admin/helpers";
 import { removeDeal } from "@/lib/admin/writes";
 import { fmtDate, money } from "@/lib/format";
-import { KEY, byId, load, useData } from "@/lib/store";
+import { KEY, byId, load, useData, useSession } from "@/lib/store";
 
 // The Specials tab from admin.js (section 1): filter and search the deals, add, edit and remove them, and the
 // "saved" note that leads to the Specials page or the post maker.
@@ -18,6 +19,7 @@ type Saved = { id: string; name: string; dept: string };
 
 export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void }) {
   const d = useData();
+  const s = useSession();
   const { confirm } = useConfirm();
   const [deptSel, setDeptSel] = useState("all");
   const [query, setQuery] = useState("");
@@ -92,11 +94,18 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
     const i = rows.findIndex((r) => r.getAttribute("data-id") === id);
     const neighbour = rows[i + 1] || rows[i - 1];
     const nextId = neighbour ? neighbour.getAttribute("data-id") : null;
+    let refused = "";
     flushSync(() => {
-      removeDeal(id);
+      const r = attempt(s, "specials.remove", sp.name, () => removeDeal(s, id));
+      if (!r.ok) refused = r.message;
       closeDrawer(false);
-      setSaved(null);
+      if (r.ok) setSaved(null);
     });
+    if (refused) {
+      toast(refused, "bad");
+      if (opener && document.contains(opener)) opener.focus();
+      return;
+    }
     toast("Removed. " + sp.name + " is off the Specials page in this browser.", "ok");
     const target = nextId ? rowsRef.current?.querySelector<HTMLElement>('[data-edit="' + cssEsc(nextId) + '"]') : null;
     (target || addRef.current)?.focus();
@@ -214,7 +223,7 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
                     <button className="btn btn-ghost btn-sm" type="button" data-edit={sp.id} onClick={(e) => openDealDrawer(sp.id, e.currentTarget)}>
                       Edit<span className="visually-hidden">{" " + sp.name}</span>
                     </button>
-                    <button className="btn btn-danger btn-sm" type="button" data-remove={sp.id} onClick={(e) => remove(sp.id, e.currentTarget)}>
+                    <button className="btn btn-ghost btn-sm" type="button" data-remove={sp.id} onClick={(e) => remove(sp.id, e.currentTarget)}>
                       Remove<span className="visually-hidden">{" " + sp.name}</span>
                     </button>
                   </td>

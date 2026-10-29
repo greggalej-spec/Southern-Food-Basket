@@ -18,6 +18,8 @@
 :where([data-css~="app"]) .app-sidebar-foot a, :where([data-css~="app"]) .app-sidebar-foot button{ display: flex; align-items: center; gap: 12px; padding: 9px 12px; border-radius: var(--r-sm); color: #DCE5DD; background: none; border: 0; font: 600 0.875rem var(--ui); cursor: pointer; text-decoration: none; text-align: left; }
 :where([data-css~="app"]) .app-sidebar-foot a:hover, :where([data-css~="app"]) .app-sidebar-foot button:hover{ background: rgba(255,255,255,.07); color: #fff; }
 :where([data-css~="app"]) .app-sidebar-foot p{ color: #9FB3A3; margin: var(--s3) 12px 0; }
+:where([data-css~="app"]) .app-sidebar-foot .app-scope{ margin: 0 12px var(--s3); color: #DCE5DD; font-weight: 600; }
+:where([data-css~="app"]) .app-scope span{ display: block; color: #9FB3A3; font-weight: 700; font-size: 0.75rem; letter-spacing: .06em; text-transform: uppercase; }
 :where([data-css~="app"]) .app-body{ min-width: 0; display: flex; flex-direction: column; }
 :where([data-css~="app"]) .app-topbar{ position: sticky; top: 10px; z-index: 30; display: flex; align-items: center; gap: var(--s4); min-height: 64px; margin: 10px 10px 0; padding: 0 var(--s3) 0 var(--s4);
   background: var(--paper); border-radius: 16px; box-shadow: var(--shadow-bar); } /* the home's floating paper bar, solid, no blur (DESIGN.md "Staff tools") */

@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/site-frame";
-import { DealsNote, SpecialsBoard, SpecialsFallback } from "@/components/site/specials";
+import { DealsNote, SpecialsBoard, SpecialsExtras, SpecialsFallback } from "@/components/site/specials";
 
 // Ported from specials.html; the chips, the count and the deal grid come from the data, as site.js specials()
 // rendered them. The board reads ?dept= and ?couva= with useSearchParams, so it sits in Suspense: the prerendered
@@ -35,6 +35,7 @@ export default function SpecialsPage() {
           <p className="note" style={{ marginTop: 24 }}>
             All prices in Trinidad and Tobago dollars (TTD), one item each, as posted. Photos are the company’s own.
           </p>
+          <SpecialsExtras />
         </div>
       </section>
     </SiteFrame>

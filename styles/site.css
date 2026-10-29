@@ -164,3 +164,13 @@
 :where([data-css~="site"]) .counters li{ display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: #EAF5F3; color: var(--teal-deep); font: 700 1rem var(--ui); }
 :where([data-css~="site"]) .counters li::before{ content: ""; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), #C99A35); }
 :where([data-css~="site"]) .counters ~ .more-link{ margin-top: var(--s4); }
+
+/* ---------- specials: the members' offers callout and the weekly e-mail sign-up (components/site/specials.tsx) ---------- */
+:where([data-css~="site"]) .specials-extras{ display: grid; gap: var(--s6); margin-top: var(--s8); }
+:where([data-css~="site"]) .specials-extras > *{ min-width: 0; }
+:where([data-css~="site"]) .offers-callout{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s4) var(--s6); padding: var(--s6) var(--s5); border-radius: var(--r-lg); background: var(--leaf); color: #F3EBDD; }
+:where([data-css~="site"]) .offers-callout > div{ max-width: 60ch; min-width: 0; }
+:where([data-css~="site"]) .offers-callout .eyebrow{ color: var(--yellow); }
+:where([data-css~="site"]) .offers-callout h2{ margin: 0 0 var(--s2); color: #fff; font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem); }
+:where([data-css~="site"]) .offers-callout p{ margin: 0; color: #E8E0D4; }
+@media (min-width: 910px) { :where([data-css~="site"]) .offers-callout{ padding: var(--s6) var(--s7); } }

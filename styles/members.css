@@ -1,0 +1,189 @@
+/* Southern Food Basket — shoppers: members' offers, the shopper account, the newsletter pages, the demo outbox.
+   Scoped to <Scope css={["members"]}> (components/scope.tsx). Law: DESIGN.md. */
+
+/* ---------- the weekly e-mail sign-up (.nl, components/members/newsletter-signup.tsx) ----------
+   Not scoped: the footer carries the compact form on every public page, whatever stylesheets the page loads. */
+.nl { display: grid; gap: var(--s5) var(--s7); min-width: 0; }
+.nl > * { min-width: 0; }
+.nl .nl-title { font-size: clamp(1.625rem, 1.3rem + 1.1vw, 2.125rem); margin: 0 0 var(--s2); }
+.nl-intro p { margin: 0; }
+.nl-form { display: grid; gap: var(--s4); min-width: 0; }
+.nl-field label { margin-bottom: 6px; }
+.nl-choices { display: grid; gap: var(--s4) var(--s6); }
+.nl-choices fieldset { margin: 0; }
+.nl-choices .hint { margin: 0 0 var(--s3); }
+.nl-checks { display: grid; gap: var(--s2) var(--s5); grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); }
+.nl-consent .check { font-size: 1rem; }
+.nl-submit { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); }
+.nl-error { margin: 6px 0 0; font-size: 0.9375rem; font-weight: 700; color: var(--bad); }
+.nl-submit .nl-error { margin: 0; flex: 1 1 220px; }
+.nl-small { margin: 0; font-size: 0.9375rem; color: var(--muted); }
+.nl-sent { display: grid; gap: var(--s3); }
+.nl-sent > * { margin: 0; }
+.nl-sent strong { overflow-wrap: anywhere; }
+.nl-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s3) var(--s4); }
+@media (min-width: 640px) { .nl-choices { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+
+/* full, on the specials page */
+.nl-full { background: var(--flour); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); padding: var(--s6) var(--s5); scroll-margin-top: 96px; }
+@media (min-width: 910px) {
+  .nl-full { grid-template-columns: minmax(0, .8fr) minmax(0, 1.4fr); align-items: start; padding: var(--s7); }
+  .nl-full .nl-sent { grid-column: 1 / -1; max-width: 64ch; }
+}
+
+/* compact, in the footer (deep green): light text, a light error colour, and buttons that keep their own colours
+   over .site-footer a */
+.footer-news { padding-block: var(--s7) var(--s6); border-bottom: 1px solid rgba(255,255,255,.14); }
+@media (min-width: 910px) { .nl-compact { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); align-items: start; } }
+.nl-compact .nl-title { color: #fff; }
+.nl-compact label, .nl-compact strong { color: #fff; }
+.nl-compact .check { color: #F3EBDD; }
+.nl-compact .nl-small, .nl-compact .nl-intro p { color: #D6CDBF; }
+.nl-compact .nl-error { color: #FFD7D7; }
+.nl-compact input[type="email"] { border-color: transparent; }
+.nl-compact input[aria-invalid="true"] { border-color: #FFB4B4; box-shadow: 0 0 0 3px rgba(255,180,180,.35); }
+.nl-compact .check input { accent-color: var(--yellow); }
+.site-footer .nl-compact .btn { color: #fff; text-decoration: none; }
+.site-footer .nl-compact .link-btn { color: #F3EBDD; }
+
+/* ---------- shared on the member pages ---------- */
+:where([data-css~="members"]) .member-alert{ display: flex; gap: var(--s3); align-items: flex-start; max-width: none; margin: 0 0 var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--green-wash); color: var(--leaf); font-weight: 700; }
+:where([data-css~="members"]) .member-alert .icon{ margin-top: 2px; }
+:where([data-css~="members"]) .member-alert a{ color: var(--leaf); }
+
+/* ---------- the code ticket (components/members/code-ticket.tsx) ---------- */
+:where([data-css~="members"]) .ticket{ container-type: inline-size; position: relative; background: var(--flour); border: 1px solid var(--line-strong); border-radius: var(--r-lg); box-shadow: var(--shadow-lift); overflow: hidden; }
+:where([data-css~="members"]) .ticket:focus{ outline: none; }
+:where([data-css~="members"]) .ticket:focus-visible{ outline: 3px solid var(--clay); outline-offset: 3px; }
+:where([data-css~="members"]) .ticket-top{ padding: var(--s5) var(--s5) var(--s4); background: var(--pink-wash); }
+:where([data-css~="members"]) .ticket-head{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2) var(--s3); margin-bottom: var(--s2); }
+:where([data-css~="members"]) .ticket-title{ margin: 0; font: 800 0.8125rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: var(--clay-dark); }
+:where([data-css~="members"]) .ticket-benefit{ margin: 0 0 4px; font: 800 1.25rem/1.25 var(--ui); color: var(--ink); }
+:where([data-css~="members"]) .ticket-where{ margin: 0; font-size: 0.9375rem; color: var(--muted); }
+/* the tear line, with a notch cut into each edge (the notch takes the colour of whatever the ticket sits on) */
+:where([data-css~="members"]) .ticket-tear{ position: relative; height: 0; margin: 0 var(--s4); border-top: 2px dashed var(--line-strong); }
+:where([data-css~="members"]) .ticket-tear::before, :where([data-css~="members"]) .ticket-tear::after{ content: ""; position: absolute; top: -12px; width: 22px; height: 22px; border-radius: 50%; background: var(--ticket-bg, var(--cream)); border: 1px solid var(--line-strong); }
+:where([data-css~="members"]) .ticket-tear::before{ left: calc(-1 * var(--s4) - 12px); }
+:where([data-css~="members"]) .ticket-tear::after{ right: calc(-1 * var(--s4) - 12px); }
+:where([data-css~="members"]) .ticket-body{ padding: var(--s4) var(--s5) var(--s5); }
+:where([data-css~="members"]) .ticket-code-label{ margin: 0 0 2px; font: 800 0.8125rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+:where([data-css~="members"]) .ticket-code{ margin: 0 0 var(--s3); max-width: none; font: 800 clamp(1.5rem, 1.2rem + 2.4vw, 3rem)/1.1 var(--ui); font-size: clamp(1.5rem, 11.5cqi, 3.25rem); letter-spacing: .08em; font-variant-numeric: tabular-nums lining-nums; color: var(--ink); white-space: nowrap; }
+:where([data-css~="members"]) .code-pattern{ display: block; width: 100%; max-width: 300px; height: 44px; margin: 0 0 var(--s3); fill: var(--ink); }
+:where([data-css~="members"]) .ticket-note{ margin: 0; font-size: 1rem; }
+:where([data-css~="members"]) .ticket-fine{ margin: 6px 0 0; font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="members"]) .ticket.is-spent{ box-shadow: none; }
+:where([data-css~="members"]) .ticket.is-spent .ticket-top{ background: var(--wash); }
+:where([data-css~="members"]) .ticket.is-spent .ticket-code{ color: var(--muted); text-decoration: line-through; text-decoration-thickness: 2px; }
+
+/* ---------- /offers ---------- */
+:where([data-css~="members"]) .offer-list-wait{ min-height: 420px; }
+:where([data-css~="members"]) .offer-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s5); }
+:where([data-css~="members"]) .offer-card{ display: grid; background: var(--flour); border: 1px solid var(--line); border-radius: var(--r-lg); box-shadow: var(--shadow); overflow: hidden; }
+:where([data-css~="members"]) .offer-photo{ margin: 0; }
+:where([data-css~="members"]) .offer-photo img{ width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+:where([data-css~="members"]) .offer-body{ display: flex; flex-direction: column; gap: var(--s3); min-width: 0; padding: var(--s5); }
+:where([data-css~="members"]) .offer-body > *{ margin: 0; }
+:where([data-css~="members"]) .offer-head{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s2) var(--s3); }
+:where([data-css~="members"]) .offer-title{ font: 800 0.875rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: var(--clay); }
+:where([data-css~="members"]) .offer-benefit{ font: 800 clamp(1.375rem, 1.1rem + 1vw, 1.875rem)/1.2 var(--ui); }
+:where([data-css~="members"]) .offer-benefit a{ color: var(--ink); text-decoration: none; }
+:where([data-css~="members"]) .offer-benefit a:hover{ color: var(--green); text-decoration: underline; }
+:where([data-css~="members"]) .offer-meta{ display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2) var(--s5); margin: 0; color: var(--muted); font-weight: 700; }
+:where([data-css~="members"]) .offer-meta > span:not(.badge){ display: inline-flex; align-items: center; gap: 6px; }
+:where([data-css~="members"]) .offer-meta .icon{ color: var(--clay); }
+:where([data-css~="members"]) .offer-left{ font-weight: 800; color: var(--warn); }
+:where([data-css~="members"]) .offer-more{ margin-top: var(--s2); align-self: flex-start; }
+:where([data-css~="members"]) .offer-card.is-ended{ background: var(--wash); box-shadow: none; }
+:where([data-css~="members"]) .offer-card.is-ended .offer-photo img{ filter: grayscale(1); opacity: .75; }
+:where([data-css~="members"]) .offer-card.is-ended .offer-title{ color: var(--muted); }
+@media (min-width: 720px) {
+  :where([data-css~="members"]) .offer-card{ grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); }
+  :where([data-css~="members"]) .offer-card.no-photo{ grid-template-columns: 1fr; }
+  :where([data-css~="members"]) .offer-photo img{ height: 100%; aspect-ratio: auto; min-height: 240px; }
+}
+@media (min-width: 910px) { :where([data-css~="members"]) .offer-body{ padding: var(--s6) var(--s7); } }
+:where([data-css~="members"]) .offers-how{ background: var(--facade); }
+:where([data-css~="members"]) .steps li p{ color: var(--muted); }
+:where([data-css~="members"]) .steps li strong{ color: var(--ink); }
+:where([data-css~="members"]) .offers-fine{ margin-top: var(--s6); max-width: 68ch; }
+:where([data-css~="members"]) .offers-fine ul{ margin: 0; display: grid; gap: var(--s2); }
+
+/* ---------- /offers/<slug> ---------- */
+:where([data-css~="members"]) .offer-wait{ min-height: 70vh; }
+:where([data-css~="members"]) .page-hero .offer-meta{ margin-top: var(--s4); }
+:where([data-css~="members"]) .offer-layout{ display: grid; gap: var(--s6); align-items: start; }
+:where([data-css~="members"]) .offer-layout > *{ min-width: 0; }
+@media (min-width: 910px) { :where([data-css~="members"]) .offer-layout{ grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s7); } }
+:where([data-css~="members"]) .offer-claim{ --ticket-bg: var(--flour); display: grid; gap: var(--s4); padding: var(--s6) var(--s5); }
+:where([data-css~="members"]) .offer-claim > *{ margin: 0; }
+:where([data-css~="members"]) .offer-claim .btn{ justify-self: start; }
+:where([data-css~="members"]) .offer-claim h2, :where([data-css~="members"]) .offer-terms h2{ font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+:where([data-css~="members"]) .claim-done{ display: flex; align-items: center; gap: var(--s2); font-weight: 800; color: var(--green); }
+:where([data-css~="members"]) .offer-facts{ display: grid; grid-template-columns: max-content 1fr; gap: var(--s2) var(--s5); margin: 0 0 var(--s5); }
+:where([data-css~="members"]) .offer-facts dt{ color: var(--muted); font-weight: 700; }
+:where([data-css~="members"]) .offer-facts dd{ margin: 0; font-weight: 700; }
+:where([data-css~="members"]) .offer-small-print{ margin: 0 0 var(--s5); display: grid; gap: var(--s2); }
+:where([data-css~="members"]) .offer-missing h1{ font-size: clamp(1.75rem, 1.4rem + 1.4vw, 2.5rem); }
+@media (max-width: 420px) {
+  :where([data-css~="members"]) .offer-facts{ grid-template-columns: 1fr; gap: 2px; }
+  :where([data-css~="members"]) .offer-facts dd{ margin-bottom: var(--s3); }
+}
+
+/* ---------- /account ---------- */
+:where([data-css~="members"]) .account-wait{ min-height: 70vh; }
+:where([data-css~="members"]) .account-layout{ display: grid; gap: var(--s6); align-items: start; }
+:where([data-css~="members"]) .account-layout > *{ min-width: 0; }
+@media (min-width: 910px) { :where([data-css~="members"]) .account-layout{ grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: var(--s7); } }
+:where([data-css~="members"]) .account-h{ font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem); }
+:where([data-css~="members"]) .card-h{ font: 800 1.25rem/1.3 var(--ui); margin: 0 0 var(--s3); }
+:where([data-css~="members"]) .wallet{ list-style: none; margin: 0 0 var(--s6); padding: 0; display: grid; gap: var(--s5); max-width: 640px; }
+:where([data-css~="members"]) .account-wallet .empty{ margin-bottom: var(--s6); }
+:where([data-css~="members"]) .account-side{ display: grid; gap: var(--s5); }
+:where([data-css~="members"]) .account-side .card > :last-child{ margin-bottom: 0; }
+:where([data-css~="members"]) .account-email{ display: flex; align-items: center; gap: var(--s2); font-weight: 700; overflow-wrap: anywhere; }
+:where([data-css~="members"]) .account-email span{ min-width: 0; }
+
+/* ---------- /account/sign-in and /account/verify ---------- */
+:where([data-css~="members"]) .signin-band{ padding-top: var(--s7); }
+:where([data-css~="members"]) .signin-card{ min-height: 160px; padding: var(--s6) var(--s5); }
+@media (min-width: 640px) { :where([data-css~="members"]) .signin-card{ padding: var(--s7); } }
+:where([data-css~="members"]) .signin-card h2{ font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+:where([data-css~="members"]) .signin-card form > .btn{ margin-top: var(--s2); }
+:where([data-css~="members"]) .signin-demo{ margin: var(--s5) 0 0; padding-top: var(--s4); border-top: 1px solid var(--line); }
+:where([data-css~="members"]) .signin-demo strong{ overflow-wrap: anywhere; }
+:where([data-css~="members"]) .signin-sent > :last-child{ margin-bottom: 0; }
+:where([data-css~="members"]) .signin-sent strong{ overflow-wrap: anywhere; }
+
+/* ---------- /newsletter/confirm, /preferences, /unsubscribe ---------- */
+:where([data-css~="members"]) .nl-page{ padding-top: var(--s7); }
+:where([data-css~="members"]) .nl-card{ display: grid; gap: var(--s4); margin-bottom: var(--s5); }
+:where([data-css~="members"]) .nl-card > *{ margin: 0; }
+:where([data-css~="members"]) .nl-card h2{ font-size: clamp(1.5rem, 1.2rem + 1vw, 2rem); }
+:where([data-css~="members"]) .nl-card .btn{ justify-self: start; }
+:where([data-css~="members"]) .nl-card .hint{ margin: 0 0 var(--s3); }
+:where([data-css~="members"]) .nl-facts{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
+:where([data-css~="members"]) .nl-facts li{ display: flex; gap: var(--s3); align-items: flex-start; }
+:where([data-css~="members"]) .nl-facts .icon{ margin-top: 3px; color: var(--green); }
+:where([data-css~="members"]) .page-hero .lede strong{ overflow-wrap: anywhere; }
+
+/* ---------- /outbox ---------- */
+:where([data-css~="members"]) .outbox-note{ display: inline-block; margin: var(--s4) 0 0; padding: var(--s2) var(--s3); border: 1px dashed var(--line-strong); border-radius: var(--r-sm); background: var(--flour); color: var(--ink); font-weight: 700; }
+:where([data-css~="members"]) .outbox-band{ padding-top: var(--s7); }
+:where([data-css~="members"]) .outbox-wait{ min-height: 240px; }
+:where([data-css~="members"]) .outbox-form{ margin-bottom: var(--s6); }
+:where([data-css~="members"]) .outbox-row{ display: flex; flex-wrap: wrap; gap: var(--s3); }
+:where([data-css~="members"]) .outbox-row input{ flex: 1 1 240px; width: auto; min-width: 0; }
+:where([data-css~="members"]) .outbox-form .hint, :where([data-css~="members"]) .outbox-form .error-text{ margin-bottom: 0; }
+:where([data-css~="members"]) .outbox-h{ margin: 0 0 var(--s4); font: 800 1.25rem/1.3 var(--ui); overflow-wrap: anywhere; }
+:where([data-css~="members"]) .mail-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s5); }
+:where([data-css~="members"]) .mail{ background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); box-shadow: var(--shadow); padding: var(--s5); }
+:where([data-css~="members"]) .mail-head{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s2) var(--s4); margin-bottom: var(--s4); padding-bottom: var(--s3); border-bottom: 1px solid var(--line); }
+:where([data-css~="members"]) .mail-from{ display: flex; align-items: center; gap: var(--s3); min-width: 0; }
+:where([data-css~="members"]) .mail-mark{ width: 40px; height: 40px; flex: none; }
+:where([data-css~="members"]) .mail-sender{ margin: 0; font-weight: 800; }
+:where([data-css~="members"]) .mail-to, :where([data-css~="members"]) .mail-when{ margin: 0; font-size: 0.9375rem; color: var(--muted); overflow-wrap: anywhere; }
+:where([data-css~="members"]) .mail-subject{ margin: 0 0 var(--s2); font: 800 1.25rem/1.3 var(--ui); }
+:where([data-css~="members"]) .mail .badge{ margin-bottom: var(--s4); }
+:where([data-css~="members"]) .mail-body p{ margin: 0 0 var(--s3); }
+:where([data-css~="members"]) .mail-body p:last-child{ margin-bottom: 0; }
+:where([data-css~="members"]) .mail-action{ margin: var(--s4) 0 0; }

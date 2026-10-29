@@ -1,4 +1,23 @@
-import type { Seed } from "./types";
+import type { Promotion, Seed } from "./types";
+
+/* DEMO promotions: invented for the prototype, built on two real specials. Only approved promotions that have already
+   started are in this public file; lib/seed-private.ts holds the rest. */
+const PUBLIC_PROMOTIONS: Promotion[] = [
+  { id: 'promo-cake', slug: 'cake-offer', title: 'Members’ cake offer', benefit: 'TT$15 off any 9-inch double-layer cake', kind: 'member-code',
+    summary: 'Red velvet, chocolate or sponge. Sign in, take your code, show it at the till.',
+    terms: ['One code per shopper.', 'Show the code at the till before you pay. The cashier checks it and records it.', 'Not with any other offer.', 'The offer does not promise stock: cakes sell out.'],
+    img: 'cake-red-velvet', alt: 'Red velvet cake with white frosting and red crumb topping',
+    branchIds: null, starts: '2026-10-26T00:00:00-04:00', ends: '2026-11-15T21:00:00-04:00', limits: { perCustomer: 1, total: 500 },
+    status: 'approved', createdBy: 'emp-tricia', createdAt: '2026-10-21T10:00:00-04:00', submittedAt: '2026-10-22T09:00:00-04:00', approvedBy: 'emp-vishala', approvedAt: '2026-10-23T08:15:00-04:00',
+    revisions: [{ at: '2026-10-21T10:00:00-04:00', by: 'emp-tricia', summary: 'Drafted' }, { at: '2026-10-23T08:15:00-04:00', by: 'emp-vishala', summary: 'Approved' }] },
+  { id: 'promo-veg-couva', slug: 'couva-cut-veg', title: 'Couva cut-veg offer', benefit: 'TT$5 off two ready-cut veg packs', kind: 'member-code',
+    summary: 'Chunky, stir fry or chow mein packs, at the Couva store only.',
+    terms: ['One code per shopper.', 'Couva store only: 696 Southern Main Road.', 'Any two ready-cut veg packs in one shop.'],
+    img: 'veg-stir-fry', alt: 'Tray of broccoli, carrot sticks, celery and sweet peppers for stir fry',
+    branchIds: ['couva'], starts: '2026-10-20T00:00:00-04:00', ends: '2026-11-08T21:00:00-04:00', limits: { perCustomer: 1, total: 200 },
+    status: 'approved', createdBy: 'emp-tricia', createdAt: '2026-10-16T13:00:00-04:00', submittedAt: '2026-10-16T15:00:00-04:00', approvedBy: 'emp-vishala', approvedAt: '2026-10-17T09:30:00-04:00',
+    revisions: [{ at: '2026-10-16T13:00:00-04:00', by: 'emp-tricia', summary: 'Drafted' }, { at: '2026-10-17T09:30:00-04:00', by: 'emp-vishala', summary: 'Approved' }] },
+];
 
 // Ported from data/seed.js (the static site) with image paths made root-relative. Edit it here from now on.
 /* Southern Food Basket — seed data for the concept site.
@@ -9,7 +28,7 @@ import type { Seed } from "./types";
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 6,
+  version: 8,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -191,224 +210,22 @@ export const SEED: Seed = {
       kyc: ['photo-id', 'bir', 'nis', 'coc', 'address', 'refs', 'bank', 'work-permit'] }
   ],
 
-  /* demo applicants. docs: { docId: { state, fileName, size, type, expiry, reason } } — never file bytes */
-  applicants: [
-    { id: 'app-aaliyah', name: 'Aaliyah Persad', email: 'aaliyah.persad@example.com', phone: '(868) 000-0201', jobId: 'job-checkout-sando', stage: 'kyc', submittedAt: '2026-10-14T10:12:00',
-      personal: { address: 'Demo Street, Marabella', dob: '2001-06-14', nonNational: false },
-      experience: { summary: 'Two years as a cashier at a pharmacy in Marabella; comfortable with card terminals and end-of-day reconciliation.', availability: ['Weekdays', 'Saturdays'], startDate: '2026-11-02' },
-      docs: {
-        'photo-id': { state: 'uploaded', fileName: 'national-id.jpg', size: 412000, type: 'image/jpeg', expiry: '2029-03-14', updatedAt: '2026-10-14T10:20:00' },
-        'bir': { state: 'verified', fileName: 'bir-letter.pdf', size: 88000, type: 'application/pdf', updatedAt: '2026-10-16T09:00:00' },
-        'nis': { state: 'verified', fileName: 'nis-card.jpg', size: 230000, type: 'image/jpeg', updatedAt: '2026-10-16T09:02:00' },
-        'coc': { state: 'uploaded', fileName: 'certificate-of-character.pdf', size: 540000, type: 'application/pdf', expiry: '2027-03-01', updatedAt: '2026-10-15T18:40:00' },
-        'address': { state: 'flagged', fileName: 'tt-electricity-bill.pdf', size: 150000, type: 'application/pdf', reason: 'Bill is older than three months. Please upload a recent one.', updatedAt: '2026-10-16T09:10:00' },
-        'refs': { state: 'uploaded', fileName: 'references.pdf', size: 60000, type: 'application/pdf', updatedAt: '2026-10-14T10:25:00' }
-      },
-      notes: [{ at: '2026-10-16T09:12:00', author: 'Devon Baptiste', text: 'Strong cash-handling background. Chasing a recent proof of address, then schedule interview at Coffee Street.' }],
-      messages: [{ at: '2026-10-16T09:15:00', from: 'HR', text: 'Hi Aaliyah, thanks for applying. Your proof of address is older than three months. Please upload a bill or statement from the last three months and we will move you to interview.' }],
-      timeline: [
-        { at: '2026-10-14T10:12:00', text: 'Application submitted' },
-        { at: '2026-10-15T14:00:00', text: 'Moved to Screening' },
-        { at: '2026-10-16T09:00:00', text: 'Moved to KYC review' },
-        { at: '2026-10-16T09:10:00', text: 'Proof of address: flagged — Bill is older than three months' }
-      ] },
-    { id: 'app-jerome', name: 'Jerome Phillip', email: 'jerome.phillip@example.com', phone: '(868) 000-0202', jobId: 'job-bakery-ptown', stage: 'interview', submittedAt: '2026-10-13T08:40:00',
-      personal: { address: 'Demo Trace, Princes Town', dob: '1998-11-02', nonNational: false },
-      experience: { summary: 'Three years at a family bakery in Princes Town; hops bread, sweetbread and pastry. Holds a current food badge.', availability: ['Early mornings', 'Saturdays'], startDate: '2026-11-09' },
-      interview: { at: '2026-10-27T10:00:00', where: 'Princes Town head office', with: 'Marsha Gopaul, Bakery Lead' },
-      docs: {
-        'photo-id': { state: 'verified', fileName: 'drivers-permit.jpg', size: 380000, type: 'image/jpeg', expiry: '2028-01-20' },
-        'bir': { state: 'verified', fileName: 'bir.pdf', size: 70000, type: 'application/pdf' },
-        'nis': { state: 'verified', fileName: 'nis.pdf', size: 65000, type: 'application/pdf' },
-        'coc': { state: 'verified', fileName: 'coc.pdf', size: 520000, type: 'application/pdf', expiry: '2027-02-10' },
-        'address': { state: 'verified', fileName: 'wasa-bill.pdf', size: 140000, type: 'application/pdf' },
-        'refs': { state: 'verified', fileName: 'refs.pdf', size: 50000, type: 'application/pdf' },
-        'bank': { state: 'uploaded', fileName: 'bank-letter.pdf', size: 90000, type: 'application/pdf' },
-        'food-badge': { state: 'verified', fileName: 'food-badge.jpg', size: 300000, type: 'image/jpeg', expiry: '2027-08-31' }
-      },
-      notes: [{ at: '2026-10-19T11:00:00', author: 'Devon Baptiste', text: 'All documents in. Interview booked with Marsha for Mon 27 Oct.' }],
-      messages: [{ at: '2026-10-19T11:05:00', from: 'HR', text: 'Hi Jerome, your interview is on Monday 27 October at 10:00 am at the Princes Town head office. Ask for Marsha at the wholesale desk.' }],
-      timeline: [
-        { at: '2026-10-13T08:40:00', text: 'Application submitted' },
-        { at: '2026-10-14T09:30:00', text: 'Moved to Screening' },
-        { at: '2026-10-15T10:00:00', text: 'Moved to KYC review' },
-        { at: '2026-10-19T11:00:00', text: 'Moved to Interview' }
-      ] },
-    { id: 'app-priya', name: 'Priya Maharaj', email: 'priya.maharaj@example.com', phone: '(868) 000-0203', jobId: 'job-wholesale-sando', stage: 'screening', submittedAt: '2026-10-18T16:05:00',
-      personal: { address: 'Demo Avenue, Debe', dob: '1994-03-22', nonNational: false },
-      experience: { summary: 'Four years selling beverages to bars and mini-marts across the south for a distributor. Own car, Class 3 permit.', availability: ['Weekdays'], startDate: '2026-11-16' },
-      docs: { 'photo-id': { state: 'uploaded', fileName: 'passport.jpg', size: 400000, type: 'image/jpeg', expiry: '2031-05-02' } },
-      notes: [], messages: [],
-      timeline: [{ at: '2026-10-18T16:05:00', text: 'Application submitted' }, { at: '2026-10-20T09:00:00', text: 'Moved to Screening' }] },
-    { id: 'app-marcus', name: 'Marcus Joseph', email: 'marcus.joseph@example.com', phone: '(868) 000-0204', jobId: 'job-warehouse-ptown', stage: 'submitted', submittedAt: '2026-10-21T19:30:00',
-      personal: { address: 'Demo Road, Moruga', dob: '2003-09-09', nonNational: false },
-      experience: { summary: 'Loaded trucks for a hardware store for a year. Fit, reliable, wants forklift training.', availability: ['Any shift'], startDate: '2026-11-02' },
-      docs: {}, notes: [], messages: [],
-      timeline: [{ at: '2026-10-21T19:30:00', text: 'Application submitted' }] },
-    { id: 'app-shanice', name: 'Shanice Lewis', email: 'shanice.lewis@example.com', phone: '(868) 000-0205', jobId: 'job-perish-penal', stage: 'offer', submittedAt: '2026-10-02T09:00:00',
-      personal: { address: 'Demo Street, Penal', dob: '1999-12-30', nonNational: false },
-      experience: { summary: 'Two years in produce at a Siparia supermarket. Knows the Penal farmers by name.', availability: ['Early mornings', 'Sundays'], startDate: '2026-11-02' },
-      offer: { startDate: '2026-11-02', pay: 4300, payUnit: 'month', sentAt: '2026-10-20T15:00:00', status: 'sent' },
-      docs: {
-        'photo-id': { state: 'verified', fileName: 'id.jpg', size: 350000, type: 'image/jpeg', expiry: '2030-06-15' },
-        'bir': { state: 'verified', fileName: 'bir.pdf', size: 70000, type: 'application/pdf' },
-        'nis': { state: 'verified', fileName: 'nis.pdf', size: 65000, type: 'application/pdf' },
-        'coc': { state: 'verified', fileName: 'coc.pdf', size: 500000, type: 'application/pdf', expiry: '2027-01-15' },
-        'address': { state: 'verified', fileName: 'bill.pdf', size: 120000, type: 'application/pdf' },
-        'refs': { state: 'verified', fileName: 'refs.pdf', size: 50000, type: 'application/pdf' },
-        'bank': { state: 'verified', fileName: 'bank.pdf', size: 80000, type: 'application/pdf' },
-        'food-badge': { state: 'verified', fileName: 'badge.jpg', size: 280000, type: 'image/jpeg', expiry: '2027-04-30' }
-      },
-      notes: [{ at: '2026-10-20T15:00:00', author: 'Devon Baptiste', text: 'Offer sent at TTD 4,300 / month, start 2 Nov.' }],
-      messages: [{ at: '2026-10-20T15:02:00', from: 'HR', text: 'Hi Shanice, we would like to offer you the Perishables Attendant role at Penal. The offer letter is in your dashboard. Reply by Friday 24 October.' }],
-      timeline: [
-        { at: '2026-10-02T09:00:00', text: 'Application submitted' }, { at: '2026-10-05T10:00:00', text: 'Moved to Screening' },
-        { at: '2026-10-07T10:00:00', text: 'Moved to KYC review' }, { at: '2026-10-13T10:00:00', text: 'Moved to Interview' },
-        { at: '2026-10-20T15:00:00', text: 'Moved to Offer' }
-      ] },
-    { id: 'app-kwame', name: 'Kwame Alexander', email: 'kwame.alexander@example.com', phone: '(868) 000-0206', jobId: 'job-it-ptown', stage: 'not-selected', submittedAt: '2026-09-22T11:00:00',
-      personal: { address: 'Demo Street, San Fernando', dob: '1996-04-18', nonNational: false },
-      experience: { summary: 'Help-desk experience at a call centre; no POS background.', availability: ['Weekdays'], startDate: '2026-10-19' },
-      docs: { 'photo-id': { state: 'verified', fileName: 'id.jpg', size: 350000, type: 'image/jpeg', expiry: '2029-09-01' } },
-      notes: [{ at: '2026-10-03T12:00:00', author: 'Devon Baptiste', text: 'Role filled internally. Keep on file for the next support opening.' }],
-      messages: [{ at: '2026-10-03T12:05:00', from: 'HR', text: 'Hi Kwame, thank you for applying. The role has been filled. We will keep your application on file for six months.' }],
-      timeline: [{ at: '2026-09-22T11:00:00', text: 'Application submitted' }, { at: '2026-09-25T10:00:00', text: 'Moved to Screening' }, { at: '2026-10-03T12:00:00', text: 'Moved to Not selected — role filled internally' }] },
-    { id: 'app-nadia', name: 'Nadia Ali', email: 'nadia.ali@example.com', phone: '(868) 000-0207', jobId: 'job-checkout-penal', stage: 'submitted', submittedAt: '2026-10-22T08:15:00',
-      personal: { address: 'Demo Trace, Penal', dob: '2005-02-11', nonNational: false },
-      experience: { summary: 'Sixth-form student looking for evening and weekend work.', availability: ['Evenings', 'Weekends'], startDate: '2026-11-02' },
-      docs: {}, notes: [], messages: [], timeline: [{ at: '2026-10-22T08:15:00', text: 'Application submitted' }] },
-    { id: 'app-rishi', name: 'Rishi Boodram', email: 'rishi.boodram@example.com', phone: '(868) 000-0208', jobId: 'job-dispatch-sando', stage: 'screening', submittedAt: '2026-10-17T13:45:00',
-      personal: { address: 'Demo Street, Gasparillo', dob: '1992-07-07', nonNational: false },
-      experience: { summary: 'Five years driving and dispatching for a courier; knows every back road from Claxton Bay to Moruga.', availability: ['Weekdays', 'Saturdays'], startDate: '2026-11-09' },
-      docs: { 'photo-id': { state: 'uploaded', fileName: 'permit.jpg', size: 390000, type: 'image/jpeg', expiry: '2027-11-30' }, 'bir': { state: 'uploaded', fileName: 'bir.pdf', size: 70000, type: 'application/pdf' } },
-      notes: [], messages: [], timeline: [{ at: '2026-10-17T13:45:00', text: 'Application submitted' }, { at: '2026-10-20T09:05:00', text: 'Moved to Screening' }] }
-  ],
-
-  /* demo employees. Keisha is the Employee demo login; Devon is the HR demo login. */
-  employees: [
-    { id: 'emp-keisha', name: 'Keisha Ramlogan', role: 'Checkout Supervisor', dept: 'Checkout', branchId: 'sando', startDate: '2021-03-08', employeeNo: 'SFB-0412',
-      email: 'keisha.ramlogan@sfb.example', phone: '(868) 000-0101', address: 'Demo Street, Marabella',
-      emergency: { name: 'Anil Ramlogan', relation: 'Spouse', phone: '(868) 000-0102' },
-      bank: { bank: 'Demo Bank', masked: '•••• 4821' },
-      leave: { annualEntitled: 14, annualUsed: 5, sickEntitled: 14, sickUsed: 2, casualEntitled: 3, casualUsed: 1 },
-      leaveRequests: [
-        { id: 'lv-1', type: 'Annual', from: '2026-12-22', to: '2026-12-24', days: 3, reason: 'Christmas with family', status: 'pending', requestedAt: '2026-10-20T08:00:00' },
-        { id: 'lv-2', type: 'Annual', from: '2026-08-10', to: '2026-08-14', days: 5, reason: 'Family trip', status: 'approved', requestedAt: '2026-07-12T09:00:00' },
-        { id: 'lv-3', type: 'Sick', from: '2026-09-03', to: '2026-09-04', days: 2, reason: 'Flu', status: 'approved', requestedAt: '2026-09-03T06:30:00' },
-        { id: 'lv-4', type: 'Casual', from: '2026-06-19', to: '2026-06-19', days: 1, reason: 'School meeting', status: 'approved', requestedAt: '2026-06-10T10:00:00' }
-      ],
-      swapRequests: [],
-      shifts: [
-        { date: '2026-10-19', start: '07:00', end: '15:00', role: 'Front end lead' },
-        { date: '2026-10-20', start: '07:00', end: '15:00', role: 'Front end lead' },
-        { date: '2026-10-22', start: '12:00', end: '20:00', role: 'Front end lead' },
-        { date: '2026-10-23', start: '12:00', end: '20:00', role: 'Front end lead' },
-        { date: '2026-10-24', start: '08:00', end: '16:00', role: 'Front end lead' },
-        { date: '2026-10-26', start: '07:00', end: '15:00', role: 'Front end lead' },
-        { date: '2026-10-27', start: '07:00', end: '15:00', role: 'Front end lead' },
-        { date: '2026-10-28', start: '07:00', end: '15:00', role: 'Till training (new starters)' },
-        { date: '2026-10-30', start: '12:00', end: '20:00', role: 'Front end lead' },
-        { date: '2026-10-31', start: '08:00', end: '16:00', role: 'Front end lead' },
-        { date: '2026-11-01', start: '08:00', end: '13:00', role: 'Front end lead' }
-      ],
-      payslips: [
-        { id: 'ps-2026-09', period: 'September 2026', from: '2026-09-01', to: '2026-09-30', paidOn: '2026-09-30',
-          earnings: [{ label: 'Basic salary', amount: 5800 }, { label: 'Supervisor allowance', amount: 400 }],
-          deductions: [{ label: 'NIS (employee share)', amount: 294 }, { label: 'Health surcharge', amount: 33 }, { label: 'PAYE', amount: 0 }],
-          gross: 6200, net: 5873 },
-        { id: 'ps-2026-08', period: 'August 2026', from: '2026-08-01', to: '2026-08-31', paidOn: '2026-08-31',
-          earnings: [{ label: 'Basic salary', amount: 5800 }, { label: 'Supervisor allowance', amount: 400 }, { label: 'Overtime (12.5 h)', amount: 312.5 }],
-          deductions: [{ label: 'NIS (employee share)', amount: 294 }, { label: 'Health surcharge', amount: 33 }, { label: 'PAYE', amount: 0 }],
-          gross: 6512.5, net: 6185.5 },
-        { id: 'ps-2026-07', period: 'July 2026', from: '2026-07-01', to: '2026-07-31', paidOn: '2026-07-31',
-          earnings: [{ label: 'Basic salary', amount: 5800 }, { label: 'Supervisor allowance', amount: 400 }],
-          deductions: [{ label: 'NIS (employee share)', amount: 294 }, { label: 'Health surcharge', amount: 33 }, { label: 'PAYE', amount: 0 }],
-          gross: 6200, net: 5873 }
-      ],
-      training: [
-        { id: 'tr-food', name: 'Food safety, level 1', done: true, completedAt: '2025-02-10', minutes: 45 },
-        { id: 'tr-cash', name: 'Cash handling and till procedures', done: true, completedAt: '2025-03-01', minutes: 30 },
-        { id: 'tr-cust', name: 'Customer care refresher 2026', done: false, due: '2026-11-30', minutes: 25 },
-        { id: 'tr-hs', name: 'Health and safety: manual handling', done: false, due: '2026-12-15', minutes: 20 }
-      ],
-      compliance: [
-        { docId: 'photo-id', state: 'verified', expiry: '2028-06-30' },
-        { docId: 'nis', state: 'verified' },
-        { docId: 'bir', state: 'verified' },
-        { docId: 'food-badge', state: 'verified', expiry: '2026-11-18' }
-      ] },
-    { id: 'emp-devon', name: 'Devon Baptiste', role: 'HR Manager', dept: 'HR', branchId: 'ptown', startDate: '2019-01-14', employeeNo: 'SFB-0117',
-      email: 'devon.baptiste@sfb.example', phone: '(868) 000-0103', address: 'Demo Avenue, Princes Town',
-      emergency: { name: 'Carla Baptiste', relation: 'Sister', phone: '(868) 000-0104' },
-      bank: { bank: 'Demo Bank', masked: '•••• 7730' },
-      leave: { annualEntitled: 20, annualUsed: 8, sickEntitled: 14, sickUsed: 0, casualEntitled: 3, casualUsed: 0 },
-      leaveRequests: [{ id: 'lv-d1', type: 'Annual', from: '2026-07-20', to: '2026-07-24', days: 5, reason: 'Tobago', status: 'approved', requestedAt: '2026-06-01T09:00:00' }],
-      swapRequests: [],
-      shifts: [
-        { date: '2026-10-19', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-20', start: '08:00', end: '16:30', role: 'Head office' },
-        { date: '2026-10-21', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-22', start: '08:00', end: '16:30', role: 'Head office' },
-        { date: '2026-10-23', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-26', start: '08:00', end: '16:30', role: 'Head office' },
-        { date: '2026-10-27', start: '08:00', end: '16:30', role: 'Interviews, Princes Town' }, { date: '2026-10-28', start: '08:00', end: '16:30', role: 'Head office' },
-        { date: '2026-10-29', start: '08:00', end: '16:30', role: 'Branch visit, Penal' }, { date: '2026-10-30', start: '08:00', end: '16:30', role: 'Head office' }
-      ],
-      payslips: [
-        { id: 'ps-d-2026-09', period: 'September 2026', from: '2026-09-01', to: '2026-09-30', paidOn: '2026-09-30',
-          earnings: [{ label: 'Basic salary', amount: 11500 }, { label: 'Travel allowance', amount: 600 }],
-          deductions: [{ label: 'NIS (employee share)', amount: 414.3 }, { label: 'Health surcharge', amount: 33 }, { label: 'PAYE', amount: 1125 }],
-          gross: 12100, net: 10527.7 }
-      ],
-      training: [
-        { id: 'tr-food', name: 'Food safety, level 1', done: true, completedAt: '2024-01-15', minutes: 45 },
-        { id: 'tr-cust', name: 'Customer care refresher 2026', done: true, completedAt: '2026-09-02', minutes: 25 },
-        { id: 'tr-hs', name: 'Health and safety: manual handling', done: false, due: '2026-12-15', minutes: 20 }
-      ],
-      compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2029-11-02' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
-    { id: 'emp-marsha', name: 'Marsha Gopaul', role: 'Bakery Lead', dept: 'Bakery', branchId: 'ptown', startDate: '2017-05-02', employeeNo: 'SFB-0063',
-      email: 'marsha.gopaul@sfb.example', phone: '(868) 000-0105', address: 'Demo Road, Princes Town',
-      emergency: { name: 'Ravi Gopaul', relation: 'Brother', phone: '(868) 000-0106' },
-      bank: { bank: 'Demo Bank', masked: '•••• 1190' },
-      leave: { annualEntitled: 18, annualUsed: 10, sickEntitled: 14, sickUsed: 3, casualEntitled: 3, casualUsed: 2 },
-      leaveRequests: [], swapRequests: [],
-      shifts: [{ date: '2026-10-22', start: '05:30', end: '13:30', role: 'Bakery' }, { date: '2026-10-23', start: '05:30', end: '13:30', role: 'Bakery' }, { date: '2026-10-24', start: '05:30', end: '13:30', role: 'Bakery' }],
-      payslips: [],
-      training: [{ id: 'tr-food', name: 'Food safety, level 1', done: true, completedAt: '2023-02-01', minutes: 45 }, { id: 'tr-cust', name: 'Customer care refresher 2026', done: false, due: '2026-11-30', minutes: 25 }],
-      compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2027-02-28' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }, { docId: 'food-badge', state: 'verified', expiry: '2026-09-30' }] },
-    { id: 'emp-ria', name: 'Ria Mohammed', role: 'Marketing and Store Operations', dept: 'Head office', branchId: 'sando', startDate: '2022-02-01', employeeNo: 'SFB-0233',
-      email: 'ria.mohammed@sfb.example', phone: '(868) 000-0109', address: 'Demo Street, San Fernando',
-      emergency: { name: 'Sameer Mohammed', relation: 'Brother', phone: '(868) 000-0110' },
-      bank: { bank: 'Demo Bank', masked: '•••• 3307' },
-      leave: { annualEntitled: 16, annualUsed: 4, sickEntitled: 14, sickUsed: 1, casualEntitled: 3, casualUsed: 0 },
-      leaveRequests: [], swapRequests: [],
-      shifts: [{ date: '2026-10-22', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-23', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-26', start: '08:00', end: '16:30', role: 'Head office' }],
-      payslips: [], training: [{ id: 'tr-cust', name: 'Customer care refresher 2026', done: true, completedAt: '2026-08-14', minutes: 25 }],
-      compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2031-04-30' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
-    { id: 'emp-andre', name: 'Andre Charles', role: 'Warehouse Attendant', dept: 'Warehouse', branchId: 'ptown', startDate: '2026-09-15', employeeNo: 'SFB-0498',
-      email: 'andre.charles@sfb.example', phone: '(868) 000-0107', address: 'Demo Trace, Moruga',
-      emergency: { name: 'Patricia Charles', relation: 'Mother', phone: '(868) 000-0108' },
-      bank: { bank: 'Demo Bank', masked: '•••• 5502' },
-      leave: { annualEntitled: 14, annualUsed: 0, sickEntitled: 14, sickUsed: 0, casualEntitled: 3, casualUsed: 0 },
-      leaveRequests: [], swapRequests: [],
-      shifts: [{ date: '2026-10-22', start: '14:00', end: '22:00', role: 'Warehouse' }, { date: '2026-10-23', start: '14:00', end: '22:00', role: 'Warehouse' }],
-      payslips: [],
-      training: [{ id: 'tr-hs', name: 'Health and safety: manual handling', done: false, due: '2026-10-31', minutes: 20 }, { id: 'tr-forklift', name: 'Forklift certification', done: false, due: '2026-12-01', minutes: 480 }],
-      compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2030-01-10' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'uploaded' }, { docId: 'address', state: 'missing' }, { docId: 'coc', state: 'missing' }] }
-  ],
-
-  announcements: [
-    { id: 'an-1', branchId: null, date: '2026-10-21', title: 'Public holiday rota is up', body: 'The rota for the next public holiday is posted in Schedule. Raise any swap requests by Friday so branch managers can confirm cover.' },
-    { id: 'an-2', branchId: 'sando', date: '2026-10-20', title: 'Coffee Street car park works', body: 'Staff parking moves to the rear lot from Monday 26 October for two weeks while the front car park is resurfaced.' },
-    { id: 'an-3', branchId: null, date: '2026-10-15', title: 'Customer care refresher due 30 November', body: 'Everyone on the front end completes the 25-minute refresher in Documents & training before 30 November.' },
-    { id: 'an-4', branchId: 'ptown', date: '2026-10-12', title: 'Bakery ovens serviced Tuesday', body: 'Both ovens at Princes Town are serviced on Tuesday 28 October from 2:00 pm. The afternoon bake moves to San Fernando.' }
-  ],
-
-  policies: [
-    { id: 'pol-conduct', title: 'Code of conduct', summary: 'How we treat customers, suppliers and each other. Straight dealing, no exceptions.', updated: '2026-01-10' },
-    { id: 'pol-leave', title: 'Leave policy', summary: 'Annual, sick and casual leave entitlements, how to request, notice periods and public holidays.', updated: '2026-01-10' },
-    { id: 'pol-food', title: 'Food safety and hygiene', summary: 'Badges, hand-washing, temperature logs, allergen handling and what to do when something is wrong.', updated: '2026-03-02' },
-    { id: 'pol-hs', title: 'Health and safety', summary: 'Manual handling, equipment, incident reporting and first aid at every branch and the distribution centre.', updated: '2026-03-02' },
-    { id: 'pol-uniform', title: 'Uniform and appearance', summary: 'What we wear on the floor, in the bakery and on the road, and who supplies it.', updated: '2025-11-01' },
-    { id: 'pol-grievance', title: 'Grievance procedure', summary: 'How to raise a concern, who hears it and how quickly you get an answer.', updated: '2025-11-01' }
-  ],
+  /* Staff-only and member-only collections are empty here and filled from lib/seed-private.ts, which only the
+     portals import, so the public pages' scripts carry no applicant, payroll or mailing-list data. */
+  applicants: [],
+  employees: [],
+  announcements: [],
+  policies: [],
+  grants: [],
+  customers: [],
+  entitlements: [],
+  redemptions: [],
+  subscribers: [],
+  consents: [],
+  campaigns: [],
+  staffUpdates: [],
+  outbox: [],
+  audit: [],
 
   content: {
     hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and specials at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },
@@ -437,5 +254,9 @@ export const SEED: Seed = {
       { title: 'Close to home', text: 'Five stores, from Couva to Point Fortin, so you can work near where you live.' },
       { title: 'A straight process', text: 'You see every stage of your application and every document we still need. No chasing, no silence.' }
     ]
-  }
+  },
+
+  /* Promotions are DEMO: the company has not announced a members' offer. Only promotions that are approved and
+     already running sit in this public file; drafts and scheduled ones are in lib/seed-private.ts. */
+  promotions: PUBLIC_PROMOTIONS
 };

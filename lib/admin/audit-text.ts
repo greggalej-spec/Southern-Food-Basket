@@ -1,0 +1,143 @@
+import { ROLE_NAME, isStaff } from "@/lib/access";
+import { byId } from "@/lib/store";
+import type { AuditEvent, Seed } from "@/lib/types";
+
+/* The audit log as sentences: who (name and role), what, and when. The event's detail never holds a full code, an
+   e-mail address or a document (lib/store.ts audit()), so it is safe to show as it is. */
+
+/** The area an action belongs to, from its prefix ("promo.submit" -> "promo"). The applicant's side of hiring
+ *  ("careers.*") files under hiring with HR's side, so the filter shows one Hiring. */
+export const areaOf = (action: string) => {
+  const a = action.split(".")[0];
+  return a === "careers" ? "hr" : a;
+};
+
+export const AREA_LABEL: Record<string, string> = {
+  specials: "Specials",
+  stores: "Stores and hours",
+  notices: "Staff notices",
+  site: "Publishing",
+  promo: "Offers",
+  code: "Codes",
+  newsletter: "Newsletter",
+  subscribers: "Mailing list",
+  access: "Staff access",
+  account: "Shopper accounts",
+  hr: "Hiring",
+  staffnews: "Staff updates",
+};
+
+export const areaLabel = (area: string) => AREA_LABEL[area] || area.charAt(0).toUpperCase() + area.slice(1);
+
+/** What the person did, as a verb phrase that reads after their name. */
+const VERB: Record<string, string> = {
+  "specials.add": "added a special",
+  "specials.edit": "edited a special",
+  "specials.remove": "removed a special",
+  "stores.edit": "changed a store's hours or phone",
+  "notices.post": "posted a staff notice",
+  "notices.remove": "removed a staff notice",
+  "site.publish": "downloaded the website data file",
+  "promo.create": "drafted an offer",
+  "promo.edit": "edited an offer",
+  "promo.submit": "sent an offer for approval",
+  "promo.approve": "approved an offer",
+  "promo.reject": "sent an offer back",
+  "promo.end": "ended an offer early",
+  "promo.archive": "archived an offer",
+  "code.claim": "claimed a members' code",
+  "code.redeem": "checked a code at the till",
+  "newsletter.create": "drafted a newsletter",
+  "newsletter.edit": "edited a newsletter",
+  "newsletter.test": "sent a test of a newsletter",
+  "newsletter.schedule": "scheduled a newsletter",
+  "newsletter.unschedule": "took a newsletter off the schedule",
+  "newsletter.send": "sent a newsletter",
+  "newsletter.signup": "signed up for the newsletter",
+  "newsletter.confirm": "confirmed a newsletter sign-up",
+  "newsletter.preferences": "changed what they get by e-mail",
+  "newsletter.unsubscribe": "unsubscribed from the newsletter",
+  "subscribers.export": "exported the mailing list with full addresses",
+  "access.grant": "gave staff access",
+  "access.scope": "changed which stores someone's access covers",
+  "access.expiry": "changed when someone's access ends",
+  "access.extra": "changed someone's till access",
+  "access.revoke": "revoked staff access",
+  "access.restore": "restored staff access",
+  "account.link": "asked for a sign-in link",
+  "account.signin": "signed in with an e-mail link",
+  "account.profile": "changed their shopper profile",
+  "account.delete": "deleted their shopper account",
+  "staffnews.create": "drafted a staff update",
+  "staffnews.edit": "edited a staff update",
+  "staffnews.test": "sent a test of a staff update",
+  "staffnews.schedule": "scheduled a staff update",
+  "staffnews.unschedule": "took a staff update off the schedule",
+  "staffnews.send": "sent a staff update",
+  "staffnews.remind": "reminded staff to read an update",
+  "staffnews.ack": "confirmed they read a staff update",
+  "hr.decision": "sent an applicant their decision",
+  "hr.decision-withdrawn": "withdrew a hiring decision",
+  "careers.update-opened": "opened their hiring decision",
+  "careers.offer-accepted": "accepted a job offer",
+  "careers.offer-declined": "declined a job offer",
+};
+
+/** Details that only repeat the verb; the sentence leaves them out. */
+const ECHO = new Set(["sent for approval", "drafted", "edited", "approved", "sent back", "archived", "ended early", "scheduled", "back to draft", "added a special", "edited the special", "removed the special", "removed the notice", "confirmed as read", "signed in with an e-mail link"]);
+
+export function verbOf(action: string) {
+  return VERB[action] || "did " + action.replace(/[.-]/g, " ");
+}
+
+/** "Tricia Baboolal, Marketing", "A shopper", or "The newsletter schedule". */
+export function actorOf(d: Seed, e: AuditEvent) {
+  if (e.actor === "guest" || e.role === "guest") {
+    if (e.action === "newsletter.send") return "The newsletter schedule";
+    if (e.action === "staffnews.send") return "The staff updates schedule";
+    return "Someone not signed in";
+  }
+  if (e.role === "customer") return "A shopper";
+  if (e.role === "applicant") return "An applicant";
+  const name = byId(d.employees, e.actor)?.name || "Someone no longer on staff";
+  return isStaff(e.role) ? name + ", " + ROLE_NAME[e.role] : name;
+}
+
+/** The detail, when it adds something the sentence does not already say. */
+export function detailOf(e: AuditEvent) {
+  const t = (e.detail || "").trim();
+  if (!t || ECHO.has(t.toLowerCase())) return "";
+  return /[.!?]$/.test(t) ? t : t + ".";
+}
+
+/* "checked" -> "check", "sent" stays: only the regular past tenses the verb list uses. */
+const BASE: Record<string, string> = {
+  added: "add", edited: "edit", removed: "remove", changed: "change", posted: "post", downloaded: "download",
+  drafted: "draft", approved: "approve", ended: "end", archived: "archive", claimed: "claim", checked: "check",
+  scheduled: "schedule", confirmed: "confirm", unsubscribed: "unsubscribe", exported: "export", revoked: "revoke",
+  restored: "restore", asked: "ask", deleted: "delete", opened: "open", accepted: "accept", declined: "decline",
+  reminded: "remind", signed: "sign",
+};
+function base(word: string) {
+  return BASE[word] || word;
+}
+
+/** "sent", "gave", "took" have irregular past tenses; the refused form uses these instead. */
+const IRREGULAR: Record<string, string> = {
+  "sent ": "send ",
+  "gave ": "give ",
+  "took ": "take ",
+  "did ": "do ",
+  "withdrew ": "withdraw ",
+};
+export function refusedVerb(action: string) {
+  let v = verbOf(action);
+  for (const [past, now] of Object.entries(IRREGULAR)) if (v.startsWith(past)) v = now + v.slice(past.length);
+  return v.replace(/^(\w+)ed\b/, (m) => base(m));
+}
+
+/** The sentence after the actor's name, refused or not: "sent an offer for approval: Christmas shop." */
+export function eventSentence(e: AuditEvent) {
+  const what = e.ok ? verbOf(e.action) : "tried to " + refusedVerb(e.action) + " and was refused";
+  return what + (e.target ? ": " + e.target : "") + ".";
+}

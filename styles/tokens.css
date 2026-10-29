@@ -183,6 +183,7 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .concept-banner { background: var(--pink-wash); color: var(--clay-dark); border-bottom: 1px solid #F5C6D6; font-size: 0.9375rem; }
 .concept-banner .container { display: flex; gap: var(--s3); align-items: center; justify-content: space-between; padding-block: 8px; }
 .concept-banner p { margin: 0; max-width: none; }
+.concept-banner a { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
 .concept-banner button { background: var(--flour); border: 1px solid #E9A8BF; color: inherit; border-radius: var(--r-sm); padding: 6px 14px; font: 700 0.875rem var(--ui); cursor: pointer; flex: none; }
 .concept-pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: var(--pill); background: var(--pink-wash); color: var(--clay-dark); font: 800 0.75rem/1.2 var(--ui); letter-spacing: 0.08em; text-transform: uppercase; }
 

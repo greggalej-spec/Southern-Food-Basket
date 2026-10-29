@@ -13,6 +13,9 @@
 @import "../styles/careers.css" layer(components);
 @import "../styles/portal.css" layer(components);
 @import "../styles/admin.css" layer(components);
+@import "../styles/members.css" layer(components);
+@import "../styles/staff-updates.css" layer(components);
+@import "../styles/tour.css" layer(components);
 
 /* Legacy class names Tailwind would also generate as utilities, and the utilities layer would beat the ported rule
    (.container lost its gutter). Found by tools/port/tw-collisions.mjs; re-run it after porting more markup. */

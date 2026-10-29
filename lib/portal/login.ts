@@ -6,17 +6,23 @@ import type { Role } from "../types";
 // by path segment on the parsed path: /careers and /careers/… are the applicant's, /careersx is not.
 
 export const ROLE_HOME: Record<Role, string> = {
+  customer: "/account",
   applicant: "/careers/me",
   employee: "/portal/home",
   hr: "/hr",
   admin: "/admin",
+  marketing: "/admin",
+  owner: "/admin",
 };
 
 const ROLE_AREA: Record<Role, string[]> = {
+  customer: ["/account", "/offers"],
   applicant: ["/careers"],
   employee: ["/portal"],
   hr: ["/portal", "/hr"],
   admin: ["/admin", "/portal"],
+  marketing: ["/admin", "/portal"],
+  owner: ["/admin", "/portal"],
 };
 
 const ROLES = Object.keys(ROLE_HOME) as Role[];

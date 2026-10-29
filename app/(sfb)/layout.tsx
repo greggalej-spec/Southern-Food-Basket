@@ -3,6 +3,7 @@ import { fontVars } from "@/lib/fonts";
 import { baseMetadata, baseViewport } from "@/lib/site-meta";
 import { Toaster } from "@/components/ui/sonner";
 import { ConfirmProvider } from "@/components/confirm";
+import { TourHost } from "@/components/tour/tour-host";
 
 // Root layout for every page except the home. Navigating between the two root layouts is a full page load,
 // which is what the static site did; it also keeps each document on its own stylesheets.
@@ -17,6 +18,7 @@ export default function SiteRootLayout({ children }: { children: React.ReactNode
       <body>
         <ConfirmProvider>{children}</ConfirmProvider>
         <Toaster />
+        <TourHost />
       </body>
     </html>
   );

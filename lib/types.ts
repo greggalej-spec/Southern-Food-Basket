@@ -1,7 +1,9 @@
 // The shape of lib/seed.ts and of the copy kept in localStorage (lib/store.ts). Dates are ISO strings: a bare
 // YYYY-MM-DD is a local calendar day (see parseDay), a full timestamp is an instant.
 
-export type Role = "applicant" | "employee" | "hr" | "admin";
+/** Who is signed in. customer and applicant are self-service identities; the rest are staff roles, each held through
+ *  a Grant (lib/access.ts) that the owner can scope to stores, time-limit or revoke. */
+export type Role = "customer" | "applicant" | "employee" | "hr" | "admin" | "marketing" | "owner";
 export type Tone = "info" | "warn" | "ok" | "bad" | "plain";
 export type DocState = "missing" | "uploaded" | "verified" | "flagged" | "expired";
 export type LeaveType = "Annual" | "Sick" | "Casual";
@@ -129,6 +131,13 @@ export interface TimelineEntry {
   text: string;
 }
 
+/** An HR decision the applicant has not opened yet. The tracker shows "An update on your application" until they do. */
+export interface Outcome {
+  kind: "offer" | "not-selected";
+  at: string;
+  openedAt?: string;
+}
+
 export interface Applicant {
   id: string;
   name: string;
@@ -140,7 +149,8 @@ export interface Applicant {
   personal: { address: string; dob: string; nonNational: boolean };
   experience: { summary: string; availability: string[]; startDate: string };
   interview?: { at: string; where: string; with: string };
-  offer?: { startDate: string; pay: number; payUnit: string; sentAt: string; status: string };
+  offer?: { startDate: string; pay: number; payUnit: string; sentAt: string; status: string; respondedAt?: string };
+  outcome?: Outcome;
   docs: Record<string, DocRecord>;
   notes: Note[];
   messages: Message[];
@@ -260,6 +270,8 @@ export interface Content {
 
 export interface Seed {
   version: number;
+  /** The private tiers (lib/seed-private.ts) already merged into this copy: "members", "staff". */
+  _tiers?: string[];
   settings: Settings;
   branches: Branch[];
   storeServices: string[];
@@ -275,10 +287,214 @@ export interface Seed {
   announcements: Announcement[];
   policies: Policy[];
   content: Content;
+  promotions: Promotion[];
+  grants: Grant[];
+  customers: Customer[];
+  entitlements: Entitlement[];
+  redemptions: RedeemAttempt[];
+  subscribers: Subscriber[];
+  consents: ConsentEvent[];
+  campaigns: Campaign[];
+  staffUpdates: StaffUpdate[];
+  outbox: OutboxMessage[];
+  audit: AuditEvent[];
 }
 
 export interface Session {
   role: Role;
   userId: string | null;
   at: string;
+}
+
+/* Access (lib/access.ts) */
+
+/** A staff role held by one person. branchIds null = every store. Revoked or expired grants sign nobody in. */
+export interface Grant {
+  id: string;
+  userId: string;
+  role: Exclude<Role, "customer" | "applicant">;
+  branchIds: string[] | null;
+  /** Permissions this person holds on top of the role's own (Permission names from lib/access.ts). */
+  extra?: string[];
+  grantedBy: string;
+  grantedAt: string;
+  expires?: string;
+  revokedAt?: string;
+  revokedBy?: string;
+}
+
+/** One line of the audit log. detail never holds a full code, an e-mail address or a document. */
+export interface AuditEvent {
+  id: string;
+  at: string;
+  actor: string;
+  role: Role | "guest";
+  action: string;
+  target: string;
+  detail: string;
+  ok: boolean;
+}
+
+/* Promotions and codes (lib/promo.ts) */
+
+/** Stored status. "live", "scheduled" and "ended" are worked out from an approved promotion's dates (promoState). */
+export type PromoStatus = "draft" | "review" | "approved" | "rejected" | "archived";
+
+export interface Promotion {
+  id: string;
+  slug: string;
+  title: string;
+  /** What the shopper gets, in one line: "TT$25 off a shop of TT$250 or more". */
+  benefit: string;
+  summary: string;
+  terms: string[];
+  kind: "member-code" | "flash";
+  /** Photo stem under /assets/img/photos, or none. */
+  img?: string;
+  alt?: string;
+  branchIds: string[] | null;
+  /** Trinidad local time, written with its offset: 2026-10-27T00:00:00-04:00. */
+  starts: string;
+  ends: string;
+  limits: { perCustomer: number; total: number | null };
+  status: PromoStatus;
+  createdBy: string;
+  createdAt: string;
+  submittedAt?: string;
+  approvedBy?: string;
+  approvedAt?: string;
+  reviewNote?: string;
+  revisions: { at: string; by: string; summary: string }[];
+}
+
+/** A shopper's claim on a promotion. The code itself is never stored here: only its SHA-256 and the last four
+ *  characters for staff screens. The shopper's own copy lives on their Customer record. */
+export interface Entitlement {
+  id: string;
+  promoId: string;
+  customerId: string;
+  codeHash: string;
+  last4: string;
+  claimedAt: string;
+  status: "claimed" | "redeemed" | "void";
+  redeemedAt?: string;
+  redeemedBy?: string;
+  redeemedBranch?: string;
+}
+
+/** Every code check at a till, passed or refused. Feeds the lockout and the audit log. */
+export interface RedeemAttempt {
+  id: string;
+  at: string;
+  by: string;
+  branchId: string;
+  ok: boolean;
+  reason: string;
+  last4: string;
+  entitlementId?: string;
+}
+
+export interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  emailVerifiedAt?: string;
+  preferredBranch?: string;
+  createdAt: string;
+  /** A one-time sign-in link's token while one is outstanding (lib/account.ts). */
+  signInToken?: string;
+  signInExpires?: string;
+  /** The shopper's own codes. Shown only to them. */
+  wallet: { entitlementId: string; code: string }[];
+}
+
+/* Newsletter (lib/newsletter.ts) */
+
+export type SubscriberStatus = "pending" | "active" | "unsubscribed" | "suppressed";
+
+export interface Subscriber {
+  id: string;
+  email: string;
+  status: SubscriberStatus;
+  branches: string[];
+  topics: string[];
+  source: string;
+  createdAt: string;
+  confirmedAt?: string;
+  unsubscribedAt?: string;
+  /** Opaque token for the confirm, preferences and unsubscribe links. */
+  token: string;
+}
+
+/** Append-only consent ledger (PRD MKT-040s): who agreed to what wording, where and when. */
+export interface ConsentEvent {
+  id: string;
+  subscriberId: string;
+  action: "requested" | "confirmed" | "updated" | "withdrawn" | "suppressed";
+  wording: string;
+  source: string;
+  at: string;
+}
+
+export type CampaignStatus = "draft" | "scheduled" | "sent";
+
+export interface Campaign {
+  id: string;
+  subject: string;
+  preheader: string;
+  template: "weekly-specials" | "offer" | "store-news";
+  intro: string;
+  specialIds: string[];
+  promoId?: string;
+  segment: { branches: string[] | null; topics: string[] };
+  status: CampaignStatus;
+  scheduledFor?: string;
+  sentAt?: string;
+  sentTo?: number;
+  createdBy: string;
+  createdAt: string;
+  testSends: { at: string; to: string }[];
+}
+
+/** What the site would have e-mailed. Nothing is sent: the demo outbox (/outbox) shows these instead. */
+export interface OutboxMessage {
+  id: string;
+  at: string;
+  to: string;
+  /** internal: a staff update to a work address (lib/staff-updates.ts), never to the shoppers' list. */
+  kind: "transactional" | "marketing" | "internal";
+  subject: string;
+  body: string[];
+  action?: { label: string; href: string };
+  campaignId?: string;
+  staffUpdateId?: string;
+}
+
+/* Staff updates (lib/staff-updates.ts): the internal newsletter, e-mailed to work addresses and kept in each
+   person's portal. Separate from the shoppers' newsletter and from the one-line store notices. */
+
+export type StaffUpdateStatus = "draft" | "scheduled" | "sent";
+
+export interface StaffUpdate {
+  id: string;
+  subject: string;
+  /** One line under the subject: the inbox preview. */
+  summary: string;
+  /** Paragraphs. */
+  body: string[];
+  /** Asks each person to press "I have read this" (a new policy, a safety change). */
+  needsAck: boolean;
+  /** Who it goes to. null = every store / every team. A sender scoped to some stores can pick only those. */
+  audience: { branches: string[] | null; teams: string[] | null };
+  status: StaffUpdateStatus;
+  scheduledFor?: string;
+  sentAt?: string;
+  /** Fixed when it is sent, so people who join later do not appear as unread. */
+  recipientIds?: string[];
+  reads: { employeeId: string; at: string }[];
+  acks: { employeeId: string; at: string }[];
+  createdBy: string;
+  createdAt: string;
+  sentBy?: string;
+  testSends: { at: string; to: string }[];
 }

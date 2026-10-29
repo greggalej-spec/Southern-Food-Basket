@@ -4,16 +4,20 @@ import { useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { useConfirm } from "@/components/confirm";
 import { toast } from "@/components/ui/sonner";
+import { scopeOf } from "@/lib/access";
+import { attempt, inScope, scopeNote } from "@/lib/admin/guard";
 import { NOTICE_FIELDS, branchName, checkNotice, cssEsc, describedBy, firstError, plural, todayIso, type Errors, type NoticeField, type NoticeValues } from "@/lib/admin/helpers";
 import { postNotice, removeNotice } from "@/lib/admin/writes";
 import { fmtDate } from "@/lib/format";
-import { byId, load, useData } from "@/lib/store";
+import { byId, load, useData, useSession } from "@/lib/store";
 
 // The Staff notices tab from admin.js (section 4): the posted notices, newest first, and the form to post one for
-// every store or for one store.
+// every store or for one store. Someone whose access covers some stores only posts for one of those, and removes
+// only notices for their own stores; postNotice and removeNotice check the same thing again.
 
 export function NoticesPanel() {
   const d = useData();
+  const s = useSession();
   const { confirm } = useConfirm();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
@@ -23,8 +27,9 @@ export function NoticesPanel() {
   const listRef = useRef<HTMLUListElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
 
-  const branches = d.branches || [];
-  const branch = branches.some((b) => b.id === branchSel) ? branchSel : "";
+  const scope = scopeOf(d, s);
+  const branches = (d.branches || []).filter((b) => !scope || scope.includes(b.id));
+  const branch = branches.some((b) => b.id === branchSel) ? branchSel : scope ? branches[0]?.id || "" : "";
   const list = (d.announcements || []).slice().sort((a, b) => String(b.date || "").localeCompare(String(a.date || "")));
 
   /* once a field has been marked invalid, re-check it as the user types */
@@ -51,12 +56,21 @@ export function NoticesPanel() {
       return;
     }
     const rec = { branchId: branch || null, date, title: title.trim().replace(/\s+/g, " "), body: body.trim() };
+    let refused = "";
     flushSync(() => {
-      postNotice(rec);
+      const r = attempt(s, "notices.post", rec.title, () => postNotice(s, rec));
+      if (!r.ok) {
+        refused = r.message;
+        return;
+      }
       setTitle("");
       setBody("");
       setDate(todayIso());
     });
+    if (refused) {
+      toast(refused, "bad");
+      return;
+    }
     toast("Posted. " + (rec.branchId ? "Staff at " + branchName(load(), rec.branchId) : "Staff at every store") + " see it on the employee portal home in this browser.", "ok");
     titleRef.current?.focus();
   }
@@ -73,7 +87,16 @@ export function NoticesPanel() {
     const i = items.findIndex((li) => li.getAttribute("data-id") === id);
     const neighbour = items[i + 1] || items[i - 1];
     const nextId = neighbour ? neighbour.getAttribute("data-id") : null;
-    flushSync(() => removeNotice(id));
+    let refused = "";
+    flushSync(() => {
+      const r = attempt(s, "notices.remove", a.title, () => removeNotice(s, id));
+      if (!r.ok) refused = r.message;
+    });
+    if (refused) {
+      toast(refused, "bad");
+      if (document.contains(btn)) btn.focus();
+      return;
+    }
     toast("Removed. The notice is off the employee portal in this browser.", "ok");
     const next = nextId ? listRef.current?.querySelector<HTMLElement>('[data-remove-notice="' + cssEsc(nextId) + '"]') : null;
     (next || titleRef.current)?.focus();
@@ -98,9 +121,11 @@ export function NoticesPanel() {
                     <div className="meta">{(a.branchId ? branchName(d, a.branchId) : "All stores") + " · " + fmtDate(a.date)}</div>
                     <p className="notice-body">{a.body}</p>
                   </div>
-                  <button className="btn btn-danger btn-sm" type="button" data-remove-notice={a.id} onClick={(e) => remove(a.id, e.currentTarget)}>
-                    Remove<span className="visually-hidden">{" notice: " + a.title}</span>
-                  </button>
+                  {inScope(d, s, a.branchId) ? (
+                    <button className="btn btn-ghost btn-sm" type="button" data-remove-notice={a.id} onClick={(e) => remove(a.id, e.currentTarget)}>
+                      Remove<span className="visually-hidden">{" notice: " + a.title}</span>
+                    </button>
+                  ) : null}
                 </li>
               ))
             ) : (
@@ -153,14 +178,19 @@ export function NoticesPanel() {
             </div>
             <div className="field">
               <label htmlFor="n-branch">Who sees it</label>
-              <select id="n-branch" name="branch" value={branch} onChange={(e) => change("branch", e.target.value)}>
-                <option value="">All stores</option>
+              <select id="n-branch" name="branch" value={branch} onChange={(e) => change("branch", e.target.value)} aria-describedby={scope ? "n-branch-hint" : undefined}>
+                {scope ? null : <option value="">All stores</option>}
                 {branches.map((b) => (
                   <option key={b.id} value={b.id}>
                     {b.name + " only"}
                   </option>
                 ))}
               </select>
+              {scope ? (
+                <p className="hint" id="n-branch-hint">
+                  {scopeNote(d, s) + " A notice for every store comes from someone with every store."}
+                </p>
+              ) : null}
             </div>
             <div className="field">
               <label htmlFor="n-date">Date</label>

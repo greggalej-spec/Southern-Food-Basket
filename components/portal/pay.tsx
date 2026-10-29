@@ -84,7 +84,7 @@ function PayBody({ me, d }: { me: Employee; d: Seed }) {
             )}
           </ul>
         </aside>
-        <section id="payslip" aria-label="Selected payslip" aria-live="polite">
+        <section id="payslip" aria-label="Selected payslip" aria-live="polite" data-tour="portal-pay">
           {p ? (
             <article className="payslip" aria-labelledby="ps-title">
               <div className="payslip-head">

@@ -1,0 +1,85 @@
+/* Southern Food Basket — the guided tour (components/tour). Loaded by both root layouts, so it carries its own copies of
+   the tokens it needs: the home page does not load tokens.css. Law: DESIGN.md (paper card, 1 px warm border, green
+   primary, no blur, no side stripes; motion 150–250 ms and none under reduced motion). */
+.tour-root{
+  --t-green: #1D6B35; --t-leaf: #123F22; --t-flour: #FFFDFA; --t-ink: #2A1A1F; --t-muted: #5E4E54; --t-line: #E6DCC8;
+  --t-yellow: #FFD21A; --t-wash: #F3ECDD;
+  --t-ui: var(--font-atkinson), "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --t-display: var(--font-caprasimo), "Caprasimo", "Cooper Black", Georgia, serif;
+  --t-ease: cubic-bezier(.22,.8,.3,1);
+  font: 400 1rem/1.5 var(--t-ui); color: var(--t-ink);
+}
+
+/* the ring around what a step is about; the page under it stays usable */
+.tour-root .tour-ring{ position: fixed; z-index: 2147483000; pointer-events: none; border-radius: 14px; border: 3px solid var(--t-yellow);
+  box-shadow: 0 0 0 2px var(--t-leaf), 0 0 0 100vmax rgba(18,63,34,.22);
+  transition: top 220ms var(--t-ease), left 220ms var(--t-ease), width 220ms var(--t-ease), height 220ms var(--t-ease); }
+
+.tour-root .tour-card{ position: fixed; z-index: 2147483001; right: 24px; bottom: 24px; width: min(400px, calc(100vw - 48px));
+  max-height: min(70vh, 560px); display: flex; flex-direction: column; background: var(--t-flour); border: 1px solid var(--t-line);
+  border-radius: 14px; box-shadow: 0 2px 4px rgba(42,26,31,.08), 0 22px 44px -18px rgba(42,26,31,.42); }
+.tour-root .tour-card.is-left{ right: auto; left: 24px; }
+.tour-root .tour-head{ display: flex; align-items: center; gap: 12px; padding: 14px 16px 0; }
+.tour-root .tour-chapter{ margin: 0; font: 700 .75rem/1.3 var(--t-ui); letter-spacing: .06em; text-transform: uppercase; color: var(--t-green); }
+.tour-root .tour-count{ margin: 0 0 0 auto; font: 600 .8125rem/1 var(--t-ui); color: var(--t-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tour-root .tour-bar{ height: 4px; margin: 10px 16px 0; border-radius: 4px; background: var(--t-wash); overflow: hidden; }
+.tour-root .tour-bar span{ display: block; height: 100%; background: var(--t-green); border-radius: 4px; transition: width 220ms var(--t-ease); }
+.tour-root .tour-body{ padding: 12px 16px 4px; overflow-y: auto; }
+.tour-root .tour-body h2{ margin: 0 0 8px; font: 400 1.375rem/1.2 var(--t-display); color: var(--t-ink); letter-spacing: 0; text-wrap: balance; outline: none; }
+.tour-root .tour-body p{ margin: 0 0 10px; max-width: 60ch; }
+.tour-root .tour-try{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 4px 0 10px; padding: 10px 12px; border-radius: 10px;
+  background: var(--t-wash); border: 1px solid var(--t-line); }
+.tour-root .tour-try p{ margin: 0; flex: 1 1 200px; font-weight: 600; }
+.tour-root .tour-foot{ display: flex; align-items: center; gap: 8px; padding: 10px 16px 14px; border-top: 1px solid var(--t-line); }
+.tour-root .tour-foot .tour-spacer{ flex: 1; }
+
+.tour-root .tour-btn{ display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 44px; padding: 0 16px; border-radius: 12px;
+  font: 800 .9375rem/1 var(--t-ui); cursor: pointer; border: 2px solid var(--t-green); background: var(--t-flour); color: var(--t-green);
+  transition: background 160ms var(--t-ease), color 160ms var(--t-ease); text-decoration: none; }
+.tour-root .tour-btn:hover{ background: #EAF3EC; }
+.tour-root .tour-btn.is-primary{ background: var(--t-green); color: var(--t-flour); }
+.tour-root .tour-btn.is-primary:hover{ background: var(--t-leaf); border-color: var(--t-leaf); }
+.tour-root .tour-btn.is-small{ min-height: 36px; padding: 0 12px; font-size: .875rem; }
+.tour-root .tour-link{ background: none; border: 0; padding: 8px 4px; min-height: 44px; font: 700 .875rem/1 var(--t-ui); color: var(--t-muted);
+  text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.tour-root .tour-link:hover{ color: var(--t-ink); }
+.tour-root :is(.tour-btn, .tour-link, .tour-pill):focus-visible{ outline: 3px solid var(--t-yellow); outline-offset: 2px; box-shadow: 0 0 0 5px var(--t-leaf); }
+
+/* hidden: a small pill keeps the place */
+.tour-root .tour-pill{ position: fixed; z-index: 2147483001; right: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 8px; min-height: 48px;
+  padding: 0 18px; border-radius: 999px; border: 2px solid var(--t-leaf); background: var(--t-green); color: var(--t-flour);
+  font: 800 .9375rem/1 var(--t-ui); cursor: pointer; box-shadow: 0 10px 24px -12px rgba(18,63,34,.6); }
+
+.tour-root .tour-missing{ margin: 0 0 10px; padding: 8px 12px; border-radius: 10px; border: 1px solid var(--t-line); background: var(--t-flour); color: var(--t-muted); font-size: .9375rem; }
+.tour-root .tour-missing.is-done{ color: var(--t-ink); font-weight: 700; }
+
+.tour-root .sr-only{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* phones: a sheet along the bottom, so the page above stays in view */
+@media (max-width: 640px) {
+  .tour-root .tour-card, .tour-root .tour-card.is-left{ left: 8px; right: 8px; bottom: 8px; width: auto; max-height: 46vh; }
+  .tour-root .tour-body h2{ font-size: 1.1875rem; }
+  .tour-root .tour-foot{ padding-bottom: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tour-root .tour-ring, .tour-root .tour-bar span, .tour-root .tour-btn{ transition: none; }
+}
+
+/* the chapter picker on /tour */
+:where([data-css~="site"]) .tour-intro{ max-width: 70ch; }
+:where([data-css~="site"]) .tour-chapters{ list-style: none; margin: var(--s6) 0 0; padding: 0; display: grid; gap: var(--s3); counter-reset: ch; }
+:where([data-css~="site"]) .tour-chapters li{ counter-increment: ch; display: grid; grid-template-columns: auto 1fr auto; gap: var(--s2) var(--s4); align-items: center;
+  padding: var(--s4) var(--s5); background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); }
+:where([data-css~="site"]) .tour-chapters li::before{ content: counter(ch); grid-row: 1 / span 3; align-self: start; display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 50%; background: var(--wash); color: var(--green); font: 400 1.125rem/1 var(--display); }
+:where([data-css~="site"]) .tour-chapters h2{ margin: 0; grid-column: 2; font-size: 1.25rem; }
+:where([data-css~="site"]) .tour-chapters p{ margin: 0; grid-column: 2; color: var(--muted); }
+:where([data-css~="site"]) .tour-chapters .tour-meta{ font-size: .875rem; }
+:where([data-css~="site"]) .tour-chapters .btn{ grid-column: 3; grid-row: 1 / span 3; }
+:where([data-css~="site"]) .tour-start{ display: flex; flex-wrap: wrap; gap: var(--s3); align-items: center; margin-top: var(--s5); }
+@media (max-width: 640px) {
+  :where([data-css~="site"]) .tour-chapters li{ grid-template-columns: auto 1fr; }
+  :where([data-css~="site"]) .tour-chapters li::before{ grid-row: 1 / span 3; }
+  :where([data-css~="site"]) .tour-chapters .btn{ grid-column: 2; grid-row: auto; justify-self: start; margin-top: var(--s2); }
+}

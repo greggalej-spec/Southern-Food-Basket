@@ -6,6 +6,7 @@ import { EmptyRow, PortalPage, Stat } from "@/components/portal/portal-page";
 import { Badge } from "@/components/ui/badge";
 import { daysUntil, docDisplayState, money } from "@/lib/format";
 import { branchName, cmp, docName, fmtDay, fmtHours, inDays, plural, shiftEnded, shiftHours, shiftRange, sortedShifts, todayIso, weekdayShort } from "@/lib/portal/format";
+import { hasRead, waitingFor } from "@/lib/staff-updates";
 import type { Employee, LeaveBalance, Seed } from "@/lib/types";
 
 // The employee home (portal/home.html, renderHome in portal.js).
@@ -48,6 +49,9 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
   const todayLabel = "Today · " + fmtDay(today, { weekday: "short", day: "numeric", month: "short" });
   const upcoming = shifts.filter((sh) => sh.date > today).slice(0, 5);
   const anns = (d.announcements || []).filter((a) => !a.branchId || a.branchId === me.branchId).sort((a, b) => cmp(b.date, a.date));
+  const waiting = waitingFor(d, me.id);
+  const unread = waiting.filter((u) => !hasRead(u, me.id)).length;
+  const toConfirm = waiting.length - unread;
 
   return (
     <>
@@ -68,6 +72,15 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
             </p>
           </div>
         ))}
+        {waiting.length ? (
+          <div className="alert alert-info" data-tour="home-updates">
+            <Icon name="file" />
+            <p>
+              {[unread ? plural(unread, "new staff update") : "", toConfirm ? plural(toConfirm, "update") + " to confirm you have read" : ""].filter(Boolean).join(" and ") + ". "}
+              <Link href={"/portal/updates#" + waiting[0].id}>Read {waiting.length === 1 ? "it" : "them"}</Link>
+            </p>
+          </div>
+        ) : null}
       </div>
       <div className="stats" id="stats">
         <Stat
@@ -90,7 +103,7 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
       </div>
       <div className="two-col">
         <div className="stack stack-lg">
-          <section className="panel" aria-labelledby="h-shifts">
+          <section className="panel" aria-labelledby="h-shifts" data-tour="portal-home">
             <div className="panel-head">
               <h2 id="h-shifts">Shifts</h2>
               <Link href="/portal/schedule">Full schedule</Link>

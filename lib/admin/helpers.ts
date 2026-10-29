@@ -1,21 +1,54 @@
+import type { Permission } from "@/lib/access";
 import { parseDay } from "@/lib/format";
 import { SEED } from "@/lib/seed";
 import { byId } from "@/lib/store";
 import type { Department, Seed, Special } from "@/lib/types";
 
-// The small helpers at the top of admin.js. Pure, except todayIso, which reads the clock (call it after hydration).
+// The small helpers at the top of admin.js, and the console's sections. Pure, except todayIso, which reads the clock
+// (call it after hydration).
 
-export const TABS = ["deals", "posts", "stores", "notices", "publish"] as const;
+/** The console's sections, in sidebar order. They match the OFFICE ids in components/app-shell.tsx. "staffnews" is
+ *  the Staff updates section (components/admin/staff-updates-panel.tsx). */
+export const TABS = ["today", "deals", "posts", "stores", "notices", "publish", "staffnews", "promos", "codes", "newsletter", "list", "access", "audit"] as const;
 export type AdminTab = (typeof TABS)[number];
 
+/** What a section needs: any one of the list will do. Today needs nothing; it shows what the session may see. */
+export const TAB_PERMS: Record<AdminTab, Permission[]> = {
+  today: [],
+  deals: ["specials.edit"],
+  posts: ["posts.make"],
+  stores: ["stores.edit"],
+  notices: ["notices.post"],
+  publish: ["site.publish"],
+  staffnews: ["staff.updates"],
+  promos: ["promos.draft", "promos.approve"],
+  codes: ["codes.view"],
+  newsletter: ["newsletter.view"],
+  list: ["newsletter.view"],
+  access: ["access.manage"],
+  audit: ["audit.view"],
+};
+
+/** "#promos" and "#promos/promo-christmas" both show Promotions. Anything unknown falls back to Today. */
 export function tabOf(hash: string): AdminTab {
-  const h = hash.replace("#", "");
-  return (TABS as readonly string[]).includes(h) ? (h as AdminTab) : "deals";
+  const h = hash.replace(/^#/, "").split("/")[0];
+  return (TABS as readonly string[]).includes(h) ? (h as AdminTab) : "today";
 }
 
-/** Shows a tab the way admin.js did: by setting the hash, which fires hashchange. */
-export function goToTab(id: AdminTab) {
-  location.hash = id;
+/** The item after the section in the hash ("#promos/promo-christmas" -> "promo-christmas"), or null. */
+export function itemOf(hash: string): string | null {
+  const rest = hash.replace(/^#/, "").split("/").slice(1).join("/");
+  if (!rest) return null;
+  try {
+    return decodeURIComponent(rest);
+  } catch {
+    return null;
+  }
+}
+
+/** Shows a section by setting the hash, which fires hashchange. */
+export function goToTab(id: AdminTab, item?: string) {
+  location.hash = item ? id + "/" + encodeURIComponent(item) : id;
 }
 
 export function todayIso() {

@@ -146,3 +146,96 @@
 :where([data-css~="careers"]) .row-actions{ display: flex; flex-wrap: wrap; gap: var(--s2); }
 :where([data-css~="careers"]) .compliance-stack > * + *{ margin-top: var(--s5); }
 :where([data-css~="careers"]) .table-wrap .small{ margin: 0; }
+
+/* ---------- the decision card (components/careers/outcome-card.tsx) ----------
+   Sealed, an offer and a not-selected decision are the same card: the same paper, flap and words. Opening lifts the
+   flap and lets the letter rise (about 380 ms, ease-out); with reduced motion it is an instant swap. HR's Decision
+   step shows the same markup, inert, inside .decision-preview. */
+:where([data-css~="careers"]) .outcome-wrap{ margin: 0 0 var(--s6); }
+:where([data-css~="careers"]) .outcome{ position: relative; background: var(--flour); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; max-width: 760px; box-shadow: var(--shadow); }
+:where([data-css~="careers"]) .outcome-flap{ display: block; width: 100%; height: 56px; fill: var(--facade); stroke: var(--line-strong); stroke-width: 1; transform-origin: 50% 0; pointer-events: none; }
+:where([data-css~="careers"]) .outcome-inner{ padding: var(--s5) var(--s6) var(--s6); }
+:where([data-css~="careers"]) .outcome.is-sealed .outcome-inner{ display: grid; justify-items: center; text-align: center; gap: var(--s1); padding-top: var(--s4); }
+:where([data-css~="careers"]) .outcome-kicker{ margin: 0; font: 700 0.8125rem/1.4 var(--ui); letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); }
+:where([data-css~="careers"]) .outcome-title{ margin: var(--s2) 0 0; font-family: var(--display); font-weight: 400; font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem); line-height: 1.15; color: var(--ink); }
+:where([data-css~="careers"]) .outcome-title:focus:not(:focus-visible){ outline: none; }
+:where([data-css~="careers"]) .outcome-job{ margin: var(--s1) 0 0; font-weight: 700; }
+:where([data-css~="careers"]) .outcome-date{ margin: 0; font-size: 0.9375rem; color: var(--muted); }
+:where([data-css~="careers"]) .outcome-line{ margin: var(--s3) auto; max-width: 44ch; font-size: 1.0625rem; }
+:where([data-css~="careers"]) .outcome-foot{ margin: var(--s2) 0 0; font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="careers"]) .outcome-note{ margin: var(--s4) 0; padding: var(--s4); background: var(--wash); border-radius: var(--r-sm); }
+:where([data-css~="careers"]) .outcome-note figcaption{ margin: 0 0 var(--s2); font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="careers"]) .outcome-note p{ margin: 0; overflow-wrap: anywhere; }
+:where([data-css~="careers"]) .outcome-terms{ margin: 0 0 var(--s4); }
+:where([data-css~="careers"]) .outcome-pay{ font: 800 1.25rem/1.2 var(--ui); font-variant-numeric: tabular-nums; }
+:where([data-css~="careers"]) .outcome-h3{ margin: var(--s5) 0 var(--s2); font-size: 1.0625rem; }
+:where([data-css~="careers"]) .outcome-steps{ margin: 0; padding-left: 1.25em; display: grid; gap: var(--s2); max-width: var(--measure); }
+:where([data-css~="careers"]) .outcome-actions{ display: flex; flex-wrap: wrap; gap: var(--s3); margin-top: var(--s5); }
+:where([data-css~="careers"]) .outcome-after{ list-style: none; margin: var(--s3) 0 0; padding: 0; display: grid; gap: 4px; font-size: 0.9375rem; color: var(--muted); max-width: var(--measure); }
+:where([data-css~="careers"]) .outcome-after strong{ color: var(--ink); }
+:where([data-css~="careers"]) .outcome-kind{ margin: 0; max-width: var(--measure); font-size: 1.0625rem; }
+:where([data-css~="careers"]) .outcome-next{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); max-width: var(--measure); }
+:where([data-css~="careers"]) .outcome-next > li{ display: grid; gap: 4px; justify-items: start; }
+:where([data-css~="careers"]) .outcome-jobs{ margin: 2px 0 4px; padding-left: 1.25em; display: grid; gap: 2px; }
+:where([data-css~="careers"]) .outcome-demo{ font-size: 0.8125rem; color: var(--muted); }
+:where([data-css~="careers"]) .outcome-quiet{ color: var(--muted); }
+:where([data-css~="careers"]) .outcome-status{ margin: var(--s5) 0 0; }
+:where([data-css~="careers"]) .is-inert{ pointer-events: none; cursor: default; }
+@media (max-width: 520px){
+  :where([data-css~="careers"]) .outcome-inner{ padding: var(--s4) var(--s4) var(--s5); }
+  :where([data-css~="careers"]) .outcome-flap{ height: 40px; }
+  :where([data-css~="careers"]) .outcome-actions .btn{ flex: 1 1 100%; }
+}
+
+/* the reveal: the flap folds up and fades, the letter rises in just behind it */
+:where([data-css~="careers"]) .outcome.is-open .outcome-flap{ position: absolute; inset: 0 0 auto; z-index: 1; }
+:where([data-css~="careers"]) .outcome.is-revealing{ perspective: 900px; }
+:where([data-css~="careers"]) .outcome.is-revealing .outcome-flap{ animation: outcome-flap 300ms var(--ease) both; }
+:where([data-css~="careers"]) .outcome.is-revealing .outcome-inner{ animation: outcome-rise 380ms var(--ease) 60ms both; }
+@keyframes outcome-flap{ from{ transform: rotateX(0); opacity: 1; } to{ transform: rotateX(-85deg); opacity: 0; } }
+@keyframes outcome-rise{ from{ transform: translateY(16px); opacity: 0; } to{ transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce){
+  :where([data-css~="careers"]) .outcome.is-open .outcome-flap{ display: none; }
+  :where([data-css~="careers"]) .outcome.is-revealing .outcome-inner{ animation: none; }
+}
+
+/* the tracker in plain words (me-dashboard.tsx): a hint under each step; closed is neutral, never red */
+:where([data-css~="careers"]) .tracker-plain .meta{ display: block; }
+:where([data-css~="careers"]) .tracker-plain .tracker-hint{ display: block; margin-top: 2px; max-width: 60ch; font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="careers"]) .tracker-plain li.is-skipped strong{ font-weight: 600; color: var(--muted); }
+:where([data-css~="careers"]) .tracker-plain li.is-skipped .dot{ border-style: dashed; }
+:where([data-css~="careers"]) .tracker-plain li.is-closed .dot{ background: var(--muted); border-color: var(--muted); }
+
+/* documents, explained */
+:where([data-css~="careers"]) .doc-legend{ margin: 0; padding: var(--s3) var(--s4); display: grid; gap: 4px; background: var(--wash); border-bottom: 1px solid var(--line); font-size: 0.875rem; }
+:where([data-css~="careers"]) .doc-legend dt{ display: inline; font-weight: 700; }
+:where([data-css~="careers"]) .doc-legend dd{ display: inline; margin: 0 0 0 4px; }
+:where([data-css~="careers"]) .doc-row .doc-reason.doc-reason-plain{ background: var(--warn-bg); color: var(--ink); }
+:where([data-css~="careers"]) .doc-reason-next{ display: block; margin-top: 4px; }
+
+/* ---------- HR: the Decision step (components/hr/decision-form.tsx) ---------- */
+:where([data-css~="careers"]) .decision-form .decision-intro{ margin: 0 0 var(--s4); }
+:where([data-css~="careers"]) .decision-kind{ border: 0; margin: 0 0 var(--s4); padding: 0; display: grid; gap: var(--s3); min-width: 0; }
+:where([data-css~="careers"]) .decision-kind legend{ padding: 0; margin: 0 0 var(--s2); font-weight: 700; }
+:where([data-css~="careers"]) .decision-hr-label{ display: flex; flex-wrap: wrap; align-items: center; gap: var(--s2); }
+:where([data-css~="careers"]) .decision-form textarea.decision-reason{ min-height: 80px; }
+:where([data-css~="careers"]) .decision-preview{ margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line-strong); min-width: 0; }
+:where([data-css~="careers"]) .decision-preview h4{ margin: 0 0 var(--s3); font-size: 1rem; }
+:where([data-css~="careers"]) .decision-preview-steps{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s4); counter-reset: dp; }
+:where([data-css~="careers"]) .decision-preview-steps > li{ counter-increment: dp; min-width: 0; }
+:where([data-css~="careers"]) .decision-step{ margin: 0 0 var(--s2); font: 700 0.875rem/1.4 var(--ui); color: var(--muted); }
+:where([data-css~="careers"]) .decision-step::before{ content: counter(dp) ". "; }
+:where([data-css~="careers"]) .decision-preview .outcome{ box-shadow: none; border-radius: var(--r); }
+:where([data-css~="careers"]) .decision-preview .outcome-inner{ padding: var(--s4); }
+:where([data-css~="careers"]) .decision-preview .outcome-flap{ height: 40px; }
+:where([data-css~="careers"]) .decision-preview .outcome-title{ font-size: 1.375rem; }
+:where([data-css~="careers"]) .decision-preview .btn{ min-height: 40px; }
+:where([data-css~="careers"]) .mail-preview{ display: grid; gap: var(--s2); padding: var(--s4); background: var(--flour); border: 1px solid var(--line); border-radius: var(--r-sm); font-size: 0.9375rem; }
+:where([data-css~="careers"]) .mail-preview p{ margin: 0; overflow-wrap: anywhere; }
+:where([data-css~="careers"]) .mail-preview .mail-meta span{ display: inline-block; min-width: 4.5em; font-weight: 700; color: var(--muted); }
+:where([data-css~="careers"]) .mail-preview .btn{ justify-self: start; }
+:where([data-css~="careers"]) .decision-status{ display: flex; align-items: center; gap: 8px; margin: var(--s2) 0 0; font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="careers"]) .decision-dot{ width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--info); }
+:where([data-css~="careers"]) .decision-status.is-opened .decision-dot{ background: var(--green); }
+:where([data-css~="careers"]) .drawer .decision-summary{ margin: 0 0 var(--s4); padding-bottom: var(--s4); border-bottom: 1px solid var(--line); }
+:where([data-css~="careers"]) .board-card .board-decision{ font-size: 0.8125rem; color: var(--ink); }

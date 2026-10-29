@@ -145,13 +145,4 @@ export function validate(n: number, draft: Draft, consent: Consent, today: strin
 }
 
 /* applicant dashboard */
-export const MAIN_STAGES = ["submitted", "screening", "kyc", "interview", "offer", "hired"];
 export const CLOSED_STAGES = ["not-selected", "withdrawn"];
-export const STAGE_HINT: Record<string, string> = {
-  submitted: "We have your application.",
-  screening: "HR reads your application.",
-  kyc: "We check your documents.",
-  interview: "At the branch, with the team lead.",
-  offer: "Pay and start date in writing.",
-  hired: "Welcome to the team.",
-};

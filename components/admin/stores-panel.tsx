@@ -4,14 +4,17 @@ import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
 import { Icon } from "@/components/icon";
 import { toast } from "@/components/ui/sonner";
+import { can, scopeOf } from "@/lib/access";
+import { attempt, scopeNote } from "@/lib/admin/guard";
 import { STORE_FIELDS, checkStore, cssEsc, describedBy, firstError, type Errors, type StoreField, type StoreValues } from "@/lib/admin/helpers";
 import { saveStore } from "@/lib/admin/writes";
 import { mapsDir, mapsView, todayHours } from "@/lib/format";
-import { KEY, useData } from "@/lib/store";
+import { KEY, useData, useSession } from "@/lib/store";
 import type { Branch } from "@/lib/types";
 
 // The Stores and hours tab from admin.js (section 3): each store's listing details, and a form for its hours and
-// phone. Saving re-renders only that store, so unsaved edits in the other forms survive.
+// phone. Saving re-renders only that store, so unsaved edits in the other forms survive. Someone whose access covers
+// some stores only sees the others read-only: can(stores.edit, { branchId }) decides, and saveStore checks it again.
 
 function HoursField({
   fid,
@@ -58,7 +61,8 @@ function HoursField({
   );
 }
 
-function StorePanel({ b, onSaved }: { b: Branch; onSaved: (id: string, name: string) => void }) {
+function StorePanel({ b, editable, onSaved }: { b: Branch; editable: boolean; onSaved: (id: string, name: string) => void }) {
+  const s = useSession();
   const rows = b.hours || [];
   const msLabel = (rows[0] && rows[0][0]) || "Mon – Sat", sunLabel = (rows[1] && rows[1][0]) || "Sunday";
   const ms = (rows[0] && rows[0][1]) || "", sun = (rows[1] && rows[1][1]) || "";
@@ -90,7 +94,12 @@ function StorePanel({ b, onSaved }: { b: Branch; onSaved: (id: string, name: str
       return;
     }
     const v = values(), norm = (s: string) => s.trim().replace(/\s+/g, " ");
-    const name = saveStore(b.id, norm(v.ms), norm(v.sun), norm(v.phone));
+    const r = attempt(s, "stores.edit", b.name, () => saveStore(s, b.id, norm(v.ms), norm(v.sun), norm(v.phone)));
+    if (!r.ok) {
+      toast(r.message, "bad");
+      return;
+    }
+    const name = r.value;
     if (!name) {
       toast("That store is no longer listed. Reload the page.", "bad");
       return;
@@ -129,6 +138,7 @@ function StorePanel({ b, onSaved }: { b: Branch; onSaved: (id: string, name: str
             </div>
             {b.source ? <p className="store-source">{"Source: " + b.source + "."}</p> : null}
           </div>
+          {editable ? (
           <form className="store-form" data-branch={b.id} noValidate ref={formRef} onSubmit={submit}>
             <h4>Edit hours and phone</h4>
             <HoursField fid={fid("ms")} name="ms" label={msLabel + " hours"} value={ms} type="text" hint="For example “7:00 am – 10:00 pm”." error={errors.ms} onInput={onInput} />
@@ -147,6 +157,18 @@ function StorePanel({ b, onSaved }: { b: Branch; onSaved: (id: string, name: str
               {"Save " + b.name}
             </button>
           </form>
+          ) : (
+            <div className="store-form store-readonly">
+              <h4>Hours and phone</h4>
+              <dl className="kv">
+                <dt>{msLabel}</dt>
+                <dd>{ms || "Not recorded"}</dd>
+                <dt>{sunLabel}</dt>
+                <dd>{sun || "Not recorded"}</dd>
+              </dl>
+              <p className="hint">This store is outside your access, so you can read it but not change it. Ask the owner’s office if you look after it.</p>
+            </div>
+          )}
         </div>
       </div>
     </section>
@@ -155,7 +177,9 @@ function StorePanel({ b, onSaved }: { b: Branch; onSaved: (id: string, name: str
 
 export function StoresPanel() {
   const d = useData();
+  const s = useSession();
   const branches = d.branches || [];
+  const scope = scopeOf(d, s);
   // A store's form is rebuilt from the saved data after its own save (gen) or when another tab changes the data (all).
   const [gen, setGen] = useState<Record<string, number>>({});
   const [all, setAll] = useState(0);
@@ -176,8 +200,12 @@ export function StoresPanel() {
 
   return (
     <div className="store-stack" id="store-list">
+      {scope ? <p className="scope-note">{scopeNote(d, s) + " Your stores come first; the others are read-only."}</p> : null}
       {branches.length ? (
-        branches.map((b) => <StorePanel key={b.id + ":" + all + ":" + (gen[b.id] || 0)} b={b} onSaved={onSaved} />)
+        branches
+          .map((b) => ({ b, editable: can(d, s, "stores.edit", { branchId: b.id }) }))
+          .sort((x, y) => Number(y.editable) - Number(x.editable))
+          .map(({ b, editable }) => <StorePanel key={b.id + ":" + all + ":" + (gen[b.id] || 0)} b={b} editable={editable} onSaved={onSaved} />)
       ) : (
         <div className="empty">
           <p>No stores are listed.</p>

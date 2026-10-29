@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { NewsletterSignup } from "@/components/members/newsletter-signup";
 import { Logo } from "@/components/site-header";
 import { ResetDemoButton } from "@/components/reset-demo-button";
 import { DISCLAIMER, telHref } from "@/lib/format";
@@ -13,6 +14,9 @@ export function SiteFooter() {
     <footer className="site-footer">
       <div className="facade-band" aria-hidden="true" />
       <div className="container">
+        <div className="footer-news">
+          <NewsletterSignup source="Footer" compact />
+        </div>
         <div className="footer-grid">
           <div>
             <Link className="brand" href="/" aria-label="Southern Food Basket, home">
@@ -42,6 +46,7 @@ export function SiteFooter() {
             <h4>Shop</h4>
             <ul>
               <li><Link href="/specials">Specials</Link></li>
+              <li><Link href="/offers">Members’ offers</Link></li>
               <li><Link href="/departments">Departments</Link></li>
               <li><Link href="/wholesale">Wholesale and trade</Link></li>
               <li><Link href="/locations">Store hours</Link></li>

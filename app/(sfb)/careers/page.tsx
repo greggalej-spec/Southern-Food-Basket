@@ -63,20 +63,20 @@ export default function CareersPage() {
                 <p>Five short steps online. Save and come back any time.</p>
               </li>
               <li>
-                <strong>Screening</strong>
-                <p>HR reads your application within three working days.</p>
+                <strong>Under review</strong>
+                <p>HR reads your application, usually within three working days.</p>
               </li>
               <li>
-                <strong>Documents (KYC)</strong>
-                <p>We check your ID, BIR, NIS and references. You see what is still missing.</p>
+                <strong>Document check</strong>
+                <p>We check your ID, BIR, NIS and references. You see what is still missing, and what to do about it.</p>
               </li>
               <li>
                 <strong>Interview</strong>
-                <p>At the branch you applied to, with the team lead.</p>
+                <p>At the store you applied to, with the team lead.</p>
               </li>
               <li>
-                <strong>Offer</strong>
-                <p>Pay, start date and hours in writing. Accept or decline in your dashboard.</p>
+                <strong>Decision</strong>
+                <p>We e-mail you that there is an update, and you open it in your dashboard. An offer comes with the pay and start date in writing.</p>
               </li>
             </ol>
             <p className="how-foot">

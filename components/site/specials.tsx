@@ -1,8 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { Icon } from "@/components/icon";
+import { NewsletterSignup } from "@/components/members/newsletter-signup";
 import { PriceSeal } from "@/components/price-seal";
 import { fmtDate, money } from "@/lib/format";
 import { dealsIn, dept, dollars, newestFirst } from "@/lib/site/deals";
@@ -123,6 +125,27 @@ function DealsBoard({ state, onChange }: { state: Filters; onChange?: (f: Filter
         )}
       </div>
     </>
+  );
+}
+
+/** Under the deals and their price note: the way to members' offers, and the weekly e-mail sign-up
+ *  (/specials#newsletter). Static, and free of the shopper tiers: whether an offer is live is the offers page's business. */
+export function SpecialsExtras() {
+  return (
+    <div className="specials-extras">
+      <div className="offers-callout">
+        <div>
+          <p className="eyebrow bare">Members’ offers</p>
+          <h2>A free code for money off</h2>
+          <p>Sign in with your e-mail, take a code, and show it at the till before you pay. No password, and no card to carry.</p>
+        </div>
+        <Link className="btn btn-sign" href="/offers">
+          See members’ offers
+          <Icon name="arrow" />
+        </Link>
+      </div>
+      <NewsletterSignup source="Specials page" id="newsletter" />
+    </div>
   );
 }
 

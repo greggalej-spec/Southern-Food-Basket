@@ -25,9 +25,10 @@ import {
   type DealValues,
   type Errors,
 } from "@/lib/admin/helpers";
+import { attempt } from "@/lib/admin/guard";
 import { saveDeal } from "@/lib/admin/writes";
 import { fmtDate } from "@/lib/format";
-import { byId, load, useData } from "@/lib/store";
+import { byId, load, useData, useSession } from "@/lib/store";
 import type { Seed, Special } from "@/lib/types";
 
 // The deal drawer from admin.js (openDealDrawer, closeDrawer): edit or add a deal, with a live preview of the
@@ -94,6 +95,7 @@ function DealForm({
   onRemove: (id: string, opener: HTMLElement) => void;
 }) {
   const d = useData();
+  const s = useSession();
   // The form is filled once, from the data as it is when the drawer opens.
   const [init] = useState(() => {
     const d0 = load();
@@ -149,7 +151,13 @@ function DealForm({
       toast("Check the highlighted fields.", "bad");
       return;
     }
-    onSaved(saveDeal(sp ? sp.id : null, readDeal(v)));
+    const rec = readDeal(v);
+    const r = attempt(s, sp ? "specials.edit" : "specials.add", rec.name, () => saveDeal(s, sp ? sp.id : null, rec));
+    if (!r.ok) {
+      toast(r.message, "bad");
+      return;
+    }
+    onSaved(r.value);
   }
 
   const r = readDeal(v);
@@ -310,7 +318,7 @@ function DealForm({
         {sp ? (
           <>
             <span className="spacer" aria-hidden="true"></span>
-            <button className="btn btn-danger" type="button" data-remove-drawer="" onClick={(e) => onRemove(sp.id, e.currentTarget)}>
+            <button className="btn btn-ghost" type="button" data-remove-drawer="" onClick={(e) => onRemove(sp.id, e.currentTarget)}>
               Remove deal
             </button>
           </>

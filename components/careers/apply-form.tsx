@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { FileMeta, Thumb, UploadButton, usePreviews } from "@/components/careers/parts";
-import { DocBadge } from "@/components/badges";
+import { Badge } from "@/components/ui/badge";
 import { Icon } from "@/components/icon";
 import { toast } from "@/components/ui/sonner";
 import {
@@ -25,6 +25,7 @@ import {
   type FieldError,
 } from "@/lib/careers/helpers";
 import { fmtDate } from "@/lib/format";
+import { DOC_PLAIN } from "@/lib/hr/plain";
 import { addApplicant, byId, login, nowIso, requiredDocsFor, useData, useHydrated } from "@/lib/store";
 import type { DocRecord, Job, KycDoc } from "@/lib/types";
 
@@ -32,6 +33,11 @@ import type { DocRecord, Job, KycDoc } from "@/lib/types";
 // hash (#step-1…#step-5) and every hash change is user navigation, as before; the draft is saved to
 // sfb-apply-draft-<jobId> on every edit; consent is never saved. The card prerenders as step 1 of a blank draft and
 // picks up the hash and the saved draft once hydrated.
+
+/** Before the application is sent nothing has been checked yet, so the badge says only whether a file is added. */
+function AddedBadge({ has }: { has: boolean }) {
+  return has ? <Badge variant="info">Added</Badge> : <Badge>Not added yet</Badge>;
+}
 
 export function ApplyView({ id }: { id: string }) {
   const d = useData();
@@ -507,7 +513,7 @@ function ApplyCard({ job, jobHref }: { job: Job; jobHref: string }) {
                 </>
               )}
             </div>
-            <div className="doc-desc">{doc.desc + " Accepted: " + formatsLabel(doc.formats) + "."}</div>
+            <div className="doc-desc">{(DOC_PLAIN[doc.id] || doc.desc) + " Accepted: " + formatsLabel(doc.formats) + "."}</div>
             <FileMeta meta={meta} />
             {doc.expires && (
               <label className="doc-expiry">
@@ -518,7 +524,7 @@ function ApplyCard({ job, jobHref }: { job: Job; jobHref: string }) {
             <ErrorText msg={rowErrs[doc.id]} />
           </div>
         </div>
-        <DocBadge state={has ? "uploaded" : "missing"} />
+        <AddedBadge has={has} />
         <div className="doc-actions">
           <UploadButton doc={doc} label={has ? "Replace" : "Upload"} onFile={(e) => onFile(e, doc)} />
           {has && (
@@ -535,9 +541,9 @@ function ApplyCard({ job, jobHref }: { job: Job; jobHref: string }) {
     return (
       <>
         <h2 className="step-title" tabIndex={-1}>
-          Documents (KYC)
+          Your documents
         </h2>
-        <p className="step-intro">Upload what you have now. Anything missing stays on your list and you can add it from your dashboard after you apply.</p>
+        <p className="step-intro">HR checks that each document is clear, current and in your name. Upload what you have now. Anything missing stays on your list, and you can add it from your applicant page after you apply.</p>
         <div className="doc-list" id="doc-list">
           {req.map(docRow)}
           <div className="doc-foot">
@@ -628,7 +634,7 @@ function ApplyCard({ job, jobHref }: { job: Job; jobHref: string }) {
                       </>
                     )}
                   </span>
-                  <DocBadge state={has ? "uploaded" : "missing"} />
+                  <AddedBadge has={has} />
                 </li>
               );
             })}

@@ -101,6 +101,7 @@ const Eyebrow = ({ children, light }: { children: React.ReactNode; light?: boole
 const NAV = [
   ["/careers", "Careers"],
   ["#deals", "Specials"],
+  ["/offers", "Offers"],
   ["#stores", "Stores"],
   ["#aisles", "Departments"],
   ["/wholesale", "Wholesale"],
@@ -575,6 +576,7 @@ export default function HomePage() {
             <h3>Shop</h3>
             <ul>
               <li><Link href="/specials">Specials</Link></li>
+              <li><Link href="/offers">Members’ offers</Link></li>
               <li><Link href="/departments">Departments</Link></li>
               <li><Link href="/wholesale">Wholesale and trade</Link></li>
               <li><Link href="/locations">Store hours</Link></li>
@@ -586,6 +588,7 @@ export default function HomePage() {
               <li><Link href="/about">About us</Link></li>
               <li><Link href="/careers">Careers</Link></li>
               <li><Link href="/portal">Staff portal</Link></li>
+              <li><Link href="/tour">Guided tour of this concept</Link></li>
               {S.instagram ? (
                 <li>
                   <a href={S.instagram.url} target="_blank" rel="noopener">

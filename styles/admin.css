@@ -1,12 +1,190 @@
 /* Ported from assets/css/admin.css by tools/port/scope-css.mjs (scope:admin). Edit here; the static file is retired. */
-/* Southern Food Basket — store admin (admin/index.html). Requires tokens.css + app.css.
-   Only what those two lack; every class here is scoped to the admin page. */
+/* Southern Food Basket — the office console (/admin). Requires tokens.css + app.css.
+   Only what those two lack; every class here is scoped to the console. No side stripes, no blur, no white surfaces:
+   a status always carries its words, and colour only backs them up. */
 
-:where([data-css~="admin"]) [role="tabpanel"]:focus{ outline: none; }
-:where([data-css~="admin"]) .section-intro{ margin-bottom: var(--s4); }
-:where([data-css~="admin"]) .section-intro p{ margin: 4px 0 0; }
 :where([data-css~="admin"]) .admin-h2{ font-size: 1.5rem; margin: 0; }
 :where([data-css~="admin"]) code{ font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 0.9375em; background: var(--wash); padding: 1px 6px; border-radius: 4px; }
+
+/* ---------- the section frame ---------- */
+:where([data-css~="admin"]) .admin-section:focus{ outline: none; }
+:where([data-css~="admin"]) .section-head{ display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--s3) var(--s4); margin-bottom: var(--s5); }
+:where([data-css~="admin"]) .section-head h1{ font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem); margin: 0; }
+:where([data-css~="admin"]) .section-head p{ margin: 6px 0 0; color: var(--muted); }
+:where([data-css~="admin"]) .section-stack > * + *{ margin-top: var(--s5); }
+:where([data-css~="admin"]) .sub-h{ font: 800 1rem/1.3 var(--ui); margin: var(--s5) 0 var(--s2); }
+:where([data-css~="admin"]) .panel-empty{ margin: 0; padding: var(--s5); color: var(--muted); }
+:where([data-css~="admin"]) .scope-note{ margin: 0; max-width: none; padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--info-bg); color: var(--info); font-size: 0.9375rem; }
+:where([data-css~="admin"]) .alert p{ margin: 0; }
+:where([data-css~="admin"]) .list > li.is-current{ background: var(--green-wash); }
+:where([data-css~="admin"]) .preview-label{ font: 800 0.8125rem/1.3 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin: 0 0 var(--s2); }
+:where([data-css~="admin"]) .is-blank{ color: var(--muted); }
+
+/* no access: what is missing, and who to ask */
+:where([data-css~="admin"]) .no-access{ display: flex; gap: var(--s4); align-items: flex-start; padding: var(--s6) var(--s5); background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); }
+:where([data-css~="admin"]) .no-access > .icon{ width: 28px; height: 28px; flex: none; color: var(--clay); margin-top: 2px; }
+:where([data-css~="admin"]) .no-access h2{ font: 800 1.25rem/1.3 var(--ui); margin: 0 0 var(--s2); }
+:where([data-css~="admin"]) .no-access p{ margin: 0 0 var(--s2); }
+:where([data-css~="admin"]) .no-access p:last-child{ margin: 0; }
+
+/* rows with a title, a line under it, and actions at the end; the actions wrap under on a phone */
+:where([data-css~="admin"]) .row-line{ margin: 2px 0 0; font-size: 0.9375rem; }
+:where([data-css~="admin"]) .row-actions{ display: flex; flex-wrap: wrap; gap: var(--s2); flex: 0 1 auto; min-width: 0; }
+:where([data-css~="admin"]) .block-note{ margin: var(--s2) 0 0; padding: var(--s2) var(--s3); border-radius: var(--r-sm); background: var(--warn-bg); color: var(--warn); font-size: 0.9375rem; }
+:where([data-css~="admin"]) .approve-row, :where([data-css~="admin"]) .promo-list > li, :where([data-css~="admin"]) .queue-item{ flex-wrap: wrap; }
+:where([data-css~="admin"]) .approve-row > .grow, :where([data-css~="admin"]) .promo-list > li > .grow, :where([data-css~="admin"]) .queue-item > .grow{ flex: 1 1 260px; }
+:where([data-css~="admin"]) .promo-list > li .badge, :where([data-css~="admin"]) .queue-item > .btn{ flex: none; }
+
+/* ---------- today ---------- */
+:where([data-css~="admin"]) .today > * + *{ margin-top: var(--s5); }
+:where([data-css~="admin"]) .queue-area{ display: flex; align-items: center; gap: var(--s2); margin: 0 0 2px; font: 800 0.8125rem/1.3 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+:where([data-css~="admin"]) .queue-area::before{ content: ""; width: 8px; height: 8px; border-radius: 50%; flex: none; background: var(--line-strong); }
+:where([data-css~="admin"]) .tone-bad .queue-area::before{ background: var(--bad); }
+:where([data-css~="admin"]) .tone-warn .queue-area::before{ background: var(--warn); }
+:where([data-css~="admin"]) .tone-info .queue-area::before{ background: var(--info); }
+:where([data-css~="admin"]) .tone-ok .queue-area::before{ background: var(--ok); }
+:where([data-css~="admin"]) .queue-text{ margin: 0; }
+:where([data-css~="admin"]) .queue-quote{ margin: var(--s2) 0 0; padding: var(--s2) var(--s3); border-radius: var(--r-sm); background: var(--wash); font-size: 0.9375rem; overflow-wrap: anywhere; }
+:where([data-css~="admin"]) .today-empty{ text-align: left; padding: var(--s6) var(--s5); }
+:where([data-css~="admin"]) .today-empty p{ margin-inline: 0; }
+:where([data-css~="admin"]) .today-empty p:last-child{ margin-bottom: 0; }
+:where([data-css~="admin"]) .your-access{ margin: 0; max-width: none; font-size: 0.9375rem; color: var(--muted); }
+:where([data-css~="admin"]) .your-access strong{ color: var(--ink); margin-right: var(--s2); }
+
+/* ---------- composers: the form, and the live preview beside it on a wide screen ---------- */
+:where([data-css~="admin"]) .composer{ display: grid; gap: var(--s6); }
+:where([data-css~="admin"]) .composer > *{ min-width: 0; }
+@media (min-width: 1100px) {
+  :where([data-css~="admin"]) .composer{ grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); align-items: start; }
+  :where([data-css~="admin"]) .composer-preview{ position: sticky; top: 96px; }
+}
+:where([data-css~="admin"]) .composer-form textarea{ min-height: 6.5em; }
+:where([data-css~="admin"]) .composer-actions{ margin-top: var(--s4); }
+:where([data-css~="admin"]) .field-note{ margin: 0 0 var(--s4); }
+:where([data-css~="admin"]) .terms-set .term-row{ display: flex; gap: var(--s2); align-items: center; margin-bottom: var(--s2); }
+:where([data-css~="admin"]) .terms-set .term-row input{ flex: 1; min-width: 0; }
+:where([data-css~="admin"]) .check-grid{ display: grid; gap: var(--s2) var(--s4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 180px), 1fr)); margin-top: var(--s2); }
+:where([data-css~="admin"]) fieldset .check + .check{ margin-top: var(--s2); }
+:where([data-css~="admin"]) .check-grid .check + .check, :where([data-css~="admin"]) .pick-list .check + .check{ margin-top: 0; }
+:where([data-css~="admin"]) .check .hint{ display: block; margin-top: 2px; }
+
+/* the offer preview: the public offer card, as the composer fills it in */
+:where([data-css~="admin"]) .offer-preview, :where([data-css~="admin"]) .email-preview{ margin: 0; }
+:where([data-css~="admin"]) .offer-card{ max-width: 340px; }
+:where([data-css~="admin"]) .offer-benefit{ margin: 0; font-weight: 700; }
+:where([data-css~="admin"]) .offer-summary{ margin: 0; font-size: 0.9375rem; }
+:where([data-css~="admin"]) .offer-terms{ margin: var(--s2) 0 0; padding-left: 1.2em; font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="admin"]) .offer-cta{ justify-self: start; margin-top: var(--s2); pointer-events: none; }
+@media (max-width: 559px) { :where([data-css~="admin"]) .offer-card{ max-width: none; } }
+
+/* one offer, in the drawer */
+:where([data-css~="admin"]) .promo-detail .kv{ margin-bottom: var(--s4); }
+:where([data-css~="admin"]) .plain-list{ margin: 0; padding-left: 1.2em; }
+:where([data-css~="admin"]) .plain-list li + li{ margin-top: 4px; }
+:where([data-css~="admin"]) .detail-actions{ margin-top: var(--s5); }
+
+/* ---------- tables that become stacked rows on a phone ---------- */
+:where([data-css~="admin"]) .table-wrap.flat{ border: 0; border-top: 1px solid var(--line); border-radius: 0 0 var(--r) var(--r); }
+:where([data-css~="admin"]) .stack-table tbody th{ font: inherit; letter-spacing: 0; text-transform: none; color: var(--ink); }
+:where([data-css~="admin"]) .stack-table td{ vertical-align: middle; }
+:where([data-css~="admin"]) .stack-table tbody tr:last-child > *{ border-bottom: 0; }
+:where([data-css~="admin"]) .cell-title{ display: block; font-weight: 700; margin-bottom: 4px; }
+:where([data-css~="admin"]) .stack-table .empty-cell{ text-align: center; color: var(--muted); padding: var(--s6) var(--s4); }
+:where([data-css~="admin"]) .code-cell{ font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 0.9375rem; white-space: nowrap; }
+:where([data-css~="admin"]) .list-table .code-cell{ white-space: normal; overflow-wrap: anywhere; }
+:where([data-css~="admin"]) .stack-table .meta{ display: block; font-size: 0.8125rem; color: var(--muted); }
+:where([data-css~="admin"]) .result-refused{ display: inline-flex; flex-wrap: wrap; align-items: center; gap: 4px var(--s2); }
+:where([data-css~="admin"]) .result-refused > span:last-child{ font-size: 0.9375rem; }
+:where([data-css~="admin"]) .lock-rule{ margin: 0 0 var(--s4); }
+:where([data-css~="admin"]) .panel-body .alert + .alert, :where([data-css~="admin"]) .panel-body .alert + .toolbar{ margin-top: var(--s3); }
+@media (max-width: 639px) {
+  :where([data-css~="admin"]) .table-wrap .stack-table{ min-width: 0; }
+  :where([data-css~="admin"]) .stack-table, :where([data-css~="admin"]) .stack-table tbody, :where([data-css~="admin"]) .stack-table tr, :where([data-css~="admin"]) .stack-table td, :where([data-css~="admin"]) .stack-table tbody th{ display: block; }
+  :where([data-css~="admin"]) .stack-table thead{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  :where([data-css~="admin"]) .stack-table tr{ padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line); }
+  :where([data-css~="admin"]) .stack-table tbody tr:last-child{ border-bottom: 0; }
+  :where([data-css~="admin"]) .stack-table td, :where([data-css~="admin"]) .stack-table tbody th{ padding: 2px 0; border: 0; text-align: left; }
+  :where([data-css~="admin"]) .stack-table td[data-label]::before{ content: attr(data-label) ": "; font: 700 0.9375rem/1.5 var(--ui); color: var(--muted); }
+  :where([data-css~="admin"]) .stack-table td:not([data-label]){ padding-top: var(--s2); }
+  :where([data-css~="admin"]) .stack-table .meta{ display: inline; }
+}
+
+/* ---------- newsletter ---------- */
+:where([data-css~="admin"]) .pick-list{ display: grid; gap: var(--s2); max-height: 320px; overflow: auto; padding: var(--s3); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--flour); }
+:where([data-css~="admin"]) .pick-list .check{ font-size: 1rem; }
+:where([data-css~="admin"]) .audience{ margin: 0 0 var(--s4); padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--green-wash); }
+:where([data-css~="admin"]) .audience.is-empty{ background: var(--warn-bg); }
+:where([data-css~="admin"]) .audience-count{ margin: 0; }
+:where([data-css~="admin"]) .audience .hint{ margin: 4px 0 0; }
+:where([data-css~="admin"]) .send-box{ margin-top: var(--s5); padding-top: var(--s4); border-top: 1px solid var(--line); }
+:where([data-css~="admin"]) .send-box .sub-h{ margin-top: 0; }
+:where([data-css~="admin"]) .send-state{ font-size: 0.9375rem; }
+
+/* the e-mail as a subscriber gets it */
+:where([data-css~="admin"]) .email-inbox{ display: grid; gap: 2px; padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--r-sm) var(--r-sm) 0 0; background: var(--wash); font-size: 0.9375rem; }
+:where([data-css~="admin"]) .email-from{ font-weight: 700; }
+:where([data-css~="admin"]) .email-inbox strong{ overflow-wrap: anywhere; }
+:where([data-css~="admin"]) .email-pre{ color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+:where([data-css~="admin"]) .email{ border: 1px solid var(--line); border-top: 0; border-radius: 0 0 var(--r) var(--r); background: var(--flour); overflow: hidden; }
+:where([data-css~="admin"]) .email-brand{ display: flex; align-items: center; gap: var(--s3); padding: var(--s3) var(--s5); background: var(--green-wash); color: var(--green); font: 800 1rem/1.3 var(--ui); }
+:where([data-css~="admin"]) .email-brand img{ width: 36px; height: 36px; flex: none; }
+:where([data-css~="admin"]) .email-body{ padding: var(--s4) var(--s5); }
+:where([data-css~="admin"]) .email-body > p{ max-width: none; overflow-wrap: anywhere; }
+:where([data-css~="admin"]) .email-body h4{ margin: var(--s4) 0 var(--s2); }
+:where([data-css~="admin"]) .email-specials{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+:where([data-css~="admin"]) .email-specials li{ display: flex; align-items: center; gap: var(--s3); padding-bottom: var(--s2); border-bottom: 1px solid var(--line); font-size: 0.9375rem; }
+:where([data-css~="admin"]) .email-specials img{ width: 56px; height: 56px; flex: none; object-fit: cover; border-radius: var(--r-sm); background: var(--wash); }
+:where([data-css~="admin"]) .email-specials .grow{ flex: 1; min-width: 0; }
+:where([data-css~="admin"]) .email-offer{ display: grid; gap: 4px; margin-top: var(--s4); padding: var(--s4); border-radius: var(--r-sm); background: var(--pink-wash); }
+:where([data-css~="admin"]) .email-offer p{ margin: 0; }
+:where([data-css~="admin"]) .email-offer .btn{ justify-self: start; margin-top: var(--s2); pointer-events: none; }
+:where([data-css~="admin"]) .email-foot{ padding: var(--s4) var(--s5); background: var(--wash); font-size: 0.8125rem; color: var(--muted); }
+:where([data-css~="admin"]) .email-foot p{ margin: 0 0 var(--s2); max-width: none; }
+:where([data-css~="admin"]) .email-foot p:last-child{ margin: 0; }
+:where([data-css~="admin"]) .email-link{ color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---------- mailing list ---------- */
+:where([data-css~="admin"]) .status-filter{ display: flex; flex-wrap: wrap; gap: var(--s2); margin-bottom: var(--s4); }
+:where([data-css~="admin"]) .status-filter .num{ font-weight: 800; }
+:where([data-css~="admin"]) .status-filter .btn[aria-pressed="true"]{ background: var(--green-wash); border-color: var(--green); color: var(--green); box-shadow: inset 0 0 0 1px var(--green); }
+:where([data-css~="admin"]) .consent-text{ margin: 0 0 var(--s2); padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--wash); }
+:where([data-css~="admin"]) .consent-text p{ margin: 0; }
+:where([data-css~="admin"]) .drawer-body .timeline .meta{ color: var(--muted); }
+
+/* ---------- staff access ---------- */
+:where([data-css~="admin"]) .people{ list-style: none; margin: 0; padding: 0; }
+:where([data-css~="admin"]) .person{ padding: var(--s4) var(--s5); border-bottom: 1px solid var(--line); scroll-margin-top: 96px; }
+:where([data-css~="admin"]) .person:last-child{ border-bottom: 0; }
+:where([data-css~="admin"]) .person.is-current{ background: var(--green-wash); }
+:where([data-css~="admin"]) .person-head{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px var(--s3); margin-bottom: var(--s3); }
+:where([data-css~="admin"]) .person-head h3{ margin: 0; font-size: 1.0625rem; }
+:where([data-css~="admin"]) .person-head .meta{ font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="admin"]) .grant-list{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s3); }
+:where([data-css~="admin"]) .grant{ display: flex; flex-wrap: wrap; align-items: flex-start; gap: var(--s2) var(--s4); padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--flour); }
+:where([data-css~="admin"]) .grant > .grow{ flex: 1 1 260px; min-width: 0; }
+:where([data-css~="admin"]) .grant-line{ display: flex; flex-wrap: wrap; align-items: center; gap: 4px var(--s3); }
+:where([data-css~="admin"]) .grant .meta{ margin-top: 4px; font-size: 0.8125rem; color: var(--muted); }
+:where([data-css~="admin"]) .matrix-box{ padding: var(--s4) var(--s5); border: 1px solid var(--line); border-radius: var(--r); background: var(--flour); }
+:where([data-css~="admin"]) .matrix-box summary{ font: 800 1.0625rem/1.3 var(--ui); cursor: pointer; padding-block: var(--s2); }
+:where([data-css~="admin"]) .matrix-box[open] summary{ margin-bottom: var(--s3); }
+:where([data-css~="admin"]) .matrix tbody th{ font: 400 0.9375rem/1.4 var(--ui); letter-spacing: 0; text-transform: none; color: var(--ink); }
+:where([data-css~="admin"]) .matrix thead th{ white-space: nowrap; }
+:where([data-css~="admin"]) .matrix td{ text-align: center; vertical-align: middle; }
+:where([data-css~="admin"]) .matrix .is-yes .icon{ color: var(--green); }
+:where([data-css~="admin"]) .matrix .is-no{ color: var(--muted); }
+
+/* ---------- audit log ---------- */
+:where([data-css~="admin"]) .audit-log{ list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+:where([data-css~="admin"]) .audit-log > li{ display: grid; gap: 4px var(--s4); padding: var(--s3) var(--s5); border-bottom: 1px solid var(--line); }
+:where([data-css~="admin"]) .audit-log > li:last-child{ border-bottom: 0; }
+:where([data-css~="admin"]) .audit-log p{ margin: 0; max-width: none; overflow-wrap: anywhere; }
+:where([data-css~="admin"]) .audit-log .meta{ font-size: 0.8125rem; color: var(--muted); }
+:where([data-css~="admin"]) .audit-when{ display: flex; flex-wrap: wrap; gap: 2px var(--s3); font-size: 0.875rem; }
+:where([data-css~="admin"]) .audit-log .badge{ justify-self: start; }
+@media (min-width: 640px) {
+  :where([data-css~="admin"]) .audit-log > li{ grid-template-columns: 11rem minmax(0, 1fr) auto; align-items: start; }
+  :where([data-css~="admin"]) .audit-when{ display: grid; gap: 2px; }
+}
 
 /* toolbar: the search grows, the Add button sits at the end */
 :where([data-css~="admin"]) .toolbar-search{ flex: 1 1 200px; }
@@ -95,6 +273,8 @@
 :where([data-css~="admin"]) .store-form h4{ margin-bottom: var(--s3); }
 :where([data-css~="admin"]) .store-form .field:last-of-type{ margin-bottom: var(--s4); }
 :where([data-css~="admin"]) .store-form input{ background: var(--flour); }
+:where([data-css~="admin"]) .store-readonly .kv{ margin: 0 0 var(--s3); }
+:where([data-css~="admin"]) .store-readonly .hint{ margin: 0; }
 
 /* ---------- staff notices ---------- */
 :where([data-css~="admin"]) .notice-body{ margin: 6px 0 0; font-size: 1rem; overflow-wrap: anywhere; }

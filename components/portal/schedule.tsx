@@ -78,7 +78,7 @@ function ScheduleBody({ me, d }: { me: Employee; d: Seed }) {
           {fmtHours(total) + (offset === 0 ? " this week" : " that week")}
         </Badge>
       </div>
-      <ol className="week" id="week" aria-label="Shifts for the chosen week">
+      <ol className="week" id="week" aria-label="Shifts for the chosen week" data-tour="portal-schedule">
         {days.map((iso) => {
           const sh = byDate[iso];
           const isToday = iso === today;

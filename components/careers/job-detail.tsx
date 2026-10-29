@@ -6,6 +6,7 @@ import { MetaItem } from "@/components/careers/parts";
 import { Icon } from "@/components/icon";
 import { branchName } from "@/lib/careers/helpers";
 import { fmtDate } from "@/lib/format";
+import { DOC_PLAIN } from "@/lib/hr/plain";
 import { byId, useData, useHydrated } from "@/lib/store";
 
 // Ported from careers.js renderJob (careers/job.html?id=). Prerendered from the seed; once live it follows this
@@ -71,8 +72,9 @@ export function JobDetail({ id }: { id: string }) {
           </ul>
           <h2>How hiring works</h2>
           <p>
-            Apply online in five steps, then screening, a documents check, an interview at the branch and a written offer. You can follow every
-            stage in your application dashboard.
+            Apply online in five short steps. HR reads your application, checks your documents and may invite you to a short interview at the
+            store. Whichever way it goes, you get a written decision on your applicant page, where every step and how long it usually takes is
+            shown.
           </p>
         </div>
         <aside className="job-aside" aria-label="Role summary">
@@ -105,7 +107,7 @@ export function JobDetail({ id }: { id: string }) {
                   <Icon name={doc.conditional ? "file" : "check"} />
                   <div>
                     <strong>{doc.name}</strong>
-                    <span className="muted">{doc.desc}</span>
+                    <span className="muted">{DOC_PLAIN[doc.id] || doc.desc}</span>
                     {doc.conditional && <span className="badge badge-plain">Only if it applies to you</span>}
                   </div>
                 </li>

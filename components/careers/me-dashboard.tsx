@@ -3,32 +3,25 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
-import { DocBadge, StageBadge } from "@/components/badges";
+import { OutcomeCard } from "@/components/careers/outcome-card";
 import { FileMeta, Thumb, UploadButton, usePreviews } from "@/components/careers/parts";
 import { useConfirm } from "@/components/confirm";
 import { Icon } from "@/components/icon";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
-import { CLOSED_STAGES, MAIN_STAGES, STAGE_HINT, branchName, fileProblem } from "@/lib/careers/helpers";
-import { docDisplayState, fmtDate, fmtDateTime, money } from "@/lib/format";
-import {
-  byId,
-  currentApplicant,
-  nowIso,
-  requiredDocsFor,
-  setDocState,
-  setStage,
-  stageLabel,
-  update,
-  updateApplicant,
-  useData,
-  useRequireRole,
-  useSession,
-} from "@/lib/store";
+import { branchName, fileProblem } from "@/lib/careers/helpers";
+import { docDisplayState, fmtDate, fmtDateTime } from "@/lib/format";
+import { applicantBadge, applicantClosed, applicantMessages, applicantSteps, applicantTimeline, isSealed } from "@/lib/hr/outcome";
+import { DOC_LEGEND, DOC_PLAIN, DOC_STATE_PLAIN } from "@/lib/hr/plain";
+import { byId, currentApplicant, requiredDocsFor, setDocState, setStage, update, useData, useRequireRole, useSession } from "@/lib/store";
 import type { KycDoc } from "@/lib/types";
 
-// Ported from careers.js renderMe (careers/me.html): the applicant's status tracker, documents, messages, interview,
-// offer and timeline. Applicants only; nothing renders until the session is known. ?submitted=1 shows the thanks
-// note once and is dropped from the address bar, as before.
+// Ported from careers.js renderMe (careers/me.html): the applicant's decision card, status tracker, documents,
+// messages, interview and timeline, all in plain words (lib/hr/plain.ts). Applicants only; nothing renders until the
+// session is known. ?submitted=1 shows the thanks note once and is dropped from the address bar, as before.
+//
+// While an HR decision is sealed (lib/hr/outcome.ts), this page must not hint at it: the badge, tracker, messages,
+// timeline, uploads and the withdraw link behave the same for an offer and for not selected until it is opened.
 
 export function MeDashboard() {
   const s = useRequireRole(["applicant"]);
@@ -100,26 +93,13 @@ function MeView() {
 
   const job = byId(d.jobs, ap.jobId);
   const branch = job ? branchName(d, job.branchId) : "";
-  const closed = CLOSED_STAGES.includes(ap.stage);
+  const sealed = isSealed(ap);
+  const closed = applicantClosed(ap);
   const req = requiredDocsFor(d, ap);
   const docs = ap.docs || {};
   const verified = req.filter((doc) => docDisplayState(docs[doc.id]) === "verified").length;
-
-  /* tracker */
-  const reached = new Set(["submitted"]);
-  (ap.timeline || []).forEach((t) => {
-    const m = /^Moved to (.+?)( —|$)/.exec(t.text || "");
-    if (!m) return;
-    const st = (d.stages || []).find((x) => x.label === m[1]);
-    if (st) reached.add(st.id);
-  });
-  const curIdx = MAIN_STAGES.indexOf(ap.stage);
-  const whenFor = (id: string) => {
-    if (id === "submitted") return ap.submittedAt;
-    const label = stageLabel(d, id);
-    const t = (ap.timeline || []).find((x) => (x.text || "").startsWith("Moved to " + label));
-    return t ? t.at : null;
-  };
+  const badge = applicantBadge(ap);
+  const steps = applicantSteps(d, ap);
 
   function onFile(e: React.ChangeEvent<HTMLInputElement>, doc: KycDoc) {
     const input = e.currentTarget;
@@ -138,7 +118,7 @@ function MeView() {
     const expiry = expiryEl?.value || prev?.expiry || "";
     // metadata only; `reason: undefined` clears an old flag reason and is dropped by JSON
     setDocState(ap.id, doc.id, "uploaded", { fileName: file.name, size: file.size, type: file.type || "", expiry: expiry || undefined, reason: undefined });
-    toast("Document added. HR will review it.", "ok");
+    toast("Document added. HR will check it.", "ok");
     rerender();
     setBadgeFocus({ id: doc.id });
   }
@@ -148,34 +128,6 @@ function MeView() {
       const rec = byId(dd.applicants, ap.id)?.docs?.[docId];
       if (rec) rec.expiry = value;
     });
-  }
-
-  async function accept() {
-    const o = ap.offer;
-    if (!o) return;
-    const ok = await confirm({
-      title: "Accept this offer?",
-      body: money(o.pay, o.payUnit) + ", starting " + fmtDate(o.startDate) + ". HR will be told and your start date is confirmed.",
-      okLabel: "Accept offer",
-    });
-    if (!ok) return;
-    updateApplicant(ap.id, { offer: Object.assign({}, o, { status: "accepted", respondedAt: nowIso() }) });
-    setStage(ap.id, "hired", "Offer accepted by applicant");
-    toast("Offer accepted. Welcome to the team.", "ok");
-    rerender();
-  }
-
-  async function decline() {
-    const o = ap.offer;
-    if (!o) return;
-    const ok = await confirm({ title: "Decline this offer?", body: "HR will be told. You can still be considered for other roles.", okLabel: "Decline offer", danger: true });
-    if (!ok) return;
-    updateApplicant(ap.id, { offer: Object.assign({}, o, { status: "declined", respondedAt: nowIso() }) });
-    update((dd) => {
-      byId(dd.applicants, ap.id)?.timeline.push({ at: nowIso(), text: "Offer declined by applicant" });
-    });
-    toast("Offer declined.");
-    rerender();
   }
 
   async function withdraw() {
@@ -191,10 +143,11 @@ function MeView() {
     rerender();
   }
 
-  const messages = (ap.messages || []).slice().sort((x, y) => (y.at || "").localeCompare(x.at || ""));
-  const timeline = (ap.timeline || []).slice().sort((x, y) => (y.at || "").localeCompare(x.at || ""));
-  const o = ap.offer;
-  const canWithdraw = !closed && ap.stage !== "hired";
+  const messages = applicantMessages(ap)
+    .slice()
+    .sort((x, y) => (y.at || "").localeCompare(x.at || ""));
+  const timeline = applicantTimeline(d, ap);
+  const canWithdraw = !sealed && !closed && ap.stage !== "hired";
 
   return (
     <>
@@ -212,67 +165,56 @@ function MeView() {
           <h1>{job ? job.title : "Application"}</h1>
           <p className="muted">{branch + (job ? " · " + job.type : "") + " · Applied " + fmtDate(ap.submittedAt)}</p>
         </div>
-        <div>
-          <StageBadge stage={ap.stage} />
-        </div>
+        <div>{badge.tone === "plain" ? <Badge plain>{badge.label}</Badge> : <Badge variant={badge.tone}>{badge.label}</Badge>}</div>
       </div>
+      <OutcomeCard d={d} a={ap} onChange={rerender} />
       <div className="two-col">
         <div className="stack" style={stackStyle}>
           <section className="panel" aria-labelledby="status-h">
             <div className="panel-head">
-              <h2 id="status-h">Status</h2>
+              <h2 id="status-h">Where your application is</h2>
             </div>
             <div className="panel-body">
-              <ol className="tracker">
-                {MAIN_STAGES.map((id, i) => {
-                  let cls = "";
-                  if (closed) cls = reached.has(id) ? "is-done" : "";
-                  else if (i < curIdx || (i === curIdx && id === "hired")) cls = "is-done";
-                  else if (i === curIdx) cls = "is-current";
-                  const when = whenFor(id);
-                  return (
-                    <li key={id} className={cls}>
-                      <span className="dot" aria-hidden="true">
-                        {cls === "is-done" && <Icon name="check" />}
-                      </span>
-                      <div>
-                        <strong>
-                          {stageLabel(d, id)}
-                          {cls === "is-current" && (
-                            <>
-                              {" "}
-                              <span className="visually-hidden">(current)</span>
-                            </>
-                          )}
-                        </strong>
-                        <span className="meta">{when && cls ? fmtDateTime(when) : STAGE_HINT[id]}</span>
-                      </div>
-                    </li>
-                  );
-                })}
-                {closed && (
-                  <li className="is-bad">
+              <ol className="tracker tracker-plain" data-tour="applicant-stages">
+                {steps.map((st) => (
+                  <li key={st.id} className={"is-" + st.state}>
                     <span className="dot" aria-hidden="true">
-                      <Icon name="close" />
+                      {st.state === "done" ? <Icon name="check" /> : null}
                     </span>
                     <div>
-                      <strong>{stageLabel(d, ap.stage)}</strong>
-                      <span className="meta">{fmtDateTime(whenFor(ap.stage) || (ap.timeline || []).slice(-1)[0]?.at)}</span>
+                      <strong>
+                        {st.label}
+                        {st.state === "current" ? <span className="visually-hidden"> (you are here)</span> : null}
+                        {st.state === "skipped" ? <span className="visually-hidden"> (not needed)</span> : null}
+                      </strong>
+                      {st.at && (st.state === "done" || st.state === "current" || st.state === "closed") ? (
+                        <span className="meta">{fmtDateTime(st.at)}</span>
+                      ) : null}
+                      {st.state !== "skipped" ? <span className="tracker-hint">{st.hint}</span> : null}
                     </div>
                   </li>
-                )}
+                ))}
               </ol>
             </div>
           </section>
-          <section className="panel" aria-labelledby="docs-h" ref={docsRef}>
+          <section className="panel" aria-labelledby="docs-h" ref={docsRef} data-tour="applicant-documents">
             <div className="panel-head">
-              <h2 id="docs-h">Documents</h2>
-              <span className="small muted">{verified + " of " + req.length + " verified"}</span>
+              <h2 id="docs-h">Your documents</h2>
+              <span className="small muted">{verified + " of " + req.length + " checked"}</span>
             </div>
             <div className="panel-body flush">
+              <dl className="doc-legend" aria-label="What the labels mean">
+                {DOC_LEGEND.map((l) => (
+                  <div key={l.label}>
+                    <dt>{l.label}:</dt>
+                    <dd>{l.text}</dd>
+                  </div>
+                ))}
+              </dl>
               {req.map((doc) => {
                 const m = docs[doc.id];
                 const state = docDisplayState(m);
+                const plain = DOC_STATE_PLAIN[state] ?? DOC_STATE_PLAIN.missing;
                 const has = !!(m && m.fileName);
                 const canUpload = !closed && (state === "missing" || state === "flagged" || state === "expired");
                 return (
@@ -281,7 +223,7 @@ function MeView() {
                       <Thumb meta={m} preview={previews[doc.id]} />
                       <div className="doc-text">
                         <div className="doc-name">{doc.name}</div>
-                        <div className="doc-desc">{doc.desc}</div>
+                        <div className="doc-desc">{DOC_PLAIN[doc.id] || doc.desc}</div>
                         <FileMeta meta={m} />
                         {canUpload && doc.expires && (
                           <label className="doc-expiry">
@@ -296,12 +238,18 @@ function MeView() {
                         )}
                       </div>
                     </div>
-                    <DocBadge state={state} />
+                    {plain.variant === "neutral" ? <Badge>{plain.label}</Badge> : <Badge variant={plain.variant}>{plain.label}</Badge>}
                     <div className="doc-actions">
-                      {canUpload && <UploadButton doc={doc} label={has ? "Replace" : "Upload"} onFile={(e) => onFile(e, doc)} />}
+                      {canUpload && <UploadButton doc={doc} label={has ? "Upload a new copy" : "Upload"} onFile={(e) => onFile(e, doc)} />}
                     </div>
-                    {state === "flagged" && m && m.reason && <div className="doc-reason">{m.reason}</div>}
-                    {state === "expired" && <div className="doc-reason">This document has expired. Upload a current one.</div>}
+                    {state === "flagged" && (
+                      <div className="doc-reason doc-reason-plain">
+                        <strong>{"HR’s note: "}</strong>
+                        {m && m.reason ? m.reason : "This copy could not be accepted."}
+                        <span className="doc-reason-next">Upload a new copy and HR will check it again.</span>
+                      </div>
+                    )}
+                    {state === "expired" && <div className="doc-reason doc-reason-plain">This document has expired. Upload a current one and HR will check it again.</div>}
                   </div>
                 );
               })}
@@ -312,7 +260,7 @@ function MeView() {
           </section>
         </div>
         <div className="stack" style={stackStyle}>
-          <section className="panel" aria-labelledby="msg-h">
+          <section className="panel" aria-labelledby="msg-h" data-tour="applicant-messages">
             <div className="panel-head">
               <h2 id="msg-h">Messages</h2>
             </div>
@@ -323,7 +271,9 @@ function MeView() {
                     <div className="grow">
                       <strong>{m.from}</strong>
                       <div className="meta">{fmtDateTime(m.at)}</div>
-                      <p style={{ margin: "6px 0 0", fontSize: ".9375rem" }}>{m.text}</p>
+                      <p className="summary-text" style={{ margin: "6px 0 0", fontSize: ".9375rem" }}>
+                        {m.text}
+                      </p>
                     </div>
                   </li>
                 ))}
@@ -348,48 +298,9 @@ function MeView() {
               </dl>
             </div>
           )}
-          {o && (
-            <div className="card offer-card">
-              <div className="badge-row" style={{ justifyContent: "space-between" }}>
-                <p className="eyebrow bare" style={{ margin: 0 }}>
-                  Offer
-                </p>
-                {o.status === "accepted" ? (
-                  <span className="badge badge-ok">Accepted</span>
-                ) : o.status === "declined" ? (
-                  <span className="badge badge-bad">Declined</span>
-                ) : (
-                  <span className="badge badge-info">Awaiting your reply</span>
-                )}
-              </div>
-              <p className="offer-pay" style={{ marginTop: "var(--s3)" }}>
-                {money(o.pay, o.payUnit)}
-              </p>
-              <dl className="kv">
-                <dt>Role</dt>
-                <dd>{job ? job.title : ""}</dd>
-                <dt>Branch</dt>
-                <dd>{branch}</dd>
-                <dt>Start date</dt>
-                <dd>{fmtDate(o.startDate)}</dd>
-                <dt>Sent</dt>
-                <dd>{fmtDateTime(o.sentAt)}</dd>
-              </dl>
-              {o.status === "sent" && !closed && (
-                <div className="actions">
-                  <button className="btn btn-sign" type="button" id="offer-accept" onClick={accept}>
-                    Accept offer
-                  </button>
-                  <button className="btn btn-ghost" type="button" id="offer-decline" onClick={decline}>
-                    Decline
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
           <section className="panel" aria-labelledby="tl-h">
             <div className="panel-head">
-              <h2 id="tl-h">Timeline</h2>
+              <h2 id="tl-h">What has happened so far</h2>
             </div>
             <div className="panel-body">
               <ol className="timeline">
