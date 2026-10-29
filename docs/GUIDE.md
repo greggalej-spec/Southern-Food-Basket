@@ -11,7 +11,7 @@ numbers (each store's Google Maps listing). Demo: every person, job, application
 
 | Where | Link | Notes |
 |---|---|---|
-| Latest preview (Next.js rebuild, 28 Oct 2026, commit `4fe7ff4`: one home, no design options) | https://southern-food-basket-next-lv69s39ui-greggs-projects-fbe529a0.vercel.app | Opens only after you sign in to Vercel. |
+| Latest preview (Next.js rebuild, 29 Oct 2026, commit `4f7613f`: one home, no design options) | https://southern-food-basket-next-7eokjqgrr-greggs-projects-fbe529a0.vercel.app | Opens only after you sign in to Vercel. |
 | Your machine | In the `next-rebuild` worktree run `npm run dev -- --port 4176`, then open http://localhost:4176 | Same site; fastest for showing it. |
 | Public link | https://southern-food-basket.vercel.app | The static version you deploy yourself. Page addresses there end in `.html`. |
 
