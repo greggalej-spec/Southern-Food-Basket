@@ -6,7 +6,7 @@
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 window.SFB_DATA = {
-  version: 6,
+  version: 7,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -370,9 +370,9 @@ window.SFB_DATA = {
       payslips: [],
       training: [{ id: 'tr-food', name: 'Food safety, level 1', done: true, completedAt: '2023-02-01', minutes: 45 }, { id: 'tr-cust', name: 'Customer care refresher 2026', done: false, due: '2026-11-30', minutes: 25 }],
       compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2027-02-28' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }, { docId: 'food-badge', state: 'verified', expiry: '2026-09-30' }] },
-    { id: 'emp-ria', name: 'Ria Mohammed', role: 'Marketing and Store Operations', dept: 'Head office', branchId: 'sando', startDate: '2022-02-01', employeeNo: 'SFB-0233',
-      email: 'ria.mohammed@sfb.example', phone: '(868) 000-0109', address: 'Demo Street, San Fernando',
-      emergency: { name: 'Sameer Mohammed', relation: 'Brother', phone: '(868) 000-0110' },
+    { id: 'emp-ria', name: 'Ria Seecharan', role: 'Marketing and Store Operations', dept: 'Head office', branchId: 'sando', startDate: '2022-02-01', employeeNo: 'SFB-0233',
+      email: 'ria.seecharan@sfb.example', phone: '(868) 000-0109', address: 'Demo Street, San Fernando',
+      emergency: { name: 'Vikash Seecharan', relation: 'Brother', phone: '(868) 000-0110' },
       bank: { bank: 'Demo Bank', masked: '•••• 3307' },
       leave: { annualEntitled: 16, annualUsed: 4, sickEntitled: 14, sickUsed: 1, casualEntitled: 3, casualUsed: 0 },
       leaveRequests: [], swapRequests: [],
