@@ -1,6 +1,6 @@
 # Southern Food Basket: photo and video shot list
 
-Draft 1, 28 October 2026. Prepared by Trinovata Technologies for the Southern Food Basket owners and their photographer. The website is an unofficial concept; nothing here is approved until the owners say so.
+Draft 2, 29 October 2026 (draft 1: 28 October). Prepared by Trinovata Technologies for the Southern Food Basket owners and their photographer. The website is an unofficial concept; nothing here is approved until the owners say so. Draft 2 checks every slot against both versions of the site, the static site on the public link and the Next.js rebuild; what changed is in 1.1.
 
 ---
 
@@ -24,7 +24,7 @@ Draft 1, 28 October 2026. Prepared by Trinovata Technologies for the Southern Fo
 | P1 | Launch with it if possible. |
 | P2 | Later. |
 
-**At a glance:** 61 shots. P0: 30. P1: 25. P2: 6. Of the 61, 25 are the specials product series (one repeatable set-up, section 2.7).
+**At a glance:** 61 shots. P0: 30. P1: 26. P2: 5. Of the 61, 25 are the specials product series (one repeatable set-up, section 2.7). One more deliverable, the link-preview picture (SL-95), is a crop of shots already on the list.
 
 **Rules for every shot**
 
@@ -37,6 +37,20 @@ Draft 1, 28 October 2026. Prepared by Trinovata Technologies for the Southern Fo
 
 **Art direction in one paragraph.** PRD 16.3 says photography is the primary proof of business identity, and PRD 17.4 recommends the Grand Entrance as the base, with an editorial feel for About and Careers and restrained promotional energy for specials. In practice: the hero is clean, symmetrical and bright; people shots are natural and unhurried (relaxed, real, not stiff); specials are high-key with room for graphics. The PRD's creative references (section 17.1) are for editorial storytelling, hero composition and rhythm only. Do not copy their imagery or layouts.
 
+### 1.1 What changed in draft 2
+
+Every size here was measured in the browser on the rebuild, at 1440 and 375 px wide, on 29 October 2026. The static site uses the same carousel and department circles (`assets/css/grand-entrance.css:179, 280`).
+
+| Change | Why | Where in this list |
+|---|---|---|
+| Carousel photos are 6:5 on desktop and 4:3 on phones, not 16:9 and 4:5 | The carousel is built now. Its photo draws at 642 x 535 at 1440 px and 343 x 257 at 375 px, zoomed to 114% and drifting up to 6% sideways (rebuild `styles/home.css:293-296`) | Class B in 2.0; 2.2 |
+| Five slides, not four. Slide 5 is "Look for the pink and green flags" | Rebuild `app/(home)/page.tsx:112-118` | 2.2; SL-90 moves from P2 to P1 |
+| Members' offers crop product photos to about 1.87:1 on desktop cards (479 x 256), 16:10 on phone cards (342 x 214) and 16:10 on the offer page (507 x 317) | New in the rebuild (`components/members/offers.tsx:90, 185`) | Crop hazards in 2.0; 2.7 |
+| The home page shows each department as a 64 px circle | Rebuild `app/(home)/page.tsx:133`. An aisle scene can't be read at that size | 2.6 |
+| Job pages have no photo | Rebuild `app/(sfb)/careers/[id]/page.tsx` | 2.4 |
+| No link-preview picture exists, so a shared link shows no image on WhatsApp or Facebook | No Open Graph image anywhere in the rebuild | SL-95 in 2.9 |
+| The rebuild keeps the photos in `public/assets/img/photos/`, with the same file names | | 7 |
+
 ---
 
 ## 2. Shot tables
@@ -48,7 +62,7 @@ Draft 1, 28 October 2026. Prepared by Trinovata Technologies for the Southern Fo
 | Class | Slot shape | Largest drawn, and where it comes from | Minimum delivered |
 |---|---|---|---|
 | H | Full-screen hero, 16:9 | The viewport. `.stage` is `height: 100svh` (grand-entrance.css:74). Design maximum is a 1920 x 1080 full-HD screen. | **3840 x 2160 (4K).** A 9:16 centre crop of 4K is 1215 x 2160, above 2 x a 390 x 844 phone (780 x 1688). |
-| B | Carousel slide, 16:9 desktop, 4:5 phone | Proposed slot, not yet in CSS. Container maximum 1200 px (`.wrap`, grand-entrance.css:24). | **2400 x 1350.** A 4:5 phone crop needs only 686 x 858 (343 px x 2). |
+| B | Carousel slide, 6:5 desktop, 4:3 phone | Built (draft 2). `.slide-photo` draws at 642 x 535 at 1440 px and 343 x 257 at 375 px, zoomed to 114% (rebuild `styles/home.css:293-296`; static `grand-entrance.css:280-283`). 642 x 1.14 x 2 = 1464. | **1800 x 1500.** Shoot 3:2 landscape so the 6:5 and 4:3 centre crops both hold. |
 | F | 4:3 figure: departments, role shots, family | `.dept-section .pic` (site.css:121) in the widest single-column layout, a 909 px screen: container 909 - 32 = 877, minus the 6 px frame each side = 865 px. 865 x 2 = 1730. | **1800 x 1350** |
 | W | 16:10 hero photo on About and Wholesale | `.page-hero .photo-frame img` (site.css:107), same 865 px. | **1800 x 1125** (a 16:10 crop of a 1800 x 1350 frame) |
 | A | Arched portrait, 5:6 | `.arch-photo` (grand-entrance.css:182): 460 px wide, 10 px frame, so 440 x 532 inside. 2 x = 880 x 1064. The gold fanlight hides the top 42% (css:184). | **900 x 1080; aim for 1000 x 1200** |
@@ -65,6 +79,9 @@ Slots not built yet (carousel, family, role shots, store-front photos) are marke
 | Home department tiles | A text label covers the bottom ~30% (grand-entrance.css:152). | Subject in the upper 65%. |
 | Product cards | The red price seal covers the bottom-left (css:131), the NEW ribbon the top-right (css:137), and the Post maker logo the top-left (admin.js:519). | Product in the middle; three corners empty. |
 | Arched frames | Fanlight covers the top 42%. | Face and key subject between 45% and 90% of the height; extra headroom above. |
+| Carousel (draft 2) | The photo is zoomed to 114% and drifts up to 6% sideways as the slides move, so up to about 11% of each side can be lost. | Subject in the middle 70% of the width. |
+| Offer cards (draft 2) | A 6:5 product photo is cut to about 1.87:1 on desktop: only the middle 64% of its height shows. | Product between 20% and 80% of the height. |
+| Department circles (draft 2) | 64 px circle on the home page. | Not an aisle scene: a tight crop of one product (see 2.6). |
 
 ### 2.1 Home hero: Grand Entrance (Couva) and roof flags
 
@@ -82,17 +99,25 @@ Where: home page `/`, the arrival at `#stage`. Today it is an inline SVG illustr
 
 The real flags are visible in `assets/img/photos/team-flags.webp` and `flags-car.webp`: white field, a swept pink edge top and bottom each with a green line inside, the full cornucopia logo and "Southern food basket" wordmark across the middle, black sleeve on the pole side.
 
-### 2.2 Home banner carousel (4 slides, new)
+### 2.2 Home banner carousel (5 slides, built)
 
-Proposed slot, not yet in CSS. PRD 16.5: a moving carousel needs pause controls, so every slide needs a still-friendly image and one line of alt text.
+Built in both versions (draft 2): the photo is 6:5 on desktop and 4:3 on phones (class B), with the headline in its own column beside it, not on the photo. PRD 16.5: a moving carousel needs pause controls, so every slide needs a still-friendly image and one line of alt text.
 
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
-| SL-10 | Carousel slide 1, "Be a part of the family, join the team!" (careers) | 4 to 6 staff in red shirts, welcoming, shop floor or front of store | Shoot two versions: group left with calm space on the right, and the mirror. Faces inside the middle 70% of the width. Shoot in the same set-up as SL-30. | Landscape 16:9 (phone 4:5 crop) | 2400 x 1350 (B) | P0 | Yes: release each. Adults only. No customers. | Couva (confirm) | Pre-opening, store lit, or the shaded entrance. Avoid midday sun. | New |
-| SL-11 | Carousel slide 2, specials ("1 FOR $x" posts) | A tidy shelf end or counter showing several products that are on special that week | PRD 15.2 #16: a promo surface with clean space for the live price seal and graphics. No prices, stickers or logos added. | Landscape 16:9 | 2400 x 1350 (B) | P1 | None | Couva, or the store where the week's specials are (confirm) | Bright store light or window light | New |
-| SL-12 | Carousel slide 4, ready-cut veg packs and double-layer cakes | One counter scene: a few veg packs beside two or three double-layer cakes in their boxes | True colours. Veg film clean, not fogged. Cakes slightly above eye level so top decoration and two layers show. No prices. | Landscape 16:9 | 2400 x 1350 (B) | P1 | None. Hands only if released. | Couva (the company's posts tag these products at Couva; confirm) | Window light or soft box | New |
+| SL-10 | Carousel slide 1, "Be a part of the family, join the team!" (careers) | 4 to 6 staff in red shirts, welcoming, shop floor or front of store | Shoot two versions: group left with calm space on the right, and the mirror. Faces inside the middle 70% of the width. Shoot in the same set-up as SL-30. | Landscape 3:2 (crops 6:5 and 4:3) | 1800 x 1500 (B) | P0 | Yes: release each. Adults only. No customers. | Couva (confirm) | Pre-opening, store lit, or the shaded entrance. Avoid midday sun. | New |
+| SL-11 | Carousel slide 2, specials ("1 FOR $x" posts) | A tidy shelf end or counter showing several products that are on special that week | PRD 15.2 #16: a promo surface with clean space for the live price seal and graphics. No prices, stickers or logos added. | Landscape 3:2 (crops 6:5 and 4:3) | 1800 x 1500 (B) | P1 | None | Couva, or the store where the week's specials are (confirm) | Bright store light or window light | New |
+| SL-12 | Carousel slides 3 ("Ready-cut veg packs") and 4 ("Double-layer cakes") | One counter set-up, two frames: (a) a few veg packs, (b) two or three double-layer cakes in their boxes | True colours. Veg film clean, not fogged. Cakes slightly above eye level so top decoration and two layers show. No prices. | Landscape 3:2 (crops 6:5 and 4:3) | 1800 x 1500 (B) | P1 | None. Hands only if released. | Couva (the company's posts tag these products at Couva; confirm) | Window light or soft box | New |
 
-Slide 3 (five stores, Couva to Point Fortin) is built from SL-40 to SL-44. See 2.9.
+The five slides as built (rebuild `app/(home)/page.tsx:112-118`) and the shot for each:
+
+| Slide | Headline on the site | Photo today | Shot |
+|---|---|---|---|
+| 1 | Be a part of the family, join the team! | `team-flags.webp` | SL-10 |
+| 2 | 1 for the price on the post | `veg-chunky.webp` | SL-11 |
+| 3 | Ready-cut veg packs | `veg-stir-fry.webp` | SL-12 (a) |
+| 4 | Double-layer cakes | `cake-red-velvet.webp` | SL-12 (b) |
+| 5 | Look for the pink and green flags | `flags-car.webp` | SL-90, or a store front (SL-40 to SL-44) if the vehicle can't be shot. See 2.9. |
 
 ### 2.3 Who is Southern Food Basket? (new section on the home page)
 
@@ -105,7 +130,7 @@ Proposed slot. PRD WEB-005 (P1): approved company story with quality imagery. **
 
 ### 2.4 Team and careers
 
-DEC-005: recruitment is the primary focus, so the team portrait is P0. Role shots are for the Careers page (new strip above "Open roles", proposed).
+DEC-005: recruitment is the primary focus, so the team portrait is P0. Role shots are for the Careers page (new strip above "Open roles", proposed). Draft 2: each can also head the matching job page, which has no photo today (rebuild `app/(sfb)/careers/[id]/page.tsx`).
 
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -135,6 +160,8 @@ Common brief: whole front and sign, slightly off-centre (10 to 15 degrees) to sh
 
 Where: home "Walk the aisles" tiles (grand-entrance.js:135, 4:3 at `.aisle img`, css:149), Departments page sections (site.js:191, 4:3, site.css:121), department tiles (site.js:95, site.css:57). One scene per department, not a product close-up. Shoot 4:3 or wider so the 4:3 crop works. Do not photograph a department a store does not have: confirm per store, do not assume. Couva is the suggested location for bakery, fresh-cut veg and health because the company's own posts tag those products at Couva.
 
+**Draft 2, the home circles.** The home page now shows six departments (all but wholesale) as 64 px circles, and each circle draws the same file as that department's 4:3 picture on the Departments page (rebuild `app/(home)/page.tsx:133`, `components/site/departments.tsx:33`). An aisle scene from this table can't be read at 64 px. Give each circle its own square crop of the matching product shot from 2.7 instead (for example SL-60 for Fresh, SL-64 for Bakery). No extra shooting, but the site needs a small change to take a second file per department.
+
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
 | SL-50 | Fresh produce and cut veg tile, department section; options A, B, C | Produce display, full and colourful, with fresh-cut veg packs on the chilled shelf | Wide, slightly above eye level; "Fruits and Vegetables" sign readable if it is. No shelf price tags in focus. Subject in the upper 65%. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None, or release | Couva (confirm) | Store lit, before opening, fresh stock | `veg-chunky.webp` (department), `store-produce.webp` (fresh slots) |
@@ -153,7 +180,8 @@ Where: home deals shelf (grand-entrance.js:128, 12 newest), Specials page (site.
 |---|---|
 | IDs | SL-60 to SL-84 |
 | Subject | The product as sold. One clean pack shot each, on a plain warm-white or light-wood surface, soft window light. Optional second frame held in hands (hands only, no faces, release needed). |
-| Composition | Product centred in the middle half of the width, between 15% and 70% from the top. Corners empty: bottom-left (price seal), top-right (NEW ribbon), top-left (logo on the 4:5 post). No price tags, stickers or added labels in frame. Packaging straight-on and undistorted. |
+| Composition | Product centred in the middle half of the width, between 20% and 70% from the top (draft 2: the offer cards cut off the top and bottom 18%). Corners empty: bottom-left (price seal), top-right (NEW ribbon), top-left (logo on the 4:5 post). No price tags, stickers or added labels in frame. Packaging straight-on and undistorted. |
+| Other crops (draft 2) | The same file also shows as a members' offer card (about 1.87:1 on desktop, 16:10 on phones), the offer page photo (16:10), and a 56 px square in the newsletter e-mail preview (rebuild `components/admin/email-preview.tsx:48`). A product centred as above survives all of them. |
 | Cakes | Slightly above, 30 to 45 degrees, in the clear box as sold, top decoration and two layers visible. Cake sizes are in the table below. |
 | Veg packs | Film clean and unfogged. Shoot within minutes of stocking. |
 | Ratio, size | Landscape 6:5 (`.deal-photo`), 1800 x 1500 (P). The Post maker crops to 4:5, so keep the product in the middle 50% of the width. |
@@ -191,11 +219,13 @@ Where: home deals shelf (grand-entrance.js:128, 12 newest), Specials page (site.
 
 P0 here means the newest specials in `data/seed.js` on 28 October 2026 (the home shelf shows 12): the four veg and herb packs, three snacks, two health items and the cakes (the five cakes tie on date, so shoot all five). By shoot day the business's live specials will have moved on; re-mark P0 for whatever is on special that week.
 
-### 2.8 Later (P2)
+### 2.8 On the road, and later (P2)
+
+Draft 2: SL-90 moves up to P1, because the vehicle with the flags is now carousel slide 5 on the home page.
 
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
-| SL-90 | Community block; options C (css `.comm-photo`, c:645); seed `community.img` (seed.js:428) | The vehicle that carries the flags on the road (site copy calls it the music truck; confirm) | Flags flying, vehicle moving slowly or parked. No identifiable faces unless released. | Landscape 4:3 | 1800 x 1350 (F) | P2 | Hands or faces: release | Anywhere in the south (confirm) | Soft daylight | `flags-car.webp` |
+| SL-90 | Home carousel slide 5 (rebuild `app/(home)/page.tsx:117`); About community block, seed `community.img` (seed.js:428; rebuild `lib/seed.ts:247`) | The vehicle that carries the flags on the road (site copy calls it the music truck; confirm) | Flags flying, vehicle moving slowly or parked. No identifiable faces unless released. Vehicle in the middle 70% of the width for the carousel. | Landscape 3:2 (crops 6:5 and 4:3) | 1800 x 1500 (B) | P1 | Hands or faces: release | Anywhere in the south (confirm) | Soft daylight | `flags-car.webp` |
 | SL-91 | Future butcher or counters shot (PRD 15.2 #09) | Butcher counter display, hygienic, accurate presentation | Counter wide, clean glass, lit. | Landscape 4:3 | 1800 x 1350 (F) | P2 | None | Couva (confirm) | Store lit | New |
 | SL-92 | Future household shot (PRD 15.2 #12) | Household goods aisle | Wide aisle with depth | Landscape 4:3 | 1800 x 1350 (F) | P2 | None | Confirm store | Store lit | New |
 | SL-93 | Future brand texture (PRD 15.2 #15) | Trolley and basket detail | Close, brand colours, no people | Landscape 4:3 | 1800 x 1350 (F) | P2 | None | Any store | Store lit | New |
@@ -207,11 +237,12 @@ No pharmacy or restaurant shots are listed. Add them only if the business asks; 
 
 | Slot | What it uses | Photo needed? |
 |---|---|---|
-| Carousel slide 3, "five stores from Couva to Point Fortin" | The five store fronts, SL-40 to SL-44, cropped 16:9 | No new shot. Shoot each front with sky space for the 16:9 crop. |
+| Carousel slide 5, "Look for the pink and green flags" (draft 2; draft 1 planned a store-fronts slide 3) | SL-90, or a store front (SL-40 to SL-44) cropped 6:5 | No new shot. |
 | Specials price ticker (home banner) | Live text from the specials data | **No photo.** |
 | Follow-us-on-social banner (home) | Logo and links to the company's accounts | **No photo.** If the designers want a background, reuse an approved shot rather than commission one. |
 | Logo (header, footer, flags, canopy) | `sfb-logo.svg` and friends, traced from an Instagram post (assets/img/SOURCES.md) | Not a shoot. Ask the business for its official logo files. |
 | Store-glass ornaments (`assets/img/glass/`) | Drawn in code by Trinovata, no photo pixels | No. Not third-party. |
+| SL-95, link preview (draft 2): the picture WhatsApp, Facebook and other apps show when someone shares a page | Nothing today: the site has no Open Graph image, so shared links show no picture | No new shot. A 1200 x 630 crop (1.91:1) of SL-40 (Couva front) or the landscape frame of SL-30 (the team), with the subject in the middle third. P1. The site needs a small change to serve it. |
 
 ---
 
@@ -361,6 +392,8 @@ Every third-party image on the site today, and the shot that replaces it. Tick w
 
 Every product photo is drawn by the same code: grand-entrance.js:128 (home shelf), site.js:25 (Specials page), admin.js:174, 246, 692 (admin list, preview, Post maker). Only the extra uses are listed per row.
 
+Draft 2: file:line references in this table are the static site (`concept-v1`). The Next.js rebuild holds the same files, with the same names, in `public/assets/img/photos/`; swap each one in both places. In the rebuild the product photos are also drawn by the members' offers (`components/members/offers.tsx:90, 185`) and the newsletter e-mail preview (`components/admin/email-preview.tsx:48`).
+
 | Done | File in `assets/img/photos/` | Extra uses (file:line) | Replaced by |
 |---|---|---|---|
 | [ ] | `cake-almond-crumble.webp` | | SL-68 |
@@ -373,7 +406,7 @@ Every product photo is drawn by the same code: grand-entrance.js:128 (home shelf
 | [ ] | `chobani-flip.webp` | Chilled department (seed.js:63) | SL-70 and SL-52 |
 | [ ] | `coconut-popcorn.webp` | | SL-75 |
 | [ ] | `dove.webp` | | SL-84 |
-| [ ] | `flags-car.webp` | Home highlights carousel (index.html:102, template :85); seed.js:428 (community data) | SL-90 |
+| [ ] | `flags-car.webp` | Home highlights carousel, slide 5 (index.html:102, template :85; rebuild `app/(home)/page.tsx:117`); seed.js:428 (community data) | SL-90 |
 | [ ] | `gogurt.webp` | | SL-71 |
 | [ ] | `irish-spring.webp` | | SL-82 |
 | [ ] | `lays-limited.webp` | | SL-77 |
