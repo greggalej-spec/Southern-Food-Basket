@@ -213,6 +213,16 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .store .actions{ display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 14px; }
 .ge-root .store .actions .btn{ min-height: 46px; padding: 0 18px; font-size: 1rem; }
 .ge-root .open-now{ display: inline-block; font: 800 .75rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; background: #E3F2E6; color: var(--green); padding: 5px 8px; border-radius: 6px; margin-left: 4px; }
+/* "See all times": the week's rows open in place under today's (native <details>, works before any script) */
+.ge-root .store .store-week{ margin: -8px 0 6px 30px; }
+.ge-root .store .store-week summary{ display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; list-style: none; font: 700 1rem/1.2 var(--ui); color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+.ge-root .store .store-week summary::-webkit-details-marker{ display: none; }
+.ge-root .store .store-week summary::after{ content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; }
+.ge-root .store .store-week[open] summary::after{ transform: translateY(2px) rotate(-135deg); }
+.ge-root .store .store-week dl{ display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0 0 4px; font-size: 1.0625rem; font-variant-numeric: tabular-nums; }
+.ge-root .store .store-week dl div{ display: contents; }
+.ge-root .store .store-week dt{ font-weight: 700; }
+.ge-root .store .store-week dd{ margin: 0; }
 
 /* careers with an arched window photo */
 .ge-root .band-careers{ background: var(--cream); }
@@ -375,6 +385,6 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
   .js .ge-root .intro{ height: 100vh; height: 100svh; }
   .ge-root .storefront .flag .cloth, .ge-root .cue svg, .ge-root .topbar{ animation: none !important; }
   .ge-root .topbar, .ge-root .brand, .ge-root .topnav .ink, .ge-root .menu-btn .bars::before, .ge-root .menu-btn .bars::after, .ge-root .mobile-menu, .ge-root .mobile-menu a, .ge-root .skip-pill{ transition: none !important; }
-  .ge-root .car-dot::before, .ge-root .dc-go svg, .ge-root .social-links a{ transition: none; }
+  .ge-root .car-dot::before, .ge-root .dc-go svg, .ge-root .social-links a, .ge-root .store .store-week summary::after{ transition: none; }
   .ge-root .dc:hover .dc-go svg{ transform: none; }
 }

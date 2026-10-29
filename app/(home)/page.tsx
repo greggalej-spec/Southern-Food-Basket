@@ -507,6 +507,19 @@ export default function HomePage() {
                     {CLOCK}
                     <StoreToday branch={b} />
                   </p>
+                  <details className="store-week">
+                    <summary>
+                      See all times<span className="visually-hidden">{" for " + b.name}</span>
+                    </summary>
+                    <dl>
+                      {b.hours.map(([days, time]) => (
+                        <div key={days}>
+                          <dt>{days}</dt>
+                          <dd>{time}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </details>
                   {b.phone ? (
                     <p className="row-i">
                       {PHONE}
