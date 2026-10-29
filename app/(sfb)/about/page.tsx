@@ -112,7 +112,7 @@ export default function AboutPage() {
         <div className="container narrow">
           <p className="eyebrow">On the record</p>
           <h2 id="record-title">What public sources say</h2>
-          <p className="muted">These are the sourced facts this concept uses. They come from public directories and the company’s own Instagram, and have not been checked with the company.</p>
+          <p className="muted">These facts come from public directories and have not been checked with the company.</p>
           <ul className="fact-list" data-facts="">
             <AboutFacts />
           </ul>

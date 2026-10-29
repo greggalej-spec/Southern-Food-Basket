@@ -28,7 +28,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 9,
+  version: 10,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -238,8 +238,7 @@ export const SEED: Seed = {
     facts: [
       { text: 'Southern Food Basket Limited, registered in Princes Town, Trinidad and Tobago.', source: 'Dun & Bradstreet company profile' },
       { text: 'Founded 1998.', source: 'Del Risco company record (an exporter directory gives 2000)' },
-      { text: 'Supermarket and wholesale, with import and export activity in produce and frozen meats.', source: 'Panjiva shipment records; ExportersIndia listing' },
-      { text: 'Posts its deals as “1 FOR $x · TRY ME”; posts from September and October 2026 are tagged Couva.', source: 'The company’s Instagram, June to October 2026' }
+      { text: 'Supermarket and wholesale, with import and export activity in produce and frozen meats.', source: 'Panjiva shipment records; ExportersIndia listing' }
     ],
     community: {
       title: 'Out in the community',
