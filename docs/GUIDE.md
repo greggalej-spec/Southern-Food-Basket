@@ -12,9 +12,9 @@ numbers (each store's Google Maps listing). Demo: every person, job, application
 
 | Where | Link | Notes |
 |---|---|---|
-| Latest preview (Next.js rebuild, 29 Oct 2026, commit `b2cc915`) | https://southern-food-basket-next-ccic4vsin-greggs-projects-fbe529a0.vercel.app | Opens only after you sign in to Vercel. |
+| Latest preview (Next.js rebuild, 29 Oct 2026, commit `e0d4277`) | https://southern-food-basket-next-1jmgli1ol-greggs-projects-fbe529a0.vercel.app | Opens only after you sign in to Vercel. |
 | Your machine | In the `next-rebuild` worktree run `npm run dev -- --port 4176`, then open http://localhost:4176 | Same site; fastest for showing it. |
-| Public link | https://southern-food-basket.vercel.app | The older static version you deploy yourself. It has none of the 29 Oct work. |
+| Public link | https://southern-food-basket.vercel.app | The static version you deploy yourself. Since your 29 Oct deploy it has "See all times", the Ria Seecharan rename and the dropped Instagram fact, but none of the overnight rebuild work. |
 
 **Sharing:** the public link may go to the business. Keep the site off trinovata.com/work and social media until they
 agree: it uses their photos and logo without permission.
