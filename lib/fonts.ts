@@ -1,4 +1,4 @@
-import { Alfa_Slab_One, Atkinson_Hyperlegible_Next, Caprasimo } from "next/font/google";
+import { Alfa_Slab_One, Archivo, Atkinson_Hyperlegible_Next, Caprasimo } from "next/font/google";
 
 // DESIGN.md: Caprasimo for display, Atkinson Hyperlegible Next for everything you read, Alfa Slab One for prices only.
 // The variables feed --display, --ui and --price (--slab on the home) in the ported stylesheets.
@@ -13,5 +13,8 @@ const atkinson = Atkinson_Hyperlegible_Next({
   fallback: ["Atkinson Hyperlegible", "system-ui", "-apple-system", "Segoe UI", "sans-serif"],
 });
 const alfa = Alfa_Slab_One({ weight: "400", subsets: ["latin"], display: "swap", variable: "--font-alfa" });
+// Trinovata's Label face, for the home footer's credit only (its brand book: Archivo 600 13 px). Not preloaded: no other
+// page uses it, and a 13 px footer line can wait for it.
+const archivo = Archivo({ weight: "600", subsets: ["latin"], display: "swap", variable: "--font-archivo", preload: false });
 
-export const fontVars = `${caprasimo.variable} ${atkinson.variable} ${alfa.variable}`;
+export const fontVars = `${caprasimo.variable} ${atkinson.variable} ${alfa.variable} ${archivo.variable}`;

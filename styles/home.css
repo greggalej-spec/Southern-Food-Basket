@@ -247,7 +247,7 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 /* Trinovata credit, per its brand book: the on-dark mark at its 16 px minimum with 8 px clear space on every side,
    the words in its Label style (Archivo 600 13 px, 0.12em, uppercase). No scrim or rounded box on a solid footer. */
 .ge-root .footer .credit{ display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-block: 8px; color: #F2F0EB; text-decoration: none;
-  font: 600 13px/1.2 'Archivo', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+  font: 600 13px/1.2 var(--font-archivo, 'Archivo'), 'Helvetica Neue', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
 .ge-root .credit img{ width: auto; height: 16px; flex: none; }
 .ge-root .credit:hover span, .ge-root .credit:focus-visible span{ text-decoration: underline; text-underline-offset: 3px; }
 
