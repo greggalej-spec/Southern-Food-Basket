@@ -88,7 +88,7 @@
     el.innerHTML =
       '<a class="skip-link" href="#main">Skip to content</a>' +
       '<div class="utility"><div class="container">' +
-      '<p>' + icon('clock') + (hrs ? '<span>Open today <strong>' + esc(hrs) + '</strong></span>' : '<span>See store hours</span>') + (first && first.phone ? '<a class="utility-phone" href="' + telHref(first.phone) + '">' + esc(first.phone) + '</a>' : '') + '</p>' +
+      '<p>' + icon('clock') + (hrs ? '<span>Open today <strong>' + esc(hrs) + '</strong></span><a class="utility-all" href="' + href('locations.html') + '">See all times</a>' : '<span>See store hours</span>') + (first && first.phone ? '<a class="utility-phone" href="' + telHref(first.phone) + '">' + esc(first.phone) + '</a>' : '') + '</p>' +
       '<nav class="utility-links" aria-label="Quick links"><a href="' + href('locations.html') + '">' + esc(count ? count + ' store locations' : 'Store locations') + '</a><a href="' + href('careers/index.html') + '">Careers</a><a href="' + href('portal/index.html') + '">Staff portal</a></nav>' +
       '</div></div>' +
       '<div class="masthead"><div class="container">' +

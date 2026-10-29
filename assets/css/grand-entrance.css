@@ -205,6 +205,16 @@ main:focus { outline: none; }
 .store .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: auto; padding-top: 14px; }
 .store .actions .btn { min-height: 46px; padding: 0 18px; font-size: 1rem; }
 .open-now { display: inline-block; font: 800 .75rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; background: #E3F2E6; color: var(--green); padding: 5px 8px; border-radius: 6px; margin-left: 4px; }
+/* "See all times": the week's rows open in place under today's (native <details>) */
+.store .store-week { margin: -8px 0 6px 30px; }
+.store .store-week summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; cursor: pointer; list-style: none; font: 700 1rem/1.2 var(--ui); color: var(--green); text-decoration: underline; text-underline-offset: 3px; }
+.store .store-week summary::-webkit-details-marker { display: none; }
+.store .store-week summary::after { content: ""; width: 7px; height: 7px; border: solid currentColor; border-width: 0 2px 2px 0; transform: translateY(-2px) rotate(45deg); transition: transform .2s ease; }
+.store .store-week[open] summary::after { transform: translateY(2px) rotate(-135deg); }
+.store .store-week dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; margin: 0 0 4px; font-size: 1.0625rem; font-variant-numeric: tabular-nums; }
+.store .store-week dl div { display: contents; }
+.store .store-week dt { font-weight: 700; }
+.store .store-week dd { margin: 0; }
 
 /* careers with an arched window photo */
 .band-careers { background: var(--cream); }
@@ -362,6 +372,6 @@ main:focus { outline: none; }
   .js .intro { height: 100vh; height: 100svh; }
   .storefront .flag .cloth, .cue svg, .topbar { animation: none !important; }
   .topbar, .brand, .topnav .ink, .menu-btn .bars::before, .menu-btn .bars::after, .mobile-menu, .mobile-menu a, .skip-pill { transition: none !important; }
-  .car-dot::before, .dc-go svg, .social-links a { transition: none; }
+  .car-dot::before, .dc-go svg, .social-links a, .store .store-week summary::after { transition: none; }
   .dc:hover .dc-go svg { transform: none; }
 }

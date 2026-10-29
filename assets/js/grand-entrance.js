@@ -190,6 +190,8 @@
   };
   $('#store-grid').innerHTML = (D.branches || []).map(b => '<article class="store" id="store-' + esc(b.id) + '"><div class="cap" aria-hidden="true"></div><h3>' + esc(b.name) + '</h3><address>' + esc(b.address) + '</address>' +
     '<p class="row-i">' + ICON.clock + '<span>Today ' + esc(today(b)) + (openNow(b) ? ' <span class="open-now">Open now</span>' : '') + '</span></p>' +
+    '<details class="store-week"><summary>See all times<span class="visually-hidden"> for ' + esc(b.name) + '</span></summary><dl>' +
+    (b.hours || []).map(r => '<div><dt>' + esc(r[0]) + '</dt><dd>' + esc(r[1]) + '</dd></div>').join('') + '</dl></details>' +
     (b.phone ? '<p class="row-i">' + ICON.phone + '<a href="' + esc(tel(b.phone)) + '">' + esc(b.phone) + '</a></p>' : '') +
     '<div class="actions"><a class="btn btn-sign" href="' + esc(mapsDir(b)) + '" target="_blank" rel="noopener">Directions<span class="visually-hidden"> to ' + esc(b.name) + ' on Google Maps, opens in a new tab</span></a></div></article>').join('');
 

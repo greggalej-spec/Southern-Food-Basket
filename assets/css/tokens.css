@@ -300,5 +300,14 @@ dialog.sfb-dialog .dialog-actions { display: flex; gap: var(--s3); justify-conte
   body { background: #fff; }
 }
 .utility-phone { white-space: nowrap; }
-.utility-phone::before { content: "·"; margin-right: 8px; color: #A9C2AF; }
+.utility-phone::before, .utility-all::before { content: "·"; margin-right: 8px; color: #A9C2AF; }
+.utility-all { white-space: nowrap; }
+@media (max-width: 639px) {
+  /* phones: "See all times" (and the phone number, where it shows) start a second line, so no line opens with a dot */
+  .utility p { row-gap: 2px; padding-block: 6px; }
+  .utility p::after { content: ""; flex-basis: 100%; order: 1; }
+  .utility-all { order: 2; margin-left: 26px; }
+  .utility-all::before { content: none; }
+  .utility-phone { order: 3; }
+}
 @media (max-width: 420px) { .utility-phone { display: none; } }
