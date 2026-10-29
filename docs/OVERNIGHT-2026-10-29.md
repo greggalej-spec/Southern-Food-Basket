@@ -46,7 +46,7 @@ The brief's advice: offer rungs 1 and 2 first, then phase in 3 and 4. As a mock 
 
 1. **Pricing code is unmerged.** `menu.mjs`, `quote.mjs` and the active rate card sit on Trinovata-Docs branch `worktree-pricing` (86adb77). Merge it, or record it as canonical, before a quote cites it. Its `buildPhasedQuote()` puts repeated items all in the first phase; fix that before a phased quote.
 2. **The PRD's "Confirmed" decisions.** DEC-001 to 017 cite a "Website design feedback session", but there is no client record. Who was that session with?
-3. **"Ria Mohammed".** The demo store admin shares the owners' family surname (Nazim Mohammed). I'd rename her before the owners see it. I left it alone because she is in the seed, the sign-in cards, the tour and the tests.
+3. **Done, at your yes: the demo store admin is now "Ria Seecharan".** She had shared the owners' family surname. The rename covers both branches: the rebuild and the static site on `concept-v1`. Her brother, the emergency contact, is now Vikash Seecharan. The seed version went up (rebuild 9, static 7), so any browser that already ran the demo drops its old copy. The public link updates only when you deploy `concept-v1`.
 4. **Media permission.** Still none on record. The brief's first contact step is gentle, given the bereavement, and leads with careers.
 
 ## On purpose, not bugs

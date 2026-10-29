@@ -70,7 +70,7 @@ cannot see. To jump straight in, add `?as=` to the address.
 | Applicant | Aaliyah Persad, applying for Checkout Associate, San Fernando | `/portal?as=applicant` | Her own application and documents | Anything else |
 | Employee | Keisha Ramlogan, Checkout Supervisor, San Fernando | `/portal?as=employee` | Her shifts, leave and pay; checking codes at her till | Other people's records; other stores' codes |
 | HR | Devon Baptiste, HR Manager, Princes Town | `/portal?as=hr` | Applications, jobs, staff documents, staff updates | The mailing list, promotions |
-| Store admin | Ria Mohammed, Store Operations Lead, head office | `/portal?as=admin` | Specials, store hours, notices, staff updates, code redemptions | Applicants, promotions, the mailing list |
+| Store admin | Ria Seecharan, Store Operations Lead, head office | `/portal?as=admin` | Specials, store hours, notices, staff updates, code redemptions | Applicants, promotions, the mailing list |
 | Marketing | Tricia Baboolal, Marketing Coordinator, head office | `/portal?as=marketing` | Drafting offers and newsletters; the list with addresses hidden | Approving any offer; full addresses; export; applicants |
 | Owner's office | Vishala Rampersad, Operations Director, head office | `/portal?as=owner` | Approving offers, staff access, audit log, full list and export, everything in the office console | Applicant and staff files, unless given a separate HR grant |
 

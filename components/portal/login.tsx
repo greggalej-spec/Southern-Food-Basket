@@ -22,7 +22,7 @@ const ROLE_CARDS: RoleCard[] = [
   { role: "applicant", user: "app-aaliyah", icon: "file", who: "Aaliyah Persad · applying for Checkout Associate, San Fernando", can: "Her own application and documents." },
   { role: "employee", user: "emp-keisha", icon: "user", who: "Keisha Ramlogan · Checkout Supervisor, San Fernando", can: "Her shifts, leave and pay, and checking members’ codes at her till." },
   { role: "hr", user: "emp-devon", icon: "shield", who: "Devon Baptiste · HR Manager, Princes Town", can: "Applications, jobs and staff documents. Not the mailing list." },
-  { role: "admin", user: "emp-ria", icon: "store", who: "Ria Mohammed · Store Operations Lead, head office", can: "Specials, store hours and notices. Not applicants or the list." },
+  { role: "admin", user: "emp-ria", icon: "store", who: "Ria Seecharan · Store Operations Lead, head office", can: "Specials, store hours and notices. Not applicants or the list." },
   { role: "marketing", user: "emp-tricia", icon: "tag", who: "Tricia Baboolal · Marketing Coordinator, head office", can: "Drafts offers and newsletters; cannot approve her own offers." },
   { role: "owner", user: "emp-vishala", icon: "grid", who: "Vishala Rampersad · Operations Director, head office", can: "Approves offers, manages staff access, reads the audit log." },
 ];
