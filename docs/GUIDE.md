@@ -22,9 +22,8 @@ agree: it uses their photos and logo without permission.
 
 ## A five-minute demo
 
-1. **Home.** Scroll through the Grand Entrance. Under Departments, flip the layout switch: *Tiles*, *Big photos*,
-   *Shop windows*, *Side by side*. The star button in the bottom corner switches between the main design and options
-   A, B and C. Drag it to either corner.
+1. **Home.** Scroll through the Grand Entrance: the arrival at the store front, this week's specials, the
+   departments, the five stores and careers. Each band links to its own page.
 2. **Specials.** Filter by department. **Locations:** jump to a store for its hours, phone and directions.
 3. **Careers.** Open a job, then press **Apply**: *Account → Personal → Experience → Documents → Review*. In Documents,
    pick any image or PDF as the photo ID. You see a preview, but only the file name, size and type are kept.
@@ -59,7 +58,7 @@ of that menu.
 
 | Page | What to show |
 |---|---|
-| Home `/` | The core of everything below, with a link from each band to its page. `?depts=photos` (or `tiles`, `bays`, `compare`) opens with that department layout. |
+| Home `/` | The core of everything below, with a link from each band to its page. |
 | Specials `/specials` | This week's deals with prices from Instagram; filter by department. |
 | Departments `/departments` | Each department with its specials, plus the six counters: bakery, restaurant, fresh produce, butcher, household and pharmacy. |
 | Wholesale `/wholesale` | Supply by the bag, case or pallet, and a trade-account enquiry form (demo; it sends nothing). |

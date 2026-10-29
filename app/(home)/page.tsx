@@ -119,34 +119,21 @@ const SLIDES = [
 // Newest first, as the old script sorted them (its comparator never returns 0; kept so ties land in the same order).
 const DEALS = D.specials.slice().sort((a, b) => (a.posted < b.posted ? 1 : -1)).slice(0, 12);
 
-/* ---------- departments: one set of cards, three ways to lay them out ---------- */
+/* ---------- departments: a coloured tile each, the quickest layout to scan on a phone ---------- */
 const TILE: Record<string, string> = { fresh: "#1D6B35", bakery: "#C81A35", chilled: "#1C6863", snacks: "#B8195A", health: "#123F22", care: "#164F4B" };
-const LAYOUTS = {
-  tiles: ["Tiles", "Coloured tiles with a small photo. The quickest to scan on a phone."],
-  photos: ["Big photos", "A large photo over each name. Shows the food best, takes more scrolling."],
-  bays: ["Shop windows", "Photos framed like the store’s glass panes, with the name on a label."],
-} as const;
 const DEPTS = D.departments.filter((x) => x.id !== "wholesale");
 const countOf = (id: string) => D.specials.filter((s) => s.dept === id).length;
 
-function DeptCard({ x, named }: { x: Department; named: boolean }) {
+function DeptCard({ x }: { x: Department }) {
   const n = countOf(x.id);
   return (
-    <a
-      className="dc"
-      href={"/departments#" + x.id}
-      style={{ ...vars({ "--tile": TILE[x.id] || "#1D6B35" }), viewTransitionName: named ? "dc-" + x.id : undefined }}
-    >
+    <a className="dc" href={"/departments#" + x.id} style={vars({ "--tile": TILE[x.id] || "#1D6B35" })}>
       <span className="dc-photo">
         <img src={x.img} alt="" width="800" height="600" loading="lazy" />
       </span>
-      <span className="dc-text">
-        <strong className="dc-name">{x.name}</strong>
-        <span className="dc-blurb">{x.blurb}</span>
-      </span>
+      <strong className="dc-name">{x.name}</strong>
       <span className="dc-go">
-        <span className="dc-more">See the department</span>
-        {n ? <span className="dc-count">{n + (n === 1 ? " special" : " specials")}</span> : null}
+        {n ?<span className="dc-count">{n + (n === 1 ? " special" : " specials")}</span> : null}
         {NEXT}
       </span>
     </a>
@@ -478,46 +465,10 @@ export default function HomePage() {
                   <Words text="Everything under one glass roof" />
                 </h2>
               </div>
-              <fieldset className="layout-switch" id="layout-switch">
-                <legend>
-                  <span className="concept-tag">Concept</span> Choose how departments look
-                </legend>
-                <div className="seg">
-                  {(
-                    [
-                      ["tiles", "Tiles"],
-                      ["photos", "Big photos"],
-                      ["bays", "Shop windows"],
-                      ["compare", "Side by side"],
-                    ] as const
-                  ).map(([v, label]) => (
-                    <label key={v}>
-                      <input type="radio" name="dept-layout" value={v} defaultChecked={v === "tiles"} />
-                      <span>{label}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
             </div>
-            <div className="dept" id="dept" data-layout="tiles">
+            <div className="dept" id="dept">
               {DEPTS.map((x) => (
-                <DeptCard key={x.id} x={x} named />
-              ))}
-            </div>
-            <div className="dept-compare" id="dept-compare" hidden>
-              {(Object.keys(LAYOUTS) as (keyof typeof LAYOUTS)[]).map((k) => (
-                <section key={k} className="cmp" aria-labelledby={"cmp-" + k}>
-                  <h3 id={"cmp-" + k}>{LAYOUTS[k][0]}</h3>
-                  <p>{LAYOUTS[k][1]}</p>
-                  <div className="dept mini" data-layout={k} aria-hidden="true" inert>
-                    {DEPTS.slice(0, k === "tiles" ? 6 : 4).map((x) => (
-                      <DeptCard key={x.id} x={x} named={false} />
-                    ))}
-                  </div>
-                  <button className="btn btn-outline" type="button" data-use={k}>
-                    {"Use " + LAYOUTS[k][0].toLowerCase()}
-                  </button>
-                </section>
+                <DeptCard key={x.id} x={x} />
               ))}
             </div>
             <ul className="counters" id="counters" aria-label="In our stores">
@@ -636,6 +587,11 @@ export default function HomePage() {
           <p>
             Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Store hours and phone numbers come from Google Maps; prices and photos from the company&apos;s public Instagram. The opening animation is an illustration.
           </p>
+          <a className="credit" href="https://trinovata.com" target="_blank" rel="noopener">
+            <img src="/assets/img/trinovata-mark-ondark.png" alt="" width="19" height="16" decoding="async" />
+            <span>Created by Trinovata Technologies</span>
+            <span className="visually-hidden"> (opens trinovata.com)</span>
+          </a>
         </div>
       </footer>
 

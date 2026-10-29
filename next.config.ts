@@ -22,9 +22,8 @@ const OLD_PAGES = [
   // A role page without a usable ?id= goes to the list, as careers.js did when the id matched no job.
   ["/careers/job.html", "/careers"],
   ["/careers/apply.html", "/careers"],
-  // public/ serves files, not folders, so the design options are reached by their index.html.
-  ["/options", "/options/index.html"],
-  ["/options/:id(a|b|c)", "/options/:id/index.html"],
+  // The three alternative home designs are retired; their old links land on the one home.
+  ["/options/:path*", "/"],
 ];
 
 const nextConfig: NextConfig = {

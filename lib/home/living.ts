@@ -495,7 +495,7 @@ export function startLiving(stage: Stage | null): () => void {
   });
   // headlines rise word by word out of a mask (page.tsx renders the masks; screen readers get the sentence once)
   mark($$("main h2, .social-band h2").filter((h) => h.querySelector(".wm")), "rv-words");
-  mark($$(".section-head > div > :not(h2), .section-head > fieldset, .careers .lede, .why li, .careers .row, .counters li, .who-card, .store, #dept .dc, .cmp, .social > *"), "rv");
+  mark($$(".section-head > div > :not(h2), .careers .lede, .why li, .careers .row, .counters li, .who-card, .store, #dept .dc, .social > *"), "rv");
   mark($$(".deal"), "rv");
   mark($$(".arch-photo"), "rv-wipe");
   mark($$(".ribbon"), "rv-draw");

@@ -15,7 +15,7 @@
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 .ge-root{ margin: 0; background: var(--cream); color: var(--ink); font: 400 1.125rem/1.6 var(--ui); -webkit-font-smoothing: antialiased; font-synthesis-weight: none; }
 .ge-root img, .ge-root svg{ display: block; max-width: 100%; }
-/* :where() keeps this at the static sheet's specificity, so the Trinovata credit's own colour (options-nav.css) still wins. */
+/* :where() keeps this at the static sheet's specificity, so section rules (the footer, the credit) win without extra weight. */
 :where(.ge-root) a{ color: var(--green); text-underline-offset: 3px; }
 .ge-root h1, .ge-root h2, .ge-root h3{ font-family: var(--display); font-weight: 400; line-height: 1.08; margin: 0 0 14px; text-wrap: balance; }
 .ge-root h2{ font-size: clamp(2rem, 1.4rem + 2.2vw, 3rem); }
@@ -172,84 +172,22 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .deal-meta{ font-size: .9375rem; color: var(--muted); margin: 0; }
 .ge-root .visually-hidden{ position: absolute !important; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* departments: one set of cards (.dc) dressed three ways by data-layout, plus a side-by-side view (DEC-002) */
+/* departments: a coloured tile per department, the quickest layout to scan on a phone */
 .ge-root .band-aisles{ background: var(--paper); }
-.ge-root .layout-switch{ border: 0; margin: 0; padding: 0; min-width: 0; }
-.ge-root .layout-switch legend{ display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 8px; font: 700 .9375rem/1.3 var(--ui); color: var(--muted); }
-.ge-root .concept-tag{ font: 800 .6875rem/1 var(--ui); letter-spacing: .1em; text-transform: uppercase; background: var(--yellow); color: var(--ink); padding: 5px 7px; border-radius: 6px; }
-.ge-root .seg{ display: inline-grid; grid-auto-flow: column; gap: 4px; padding: 4px; border-radius: 14px; background: #EFE7D6; }
-@media (max-width: 560px) { .ge-root .layout-switch, .ge-root .seg{ width: 100%; } .ge-root .seg{ grid-auto-flow: row; grid-template-columns: 1fr 1fr; } }
-.ge-root .seg label{ position: relative; display: grid; }
-.ge-root .seg input{ position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-.ge-root .seg span{ display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: 10px; font: 700 1rem/1.15 var(--ui); color: var(--ink); text-align: center; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
-.ge-root .seg label:hover span{ color: var(--green); }
-.ge-root .seg input:checked + span{ background: var(--paper); color: var(--green); box-shadow: 0 1px 2px rgba(42,26,31,.14), 0 6px 14px -8px rgba(42,26,31,.4); }
-.ge-root .seg input:focus-visible + span{ outline: 3px solid var(--pink-ink); outline-offset: 2px; }
-
-.ge-root .dept{ display: grid; gap: 16px; }
-.ge-root .dept[hidden], .ge-root .dept-compare[hidden]{ display: none; }
-.ge-root .dc{ position: relative; display: grid; align-content: start; border-radius: 18px; overflow: hidden; color: var(--ink); text-decoration: none; }
+/* six departments: 2, 3 or 6 to a row, so no row is left with a single tile */
+.ge-root .dept{ display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 640px) { .ge-root .dept{ grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .ge-root .dept{ grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.ge-root .dc{ position: relative; display: grid; grid-template-rows: auto 1fr auto; align-content: start; gap: 12px; min-height: 184px; padding: 16px 16px 14px;
+  border-radius: 18px; overflow: hidden; background: var(--tile); color: #fff; text-decoration: none; box-shadow: var(--shadow); }
 .ge-root .dept .dc:focus-visible{ outline: 3px solid var(--pink-ink); outline-offset: 3px; }
-.ge-root .dc-photo{ display: block; overflow: hidden; background: var(--facade); }
+.ge-root .dc-photo{ display: block; width: 64px; height: 64px; overflow: hidden; border-radius: 50%; border: 3px solid rgba(255,255,255,.9); background: var(--facade); }
 .ge-root .dc-photo img{ width: 100%; height: 100%; object-fit: cover; }
-.ge-root .dc-text{ display: grid; gap: 4px; }
 .ge-root .dc-name{ font: 400 1.375rem/1.15 var(--display); hyphens: auto; }
-.ge-root .dc-blurb{ font-size: .9375rem; line-height: 1.45; color: var(--muted); }
-.ge-root .dc-go{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 800 .9375rem/1.2 var(--ui); color: var(--green); }
+.ge-root .dc-go{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 800 .9375rem/1.2 var(--ui); color: #fff; }
 .ge-root .dc-go svg{ width: 20px; height: 20px; margin-left: auto; transition: transform .25s cubic-bezier(.22,1,.36,1); }
 .ge-root .dc:hover .dc-go svg{ transform: translateX(3px); }
-.ge-root .dc-count{ font: 800 .75rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; background: #FBE4EC; color: var(--pink-ink); padding: 6px 8px; border-radius: 6px; }
-
-/* tiles: a coloured tile per department, quickest to scan on a phone */
-.ge-root .dept[data-layout="tiles"]{ grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
-.ge-root [data-layout="tiles"] .dc{ background: var(--tile); color: #fff; padding: 16px 16px 14px; min-height: 184px; grid-template-rows: auto 1fr auto; gap: 12px; box-shadow: var(--shadow); }
-.ge-root [data-layout="tiles"] .dc-photo{ width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255,255,255,.9); }
-.ge-root [data-layout="tiles"] .dc-blurb, .ge-root [data-layout="tiles"] .dc-more{ display: none; }
-.ge-root [data-layout="tiles"] .dc-go{ color: #fff; }
-.ge-root [data-layout="tiles"] .dc-count{ background: rgba(18,8,12,.28); color: #fff; }
-/* big photos: the food first, the name and a line under it */
-.ge-root .dept[data-layout="photos"]{ grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 22px; }
-.ge-root [data-layout="photos"] .dc{ background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); }
-.ge-root [data-layout="photos"] .dc-photo{ aspect-ratio: 4 / 3; }
-.ge-root [data-layout="photos"] .dc-photo img{ transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-.ge-root [data-layout="photos"] .dc:hover .dc-photo img{ transform: scale(1.04); }
-.ge-root [data-layout="photos"] .dc-text{ padding: 16px 18px 8px; }
-.ge-root [data-layout="photos"] .dc-go{ padding: 6px 18px 18px; }
-/* shop windows: the photo in a pane of the store's glass, the name on a shelf label */
-.ge-root .dept[data-layout="bays"]{ grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
-.ge-root [data-layout="bays"] .dc{ background: var(--teal-light); border: 7px solid #F7F3EA; box-shadow: 0 0 0 2px #CFC4AC, var(--shadow); }
-.ge-root [data-layout="bays"] .dc > *{ grid-area: 1 / 1; }
-.ge-root [data-layout="bays"] .dc-photo{ aspect-ratio: 4 / 3; }
-.ge-root [data-layout="bays"] .dc::after{ content: ""; grid-area: 1 / 1; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.28) 48%, rgba(255,255,255,0) 56%); }
-.ge-root [data-layout="bays"] .dc-text{ z-index: 1; align-self: end; margin: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(255,253,250,.96); }
-.ge-root [data-layout="bays"] .dc-go{ z-index: 1; align-self: start; justify-self: end; margin: 10px; }
-.ge-root [data-layout="bays"] .dc-more, .ge-root [data-layout="bays"] .dc-go svg{ display: none; }
-.ge-root [data-layout="bays"] .dc-count{ background: var(--paper); }
-
-/* side by side: the three layouts in miniature, each with a button to use it */
-.ge-root .dept-compare{ display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
-.ge-root .cmp{ display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: 20px; background: var(--cream); border: 1px solid var(--line); }
-.ge-root .cmp h3{ font-size: 1.5rem; margin: 0; }
-.ge-root .cmp p{ margin: 0; font-size: 1rem; color: var(--muted); }
-.ge-root .cmp .btn{ margin-top: auto; align-self: flex-start; }
-.ge-root .dept.mini{ gap: 8px; pointer-events: none; margin-bottom: 4px; }
-.ge-root .mini .dc{ border-radius: 12px; box-shadow: none; }
-.ge-root .mini .dc-name{ font-size: .9375rem; }
-.ge-root .mini .dc-blurb, .ge-root .mini .dc-more, .ge-root .mini .dc-go{ display: none; }
-.ge-root .dept.mini[data-layout="tiles"]{ grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); }
-.ge-root .mini[data-layout="tiles"] .dc{ min-height: 96px; padding: 10px; gap: 8px; grid-template-rows: auto 1fr; }
-.ge-root .mini[data-layout="tiles"] .dc-photo{ width: 34px; height: 34px; border-width: 2px; }
-.ge-root .dept.mini[data-layout="photos"], .ge-root .dept.mini[data-layout="bays"]{ grid-template-columns: 1fr 1fr; }
-.ge-root .mini[data-layout="photos"] .dc-text{ padding: 8px 10px 10px; }
-.ge-root .mini[data-layout="bays"] .dc{ border-width: 4px; box-shadow: 0 0 0 1px #CFC4AC; }
-.ge-root .mini[data-layout="bays"] .dc-text{ margin: 6px; padding: 6px 8px; border-radius: 8px; }
-
-/* the layout switch morphs the cards in place; the options dock's page bloom stays out of it */
-:root.vt-dept.vt-dept::view-transition-old(root) { animation: dl-out .22s ease both; }
-:root.vt-dept.vt-dept::view-transition-new(root) { animation: dl-in .32s ease both; }
-:root.vt-dept::view-transition-group(*) { animation-duration: .5s; animation-timing-function: cubic-bezier(.22,1,.36,1); }
-@keyframes dl-out { to { opacity: 0; } }
-@keyframes dl-in { from { opacity: 0; } }
+.ge-root .dc-count{ font: 800 .75rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; background: rgba(18,8,12,.28); color: #fff; padding: 6px 8px; border-radius: 6px; }
 .ge-root .counters{ list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
 .ge-root .counters li{ display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: #EAF5F3; color: var(--teal-deep); font: 700 1rem var(--ui); }
 .ge-root .counters li::before{ content: ""; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), #C99A35); }
@@ -297,7 +235,15 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .footer h3{ font: 800 .875rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: #fff; }
 .ge-root .footer ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .ge-root .footer a{ color: #F3EBDD; }
-.ge-root .legal{ border-top: 1px solid rgba(255,255,255,.15); padding-block: 20px 72px; font-size: .9375rem; color: #CFC6B7; }
+.ge-root .legal{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 32px; border-top: 1px solid rgba(255,255,255,.15);
+  padding-block: 20px 28px; font-size: .9375rem; color: #CFC6B7; }
+.ge-root .legal p{ margin: 0; max-width: 72ch; }
+/* Trinovata credit, per its brand book: the on-dark mark at its 16 px minimum with 8 px clear space on every side,
+   the words in its Label style (Archivo 600 13 px, 0.12em, uppercase). No scrim or rounded box on a solid footer. */
+.ge-root .footer .credit{ display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-block: 8px; color: #F2F0EB; text-decoration: none;
+  font: 600 13px/1.2 'Archivo', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.ge-root .credit img{ width: auto; height: 16px; flex: none; }
+.ge-root .credit:hover span, .ge-root .credit:focus-visible span{ text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- the living storefront (living.js) ---------- */
 .ge-root .storefront .flag.lv-cloth .cloth{ display: none; }  /* the cloth simulation replaces the flat flag */
@@ -421,6 +367,6 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
   .js .ge-root .intro{ height: 100vh; height: 100svh; }
   .ge-root .storefront .flag .cloth, .ge-root .cue svg, .ge-root .topbar{ animation: none !important; }
   .ge-root .topbar, .ge-root .brand, .ge-root .topnav .ink, .ge-root .menu-btn .bars::before, .ge-root .menu-btn .bars::after, .ge-root .mobile-menu, .ge-root .mobile-menu a, .ge-root .skip-pill{ transition: none !important; }
-  .ge-root .seg span, .ge-root .car-dot::before, .ge-root .dc-go svg, .ge-root [data-layout="photos"] .dc-photo img, .ge-root .social-links a{ transition: none; }
-  .ge-root .dc:hover .dc-go svg, .ge-root [data-layout="photos"] .dc:hover .dc-photo img{ transform: none; }
+  .ge-root .car-dot::before, .ge-root .dc-go svg, .ge-root .social-links a{ transition: none; }
+  .ge-root .dc:hover .dc-go svg{ transform: none; }
 }

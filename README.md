@@ -17,7 +17,6 @@ This branch (`next-rebuild`) is the same site ported to Next.js 16, Tailwind 4 a
 | HR console | `/hr` | pipeline board, document review (verify / flag), roles, employee compliance |
 | Store admin | `/admin` | specials, Instagram post maker, store hours, staff notices, publish |
 | Employee portal | `/portal` (demo login), `/portal/home`, `schedule`, `leave`, `pay`, `docs`, `profile` | demo roles: Applicant, Employee, HR, Store admin |
-| Design options | `/options/index.html`, `/options/a/`, `b/`, `c/` | the three earlier home designs, static, in `public/options/` |
 
 No backend. State lives in `localStorage` through `lib/store.ts` (seed in `lib/seed.ts`); "Reset demo" in any footer
 clears it. KYC "uploads" are previewed in the browser only; the store keeps file name, size, type and dates, never

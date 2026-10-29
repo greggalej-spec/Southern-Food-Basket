@@ -14,8 +14,6 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // The CommonJS scripts behind `npm run scene`, which write app/(home)/scene.ts.
     "tools/grand-entrance/**",
-    // Plain script served as-is from public/, shared with the option pages.
-    "public/assets/options-nav/**",
   ]),
   {
     rules: {

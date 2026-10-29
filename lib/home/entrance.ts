@@ -3,7 +3,7 @@
 //   1) the arrival: scroll drives a camera from an aerial, tilted wide shot of the store front down to the front door;
 //      the sliding doors open and the crew in red steps forward waving; the welcome card fades in
 //   2) the top bar: mobile menu, the ink pill that follows the pointer, the section spy
-//   3) the specials shelf buttons, the department layouts and the highlights carousel
+//   3) the specials shelf buttons and the highlights carousel
 // The physics layer is living.ts. startEntrance() returns a stop() that removes every listener, frame, timer and
 // observer it started.
 
@@ -15,8 +15,6 @@ const $ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document)
 const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document) => [...r.querySelectorAll<T>(s)];
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
-
-const LAYOUTS = ["tiles", "photos", "bays"];
 
 export function startEntrance(): { stage: Stage | null; stop: () => void } {
   const ac = new AbortController(), signal = ac.signal, passive = { passive: true, signal };
@@ -167,57 +165,6 @@ export function startEntrance(): { stage: Stage | null; stop: () => void } {
   $$("[data-shelf]").forEach((b) => b.addEventListener("click", () => {
     shelf?.scrollBy({ left: Number(b.getAttribute("data-shelf")) * shelf.clientWidth * 0.8, behavior: reduce.matches ? "auto" : "smooth" });
   }, { signal }));
-
-  // departments: one set of cards, three ways to lay them out, so the business can compare them in place
-  const deptEl = $("#dept"), cmpEl = $("#dept-compare"), layoutSw = $("#layout-switch");
-  if (deptEl && cmpEl && layoutSw) {
-    const KEY = "sfb-dept-layout", valid = (v: string | null): v is string => v === "compare" || (!!v && LAYOUTS.includes(v));
-    let layout = ((): string => {
-      const fromUrl = new URLSearchParams(location.search).get("depts");
-      if (valid(fromUrl)) return fromUrl;
-      try {
-        const kept = localStorage.getItem(KEY);
-        if (valid(kept)) return kept;
-      } catch { /* storage blocked: fall through */ }
-      return "tiles";
-    })();
-    const apply = (v: string) => {
-      const cmp = v === "compare";
-      cmpEl.hidden = !cmp;
-      deptEl.hidden = cmp;
-      if (!cmp) deptEl.setAttribute("data-layout", v);
-      $$<HTMLInputElement>("input", layoutSw).forEach((i) => { i.checked = i.value === v; });
-    };
-    const setLayout = (v: string) => {
-      if (!valid(v) || v === layout) return;
-      layout = v;
-      try { localStorage.setItem(KEY, v); } catch { /* private mode: the choice just isn't remembered */ }
-      try {
-        const u = new URL(location.href);
-        u.searchParams.set("depts", v);
-        history.replaceState(history.state, "", u);
-      } catch { /* not a normal URL */ }
-      if (document.startViewTransition && !reduce.matches) {
-        const root = document.documentElement;
-        root.classList.add("vt-dept"); // the cards morph; the page-to-page bloom stays out of it
-        const vt = document.startViewTransition(() => apply(v));
-        vt.ready.catch(() => {}); // a quick second switch skips this one; that is not an error
-        vt.finished.finally(() => root.classList.remove("vt-dept"));
-      } else apply(v);
-    };
-    apply(layout);
-    layoutSw.addEventListener("change", (e) => {
-      const t = e.target as HTMLInputElement;
-      if (t.name === "dept-layout") setLayout(t.value);
-    }, { signal });
-    cmpEl.addEventListener("click", (e) => {
-      const b = (e.target as Element).closest("[data-use]");
-      if (!b) return;
-      const v = b.getAttribute("data-use") || "";
-      setLayout(v);
-      $<HTMLInputElement>('input[value="' + v + '"]', layoutSw)?.focus({ preventScroll: true });
-    }, { signal });
-  }
 
   /* ---------- highlights carousel ---------- */
   const car = $("#carousel"), track = car && $(".car-track", car), playBtn = car && $(".car-play", car);
