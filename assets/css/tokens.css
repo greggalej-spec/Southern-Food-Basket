@@ -283,6 +283,8 @@ dialog.sfb-dialog .dialog-actions { display: flex; gap: var(--s3); justify-conte
 .empty p { margin-inline: auto; }
 .skip-link { position: absolute; left: var(--s4); top: -100px; background: var(--ink); color: #fff; padding: 10px 14px; border-radius: var(--r-sm); z-index: 100; }
 .skip-link:focus { top: var(--s4); }
+/* top: -100px alone left it showing inside a tall demo banner (phones); clipped away until it has focus. */
+.skip-link:not(:focus) { clip-path: inset(50%); }
 
 /* picture tiles with graceful fallback */
 .pic { position: relative; overflow: hidden; margin: 0; border-radius: var(--r); background: var(--wash); aspect-ratio: var(--ar, 4 / 3); }
