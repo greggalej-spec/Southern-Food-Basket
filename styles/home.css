@@ -144,6 +144,7 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 /* a band's link to its detail page: a full 44 px target, not just the line of text */
 .ge-root .more{ margin: 24px 0 0; }
 .ge-root .more a:not(.btn){ display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; }
+.ge-root .more-pair{ display: flex; flex-wrap: wrap; column-gap: 32px; }
 .ge-root .note.light{ color: #D5ECE8; }
 .ge-root .lede{ font-size: 1.25rem; color: var(--muted); }
 
@@ -230,11 +231,16 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 
 /* footer */
 .ge-root .footer{ background: var(--leaf); color: #E8E0D4; }
-.ge-root .footer-grid{ display: grid; gap: 32px; padding-block: 48px 24px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+/* four footer columns: 1, 2 or 4 to a row, never three over one */
+.ge-root .footer-grid{ display: grid; gap: 32px; padding-block: 48px 24px; }
+@media (min-width: 560px) { .ge-root .footer-grid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .ge-root .footer-grid{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .ge-root .footer-logo{ height: 70px; width: auto; margin-bottom: 14px; }
 .ge-root .footer h3{ font: 800 .875rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: #fff; }
 .ge-root .footer ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .ge-root .footer a{ color: #F3EBDD; }
+.ge-root .footer-branch{ display: grid; gap: 2px; }
+.ge-root .footer-branch span{ font-size: .9375rem; color: #D6CDBF; }
 .ge-root .legal{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 32px; border-top: 1px solid rgba(255,255,255,.15);
   padding-block: 20px 28px; font-size: .9375rem; color: #CFC6B7; }
 .ge-root .legal p{ margin: 0; max-width: 72ch; }

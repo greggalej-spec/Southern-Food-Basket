@@ -242,7 +242,10 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 /* ---------- site footer: design D's (styles/home.css "footer"), the store front's band over deep green ---------- */
 .site-footer { background: var(--leaf); color: #E8E0D4; margin-top: var(--s8); }
 .site-footer .facade-band { background-color: var(--cream); }
-.site-footer .footer-grid { display: grid; gap: var(--s6); padding-block: var(--s7) var(--s5); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+/* four footer columns: 1, 2 or 4 to a row, never three over one */
+.site-footer .footer-grid { display: grid; gap: var(--s6); padding-block: var(--s7) var(--s5); }
+@media (min-width: 560px) { .site-footer .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .site-footer .footer-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .site-footer h4 { color: #fff; font: 800 0.875rem/1.3 var(--ui); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--s3); }
 .site-footer .brand { display: inline-block; }
 .site-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }

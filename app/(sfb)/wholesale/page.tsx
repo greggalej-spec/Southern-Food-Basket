@@ -61,7 +61,7 @@ export default function WholesalePage() {
         <div className="container narrow">
           <p className="eyebrow">On the record</p>
           <h2 id="record-title">What public records say</h2>
-          <p className="muted">These are the only sourced facts on this site. Everything else here is a concept with demo data, and the records themselves have not been verified with the company.</p>
+          <p className="muted">These are the only sourced facts on this page. The rest of it is demo content, and the records themselves have not been verified with the company.</p>
           <ul className="fact-list" data-wholesale-sourced="">
             <WholesaleSourced />
           </ul>

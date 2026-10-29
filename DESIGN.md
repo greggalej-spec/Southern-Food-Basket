@@ -21,7 +21,7 @@ Record every token change here first.
 | Who `#who` | memorial card, "a family business", the route | `/about` | the same memorial card and route, every store linked, how the stores run, the community, the sourced company record |
 | Departments `#aisles` | tiles and the counters | `/departments` | each department's lines and its recent specials, the wholesale side |
 | Stores `#stores` | address, today's hours, phone, directions | `/locations` | the full week, plus codes, counters, the second Princes Town listing, Google Maps view, the WhatsApp channel |
-| (none) | | `/wholesale` | detail only: product lines, how trade works, the trade enquiry form (demo) |
+| (no band) | a link under the department tiles, plus the top bar and footer | `/wholesale` | product lines, how trade works, the trade enquiry form (demo) |
 
 - New detail must trace to SITE.md's sourced facts or be labelled demo data where it appears.
 

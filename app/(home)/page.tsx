@@ -103,6 +103,7 @@ const NAV = [
   ["#deals", "Specials"],
   ["#stores", "Stores"],
   ["#aisles", "Departments"],
+  ["/wholesale", "Wholesale"],
   ["#who", "About us"],
   ["/portal", "Staff portal"],
 ] as const;
@@ -476,8 +477,9 @@ export default function HomePage() {
                 <li key={s}>{s}</li>
               ))}
             </ul>
-            <p className="more">
+            <p className="more more-pair">
               <Link href="/departments">Every department, with its specials</Link>
+              <Link href="/wholesale">Buying for a business? Wholesale and trade</Link>
             </p>
           </div>
         </section>
@@ -561,25 +563,36 @@ export default function HomePage() {
             <h3>Our stores</h3>
             <ul id="footer-stores">
               {D.branches.map((b) => (
-                <li key={b.id}>
-                  <a href={mapsDir(b)} target="_blank" rel="noopener">
-                    {b.name}
-                  </a>
+                <li className="footer-branch" key={b.id}>
+                  <Link href={"/locations#" + b.id}>{b.name}</Link>
+                  <span>{b.short || b.address}</span>
                 </li>
               ))}
             </ul>
           </div>
+          {/* The same two menus as the inner pages' footer (components/site-footer.tsx). */}
           <div>
-            <h3>Visit</h3>
+            <h3>Shop</h3>
             <ul>
-              <li><Link href="/careers">Careers</Link></li>
-              <li><a href="#deals">Specials</a></li>
-              <li><Link href="/specials">All specials</Link></li>
-              <li><a href="#aisles">Departments</a></li>
-              <li><a href="#stores">Store hours</a></li>
+              <li><Link href="/specials">Specials</Link></li>
+              <li><Link href="/departments">Departments</Link></li>
+              <li><Link href="/wholesale">Wholesale and trade</Link></li>
+              <li><Link href="/locations">Store hours</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Company</h3>
+            <ul>
               <li><Link href="/about">About us</Link></li>
+              <li><Link href="/careers">Careers</Link></li>
               <li><Link href="/portal">Staff portal</Link></li>
-              <li><Link href="/hr">HR console</Link></li>
+              {S.instagram ? (
+                <li>
+                  <a href={S.instagram.url} target="_blank" rel="noopener">
+                    {S.instagram.handle} on Instagram<span className="visually-hidden"> (opens in a new tab)</span>
+                  </a>
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>

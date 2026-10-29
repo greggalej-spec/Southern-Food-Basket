@@ -53,7 +53,6 @@ export function SiteFooter() {
               <li><Link href="/about">About us</Link></li>
               <li><Link href="/careers">Careers</Link></li>
               <li><Link href="/portal">Staff portal</Link></li>
-              <li><Link href="/hr">HR console</Link></li>
               {ig && (
                 <li>
                   <a href={ig.url} target="_blank" rel="noopener">
