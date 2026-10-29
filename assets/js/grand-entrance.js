@@ -163,56 +163,15 @@
     tk.innerHTML = run + run;
   }
 
-  // departments: one set of cards, three ways to lay them out, so the business can compare them in place
+  // departments: a coloured tile each, linking to that department on the departments page
   const TILE = { fresh: '#1D6B35', bakery: '#C81A35', chilled: '#1C6863', snacks: '#B8195A', health: '#123F22', care: '#164F4B' };
-  const LAYOUTS = {
-    tiles: ['Tiles', 'Coloured tiles with a small photo. The quickest to scan on a phone.'],
-    photos: ['Big photos', 'A large photo over each name. Shows the food best, takes more scrolling.'],
-    bays: ['Shop windows', 'Photos framed like the store’s glass panes, with the name on a label.']
-  };
   const depts = (D.departments || []).filter(x => x.id !== 'wholesale');
   const countOf = id => (D.specials || []).filter(s => s.dept === id).length;
-  const card = (x, named) => { const n = countOf(x.id); return '<a class="dc" href="departments.html#' + esc(x.id) + '" style="--tile:' + (TILE[x.id] || '#1D6B35') + (named ? ';view-transition-name:dc-' + esc(x.id) : '') + '">' +
-    '<span class="dc-photo"><img src="' + esc(x.img) + '" alt="" width="800" height="600" loading="lazy"></span>' +
-    '<span class="dc-text"><strong class="dc-name">' + esc(x.name) + '</strong><span class="dc-blurb">' + esc(x.blurb) + '</span></span>' +
-    '<span class="dc-go"><span class="dc-more">See the department</span>' + (n ? '<span class="dc-count">' + n + (n === 1 ? ' special' : ' specials') + '</span>' : '') + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>'; };
-  const deptEl = $('#dept'), cmpEl = $('#dept-compare'), layoutSw = $('#layout-switch');
-  if (deptEl && cmpEl && layoutSw) {
-    deptEl.innerHTML = depts.map(x => card(x, true)).join('');
-    cmpEl.innerHTML = Object.keys(LAYOUTS).map(k => '<section class="cmp" aria-labelledby="cmp-' + k + '"><h3 id="cmp-' + k + '">' + LAYOUTS[k][0] + '</h3><p>' + LAYOUTS[k][1] + '</p>' +
-      '<div class="dept mini" data-layout="' + k + '" aria-hidden="true" inert>' + depts.slice(0, k === 'tiles' ? 6 : 4).map(x => card(x, false)).join('') + '</div>' +
-      '<button class="btn btn-outline" type="button" data-use="' + k + '">Use ' + LAYOUTS[k][0].toLowerCase() + '</button></section>').join('');
-    const KEY = 'sfb-dept-layout', valid = v => v === 'compare' || Object.prototype.hasOwnProperty.call(LAYOUTS, v);
-    let layout = new URLSearchParams(location.search).get('depts');
-    if (!valid(layout)) { try { layout = localStorage.getItem(KEY); } catch (e) { layout = null; } }
-    if (!valid(layout)) layout = 'tiles';
-    const apply = v => {
-      const cmp = v === 'compare';
-      cmpEl.hidden = !cmp; deptEl.hidden = cmp;
-      if (!cmp) deptEl.setAttribute('data-layout', v);
-      $$('input', layoutSw).forEach(i => { i.checked = i.value === v; });
-    };
-    const setLayout = v => {
-      if (!valid(v) || v === layout) return;
-      layout = v;
-      try { localStorage.setItem(KEY, v); } catch (e) { /* private mode: the choice just isn't remembered */ }
-      try { const u = new URL(location.href); u.searchParams.set('depts', v); history.replaceState(history.state, '', u); } catch (e) { /* file:// */ }
-      if (document.startViewTransition && !reduce.matches) {
-        const root = document.documentElement;
-        root.classList.add('vt-dept');                    // the cards morph; the page-to-page bloom stays out of it
-        document.startViewTransition(() => apply(v)).finished.finally(() => root.classList.remove('vt-dept'));
-      } else apply(v);
-    };
-    apply(layout);
-    layoutSw.addEventListener('change', e => { if (e.target.name === 'dept-layout') setLayout(e.target.value); });
-    cmpEl.addEventListener('click', e => {
-      const b = e.target.closest('[data-use]');
-      if (!b) return;
-      setLayout(b.getAttribute('data-use'));
-      const r = $('input[value="' + b.getAttribute('data-use') + '"]', layoutSw);
-      if (r) r.focus({ preventScroll: true });
-    });
-  }
+  const card = x => { const n = countOf(x.id); return '<a class="dc" href="departments.html#' + esc(x.id) + '" style="--tile:' + (TILE[x.id] || '#1D6B35') + '">' +
+    '<span class="dc-photo"><img src="' + esc(x.img) + '" alt="" width="800" height="600" loading="lazy"></span><strong class="dc-name">' + esc(x.name) + '</strong>' +
+    '<span class="dc-go">' + (n ? '<span class="dc-count">' + n + (n === 1 ? ' special' : ' specials') + '</span>' : '') + '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></a>'; };
+  const deptEl = $('#dept');
+  if (deptEl) deptEl.innerHTML = depts.map(card).join('');
   $('#counters').innerHTML = (D.storeServices || []).map(s => '<li>' + esc(s) + '</li>').join('');
 
   // stores

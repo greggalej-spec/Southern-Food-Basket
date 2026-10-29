@@ -1,0 +1,6 @@
+{
+  "redirects": [
+    { "source": "/options", "destination": "/", "permanent": false },
+    { "source": "/options/:path*", "destination": "/", "permanent": false }
+  ]
+}

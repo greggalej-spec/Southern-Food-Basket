@@ -410,7 +410,7 @@
     h.textContent = ''; h.append(sr, vis);
     mark([h], 'rv-words');
   });
-  mark($$('.section-head > div > :not(h2), .section-head > fieldset, .careers .lede, .why li, .careers .row, .counters li, .who-card, .store, #dept .dc, .cmp, .social > *'), 'rv');
+  mark($$('.section-head > div > :not(h2), .careers .lede, .why li, .careers .row, .counters li, .who-card, .store, #dept .dc, .social > *'), 'rv');
   mark($$('.deal'), 'rv');
   mark($$('.arch-photo'), 'rv-wipe');
   mark($$('.ribbon'), 'rv-draw');

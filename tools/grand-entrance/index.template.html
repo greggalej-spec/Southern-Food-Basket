@@ -8,11 +8,9 @@
 <meta name="theme-color" content="#1D6B35">
 <script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&family=Caprasimo&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Archivo:wght@600&family=Atkinson+Hyperlegible+Next:wght@400;600;700;800&family=Caprasimo&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/img/favicon-64.png" type="image/png"><link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 <link rel="stylesheet" href="assets/css/grand-entrance.css">
-<link rel="stylesheet" href="assets/options-nav/options-nav.css">
-<script src="assets/options-nav/options-nav.js" data-option="d" data-root=""></script>
 </head>
 <body>
 <a class="skip" href="#inside">Skip the welcome animation</a>
@@ -171,18 +169,8 @@
           <p class="eyebrow"><span class="fan" aria-hidden="true"></span>Departments</p>
           <h2 id="aisles-title">Everything under one glass roof</h2>
         </div>
-        <fieldset class="layout-switch" id="layout-switch">
-          <legend><span class="concept-tag">Concept</span> Choose how departments look</legend>
-          <div class="seg">
-            <label><input type="radio" name="dept-layout" value="tiles"><span>Tiles</span></label>
-            <label><input type="radio" name="dept-layout" value="photos"><span>Big photos</span></label>
-            <label><input type="radio" name="dept-layout" value="bays"><span>Shop windows</span></label>
-            <label><input type="radio" name="dept-layout" value="compare"><span>Side by side</span></label>
-          </div>
-        </fieldset>
       </div>
-      <div class="dept" id="dept" data-layout="tiles"></div>
-      <div class="dept-compare" id="dept-compare" hidden></div>
+      <div class="dept" id="dept"></div>
       <ul class="counters" id="counters" aria-label="In our stores"></ul>
     </div>
   </section>
@@ -220,7 +208,7 @@
     <div><h3>Our stores</h3><ul id="footer-stores"></ul></div>
     <div><h3>Visit</h3><ul><li><a href="careers/index.html">Careers</a></li><li><a href="#deals">Specials</a></li><li><a href="specials.html">All specials</a></li><li><a href="#aisles">Departments</a></li><li><a href="#stores">Store hours</a></li><li><a href="about.html">About us</a></li><li><a href="portal/index.html">Staff portal</a></li><li><a href="hr/index.html">HR console</a></li></ul></div>
   </div>
-  <div class="wrap legal"><p>Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Store hours and phone numbers come from Google Maps; prices and photos from the company's public Instagram. The opening animation is an illustration.</p></div>
+  <div class="wrap legal"><p>Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Store hours and phone numbers come from Google Maps; prices and photos from the company's public Instagram. The opening animation is an illustration.</p><a class="credit" href="https://trinovata.com" target="_blank" rel="noopener"><img src="assets/img/trinovata-mark-ondark.png" alt="" width="19" height="16" decoding="async"><span>Created by Trinovata Technologies</span><span class="visually-hidden"> (opens trinovata.com)</span></a></div>
 </footer>
 
 <script src="data/seed.js"></script>

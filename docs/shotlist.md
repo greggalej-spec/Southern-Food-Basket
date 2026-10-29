@@ -351,7 +351,7 @@ Facade direction decides dawn or late afternoon for each front. A front facing e
 
 **Approval.** The owners approve every image before it is published: the subject is truthful (the real store, the real product), the use is permitted, the alt text is right, the crop is right (PRD 15.3). Record each approval in the manifest.
 
-**The Instagram photos come down.** Once an owned image is approved and live, Trinovata deletes the Instagram file it replaces from `assets/img/photos/` (deleted, not merely unreferenced), updates `assets/img/SOURCES.md`, re-takes the four design screenshots in `options/shots/`, redeploys, and ticks the box in section 7. Until then, the concept stays unpublicised (`SITE.md`).
+**The Instagram photos come down.** Once an owned image is approved and live, Trinovata deletes the Instagram file it replaces from `assets/img/photos/` (deleted, not merely unreferenced), updates `assets/img/SOURCES.md`, redeploys, and ticks the box in section 7. Until then, the concept stays unpublicised (`SITE.md`).
 
 ---
 
@@ -359,21 +359,21 @@ Facade direction decides dawn or late afternoon for each front. A front facing e
 
 Every third-party image on the site today, and the shot that replaces it. Tick when the owned image is approved, live, and the old file is deleted.
 
-Every product photo is drawn by the same code: grand-entrance.js:128 (home shelf), site.js:25 (Specials page), options/a:616, options/b:675, options/c:774, admin.js:174, 246, 692 (admin list, preview, Post maker). Only the extra uses are listed per row.
+Every product photo is drawn by the same code: grand-entrance.js:128 (home shelf), site.js:25 (Specials page), admin.js:174, 246, 692 (admin list, preview, Post maker). Only the extra uses are listed per row.
 
 | Done | File in `assets/img/photos/` | Extra uses (file:line) | Replaced by |
 |---|---|---|---|
 | [ ] | `cake-almond-crumble.webp` | | SL-68 |
-| [ ] | `cake-chocolate.webp` | options/c:530 (hero cake) | SL-65 |
+| [ ] | `cake-chocolate.webp` | No extra use (it was option C's hero, removed 2026-10-29) | SL-65 |
 | [ ] | `cake-coconut.webp` | | SL-67 |
-| [ ] | `cake-red-velvet.webp` | Bakery department (seed.js:61; grand-entrance.js:135; site.js:95, 191); options/c:572 | SL-64 and SL-51 |
-| [ ] | `cake-sponge.webp` | options/c:837 (bakery tile) | SL-66, and SL-51 for the tile |
+| [ ] | `cake-red-velvet.webp` | Bakery department (seed.js:61; grand-entrance.js:135; site.js:95, 191) | SL-64 and SL-51 |
+| [ ] | `cake-sponge.webp` | No extra use (it was option C's bakery tile, removed 2026-10-29) | SL-66 |
 | [ ] | `chee-zees.webp` | | SL-76 |
 | [ ] | `chobani-creations.webp` | | SL-69 |
 | [ ] | `chobani-flip.webp` | Chilled department (seed.js:63) | SL-70 and SL-52 |
 | [ ] | `coconut-popcorn.webp` | | SL-75 |
 | [ ] | `dove.webp` | | SL-84 |
-| [ ] | `flags-car.webp` | seed.js:428 (community image); options/c:645 | SL-90 |
+| [ ] | `flags-car.webp` | Home highlights carousel (index.html:102, template :85); seed.js:428 (community data) | SL-90 |
 | [ ] | `gogurt.webp` | | SL-71 |
 | [ ] | `irish-spring.webp` | | SL-82 |
 | [ ] | `lays-limited.webp` | | SL-77 |
@@ -381,17 +381,17 @@ Every product photo is drawn by the same code: grand-entrance.js:128 (home shelf
 | [ ] | `old-spice.webp` | | SL-81 |
 | [ ] | `parsley.webp` | | SL-63 |
 | [ ] | `protein-chips.webp` | Health department (seed.js:67) | SL-78 and SL-54 |
-| [ ] | `protein-crunch.webp` | options/a:629 (health bay) | SL-79, and SL-54 for the bay |
+| [ ] | `protein-crunch.webp` | No extra use (it was option A's health bay, removed 2026-10-29) | SL-79 |
 | [ ] | `ripples.webp` | | SL-73 |
 | [ ] | `snack-pack.webp` | | SL-72 |
 | [ ] | `snacks-basket.webp` | Snacks department (seed.js:65; not a special) | SL-53 |
 | [ ] | `st-ives.webp` | Care department (seed.js:69) | SL-80 and SL-55 |
-| [ ] | `store-produce.webp` | Wholesale department (seed.js:71); wholesale.html:29 (hero); options/a:628, options/b:541, options/c:515, 836 (fresh slots) | SL-56 for the wholesale slots; SL-50 for the fresh slots |
-| [ ] | `team-flags.webp` | index.html:117 (and template :103); about.html:26; options/a:456, options/b:560, options/c:677 | SL-30 (and SL-10 for the carousel) |
+| [ ] | `store-produce.webp` | Wholesale department (seed.js:71); wholesale.html:29 (hero) | SL-56 for the wholesale slots |
+| [ ] | `team-flags.webp` | index.html:117 (and template :103); about.html:26 | SL-30 (and SL-10 for the carousel) |
 | [ ] | `tone.webp` | | SL-83 |
 | [ ] | `veg-chow-mein.webp` | | SL-62 |
 | [ ] | `veg-chunky.webp` | Fresh department (seed.js:59) | SL-60 and SL-50 |
-| [ ] | `veg-stir-fry.webp` | options/c:535 (hero tray) | SL-61 |
+| [ ] | `veg-stir-fry.webp` | No extra use (it was option C's hero tray, removed 2026-10-29) | SL-61 |
 
 Other third-party or stand-in media:
 
@@ -399,7 +399,6 @@ Other third-party or stand-in media:
 |---|---|---|---|
 | [ ] | Animated illustration of the Couva front (contains the company logo on the canopy and flags) | `tools/grand-entrance/scene.svg`; inline at index.html:48; concept note at index.html:64 | SL-01, SL-02, SL-03 (SL-04 for phones; SL-05 to SL-07 for the flags) |
 | [ ] | Logo files traced from an Instagram post (`sfb-logo.svg`, `sfb-logo.webp`, `sfb-mark.svg`, `sfb-mark.png`, `favicon-64.png`, `apple-touch-icon.png`) | Header, footer, portal, canopy, flags | Not a shoot. Official logo files from the business. |
-| [ ] | Design screenshots, with the Instagram photos inside them | `options/shots/option-a.webp` to `option-d.webp` (options/index.html:154) | Re-shoot after the photo swaps |
 
 ---
 

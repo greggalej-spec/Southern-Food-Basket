@@ -167,84 +167,22 @@ main:focus { outline: none; }
 .deal-meta { font-size: .9375rem; color: var(--muted); margin: 0; }
 .visually-hidden { position: absolute !important; left: 0; top: 0; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 
-/* departments: one set of cards (.dc) dressed three ways by data-layout, plus a side-by-side view (DEC-002) */
+/* departments: a coloured tile per department, the quickest layout to scan on a phone */
 .band-aisles { background: var(--paper); }
-.layout-switch { border: 0; margin: 0; padding: 0; min-width: 0; }
-.layout-switch legend { display: flex; align-items: center; gap: 8px; padding: 0; margin-bottom: 8px; font: 700 .9375rem/1.3 var(--ui); color: var(--muted); }
-.concept-tag { font: 800 .6875rem/1 var(--ui); letter-spacing: .1em; text-transform: uppercase; background: var(--yellow); color: var(--ink); padding: 5px 7px; border-radius: 6px; }
-.seg { display: inline-grid; grid-auto-flow: column; gap: 4px; padding: 4px; border-radius: 14px; background: #EFE7D6; }
-@media (max-width: 560px) { .layout-switch, .seg { width: 100%; } .seg { grid-auto-flow: row; grid-template-columns: 1fr 1fr; } }
-.seg label { position: relative; display: grid; }
-.seg input { position: absolute; inset: 0; margin: 0; opacity: 0; cursor: pointer; }
-.seg span { display: flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 14px; border-radius: 10px; font: 700 1rem/1.15 var(--ui); color: var(--ink); text-align: center; transition: background .2s ease, color .2s ease, box-shadow .2s ease; }
-.seg label:hover span { color: var(--green); }
-.seg input:checked + span { background: var(--paper); color: var(--green); box-shadow: 0 1px 2px rgba(42,26,31,.14), 0 6px 14px -8px rgba(42,26,31,.4); }
-.seg input:focus-visible + span { outline: 3px solid var(--pink-ink); outline-offset: 2px; }
-
-.dept { display: grid; gap: 16px; }
-.dept[hidden], .dept-compare[hidden] { display: none; }
-.dc { position: relative; display: grid; align-content: start; border-radius: 18px; overflow: hidden; color: var(--ink); text-decoration: none; }
+/* six departments: 2, 3 or 6 to a row, so no row is left with a single tile */
+.dept { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 640px) { .dept { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1100px) { .dept { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.dc { position: relative; display: grid; grid-template-rows: auto 1fr auto; align-content: start; gap: 12px; min-height: 184px; padding: 16px 16px 14px;
+  border-radius: 18px; overflow: hidden; background: var(--tile); color: #fff; text-decoration: none; box-shadow: var(--shadow); }
 .dept .dc:focus-visible { outline: 3px solid var(--pink-ink); outline-offset: 3px; }
-.dc-photo { display: block; overflow: hidden; background: var(--facade); }
+.dc-photo { display: block; width: 64px; height: 64px; overflow: hidden; border-radius: 50%; border: 3px solid rgba(255,255,255,.9); background: var(--facade); }
 .dc-photo img { width: 100%; height: 100%; object-fit: cover; }
-.dc-text { display: grid; gap: 4px; }
 .dc-name { font: 400 1.375rem/1.15 var(--display); hyphens: auto; }
-.dc-blurb { font-size: .9375rem; line-height: 1.45; color: var(--muted); }
-.dc-go { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 800 .9375rem/1.2 var(--ui); color: var(--green); }
+.dc-go { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 800 .9375rem/1.2 var(--ui); color: #fff; }
 .dc-go svg { width: 20px; height: 20px; margin-left: auto; transition: transform .25s cubic-bezier(.22,1,.36,1); }
 .dc:hover .dc-go svg { transform: translateX(3px); }
-.dc-count { font: 800 .75rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; background: #FBE4EC; color: var(--pink-ink); padding: 6px 8px; border-radius: 6px; }
-
-/* tiles: a coloured tile per department, quickest to scan on a phone */
-.dept[data-layout="tiles"] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
-[data-layout="tiles"] .dc { background: var(--tile); color: #fff; padding: 16px 16px 14px; min-height: 184px; grid-template-rows: auto 1fr auto; gap: 12px; box-shadow: var(--shadow); }
-[data-layout="tiles"] .dc-photo { width: 64px; height: 64px; border-radius: 50%; border: 3px solid rgba(255,255,255,.9); }
-[data-layout="tiles"] .dc-blurb, [data-layout="tiles"] .dc-more { display: none; }
-[data-layout="tiles"] .dc-go { color: #fff; }
-[data-layout="tiles"] .dc-count { background: rgba(18,8,12,.28); color: #fff; }
-/* big photos: the food first, the name and a line under it */
-.dept[data-layout="photos"] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 22px; }
-[data-layout="photos"] .dc { background: var(--paper); border: 1px solid var(--line); box-shadow: var(--shadow); }
-[data-layout="photos"] .dc-photo { aspect-ratio: 4 / 3; }
-[data-layout="photos"] .dc-photo img { transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-[data-layout="photos"] .dc:hover .dc-photo img { transform: scale(1.04); }
-[data-layout="photos"] .dc-text { padding: 16px 18px 8px; }
-[data-layout="photos"] .dc-go { padding: 6px 18px 18px; }
-/* shop windows: the photo in a pane of the store's glass, the name on a shelf label */
-.dept[data-layout="bays"] { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 18px; }
-[data-layout="bays"] .dc { background: var(--teal-light); border: 7px solid #F7F3EA; box-shadow: 0 0 0 2px #CFC4AC, var(--shadow); }
-[data-layout="bays"] .dc > * { grid-area: 1 / 1; }
-[data-layout="bays"] .dc-photo { aspect-ratio: 4 / 3; }
-[data-layout="bays"] .dc::after { content: ""; grid-area: 1 / 1; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.28) 48%, rgba(255,255,255,0) 56%); }
-[data-layout="bays"] .dc-text { z-index: 1; align-self: end; margin: 10px; padding: 12px 14px; border-radius: 12px; background: rgba(255,253,250,.96); }
-[data-layout="bays"] .dc-go { z-index: 1; align-self: start; justify-self: end; margin: 10px; }
-[data-layout="bays"] .dc-more, [data-layout="bays"] .dc-go svg { display: none; }
-[data-layout="bays"] .dc-count { background: var(--paper); }
-
-/* side by side: the three layouts in miniature, each with a button to use it */
-.dept-compare { display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); }
-.cmp { display: flex; flex-direction: column; gap: 12px; padding: 18px; border-radius: 20px; background: var(--cream); border: 1px solid var(--line); }
-.cmp h3 { font-size: 1.5rem; margin: 0; }
-.cmp p { margin: 0; font-size: 1rem; color: var(--muted); }
-.cmp .btn { margin-top: auto; align-self: flex-start; }
-.dept.mini { gap: 8px; pointer-events: none; margin-bottom: 4px; }
-.mini .dc { border-radius: 12px; box-shadow: none; }
-.mini .dc-name { font-size: .9375rem; }
-.mini .dc-blurb, .mini .dc-more, .mini .dc-go { display: none; }
-.dept.mini[data-layout="tiles"] { grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); }
-.mini[data-layout="tiles"] .dc { min-height: 96px; padding: 10px; gap: 8px; grid-template-rows: auto 1fr; }
-.mini[data-layout="tiles"] .dc-photo { width: 34px; height: 34px; border-width: 2px; }
-.dept.mini[data-layout="photos"], .dept.mini[data-layout="bays"] { grid-template-columns: 1fr 1fr; }
-.mini[data-layout="photos"] .dc-text { padding: 8px 10px 10px; }
-.mini[data-layout="bays"] .dc { border-width: 4px; box-shadow: 0 0 0 1px #CFC4AC; }
-.mini[data-layout="bays"] .dc-text { margin: 6px; padding: 6px 8px; border-radius: 8px; }
-
-/* the layout switch morphs the cards in place; the options dock's page bloom stays out of it */
-:root.vt-dept.vt-dept::view-transition-old(root) { animation: dl-out .22s ease both; }
-:root.vt-dept.vt-dept::view-transition-new(root) { animation: dl-in .32s ease both; }
-:root.vt-dept::view-transition-group(*) { animation-duration: .5s; animation-timing-function: cubic-bezier(.22,1,.36,1); }
-@keyframes dl-out { to { opacity: 0; } }
-@keyframes dl-in { from { opacity: 0; } }
+.dc-count { font: 800 .75rem/1 var(--ui); letter-spacing: .06em; text-transform: uppercase; background: rgba(18,8,12,.28); color: #fff; padding: 6px 8px; border-radius: 6px; }
 .counters { list-style: none; margin: 28px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
 .counters li { display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 999px; background: #EAF5F3; color: var(--teal-deep); font: 700 1rem var(--ui); }
 .counters li::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: linear-gradient(135deg, var(--gold), #C99A35); }
@@ -292,7 +230,15 @@ main:focus { outline: none; }
 .footer h3 { font: 800 .875rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: #fff; }
 .footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
 .footer a { color: #F3EBDD; }
-.legal { border-top: 1px solid rgba(255,255,255,.15); padding-block: 20px 72px; font-size: .9375rem; color: #CFC6B7; }
+.legal { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 32px; border-top: 1px solid rgba(255,255,255,.15);
+  padding-block: 20px 28px; font-size: .9375rem; color: #CFC6B7; }
+.legal p { margin: 0; max-width: 72ch; }
+/* Trinovata credit, per its brand book: the on-dark mark at its 16 px minimum with 8 px clear space on every side,
+   the words in its Label style (Archivo 600 13 px, 0.12em, uppercase). No scrim or rounded box on a solid footer. */
+.footer .credit { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding-block: 8px; color: #F2F0EB; text-decoration: none;
+  font: 600 13px/1.2 'Archivo', 'Helvetica Neue', Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+.credit img { width: auto; height: 16px; flex: none; }
+.credit:hover span, .credit:focus-visible span { text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- the living storefront (living.js) ---------- */
 .storefront .flag.lv-cloth .cloth { display: none; }  /* the cloth simulation replaces the flat flag */
@@ -416,6 +362,6 @@ main:focus { outline: none; }
   .js .intro { height: 100vh; height: 100svh; }
   .storefront .flag .cloth, .cue svg, .topbar { animation: none !important; }
   .topbar, .brand, .topnav .ink, .menu-btn .bars::before, .menu-btn .bars::after, .mobile-menu, .mobile-menu a, .skip-pill { transition: none !important; }
-  .seg span, .car-dot::before, .dc-go svg, [data-layout="photos"] .dc-photo img, .social-links a { transition: none; }
-  .dc:hover .dc-go svg, [data-layout="photos"] .dc:hover .dc-photo img { transform: none; }
+  .car-dot::before, .dc-go svg, .social-links a { transition: none; }
+  .dc:hover .dc-go svg { transform: none; }
 }
