@@ -1,6 +1,6 @@
 # Southern Food Basket: photo and video shot list
 
-Draft 2, 29 October 2026 (draft 1: 28 October). Prepared by Trinovata Technologies for the Southern Food Basket owners and their photographer. The website is an unofficial concept; nothing here is approved until the owners say so. Draft 2 checks every slot against both versions of the site, the static site on the public link and the Next.js rebuild; what changed is in 1.1.
+Draft 2, 29 October 2026, corrected 1 November 2026 (draft 1: 28 October). Prepared by Trinovata Technologies for the Southern Food Basket owners and their photographer. The website is an unofficial concept; nothing here is approved until the owners say so. Draft 2 checks every slot against both versions of the site, the static site on the public link and the Next.js rebuild; what changed is in 1.1.
 
 ---
 
@@ -50,6 +50,7 @@ Every size here was measured in the browser on the rebuild, at 1440 and 375 px w
 | Job pages have no photo | Rebuild `app/(sfb)/careers/[id]/page.tsx` | 2.4 |
 | No link-preview picture exists, so a shared link shows no image on WhatsApp or Facebook | No Open Graph image anywhere in the rebuild | SL-95 in 2.9 |
 | The rebuild keeps the photos in `public/assets/img/photos/`, with the same file names | | 7 |
+| Corrected 1 November: draft 1 wording left in draft 2 | Class S and SL-40 still named a 16:9 carousel crop and slide 3; the carousel was still listed as not built; options A, B and C (removed 2026-10-29) were still named as uses; section 7 left out the four carousel slides that reuse Instagram photos; the Careers arch photo was cited at index.html:117 (it is at :137) | 2.0; 2.4; 2.5; 2.6; 2.7; 7 |
 
 ---
 
@@ -67,9 +68,9 @@ Every size here was measured in the browser on the rebuild, at 1440 and 375 px w
 | W | 16:10 hero photo on About and Wholesale | `.page-hero .photo-frame img` (site.css:107), same 865 px. | **1800 x 1125** (a 16:10 crop of a 1800 x 1350 frame) |
 | A | Arched portrait, 5:6 | `.arch-photo` (grand-entrance.css:182): 460 px wide, 10 px frame, so 440 x 532 inside. 2 x = 880 x 1064. The gold fanlight hides the top 42% (css:184). | **900 x 1080; aim for 1000 x 1200** |
 | P | Product card, 6:5 (square on phones, tokens.css:260) | `.deal-photo` (grand-entrance.css:129; tokens.css:237). Largest card is 314 x 262 px (Specials page, 3 columns, tokens.css:254), so 628 x 524 at 2 x. The store admin's Post maker draws each photo into a 1080 x 1350 post, filling by height (admin.js:417, 511), so the source must be at least 1350 px tall. | **1800 x 1500** |
-| S | Store front, shot 3:2 | Proposed slot. Figure on the Locations page (up to 865 px), home store card, and a 1200 px carousel slide. | **2400 x 1600.** A 16:9 crop is 2400 x 1350; a 4:3 crop is 2133 x 1600. |
+| S | Store front, shot 3:2 | Proposed slot. Figure on the Locations page (up to 865 px) and home store card; also carousel slide 5 if the flags vehicle can't be shot (6:5, class B), and the link preview (SL-95, 1.91:1). | **2400 x 1600.** A 4:3 crop is 2133 x 1600; a 6:5 crop is 1920 x 1600; a 1.91:1 crop is 2400 x 1257. |
 
-Slots not built yet (carousel, family, role shots, store-front photos) are marked "proposed". Recheck them against the CSS when they land.
+Slots not built yet (family, role shots, store-front photos) are marked "proposed". Recheck them against the CSS when they land.
 
 **Crop hazards (keep these in mind when composing)**
 
@@ -134,7 +135,7 @@ DEC-005: recruitment is the primary focus, so the team portrait is P0. Role shot
 
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
-| SL-30 | Home Careers section (`.arch-photo`, index.html:117); About hero (about.html:26, 16:10); options A, B, C | Group portrait of the team in red, holding the company flags as in the current photo | 4 to 6 staff, smiling, shop floor or front of store, no customers. Shoot two frames from one set-up: vertical 5:6 with extra headroom (fanlight hides the top 42%), and horizontal 16:10. | Vertical 5:6 (grand-entrance.css:182) and landscape 16:10 (site.css:107) | 1000 x 1200 (A) and 1800 x 1125 (W) | P0 | Yes: release each. Adults only. | Couva (confirm) | Pre-opening store light, or shaded entrance. Avoid midday sun. | `team-flags.webp` |
+| SL-30 | Home Careers section (`.arch-photo`, index.html:137; rebuild `app/(home)/page.tsx:377`); About hero (about.html:26, 16:10; static site only) | Group portrait of the team in red, holding the company flags as in the current photo | 4 to 6 staff, smiling, shop floor or front of store, no customers. Shoot two frames from one set-up: vertical 5:6 with extra headroom (fanlight hides the top 42%), and horizontal 16:10. | Vertical 5:6 (grand-entrance.css:182) and landscape 16:10 (site.css:107) | 1000 x 1200 (A) and 1800 x 1125 (W) | P0 | Yes: release each. Adults only. | Couva (confirm) | Pre-opening store light, or shaded entrance. Avoid midday sun. | `team-flags.webp` |
 | SL-31 | Careers, role strip (proposed; PRD 15.2 #14) | Cashier at the till, mid-task | Till screen blank or neutral. No customer, or customer's hands only without faces. One frame looking at the camera, one looking at the work. | Landscape 4:3 | 1800 x 1350 (F) | P1 | Yes: staff release | Couva (confirm) | Store light, store empty | New |
 | SL-32 | Careers, role strip | Bakery team member boxing or finishing a double-layer cake | Food-safety clothing as the store requires. Cake as sold. | Landscape 4:3 | 1800 x 1350 (F) | P1 | Yes: staff release | Couva (in-store bakery listed for Couva; confirm) | Store light | New |
 | SL-33 | Careers, role strip | Butcher at the counter, portioning or serving | Counter clean and tidy. Hygiene clothing as the store requires. No raw-meat close-ups that look unappetising. | Landscape 4:3 | 1800 x 1350 (F) | P1 | Yes: staff release | Couva (meat section listed for Couva; confirm) | Store light | New |
@@ -146,11 +147,11 @@ DEC-005: recruitment is the primary focus, so the team portrait is P0. Role shot
 
 Proposed slot: a photo on each home-page store card (`#store-grid`, grand-entrance.js:144) and in each branch section of the Locations page (site.js:269, currently no photo, PRD WEB-030). All five are P0 (PRD 15.2 #20 to #24).
 
-Common brief: whole front and sign, slightly off-centre (10 to 15 degrees) to show depth, entrance unblocked, no readable licence plates, no identifiable people. Shoot a wide frame with sky space (for the 16:9 carousel crop) and a 4:3 frame. Shoot 3:2 native. Facade direction is unknown: scout the day before and shoot each front when the sun lights it, not behind it.
+Common brief: whole front and sign, slightly off-centre (10 to 15 degrees) to show depth, entrance unblocked, no readable licence plates, no identifiable people. Shoot a wide frame with sky space (for the 1.91:1 link preview, SL-95) and a 4:3 frame. Shoot 3:2 native. Facade direction is unknown: scout the day before and shoot each front when the sun lights it, not behind it.
 
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
-| SL-40 | Home store card; Locations; carousel slide 3 | Couva store front | As the common brief | Landscape 3:2 (crops 16:9, 4:3) | 2400 x 1600 (S) | P0 | None in frame | Couva, 696 Southern Main Road | Dawn or late afternoon, whichever lights the front | New |
+| SL-40 | Home store card; Locations; carousel slide 5 if the flags vehicle can't be shot; link preview (SL-95) | Couva store front | As the common brief | Landscape 3:2 (crops 4:3, 6:5, 1.91:1) | 2400 x 1600 (S) | P0 | None in frame | Couva, 696 Southern Main Road | Dawn or late afternoon, whichever lights the front | New |
 | SL-41 | As above | San Fernando store front | As the common brief | Landscape 3:2 | 2400 x 1600 (S) | P0 | None in frame | San Fernando, Coffee Street | As SL-40 | New |
 | SL-42 | As above | Princes Town store front | As the common brief. Confirm which building: the "Supermarket" on Manahambre Road or the "Market Place" on St Charles Road, about 60 m apart (data/seed.js:42). | Landscape 3:2 | 2400 x 1600 (S) | P0 | None in frame | Princes Town, St Charles Junction, Manahambre Road | As SL-40 | New |
 | SL-43 | As above | Penal store front | As the common brief | Landscape 3:2 | 2400 x 1600 (S) | P0 | None in frame | Penal, S.S. Erin Road | As SL-40 | New |
@@ -164,17 +165,17 @@ Where: home "Walk the aisles" tiles (grand-entrance.js:135, 4:3 at `.aisle img`,
 
 | ID | Where used | Subject | Framing and composition | Orientation, ratio | Min pixels | Pri | People, release | Branch | Light, time | Replaces |
 |---|---|---|---|---|---|---|---|---|---|---|
-| SL-50 | Fresh produce and cut veg tile, department section; options A, B, C | Produce display, full and colourful, with fresh-cut veg packs on the chilled shelf | Wide, slightly above eye level; "Fruits and Vegetables" sign readable if it is. No shelf price tags in focus. Subject in the upper 65%. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None, or release | Couva (confirm) | Store lit, before opening, fresh stock | `veg-chunky.webp` (department), `store-produce.webp` (fresh slots) |
+| SL-50 | Fresh produce and cut veg tile, department section | Produce display, full and colourful, with fresh-cut veg packs on the chilled shelf | Wide, slightly above eye level; "Fruits and Vegetables" sign readable if it is. No shelf price tags in focus. Subject in the upper 65%. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None, or release | Couva (confirm) | Store lit, before opening, fresh stock | `veg-chunky.webp` (department), `store-produce.webp` (fresh slots) |
 | SL-51 | Cakes and bakery tile, section | Bakery counter with double-layer cakes in boxes | Counter wide shot, cakes as sold, tidy. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None, or release | Couva (confirm) | Store lit, fresh bake | `cake-red-velvet.webp` (department) |
 | SL-52 | Dairy and chilled tile, section | Chilled aisle or fridge, yogurts and chilled treats faced forward | Doors clean, no fog, lights on, shelves full. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None | Confirm store | Store lit, before opening | `chobani-flip.webp` (department) |
 | SL-53 | Snacks and sweets tile, section | Snack aisle, chips, popcorn, brownies, pudding cups | Wide aisle with depth, bright. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None | Confirm store | Store lit | `snacks-basket.webp` |
-| SL-54 | Health and fitness tile, section | Protein and fitness range shelf | Shelf wide, products faced forward. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None | Couva (confirm) | Store lit | `protein-chips.webp` (department), `protein-crunch.webp` (options A) |
+| SL-54 | Health and fitness tile, section | Protein and fitness range shelf | Shelf wide, products faced forward. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None | Couva (confirm) | Store lit | `protein-chips.webp` (department) |
 | SL-55 | Personal care tile, section | Toiletries aisle, body washes | Shelf wide, tidy, no price tags in focus. | Landscape 4:3 | 1800 x 1350 (F) | P0 | None | Confirm store | Store lit | `st-ives.webp` (department) |
 | SL-56 | Departments page "Bulk and wholesale" (site.js:191); Wholesale page hero (wholesale.html:29, 16:10, site.css:107) | Wholesale stock: cases, bags and pallets, tidy racking | Shoot 3:2 so both 4:3 and 16:10 work. No people unless protective clothing and a release. | Landscape 3:2 (crops 4:3, 16:10) | 1800 x 1350 (F) | P1 | None, or release | Confirm with the business where wholesale stock is held | Warehouse light plus daylight at the door | `store-produce.webp` (wholesale slots) |
 
 ### 2.7 Specials product series (25 shots, one set-up)
 
-Where: home deals shelf (grand-entrance.js:128, 12 newest), Specials page (site.js:25), admin list and Post maker (admin.js:174, 246, 692), options A, B, C. Specials are time-limited, so **shoot whatever is on special the week of the shoot** (ask the business for the list); the 25 below are the products on the site today. These are packaged third-party brands: confirm with the business whether supplier brand rules limit use in advertising.
+Where: home deals shelf (grand-entrance.js:128, 12 newest), Specials page (site.js:25), admin list and Post maker (admin.js:174, 246, 692); in the rebuild also the members' offers and the newsletter preview (section 7). Specials are time-limited, so **shoot whatever is on special the week of the shoot** (ask the business for the list); the 25 below are the products on the site today. These are packaged third-party brands: confirm with the business whether supplier brand rules limit use in advertising.
 
 | Series spec | |
 |---|---|
@@ -399,7 +400,7 @@ Draft 2: file:line references in this table are the static site (`concept-v1`). 
 | [ ] | `cake-almond-crumble.webp` | | SL-68 |
 | [ ] | `cake-chocolate.webp` | No extra use (it was option C's hero, removed 2026-10-29) | SL-65 |
 | [ ] | `cake-coconut.webp` | | SL-67 |
-| [ ] | `cake-red-velvet.webp` | Bakery department (seed.js:61; grand-entrance.js:135; site.js:95, 191) | SL-64 and SL-51 |
+| [ ] | `cake-red-velvet.webp` | Bakery department (seed.js:61; grand-entrance.js:135; site.js:95, 191); home carousel slide 4 (index.html:98, template :81; rebuild `app/(home)/page.tsx:116`) | SL-64 and SL-51 (and SL-12 (b) for the carousel) |
 | [ ] | `cake-sponge.webp` | No extra use (it was option C's bakery tile, removed 2026-10-29) | SL-66 |
 | [ ] | `chee-zees.webp` | | SL-76 |
 | [ ] | `chobani-creations.webp` | | SL-69 |
@@ -420,11 +421,11 @@ Draft 2: file:line references in this table are the static site (`concept-v1`). 
 | [ ] | `snacks-basket.webp` | Snacks department (seed.js:65; not a special) | SL-53 |
 | [ ] | `st-ives.webp` | Care department (seed.js:69) | SL-80 and SL-55 |
 | [ ] | `store-produce.webp` | Wholesale department (seed.js:71); wholesale.html:29 (hero) | SL-56 for the wholesale slots |
-| [ ] | `team-flags.webp` | index.html:117 (and template :103); about.html:26 | SL-30 (and SL-10 for the carousel) |
+| [ ] | `team-flags.webp` | Home carousel slide 1 (index.html:86, template :69; rebuild `app/(home)/page.tsx:113`); home Careers arch (index.html:137, template :120; rebuild `page.tsx:377`); about.html:26 | SL-30 (and SL-10 for the carousel) |
 | [ ] | `tone.webp` | | SL-83 |
 | [ ] | `veg-chow-mein.webp` | | SL-62 |
-| [ ] | `veg-chunky.webp` | Fresh department (seed.js:59) | SL-60 and SL-50 |
-| [ ] | `veg-stir-fry.webp` | No extra use (it was option C's hero tray, removed 2026-10-29) | SL-61 |
+| [ ] | `veg-chunky.webp` | Fresh department (seed.js:59); home carousel slide 2 (index.html:90, template :73; rebuild `app/(home)/page.tsx:114`) | SL-60 and SL-50 (and SL-11 for the carousel) |
+| [ ] | `veg-stir-fry.webp` | Home carousel slide 3 (index.html:94, template :77; rebuild `app/(home)/page.tsx:115`) | SL-61 (and SL-12 (a) for the carousel) |
 
 Other third-party or stand-in media:
 
