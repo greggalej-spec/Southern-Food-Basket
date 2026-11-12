@@ -40,3 +40,7 @@ assets/img/             logo cut-out and the company's Instagram photos; provena
 ## Deploy
 
 Vercel, static. Preview deploys only from this branch (`concept-v1`); production is a human decision.
+
+## Contributors
+
+Gregg (greggalej-spec) and Isabel (isabelleesing-pixel) both push to `concept-v1`.
