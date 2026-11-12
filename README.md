@@ -23,7 +23,13 @@ KYC "uploads" are previewed in the browser only; the store keeps file name, size
 python -m http.server 4175
 ```
 
-Then open http://localhost:4175/ . Any static server works; there is no build step.
+Then open http://localhost:4175/ . Any static server works; there is no build step for the site itself.
+
+The home page is generated. After editing anything under `tools/grand-entrance/`, regenerate `index.html` with:
+
+```bash
+node tools/grand-entrance/build.js
+```
 
 ## Layout
 
