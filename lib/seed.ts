@@ -29,13 +29,13 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 16,
+  version: 17,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
     short: 'SFB',
     tagline: 'The south’s neighbourhood grocer',
-    founded: 1998, /* source: Del Risco company record (1998); ExportersIndia lists 2000 */
+    founded: 1991, /* source: the company, through Gregg, 2026-11-13. Del Risco's record gives 1998 and ExportersIndia 2000 */
     phone: '+1 868-225-4732', /* head office line, Facebook page and Google Maps */
     whatsappChannel: 'https://whatsapp.com/channel/0029Vb6ReXbKgsNmzhxABT42', tiktok: 'https://www.tiktok.com/@southernfoodbasket', facebook: 'https://www.facebook.com/Southernfoodbasket/', /* from the Facebook page intro */
     email: 'hello@sfb.example', careersEmail: 'careers@sfb.example',
@@ -264,7 +264,6 @@ export const SEED: Seed = {
     ],
     facts: [
       { text: 'Southern Food Basket Limited, registered in Princes Town, Trinidad and Tobago.', source: 'Dun & Bradstreet company profile' },
-      { text: 'Founded 1998.', source: 'Del Risco company record (an exporter directory gives 2000)' },
       { text: 'Supermarket and wholesale, with import and export activity in produce and frozen meats.', source: 'Panjiva shipment records; ExportersIndia listing' }
     ],
     community: {

@@ -5,7 +5,7 @@ import type { Branch, DocRecord, DocState } from "./types";
 // after hydration (useHydrated), because a prerendered page and the visitor's browser disagree about today.
 
 export const DISCLAIMER =
-  "Prototype for Southern Food Basket, by Trinovata. Store hours and phone numbers come from Google Maps, prices and photos from the company’s public Instagram; people, jobs, requests, orders and marketing figures are demo data.";
+  "Prototype for Southern Food Basket. Store hours and phone numbers come from Google Maps, prices and photos from the company’s public Instagram; people, jobs, requests, orders and marketing figures are demo data.";
 
 /** One unit per number. money(12.99) → "TTD 12.99"; money(12.99, "lb") → "TTD 12.99 / lb". */
 export function money(v: number | string | null | undefined, per?: string) {

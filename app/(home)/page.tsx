@@ -418,10 +418,10 @@ export default function HomePage() {
               </article>
               <article className="who-card who-family">
                 <p className="who-year" aria-hidden="true">
-                  1998
+                  1991
                 </p>
                 <h3>A family business</h3>
-                <p>Southern Food Basket is a family business, serving the south since 1998: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
+                <p>Southern Food Basket is a family business, serving the south since 1991: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
                 <p className="who-small">The team in red runs the shop floor, and the pink-and-green flags go out on the music truck.</p>
               </article>
               <article className="who-card who-where">
@@ -597,13 +597,8 @@ export default function HomePage() {
         </div>
         <div className="wrap legal">
           <p>
-            Prototype for Southern Food Basket, by Trinovata. Store hours and phone numbers come from Google Maps; prices and photos from the company&apos;s public Instagram. The opening animation is an illustration.
+            Prototype for Southern Food Basket. Store hours and phone numbers come from Google Maps; prices and photos from the company&apos;s public Instagram. The opening animation is an illustration.
           </p>
-          <a className="credit" href="https://trinovata.com" target="_blank" rel="noopener">
-            <img src="/assets/img/trinovata-mark-ondark.png" alt="" width="19" height="16" decoding="async" />
-            <span>Created by Trinovata Technologies</span>
-            <span className="visually-hidden"> (opens trinovata.com)</span>
-          </a>
         </div>
       </footer>
 

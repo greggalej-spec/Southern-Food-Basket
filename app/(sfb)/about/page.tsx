@@ -50,12 +50,12 @@ export default function AboutPage() {
             </article>
             <article className="who-card who-family">
               <p className="who-year" aria-hidden="true">
-                1998
+                1991
               </p>
               <h3>A family business</h3>
-              <p>Southern Food Basket is a family business, serving the south since 1998: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
+              <p>Southern Food Basket is a family business, serving the south since 1991: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
               <p className="who-small">The team in red runs the shop floor, and the pink-and-green flags go out on the music truck.</p>
-              <p className="source-line">Founded 1998 per the Del Risco company record; an exporter directory gives 2000.</p>
+              <p className="source-line">Established 1991, as the company gives it.</p>
             </article>
             <article className="who-card who-where">
               <h3>Where we are</h3>
@@ -115,11 +115,7 @@ export default function AboutPage() {
           <div className="concept-box">
             <h2 id="concept-title">About this concept</h2>
             <p>
-              This website is an unsolicited prototype by{" "}
-              <a href="https://trinovata.com" target="_blank" rel="noopener">
-                Trinovata Technologies<span className="visually-hidden"> (opens in a new tab)</span>
-              </a>
-              . It is not affiliated with Southern Food Basket Ltd.
+              This website is an unsolicited prototype. It is not affiliated with Southern Food Basket Ltd.
             </p>
             <p>The logo, product photos and special prices come from the company’s public Instagram, and store addresses, hours and phone numbers from each store’s Google Maps listing. Jobs, staff, applicants, payslips and documents are invented demo data. Nothing you enter on this site leaves your browser.</p>
           </div>
