@@ -1,6 +1,7 @@
 import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Highlights, Spotlight, type Slide } from "@/components/home/highlights";
 import { HomeLive } from "@/components/home/home-live";
 import { NearMe } from "@/components/home/near-me";
 import { StoreToday } from "@/components/home/store-today";
@@ -84,13 +85,13 @@ const NAV = [
   ["/portal", "Staff portal"],
 ] as const;
 
-// The first two are running now, from the company's own posts (lib/seed-events.ts says where each came from).
-const SLIDES: { img: string; src?: string; h: number; alt: string; eyebrow: string; title: string; text: string; cta: [string, string, string] }[] = [
-  { img: "flash", src: "/assets/img/social/flash-slide.webp", h: 533, alt: "Flash Sale flyer: Central Farms duck, 4 lbs for $89.95, and Anchor cheddar cheese 250 g, 2 for $39.95", eyebrow: "On now · 13 to 15 November", title: "Flash Sale, three days only", text: "Big savings on everyday essentials at all five stores, Friday to Sunday.", cta: ["btn btn-outline", "/specials", "See the flyers"] },
-  { img: "escape", src: "/assets/img/social/escape-on-wheels.webp", h: 800, alt: "Escape on Wheels with a BYD Song Pro, for the 35th anniversary: shop, enter, win", eyebrow: "35 Years of Rewards", title: "Win a BYD Song Pro", text: "Spend $300 for an entry form, fill it out and drop it in the box at any store.", cta: ["btn btn-glass", "/events", "How to enter"] },
-  { img: "veg-stir-fry", h: 667, alt: "A tray of cut stir fry vegetables", eyebrow: "Fresh and cut veg", title: "Ready-cut veg packs", text: "Chunky, stir fry and chow mein packs, cut and ready to cook, beside the whole produce.", cta: ["btn btn-outline", "/departments#fresh", "Fresh and cut veg"] },
-  { img: "cake-red-velvet", h: 667, alt: "A 9-inch red velvet cake in a clear cake box", eyebrow: "Restaurant and bakery", title: "Double-layer cakes", text: "Sponge, chocolate, coconut, almond crumble and red velvet, from our in-house bakery.", cta: ["btn btn-outline", "/restaurant", "Restaurant and bakery"] },
-  { img: "flags-car", h: 600, alt: "Southern Food Basket flags flying from a vehicle on the road", eyebrow: "Five stores", title: "Look for the pink and green flags", text: "Couva, San Fernando, Princes Town, Penal and Point Fortin.", cta: ["btn btn-glass", "#stores", "A store near me"] },
+// The slides that always run. Events ticked "show it in the home page slides" in the office console come before
+// these, and the main promotion has its own banner (components/home/highlights.tsx).
+const PHOTOS = "/assets/img/photos/";
+const STANDING: Slide[] = [
+  { key: "veg", src: PHOTOS + "veg-stir-fry.webp", alt: "A tray of cut stir fry vegetables", eyebrow: "Fresh and cut veg", title: "Ready-cut veg packs", text: "Chunky, stir fry and chow mein packs, cut and ready to cook, beside the whole produce.", btn: "btn btn-outline", href: "/departments#fresh", cta: "Fresh and cut veg" },
+  { key: "cakes", src: PHOTOS + "cake-red-velvet.webp", alt: "A 9-inch red velvet cake in a clear cake box", eyebrow: "Restaurant and bakery", title: "Double-layer cakes", text: "Sponge, chocolate, coconut, almond crumble and red velvet, from our in-house bakery.", btn: "btn btn-outline", href: "/restaurant", cta: "Restaurant and bakery" },
+  { key: "flags", src: PHOTOS + "flags-car.webp", alt: "Southern Food Basket flags flying from a vehicle on the road", eyebrow: "Five stores", title: "Look for the pink and green flags", text: "Couva, San Fernando, Princes Town, Penal and Point Fortin.", btn: "btn btn-glass", href: "#stores", cta: "A store near me" },
 ];
 
 /* ---------- specials ---------- */
@@ -232,51 +233,14 @@ export default function HomePage() {
           </span>
         </a>
 
+        <Spotlight />
+
         <section className="band band-carousel" id="highlights" aria-labelledby="hl-title">
           <div className="wrap">
             <h2 className="visually-hidden" id="hl-title">
               At Southern Food Basket
             </h2>
-            <div className="carousel" id="carousel" aria-roledescription="carousel" aria-label="Highlights">
-              <div className="car-track">
-                {SLIDES.map((s, i) => (
-                  <article key={s.img} className="slide" role="group" aria-roledescription="slide" aria-label={i + 1 + " of " + SLIDES.length}>
-                    <figure className="slide-photo">
-                      <img src={s.src || "/assets/img/photos/" + s.img + ".webp"} width="800" height={s.h} alt={s.alt} loading={i ? "lazy" : undefined} />
-                    </figure>
-                    <div className="slide-copy">
-                      <Eyebrow>{s.eyebrow}</Eyebrow>
-                      <h3>{s.title}</h3>
-                      <p>{s.text}</p>
-                      <a className={s.cta[0]} href={s.cta[1]}>
-                        {s.cta[2]}
-                      </a>
-                    </div>
-                  </article>
-                ))}
-              </div>
-              <div className="car-controls">
-                <button className="round car-prev" type="button" aria-label="Previous slide">
-                  {PREV}
-                </button>
-                <div className="car-dots">
-                  {SLIDES.map((s, i) => (
-                    <button key={s.img} type="button" className="car-dot" aria-label={"Slide " + (i + 1) + ": " + s.title} />
-                  ))}
-                </div>
-                <button className="round car-play" type="button" aria-label="Pause the slides">
-                  <svg className="i-pause" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M9 6v12M15 6v12" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" />
-                  </svg>
-                  <svg className="i-play" viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M8 5.5v13l11-6.5Z" fill="currentColor" />
-                  </svg>
-                </button>
-                <button className="round car-next" type="button" aria-label="Next slide">
-                  {NEXT}
-                </button>
-              </div>
-            </div>
+            <Highlights standing={STANDING} />
           </div>
         </section>
 
@@ -553,10 +517,6 @@ export default function HomePage() {
               <li><Link href="/how-it-works">How the system works</Link></li>
             </ul>
           </div>
-        </div>
-        <div className="wrap footer-social">
-          <span>Follow us</span>
-          <SocialLinks settings={S} compact />
         </div>
         <div className="wrap legal">
           <p>

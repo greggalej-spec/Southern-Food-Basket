@@ -225,9 +225,13 @@ function EventEditor({ event, today, onDone }: { event: StoreEvent | null; today
         </div>
         <div className="field">
           <label htmlFor="ev-to">Last day</label>
-          <input id="ev-to" type="date" value={v.to} min={v.from} onChange={(e) => setV({ ...v, to: e.target.value })} />
+          <input id="ev-to" type="date" value={v.ongoing ? "" : v.to} min={v.from} disabled={!!v.ongoing} onChange={(e) => setV({ ...v, to: e.target.value })} />
         </div>
       </div>
+      <label className="check-row">
+        <input type="checkbox" checked={!!v.ongoing} onChange={(e) => setV({ ...v, ongoing: e.target.checked, to: e.target.checked ? "2099-12-31" : v.from > today ? v.from : today })} />
+        No end date: it runs until we take it down
+      </label>
       <div className="field">
         <label htmlFor="ev-time">Time, if it matters</label>
         <input id="ev-time" type="text" value={v.time || ""} onChange={(e) => setV({ ...v, time: e.target.value })} placeholder="8:00 am to 11:00 am" />
@@ -284,7 +288,11 @@ function EventEditor({ event, today, onDone }: { event: StoreEvent | null; today
       </div>
       <label className="check-row">
         <input type="checkbox" checked={!!v.featured} onChange={(e) => setV({ ...v, featured: e.target.checked })} />
-        Lead the Events page with it while it is on
+        Show it in the home page slides, and lead the Events page, while it is on
+      </label>
+      <label className="check-row">
+        <input type="checkbox" checked={!!v.spotlight} onChange={(e) => setV({ ...v, spotlight: e.target.checked })} />
+        Make it the main promotion: the big banner on the home page (one at a time)
       </label>
       <div className="cluster drawer-actions">
         <button className="btn btn-primary" type="submit">

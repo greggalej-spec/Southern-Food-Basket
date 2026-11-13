@@ -40,6 +40,8 @@ export function saveEvent(s: Session | null, id: string | null, form: EventForm)
     if (form.to < form.from) throw new Error("The last day is before the first day.");
     d.events = d.events || [];
     const cur = id ? byId(d.events, id) : null;
+    // one main promotion at a time: taking the banner takes it from whoever had it
+    if (form.spotlight) d.events.forEach((e) => { if (e.id !== id) delete e.spotlight; });
     if (cur) Object.assign(cur, form);
     else d.events.unshift({ id: uid("ev"), ...form });
     saved = cur ? cur.id : d.events[0].id;

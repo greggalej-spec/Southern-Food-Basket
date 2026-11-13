@@ -707,6 +707,8 @@ export interface StoreEvent {
   featured?: boolean;
   /** No posted end date: it runs until taken down (`to` is then a far-off date, for sorting). */
   ongoing?: boolean;
+  /** The main promotion: the big banner on the home page while it runs. One at a time. */
+  spotlight?: boolean;
 }
 
 /** A finished picture from the graphic designer: a weekly specials flyer or a post. */

@@ -3,7 +3,6 @@ import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
 import { AboutValues } from "@/components/site/about";
 import { StoreMap } from "@/components/site/store-map";
-import { SocialLinks } from "@/components/social-links";
 import { SEED } from "@/lib/seed";
 
 // The company's own story, told the way a supermarket tells it: the family, the 35 years, what it stands for, where
@@ -138,16 +137,6 @@ export default function AboutPage() {
         </section>
       ) : null}
 
-      <section className="section sf-glassroom" aria-labelledby="follow-title">
-        <div className="container sf-follow">
-          <div>
-            <p className="eyebrow">Stay close</p>
-            <h2 id="follow-title">Follow Southern Food Basket</h2>
-            <p>New specials, competitions and store news, as we post them.</p>
-          </div>
-          <SocialLinks settings={SEED.settings} />
-        </div>
-      </section>
     </SiteFrame>
   );
 }

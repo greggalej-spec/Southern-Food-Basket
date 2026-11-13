@@ -189,3 +189,65 @@ html:is(:not([data-season]), [data-season="none"]) .page-hero::after{
   :is(.ge-root, .site-header) .topnav a{ padding-inline: 5px; font-size: .8125rem; }
   :is(.ge-root, .site-header) .topnav{ gap: 0; }
 }
+
+/* ---------- pictures are shown whole (2026-11-13, second pass) ----------
+   A flyer or a post can be any shape. `.fit` never crops it: the picture sits whole inside its frame, over a soft
+   blurred copy of itself, so an odd shape still fills the frame. Used by the flyers, the event cards, the home
+   slides and the main-promotion banner (components/fit.tsx). */
+.fit{ position: relative; display: block; overflow: hidden; isolation: isolate; background: #123F22; }
+.fit::before{ content: ""; position: absolute; inset: -28px; z-index: -1; background: var(--fit-img) center / cover no-repeat; filter: blur(24px) saturate(1.15) brightness(.82); }
+.fit > img{ position: relative; display: block; width: 100%; height: 100%; object-fit: contain; }
+
+/* flyers: a grid that fills the row, every card the same height */
+.flyer-row{ display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 18px; overflow: visible; padding: 6px 0 12px; }
+.flyer-row li{ display: flex; }
+.flyer{ grid-template-rows: auto 1fr; height: 100%; }
+.flyer .fit{ aspect-ratio: 4 / 5; }
+.flyer .fit > img{ aspect-ratio: auto; object-fit: contain; }
+.flyer:hover{ transform: translateY(-6px); }
+.flyer:hover .fit > img{ transform: scale(1.03); }
+@media (max-width: 520px) { .flyer-row{ grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+
+/* event cards */
+.ev-pic.fit{ aspect-ratio: 1 / 1; background: #123F22; }
+.ev-section{ padding-top: clamp(40px, 5vw, 60px); }
+.ev-pic.fit > img{ object-fit: contain; }
+.ev-card:hover .ev-pic.fit > img{ transform: scale(1.03); }
+@media (min-width: 760px) { .ev-card.is-lead .ev-pic.fit{ aspect-ratio: auto; min-height: 460px; } }
+
+/* home slides: whole picture, and no zoom from the page script */
+.ge-root .slide-photo.fit{ aspect-ratio: 4 / 3; background: var(--teal-deep, #164F4B); }
+@media (min-width: 820px) { .ge-root .slide-photo.fit{ aspect-ratio: auto; min-height: 440px; } }
+.ge-root .slide-photo.fit > img, .lv .ge-root .slide-photo.fit > img{ object-fit: contain; transform: none; }
+
+/* ---------- the main promotion: one big banner on the home page, set from the Events and flyers screen ---------- */
+.ge-root .band-spot{ padding-block: 44px 8px; background: var(--cream, #FBF6EC); }
+.spot{ display: grid; gap: 0; border-radius: 28px; overflow: hidden; background: var(--sf-leaf); color: #fff; box-shadow: 0 34px 70px -40px rgba(18,40,30,.9); }
+@media (min-width: 860px) { .spot{ grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); } }
+.spot-pic.fit{ aspect-ratio: 4 / 5; max-height: 78vh; }
+@media (min-width: 860px) { .spot-pic.fit{ aspect-ratio: auto; max-height: none; min-height: 520px; } }
+.spot-body{ position: relative; display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: 28px 24px 32px; }
+@media (min-width: 860px) { .spot-body{ padding: 44px 48px; } }
+.spot-body::before{ content: ""; position: absolute; inset: 0; background: url(/assets/img/glass/glass-grid.svg) left top / 180px 180px; opacity: .08; pointer-events: none; }
+.spot-body > *{ position: relative; }
+.spot-tag{ align-self: flex-start; display: inline-flex; align-items: center; gap: 8px; padding: 7px 14px; border-radius: 999px; background: #FFD21A; color: #20141A; font: 800 .8125rem/1.2 var(--ui, system-ui, sans-serif); letter-spacing: .1em; text-transform: uppercase; }
+.spot-tag i{ width: 9px; height: 9px; border-radius: 50%; background: var(--sf-sign); }
+@media (prefers-reduced-motion: no-preference) { .spot-tag i{ animation: spot-pulse 1.6s ease-in-out infinite; } }
+@keyframes spot-pulse { 50% { transform: scale(1.5); opacity: .55; } }
+.spot-body h2{ margin: 0; color: #fff; font-size: clamp(2rem, 1.3rem + 2.6vw, 3.2rem); line-height: 1.05; }
+.spot-body > p:not(.spot-tag){ margin: 0; color: #E3F1EF; font-size: 1.1875rem; max-width: 46ch; }
+.spot-body > p.spot-tag{ margin: 0; }
+.spot-steps{ list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; counter-reset: spot; }
+.spot-steps li{ counter-increment: spot; display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 16px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); font: 700 1.0625rem/1.3 var(--ui, system-ui, sans-serif); }
+.spot-steps li::before{ content: counter(spot); flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: #FFD21A; color: #20141A; font: 800 1.0625rem/1 var(--ui, system-ui, sans-serif); }
+.spot-foot{ display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 6px; }
+.spot-foot span{ padding: 7px 14px; border-radius: 999px; background: rgba(255,255,255,.14); font: 700 .9375rem/1.2 var(--ui, system-ui, sans-serif); }
+
+/* ---------- second-pass fixes ---------- */
+/* cards slide up as they arrive, but never look faded on the way in */
+@keyframes sf-rise { from { transform: translateY(22px); } to { transform: none; } }
+/* footer social row: one line of chips, label beside it */
+.footer-social{ display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; padding-block: 8px 24px; }
+.footer-social .soc-list.is-compact{ display: flex; flex-flow: row wrap; gap: 10px; margin: 0; padding: 0; }
+.footer-social .soc-list.is-compact li{ display: block; margin: 0; }
+.site-footer .footer-social .soc, .site-footer .footer-social .soc:hover{ text-decoration: none; }

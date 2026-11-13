@@ -35,6 +35,9 @@
 - Company lines used as copy: "Here you get D Best 4 Less", "We've got the food for your basket" (Instagram bio), "35 Years of Rewards".
 - Restaurant and bakery (`/restaurant`): at Coffee Street San Fernando, Couva and Point Fortin, per Gregg. No menu, dish, price or restaurant hours were found in public posts, so the page shows the three stores, the bakery's posted cake prices and a board that waits for each kitchen's menu and photographs.
 - Mr Nazim Mohammed's photograph: none was found on the company's public pages or the web, and one was not guessed from a name match. The memorial card keeps a framed place for it; it needs the photograph from the family.
+- Pictures are never cropped (second pass, same day): flyers, event pictures, home slides and the banner show the whole image over a blurred copy of itself (`components/fit.tsx`, `.fit` in `styles/storefront.css`). The Escape on Wheels poster is the full 4:5 artwork from the Instagram post, not the square preview.
+- Marketing runs the home page from the office console, Events and flyers: "main promotion" (one at a time) is the big home banner; "show it in the home page slides" puts an event in the slides; "no end date" keeps it running. The three standing slides are in `app/(home)/page.tsx`. As with everything in the prototype, a change is saved in that browser only until there is a database.
+- Social links appear once per page: the pink band on the home page, the footer row everywhere else.
 - About: no source notes on the page any more (this file keeps them). "A store near me" uses the browser's location once, in the browser, to mark the nearest store.
 
 ## Social feeds

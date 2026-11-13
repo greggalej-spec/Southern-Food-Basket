@@ -3,6 +3,7 @@
 import "@/styles/public-extras.css";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Fit } from "@/components/fit";
 import { EVENT_KIND, EVENT_KINDS, STATE_LABEL, daysTo, eventState, eventsByState } from "@/lib/ops/events";
 import { useData } from "@/lib/store";
 import type { EventKind, Flyer, Seed, StoreEvent } from "@/lib/types";
@@ -19,7 +20,7 @@ function useToday() {
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const dm = (day: string) => Number(day.slice(8, 10)) + " " + MONTHS[Number(day.slice(5, 7)) - 1];
-const span = (e: Pick<StoreEvent, "from" | "to" | "ongoing">) => (e.ongoing ? "Since " + dm(e.from) : e.from === e.to ? dm(e.from) : e.from.slice(0, 7) === e.to.slice(0, 7) ? Number(e.from.slice(8, 10)) + " to " + dm(e.to) : dm(e.from) + " to " + dm(e.to));
+export const span = (e: Pick<StoreEvent, "from" | "to" | "ongoing">) => (e.ongoing ? "Since " + dm(e.from) : e.from === e.to ? dm(e.from) : e.from.slice(0, 7) === e.to.slice(0, 7) ? Number(e.from.slice(8, 10)) + " to " + dm(e.to) : dm(e.from) + " to " + dm(e.to));
 const days = (n: number) => (n === 1 ? "1 day" : n + " days");
 
 function when(e: StoreEvent, today: string) {
@@ -32,7 +33,7 @@ function when(e: StoreEvent, today: string) {
   return left === 0 ? "Last day today" : days(left) + " left";
 }
 
-function stores(d: Seed, e: StoreEvent) {
+export function stores(d: Seed, e: StoreEvent) {
   if (!e.branchIds) return ["All five stores"];
   return e.branchIds.map((id) => d.branches.find((b) => b.id === id)?.name || id);
 }
@@ -42,11 +43,7 @@ function EventCard({ e, today, lead = false }: { e: StoreEvent; today: string; l
   const st = today ? eventState(e, today) : null;
   return (
     <article className={"ev-card ev-" + e.kind + (lead ? " is-lead" : "") + (st ? " is-" + st : "")} id={e.id}>
-      {e.img ? (
-        <div className="ev-pic">
-          <img src={e.img} alt="" loading="lazy" decoding="async" />
-        </div>
-      ) : null}
+      {e.img ? <Fit as="div" className="ev-pic" src={e.img} /> : null}
       <div className="ev-date" aria-hidden="true">
         <b>{Number(e.from.slice(8, 10))}</b>
         <span>{MONTHS[Number(e.from.slice(5, 7)) - 1]}</span>
@@ -196,10 +193,10 @@ export function FlyerWall() {
         {list.map((f) => (
           <li key={f.id}>
             <button type="button" className="flyer" onClick={() => setOpen(f)}>
-              <img src={f.img} alt="" loading="lazy" decoding="async" />
+              <Fit src={f.img} />
               <span>
                 <b>{f.title}</b>
-                {f.to ? <small>{"Until " + dm(f.to)}</small> : null}
+                <small>{f.to ? "Until " + dm(f.to) : "Running now"}</small>
               </span>
             </button>
           </li>
