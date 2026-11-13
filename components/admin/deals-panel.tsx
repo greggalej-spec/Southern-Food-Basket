@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { BulkDeals } from "@/components/admin/bulk-deals";
 import { DealDrawer } from "@/components/admin/deal-drawer";
 import { useConfirm } from "@/components/confirm";
 import { Icon } from "@/components/icon";
@@ -18,6 +19,7 @@ import { KEY, byId, load, useData, useSession } from "@/lib/store";
 type Saved = { id: string; name: string; dept: string };
 
 export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void }) {
+  const [bulk, setBulk] = useState(false);
   const d = useData();
   const s = useSession();
   const { confirm } = useConfirm();
@@ -177,6 +179,9 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
         <p className="small muted toolbar-count" id="deal-count" aria-live="polite">
           {shown.length === all.length ? plural(all.length, "deal") : shown.length + " of " + plural(all.length, "deal")}
         </p>
+        <button className="btn btn-outline" type="button" onClick={() => setBulk(true)}>
+          Add many at once
+        </button>
         <button className="btn btn-primary" type="button" id="deal-add" ref={addRef} onClick={(e) => openDealDrawer(null, e.currentTarget)}>
           Add a deal
         </button>
@@ -253,6 +258,7 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
         onSaved={onSaved}
         onRemove={(id, opener) => remove(id, opener)}
       />
+      {bulk ? <BulkDeals onClose={() => setBulk(false)} /> : null}
     </>
   );
 }

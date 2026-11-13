@@ -1,5 +1,6 @@
 "use client";
 
+import { officeMeta } from "@/components/app-shell";
 import { Icon } from "@/components/icon";
 import { PERMISSIONS, activeGrant, type Permission } from "@/lib/access";
 import { grantLine } from "@/lib/admin/access-admin";
@@ -13,6 +14,7 @@ export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
   overview: { title: "Overview", purpose: "Every department on one page: what is waiting, what is moving, and what changed today." },
   suppliers: { title: "Supplier specials", purpose: "Each company’s specials for the round, in the columns the office already uses. Bring in what they send, add the case price, mark it checked." },
   sellout: { title: "Sell-out reports", purpose: "Which companies are owed a report for each round of specials, which are done, and which have gone out." },
+  events: { title: "Events and flyers", purpose: "What customers see on the Events page, and the designer’s flyers that lead the Specials page." },
   feedback: { title: "Customer feedback", purpose: "Compliments, questions, suggestions and complaints sent from the website, each one answered and closed in one place." },
   requests: { title: "Partnerships and donations", purpose: "Every request from a school, charity, club or company in one list, from the day it arrives to the day it is done." },
   bulk: { title: "Bulk orders", purpose: "One order for all five stores: each store gives its number, the office places the order, and last time’s figures sit alongside." },
@@ -35,11 +37,20 @@ export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
   audit: { title: "Audit log", purpose: "Every change and every refused attempt in the console and at the tills, newest first." },
 };
 
+/** A section's banner: its icon in a tile, the department above the title, one line saying what the section is for,
+ *  and the section's own controls on the right. The banner takes its department's colour (styles/staff-theme.css),
+ *  so a glance at the top of the screen says where you are. */
 export function SectionHead({ id, children }: { id: AdminTab; children?: React.ReactNode }) {
   const sec = SECTION[id];
+  const meta = officeMeta(id);
+  const dept = meta?.group || "Office";
   return (
-    <header className="section-head">
+    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-")}>
+      <span className="sec-icon" aria-hidden="true">
+        <Icon name={meta?.icon || "grid"} />
+      </span>
       <div className="grow">
+        <p className="sec-dept">{dept}</p>
         <h1 id={"sec-" + id + "-h"} data-tour={"section-" + id}>
           {sec.title}
         </h1>

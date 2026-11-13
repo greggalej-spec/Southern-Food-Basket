@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { Stat, act } from "@/components/admin/bits";
 import { SideSheet } from "@/components/admin/side-sheet";
+import { Icon } from "@/components/icon";
 import { Badge } from "@/components/ui/badge";
-import { Flow } from "@/components/viz";
+import { Flow, Working } from "@/components/viz";
 import { personName } from "@/lib/admin/guard";
 import { dollars, plural } from "@/lib/admin/helpers";
 import { dayTT } from "@/lib/admin/tt";
@@ -15,7 +16,10 @@ import type { FileMeta, SelloutReport, Supplier, SupplierSheet } from "@/lib/typ
 
 /* Sell-out reports: after a round of specials, some companies ask how many units sold. The office kept this in a
    notebook and a Google Sheet, with no way to see which were done. Here every company that asks for one shows as
-   owed, compiled or sent for each book, and a photo of the notebook page can ride along as the record. */
+   owed, compiled or sent for each book. The pages themselves come in by photo, scan or file: drop them on the report
+   and they are read into the table, each figure marked as read from the page or as one to check by eye. A .csv or
+   text file is read for real; a photo or PDF shows a sample reading here, and the live system sends it to a document
+   reader (see the database note in SITE.md). */
 
 type Row = ReturnType<typeof selloutState>[number];
 
@@ -144,7 +148,14 @@ function SelloutForm({ bookId, supplier, sheet, report, onDone }: { bookId: stri
   const [units, setUnits] = useState<string[]>(base.map((l) => (l.units ? String(l.units) : "")));
   const [scan, setScan] = useState<FileMeta | undefined>(report?.scan);
   const [note, setNote] = useState(report?.note || "");
-  const [filled, setFilled] = useState(false);
+  // What the last reading was: a photo or PDF (sample figures here) or a sheet (read for real).
+  const [filled, setFilled] = useState<false | "photo" | "sheet">(false);
+  const [pages, setPages] = useState<{ name: string; url: string | null }[]>([]);
+  const [reading, setReading] = useState<{ sheetText: string | null; label: string } | null>(null);
+  // Per row: "read" came off the page cleanly, "check" is a figure the reader was unsure of. Typing clears it.
+  const [marks, setMarks] = useState<("read" | "check" | undefined)[]>([]);
+  const [missed, setMissed] = useState(0);
+  const [over, setOver] = useState(false);
   const lines = base.map((l, i) => ({ ...l, units: Math.max(0, Math.round(Number(units[i]) || 0)) }));
   const sumUnits = lines.reduce((n, l) => n + l.units, 0);
   const sumValue = lines.reduce((n, l) => n + (selloutValue(l) || 0), 0);
@@ -154,27 +165,101 @@ function SelloutForm({ bookId, supplier, sheet, report, onDone }: { bookId: stri
     if (act(s, "sellout.compile", supplier.name, () => saveSellout(s, { supplierId: supplier.id, bookId, lines, note: note.trim() || undefined, scan }), "Saved. " + sumUnits.toLocaleString("en-US") + " units recorded.")) onDone();
   }
 
-  // Stands in for reading the page: fills plausible units so the rest of the flow can be seen. Clearly a demo.
-  function demoFill() {
-    setUnits(base.map((l, i) => String(120 + ((l.item.length * 37 + i * 91) % 1900))));
-    setFilled(true);
+  async function takeFiles(list: FileList | null) {
+    const files = Array.from(list || []);
+    if (!files.length) return;
+    setScan({ fileName: files.length === 1 ? files[0].name : files[0].name + " and " + (files.length - 1) + " more", size: files.reduce((n, f) => n + f.size, 0), type: files[0].type || "image/jpeg" });
+    setPages(files.map((f) => ({ name: f.name, url: f.type.startsWith("image/") ? URL.createObjectURL(f) : null })));
+    const sheet = files.find((f) => /\.(csv|tsv|txt)$/i.test(f.name) || f.type.startsWith("text/"));
+    setReading({ sheetText: sheet ? await sheet.text() : null, label: files.length === 1 ? files[0].name : files.length + " pages" });
   }
+
+  function finishRead() {
+    const r = reading;
+    setReading(null);
+    if (!r) return;
+    if (r.sheetText != null) {
+      // A real reading: the first cell names the item, the last whole number on the row is the units.
+      const key = (v: string) => v.toLowerCase().replace(/[^a-z0-9]/g, "");
+      const next = units.slice(), mk = marks.slice();
+      let miss = 0;
+      const rows = r.sheetText
+        .split(/\r?\n/)
+        .filter((l) => l.trim())
+        .map((l) => l.split(l.includes("\t") ? "\t" : l.includes(";") ? ";" : ",").map((c) => c.trim().replace(/^"|"$/g, "")));
+      rows.forEach((cells) => {
+        const name = key(cells[0] || "");
+        const num = [...cells].reverse().find((c) => /^\s*[\d,]+\s*$/.test(c));
+        if (!name || !num) return;
+        const i = base.findIndex((l) => {
+          const k = key(l.item);
+          return k === name || k.includes(name) || name.includes(k);
+        });
+        if (i < 0) return void miss++;
+        next[i] = num.replace(/\D/g, "");
+        mk[i] = "read";
+      });
+      setUnits(next);
+      setMarks(mk);
+      setMissed(miss);
+      setFilled("sheet");
+    } else {
+      // Stands in for the document reader: plausible figures, with one row in five flagged to check by eye.
+      setUnits(base.map((l, i) => String(120 + ((l.item.length * 37 + i * 91) % 1900))));
+      setMarks(base.map((_, i) => (i % 5 === 3 ? "check" : "read")));
+      setMissed(0);
+      setFilled("photo");
+    }
+  }
+
+  const nRead = marks.filter((m) => m === "read").length, nCheck = marks.filter((m) => m === "check").length;
 
   return (
     <form onSubmit={save}>
-      <div className="field">
-        <label htmlFor="so-scan">Notebook page or till print-out</label>
-        <input id="so-scan" type="file" accept="image/*,.pdf" onChange={(e) => { const f = e.target.files?.[0]; if (f) setScan({ fileName: f.name, size: f.size, type: f.type || "image/jpeg" }); }} />
-        <p className="hint">{scan ? "Attached: " + scan.fileName + " (" + fileSize(scan.size) + "). Only its name is kept in this prototype." : "Optional. Take a photo of the page so the record is kept with the report."}</p>
-        {scan ? (
-          <p className="hint">
-            <button className="link-btn" type="button" onClick={demoFill}>
-              Demo: fill the units from the page
-            </button>
-            {filled ? " Filled with sample numbers. With the document reader switched on, these come from the photo." : ""}
-          </p>
-        ) : null}
+      <div
+        className={"scan-box" + (over ? " is-over" : "")}
+        onDragOver={(e) => { e.preventDefault(); setOver(true); }}
+        onDragLeave={() => setOver(false)}
+        onDrop={(e) => { e.preventDefault(); setOver(false); takeFiles(e.dataTransfer.files); }}
+      >
+        <span className="scan-icon" aria-hidden="true">
+          <Icon name="camera" />
+        </span>
+        <div className="grow">
+          <strong>Scan or upload the pages</strong>
+          <span>Notebook photo, till print-out, PDF or .csv. Several at once.</span>
+        </div>
+        <label className="btn btn-primary btn-sm">
+          Choose pages
+          <input className="visually-hidden" type="file" accept="image/*,.pdf,.csv,.tsv,.txt" multiple onChange={(e) => { takeFiles(e.target.files); e.target.value = ""; }} />
+        </label>
       </div>
+      {pages.length ? (
+        <ul className="scan-pages" aria-label="Pages attached">
+          {pages.map((pg) => (
+            <li key={pg.name}>
+              {pg.url ? <img src={pg.url} alt="" /> : <span className="scan-file"><Icon name="file" /></span>}
+              <span>{pg.name}</span>
+            </li>
+          ))}
+        </ul>
+      ) : scan ? (
+        <p className="hint">{"Attached: " + scan.fileName + " (" + fileSize(scan.size) + ")."}</p>
+      ) : null}
+      {reading ? (
+        <Working
+          steps={reading.sheetText != null ? ["Opening " + reading.label, "Finding the item and units columns", "Matching each row to this company’s specials"] : ["Straightening " + reading.label, "Finding the table on the page", "Reading the item names", "Reading the units", "Matching each row to this company’s specials"]}
+          onDone={finishRead}
+        />
+      ) : null}
+      {filled && !reading ? (
+        <div className="scan-result" role="status">
+          <span className="scan-chip is-read">{nRead + " read from the page"}</span>
+          {nCheck ? <span className="scan-chip is-check">{nCheck + " to check by eye"}</span> : null}
+          {missed ? <span className="scan-chip is-miss">{missed + " not on this company’s list"}</span> : null}
+          {filled === "photo" ? <span className="scan-demo">Sample figures: the live system reads the photo itself.</span> : null}
+        </div>
+      ) : null}
       <div className="table-wrap">
         <table className="units-table">
           <caption className="visually-hidden">Units sold for each line</caption>
@@ -192,8 +277,9 @@ function SelloutForm({ bookId, supplier, sheet, report, onDone }: { bookId: stri
               <tr key={l.item + i}>
                 <th scope="row">{l.item}</th>
                 <td>{l.special}</td>
-                <td className="num">
-                  <input className="cell-input num" type="text" inputMode="numeric" aria-label={"Units sold: " + l.item} value={units[i]} onChange={(e) => setUnits(units.map((u, j) => (j === i ? e.target.value.replace(/[^\d]/g, "") : u)))} />
+                <td className={"num" + (marks[i] ? " is-" + marks[i] : "")}>
+                  {marks[i] === "check" ? <span className="check-flag">Check</span> : null}
+                  <input className="cell-input num" type="text" inputMode="numeric" aria-label={"Units sold: " + l.item + (marks[i] === "check" ? " (check this figure)" : "")} value={units[i]} onFocus={() => marks[i] && setMarks(marks.map((m, j) => (j === i ? undefined : m)))} onChange={(e) => setUnits(units.map((u, j) => (j === i ? e.target.value.replace(/[^\d]/g, "") : u)))} />
                 </td>
               </tr>
             ))}

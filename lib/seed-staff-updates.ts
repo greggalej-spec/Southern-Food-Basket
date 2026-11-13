@@ -23,7 +23,7 @@ export const STAFF_UPDATES: StaffUpdate[] = [
     acks: [],
     createdBy: "emp-devon",
     createdAt: "2026-10-28T11:15:00-04:00",
-    testSends: [{ at: "2026-10-28T11:20:00-04:00", to: "devon.baptiste@sfb.example" }],
+    testSends: [{ at: "2026-10-28T11:20:00-04:00", to: "faith@sfb.example" }],
   },
   {
     id: "su-ptown-bakery",
@@ -49,7 +49,7 @@ export const STAFF_UPDATES: StaffUpdate[] = [
     body: [
       "Christmas leave requests open on Wednesday 4 November, in the staff portal under Leave. Each store decides requests in the order they arrive, and you will hear back within a week.",
       "If you handle food, check the expiry date on your Food Handler’s Badge under Documents & training. If it ends before 31 December, book your renewal now. HR covers the time for the course.",
-      "Questions about any of this go to Devon Baptiste in HR.",
+      "Questions about any of this go to Faith in HR.",
     ],
     needsAck: false,
     audience: { branches: null, teams: null },
@@ -66,7 +66,7 @@ export const STAFF_UPDATES: StaffUpdate[] = [
     acks: [],
     createdBy: "emp-devon",
     createdAt: "2026-10-23T14:00:00-04:00",
-    testSends: [{ at: "2026-10-23T14:10:00-04:00", to: "devon.baptiste@sfb.example" }],
+    testSends: [{ at: "2026-10-23T14:10:00-04:00", to: "faith@sfb.example" }],
   },
   {
     id: "su-till-codes",

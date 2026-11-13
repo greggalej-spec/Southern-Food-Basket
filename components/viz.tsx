@@ -109,9 +109,10 @@ export function Flow({ id, def, counts, always = false }: { id?: string; def?: F
         <p className="flow-text">{st.text}</p>
       </div>
       {f.tryIt && !always ? (
-        <p className="flow-try">
-          <strong>Try it:</strong> {f.tryIt}
-        </p>
+        <details className="flow-try">
+          <summary>Try it yourself</summary>
+          <p>{f.tryIt.charAt(0).toUpperCase() + f.tryIt.slice(1)}</p>
+        </details>
       ) : null}
     </section>
   );

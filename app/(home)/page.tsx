@@ -100,6 +100,7 @@ const Eyebrow = ({ children, light }: { children: React.ReactNode; light?: boole
 const NAV = [
   ["/careers", "Careers"],
   ["#deals", "Specials"],
+  ["/events", "What’s on"],
   ["/offers", "Offers"],
   ["#stores", "Stores"],
   ["#aisles", "Departments"],

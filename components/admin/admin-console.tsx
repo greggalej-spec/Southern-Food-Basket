@@ -6,6 +6,7 @@ import { AccessPanel } from "@/components/admin/access-panel";
 import { AnalyticsPanel } from "@/components/admin/analytics-panel";
 import { BulkPanel } from "@/components/admin/bulk-panel";
 import { OverviewPanel } from "@/components/admin/overview-panel";
+import { EventsPanel } from "@/components/admin/events-panel";
 import { FeedbackPanel } from "@/components/admin/feedback-panel";
 import { RequestsPanel } from "@/components/admin/requests-panel";
 import { SelloutPanel } from "@/components/admin/sellout-panel";
@@ -98,6 +99,8 @@ export function AdminConsole() {
         return <SuppliersPanel />;
       case "sellout":
         return <SelloutPanel />;
+      case "events":
+        return <EventsPanel />;
       case "feedback":
         return <FeedbackPanel item={item} />;
       case "requests":

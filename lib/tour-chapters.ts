@@ -114,16 +114,16 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "approve",
     title: "An offer, drafted and approved",
     summary: "Marketing drafts an offer; someone else approves it. Nobody approves their own.",
-    cast: "Tricia, marketing · Melissa, the owner’s office",
+    cast: "Isabel, marketing · Melissa, the owner’s office",
     steps: [
       {
         path: "/admin#today",
         as: tricia,
         target: "admin-today",
-        title: "Tricia’s day starts with a list",
+        title: "Isabel’s day starts with a list",
         body: [
           "The office opens on what needs doing, for this person only: offers sent back, a newsletter going out, offers about to end.",
-          "Tricia sees no applicants and no payroll. Her menu shows only what her job uses.",
+          "Isabel sees no applicants and no payroll. Her menu shows only what her job uses.",
         ],
       },
       {
@@ -132,7 +132,7 @@ const SITE_CHAPTERS: TourChapter[] = [
         title: "Drafting an offer",
         body: [
           "An offer has a benefit, the stores that take it, dates, limits, and a preview of how shoppers will see it.",
-          "Tricia can draft an offer and send it for approval. She cannot approve it.",
+          "Isabel can draft an offer and send it for approval. She cannot approve it.",
         ],
       },
       {
@@ -141,7 +141,7 @@ const SITE_CHAPTERS: TourChapter[] = [
         target: "promo-approve",
         title: "A second pair of eyes",
         body: [
-          "Tricia’s Christmas offer is waiting. Melissa approves it, or sends it back with a note Tricia will see.",
+          "Isabel’s Christmas offer is waiting. Melissa approves it, or sends it back with a note Isabel will see.",
           "Whoever wrote an offer can never approve it, and both moves go in the audit log.",
         ],
         try: "Approve the Christmas shop offer, or send it back with a note.",
@@ -152,7 +152,7 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "newsletter",
     title: "The weekly e-mail",
     summary: "A newsletter built from the specials, sent only to people who confirmed.",
-    cast: "Tricia, marketing · Melissa, the owner’s office",
+    cast: "Isabel, marketing · Melissa, the owner’s office",
     steps: [
       {
         path: "/admin#newsletter",
@@ -234,7 +234,7 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "hiring",
     title: "Hiring, with care",
     summary: "Plain stages for applicants, and decisions that arrive as a sealed update.",
-    cast: "Aaliyah, Kwame and Shanice, applicants · Devon, HR",
+    cast: "Aaliyah, Kwame and Shanice, applicants · Faith, HR",
     steps: [
       {
         path: "/careers/me",
@@ -279,7 +279,7 @@ const SITE_CHAPTERS: TourChapter[] = [
         target: "hr-pipeline",
         title: "HR’s side",
         body: [
-          "Devon sees every application by stage. Opening one shows the documents to check and, at the end, a Decision step.",
+          "Faith sees every application by stage. Opening one shows the documents to check and, at the end, a Decision step.",
           "The Decision step previews exactly what the applicant will read, and keeps HR’s own reason separate from the message.",
         ],
         try: "Open an application and go to its Decision step.",
@@ -336,7 +336,7 @@ const SITE_CHAPTERS: TourChapter[] = [
         title: "Access, person by person",
         body: [
           "Each grant says what someone can do, at which stores, and until when.",
-          "Marsha covers store admin at Princes Town until 15 November. Ria’s old HR access was revoked and stays on record.",
+          "Marsha covers store admin at Princes Town until 15 November. Alexia’s old HR access was revoked and stays on record.",
         ],
         try: "Revoke someone’s access, then look for their card on the staff sign-in.",
       },

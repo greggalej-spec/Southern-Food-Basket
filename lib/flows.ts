@@ -75,6 +75,20 @@ export const FLOWS: FlowDef[] = [
     tryIt: "open the cricket league’s card under “With the director”. Signed in as the administration you can add a note; signed in as Melissa you can approve it.",
   },
   {
+    id: "events",
+    dept: "Marketing",
+    title: "From the designer’s desk to the customer’s phone",
+    summary: "Flyers, events and promotions go on the public site the moment they are saved.",
+    href: "/admin#events",
+    stages: [
+      { icon: "camera", label: "Flyers in", who: "Graphic designer", text: "Drop the week’s finished flyers in, several at once. They are made light enough for phones and lead the Specials page." },
+      { icon: "tag", label: "Specials in", who: "Marketing or Administration", text: "Paste the week’s price list and every special is added in one go, each in its department." },
+      { icon: "calendar", label: "On now", who: "The system", text: "An event shows on the Events page from its first day to its last. Nobody has to remember to take it down." },
+      { icon: "clock", label: "Coming up", who: "Marketing", text: "Plan ahead: a date, one sentence, up to three points, and the stores it is at." },
+    ],
+    tryIt: "drop two pictures into the flyer box, then open the Specials page. Add an event for next week and find it under “Coming up” on the Events page.",
+  },
+  {
     id: "feedback",
     dept: "Administration",
     title: "Customer feedback, from the button to the answer",

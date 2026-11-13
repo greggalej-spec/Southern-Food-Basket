@@ -35,6 +35,7 @@ export const PERMISSIONS = {
   "requests.log": "Log partnership, promotion and donation requests, reply to them and follow them up",
   "requests.decide": "Approve or decline partnership, promotion and donation requests",
   "feedback.handle": "Read customer feedback, reply to it and mark it resolved",
+  "events.manage": "Put events, promotions and flyers on the public site",
   "bulk.manage": "Set up bulk orders and place them",
   "bulk.store": "Give your store's quantity for a bulk order",
   "tasks.assign": "Hand out tasks and see everyone's",
@@ -59,17 +60,17 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
   admin: [
     "portal.self", "specials.edit", "posts.make", "stores.edit", "notices.post", "staff.updates", "site.publish", "codes.view",
     "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "bulk.manage", "bulk.store", "tasks.assign", "resources.edit",
-    "feedback.handle",
+    "feedback.handle", "events.manage",
   ],
   // Purchasing checks the supplier specials and can correct them. Nothing else in the office is theirs.
   purchasing: ["portal.self", "suppliers.view", "suppliers.edit", "bulk.store"],
   marketing: [
     "portal.self", "posts.make", "promos.draft", "codes.view", "newsletter.view", "newsletter.compose", "newsletter.send",
-    "analytics.view", "social.connect", "plan.edit", "site.customize", "suppliers.view",
+    "analytics.view", "social.connect", "plan.edit", "site.customize", "suppliers.view", "events.manage", "specials.edit",
   ],
   owner: [
     "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "requests.decide", "bulk.manage", "bulk.store", "tasks.assign",
-    "resources.edit", "analytics.view", "social.connect", "plan.edit", "site.customize", "overview.view", "feedback.handle",
+    "resources.edit", "analytics.view", "social.connect", "plan.edit", "site.customize", "overview.view", "feedback.handle", "events.manage",
     "portal.self",
     "specials.edit",
     "posts.make",

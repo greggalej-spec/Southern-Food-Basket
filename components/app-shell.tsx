@@ -71,6 +71,7 @@ const OFFICE: NavItem[] = [
   { id: "tasks", label: "Tasks and resources", href: "/admin#tasks", icon: "tasks" },
   { group: "Website" },
   { id: "studio", label: "Website studio", href: "/admin#studio", icon: "brush", perm: "site.customize" },
+  { id: "events", label: "Events and flyers", href: "/admin#events", icon: "calendar", perm: "events.manage" },
   { id: "deals", label: "Specials", href: "/admin#deals", icon: "tag", perm: "specials.edit" },
   { id: "posts", label: "Post maker", href: "/admin#posts", icon: "camera", perm: "posts.make" },
   { id: "stores", label: "Stores and hours", href: "/admin#stores", icon: "store", perm: "stores.edit" },
@@ -119,6 +120,17 @@ export const APP_NAV: Record<Role, NavItem[]> = {
 };
 
 /** The nav a session may see: items it lacks access to are dropped, then any group left with nothing under it. */
+/** The icon and the department heading of a console section, read off the sidebar list, so a section's banner
+ *  always matches its menu entry. */
+export function officeMeta(id: string): { icon: IconName; group: string | null } | null {
+  let group: string | null = null;
+  for (const n of OFFICE) {
+    if ("group" in n) group = n.group;
+    else if (n.id === id) return { icon: n.icon, group };
+  }
+  return null;
+}
+
 export function navFor(d: Seed, s: Session | null, role: Role) {
   const allowed = (n: NavItem) => "group" in n || !n.perm || [n.perm].flat().some((p) => can(d, s, p));
   const items = APP_NAV[role].filter(allowed);
