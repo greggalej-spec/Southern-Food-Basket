@@ -324,7 +324,7 @@ export default function HomePage() {
           <div className="ribbon" aria-hidden="true" />
           <div className="wrap story">
             <figure className="sf-window story-pic">
-              <img src="/assets/img/social/store-front.webp" width="640" height="640" alt="The red Southern Food Basket lettering on the teal glass front of a store" loading="lazy" decoding="async" />
+              <img src="/assets/img/social/store-front.webp" width="1200" height="1068" alt="The Southern Food Basket name in red letters on the glass front of the store" loading="lazy" decoding="async" />
             </figure>
             <div className="story-body">
               <Eyebrow>Our story</Eyebrow>

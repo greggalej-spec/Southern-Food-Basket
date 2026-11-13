@@ -48,8 +48,7 @@ export default function AboutPage() {
             </div>
           </div>
           <figure className="sf-window">
-            <img src="/assets/img/social/store-front.webp" width="640" height="640" alt="The red Southern Food Basket lettering on the teal glass front of a store" decoding="async" />
-            <figcaption>Look for the red letters on the glass.</figcaption>
+            <img src="/assets/img/social/store-front.webp" width="1200" height="1068" alt="The Southern Food Basket name in red letters on the glass front of the store" decoding="async" />
           </figure>
         </div>
       </section>
