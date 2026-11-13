@@ -1,7 +1,8 @@
 // Southern Food Basket — design option D, Grand Entrance. Ported from assets/js/grand-entrance.js.
 // app/(home)/page.tsx renders the whole page from the seed; this wires up its behaviour:
-//   1) the arrival: scroll drives a camera from an aerial, tilted wide shot of the store front down to the front door;
-//      the sliding doors open and the crew in red steps forward waving; the welcome card fades in
+//   1) the arrival: it plays on its own. After a beat on the wide shot, a camera travels from an aerial, tilted view of
+//      the store front down to the front door; the sliding doors open and the crew in red steps forward waving; the
+//      welcome card ("Come on in.") fades in. Nobody has to scroll for it
 //   2) the top bar: mobile menu, the ink pill that follows the pointer, the section spy
 //   3) the specials shelf buttons and the highlights carousel
 // The physics layer is living.ts. startEntrance() returns a stop() that removes every listener, frame, timer and
@@ -23,6 +24,7 @@ export function startEntrance(): { stage: Stage | null; stop: () => void } {
 
   /* ---------- 1. the arrival ---------- */
   let stage: Stage | null = null;
+  let finish = () => {}; // jump the arrival to its last frame
   const intro = $("#top"), stageEl = $("#stage"), svg = $<SVGSVGElement>(".storefront");
   const doorL = $<SVGGElement>(".door-l"), doorR = $<SVGGElement>(".door-r"), crew = $<SVGGElement>(".crew"), clouds = $<SVGGElement>(".clouds");
   const startCopy = $("#intro-start"), endCopy = $("#intro-end"), bar = $("#progress-bar"), note = $(".concept-note"), skipPill = $("#skip-intro");
@@ -30,11 +32,13 @@ export function startEntrance(): { stage: Stage | null; stop: () => void } {
     let geo: { v0: Shot; vf: Shot; A: number } | null = null, vbNow = [0, 0, 1600, 1000];
     // a hidden tab can report 0 × 0
     const measure = () => (geo = cameraShots(stageEl.clientWidth || innerWidth || 1, stageEl.clientHeight || innerHeight || 1));
-    const progress = () => {
-      if (reduce.matches) return 1;
-      const top = intro.offsetTop, span = intro.offsetHeight - innerHeight;
-      return span > 0 ? clamp((scrollY - top) / span, 0, 1) : 1;
-    };
+    // The clock: HOLD seconds on the opening shot so the welcome can be read, then RUN seconds to the door. It only
+    // counts frames that were drawn, so a hidden tab picks up where it left off.
+    const HOLD = 1.2, RUN = 6;
+    // the stage has been scrolled off screen (a hidden tab reports no height: that is not "scrolled past")
+    const gone = () => intro.offsetHeight > 0 && scrollY >= intro.offsetTop + intro.offsetHeight - 8;
+    let clock = 0, done = reduce.matches || gone();
+    const progress = () => (done || reduce.matches ? 1 : clamp((clock - HOLD) / RUN, 0, 1));
     const draw = (p: number) => {
       const { v0, vf, A } = geo || measure();
       const e = ease(clamp(p / 0.7, 0, 1));
@@ -64,38 +68,38 @@ export function startEntrance(): { stage: Stage | null; stop: () => void } {
       bar.style.width = (p * 100).toFixed(2) + "%";
     };
 
-    // The camera trails the scroll on a critically damped spring: a flick of the wheel becomes a glide, never a jolt.
-    let pView: number | null = null, vel = 0, raf = 0, lastT = 0, resizeTimer = 0;
+    let pView = 0, raf = 0, lastT = 0, resizeTimer = 0;
     const frame = (now: number) => {
       raf = 0;
-      const dt = lastT ? Math.min(0.05, (now - lastT) / 1000) : 1 / 60;
+      clock += lastT ? Math.min(0.05, (now - lastT) / 1000) : 0;
       lastT = now;
-      const t = progress();
-      if (pView == null || reduce.matches) { pView = t; vel = 0; }
-      else { vel += (60 * (t - pView) - 15.5 * vel) * dt; pView += vel * dt; }
-      if (Math.abs(t - pView) < 0.0004 && Math.abs(vel) < 0.002) { pView = t; vel = 0; }
+      pView = progress();
       draw(pView);
-      if (pView !== t) raf = requestAnimationFrame(frame);
-      else lastT = 0;
+      if (pView < 1) raf = requestAnimationFrame(frame);
+      else { done = true; lastT = 0; }
     };
     const request = () => { if (!raf) raf = requestAnimationFrame(frame); };
-    stage = { p: () => pView || 0, vb: () => vbNow, svg };
-    addEventListener("scroll", request, passive);
+    finish = () => { done = true; request(); };
+    stage = { p: () => pView, vb: () => vbNow, svg };
+    // scrolled past it before it ended: it is finished when they come back up
+    addEventListener("scroll", () => { if (!done && gone()) finish(); }, passive);
     addEventListener("resize", () => {
       clearTimeout(resizeTimer);
-      resizeTimer = window.setTimeout(() => { measure(); draw(pView ?? progress()); }, 120);
+      resizeTimer = window.setTimeout(() => { measure(); draw(pView); }, 120);
     }, { signal });
-    reduce.addEventListener("change", () => { measure(); pView = null; request(); }, { signal });
+    reduce.addEventListener("change", () => { measure(); request(); }, { signal });
     measure();
     pView = progress();
     draw(pView);
-    document.fonts?.ready.then(() => { if (!signal.aborted) { measure(); draw(pView ?? progress()); } });
+    request();
+    document.fonts?.ready.then(() => { if (!signal.aborted) { measure(); draw(pView); } });
     stops.push(() => { cancelAnimationFrame(raf); clearTimeout(resizeTimer); });
   }
 
-  // "Skip intro": jump straight past the animation (a smooth scroll would replay all of it)
+  // "Skip intro": end the animation and jump straight past it
   const inside = $("#inside");
   $$('a[href="#inside"]').forEach((a) => a.addEventListener("click", (e) => {
+    finish();
     if (!inside) return;
     e.preventDefault();
     inside.scrollIntoView({ behavior: "instant", block: "start" });

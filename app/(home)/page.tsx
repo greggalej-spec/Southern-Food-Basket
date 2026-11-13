@@ -210,12 +210,6 @@ export default function HomePage() {
             <h1>
               Welcome to <span>Southern Food Basket</span>
             </h1>
-            <p className="cue">
-              <span>Scroll to step inside</span>
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </p>
           </div>
           <div className="intro-copy intro-end" id="intro-end">
             <h2>Come on in.</h2>
