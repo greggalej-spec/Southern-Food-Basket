@@ -5,7 +5,7 @@ import type { TourChapter } from "./tour";
    they are what a manager deciding on the system wants to see. Same rules as lib/tour-chapters.ts: each step opens
    a page as a given person and rings one element by its data-tour attribute. */
 
-const melissa = { role: "owner" as const, userId: "emp-vishala" };
+const mellisa = { role: "owner" as const, userId: "emp-vishala" };
 const ria = { role: "admin" as const, userId: "emp-ria" };
 const nigel = { role: "purchasing" as const, userId: "emp-nigel" };
 const tricia = { role: "marketing" as const, userId: "emp-tricia" };
@@ -17,15 +17,15 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "owner",
     title: "The owner’s morning",
     summary: "Every department on one page, with the decisions only the owner can make at the top.",
-    cast: "Melissa, the director",
+    cast: "Mellisa, the director",
     steps: [
       {
         path: "/admin#overview",
-        as: melissa,
+        as: mellisa,
         target: "overview-decisions",
         title: "Decisions first",
         body: [
-          "Melissa signs in and lands here. Whatever is waiting on her alone sits at the top: a sponsorship request, an offer to approve, a bulk order ready to place.",
+          "Mellisa signs in and lands here. Whatever is waiting on her alone sits at the top: a sponsorship request, an offer to approve, a bulk order ready to place.",
           "Each line opens the thing itself. Nothing has to be found in a chat.",
         ],
         try: "Press “Decide” on the cricket league’s request.",
@@ -119,7 +119,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "requests",
     title: "A request, from a school to a yes",
     summary: "Donations, sponsorships, partnerships and promotions in one pipeline, with the conversation on the card.",
-    cast: "A school principal · Alexia, administration · Melissa, the director",
+    cast: "A school principal · Alexia, administration · Mellisa, the director",
     steps: [
       {
         path: "/community",
@@ -145,11 +145,11 @@ export const OPS_CHAPTERS: TourChapter[] = [
       },
       {
         path: "/admin#requests/rq-0147",
-        as: melissa,
+        as: mellisa,
         target: "request-actions",
         title: "The director says yes or no on the card",
         body: [
-          "Melissa sees what was asked, the office’s notes and the letter, and decides here.",
+          "Mellisa sees what was asked, the office’s notes and the letter, and decides here.",
           "Only her office has the Approve and Decline buttons. The decision is recorded with her name and the time.",
         ],
         try: "Approve it, with what the store will give.",
@@ -160,11 +160,11 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "bulk",
     title: "One bulk order, five stores",
     summary: "Each store gives its number, the office places one order, and last time’s figures sit alongside.",
-    cast: "Melissa, the director · Ravi, store manager at San Fernando",
+    cast: "Mellisa, the director · Ravi, store manager at San Fernando",
     steps: [
       {
         path: "/admin#bulk",
-        as: melissa,
+        as: mellisa,
         target: "bulk-orders",
         title: "The Christmas orders",
         body: [

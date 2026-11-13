@@ -79,7 +79,7 @@ const REQUESTS: CommunityRequest[] = [
     messages: [
       { at: "2026-11-09T10:15:00-04:00", by: "emp-ria", kind: "internal", text: "Letter dropped at the Princes Town customer service desk. Scanned and attached. They sponsored with another supermarket last year." },
       { at: "2026-11-09T10:40:00-04:00", by: "emp-ria", kind: "outbound", text: "Thank you for your letter. It is with our director for a decision and we will reply by 20 November." },
-      { at: "2026-11-10T08:30:00-04:00", by: "emp-ria", kind: "internal", text: "Sent to Melissa for a decision. Budget line: community sponsorships." },
+      { at: "2026-11-10T08:30:00-04:00", by: "emp-ria", kind: "internal", text: "Sent to Mellisa for a decision. Budget line: community sponsorships." },
     ] },
   { id: "rq-0146", ref: "RQ-0146", kind: "donation", org: "Hope Centre Children’s Home", orgType: "Charity", contact: "Sister Agnes Charles", phone: "(868) 000-0613", email: "hopecentre@example.org",
     via: "WhatsApp", branchId: "sando", receivedAt: "2026-11-06", ask: "Groceries for Christmas hampers for 30 families", purpose: "The home’s yearly hamper drive for families in Marabella and Vistabella.", neededBy: "2026-12-12",
@@ -94,7 +94,7 @@ const REQUESTS: CommunityRequest[] = [
     via: "E-mail", branchId: null, receivedAt: "2026-11-05", ask: "Floor displays and a sampling table at all five stores for the two weekends before Christmas", purpose: "Seasonal drinks promotion. They supply the displays, the stock for sampling and two promoters per store.", neededBy: "2026-11-25",
     status: "reviewing", owner: "emp-tricia",
     messages: [
-      { at: "2026-11-05T14:10:00-04:00", by: "emp-ria", kind: "internal", text: "Passed to marketing: needs floor space agreed with each store manager before it goes to Melissa." },
+      { at: "2026-11-05T14:10:00-04:00", by: "emp-ria", kind: "internal", text: "Passed to marketing: needs floor space agreed with each store manager before it goes to Mellisa." },
       { at: "2026-11-07T09:25:00-04:00", by: "emp-tricia", kind: "internal", text: "Couva, San Fernando and Princes Town have space by the entrance. Penal and Point Fortin can take a half display only." },
     ] },
   { id: "rq-0144", ref: "RQ-0144", kind: "partnership", org: "South Central Diabetes Association", orgType: "Charity", contact: "Dr. Kavita Ramnarine", phone: "(868) 000-0615", email: "info@scda.example",
@@ -139,7 +139,7 @@ const BULK: BulkOrder[] = [
     log: [{ at: "2026-10-26T09:00:00-04:00", by: "emp-vishala", text: "Opened." }, { at: "2026-11-07T10:10:00-04:00", by: "emp-vishala", text: "Ordered 153 cases from AMCO." }] },
   { id: "bo-oil-2026", season: "Christmas 2026", item: "Soyabean oil, 1 L", supplierName: "National Canners", unit: "case of 12", unitCost: 198, orderBy: "2026-11-20", status: "collecting",
     allocations: alloc([["sando", 120, "emp-ravi"], ["couva", 0], ["ptown", 150, "emp-sunil"], ["penal", 80, "emp-rajesh"], ["pfortin", 0]]),
-    createdBy: "emp-ria", createdAt: "2026-11-09T11:00:00-04:00", log: [{ at: "2026-11-09T11:00:00-04:00", by: "emp-ria", text: "Opened for Melissa." }] },
+    createdBy: "emp-ria", createdAt: "2026-11-09T11:00:00-04:00", log: [{ at: "2026-11-09T11:00:00-04:00", by: "emp-ria", text: "Opened for Mellisa." }] },
   { id: "bo-ghee-2026", season: "Divali 2026", item: "Cow Brand ghee, 2 lb", supplierName: "Langston", unit: "case of 12", unitCost: 1180, orderBy: "2026-09-25", expected: "2026-10-09", status: "shared", orderedAt: "2026-09-26T09:00:00-04:00", receivedAt: "2026-10-08T14:00:00-04:00",
     allocations: alloc([["sando", 14, "emp-ravi"], ["couva", 10, "emp-anand"], ["ptown", 18, "emp-sunil"], ["penal", 22, "emp-rajesh"], ["pfortin", 8, "emp-michelle"]]),
     createdBy: "emp-vishala", createdAt: "2026-09-14T09:00:00-04:00", log: [{ at: "2026-10-08T14:00:00-04:00", by: "emp-ria", text: "Received at Princes Town and shared to the stores." }] },

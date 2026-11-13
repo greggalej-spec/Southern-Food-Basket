@@ -26,8 +26,8 @@ import type { Role } from "@/lib/types";
 type Account = { key: string; role: Exclude<Role, "customer">; user: string; icon: IconName; who: string; can: string };
 
 const ACCOUNTS: Account[] = [
-  { key: "owner", role: "owner", user: "emp-vishala", icon: "grid", who: "Melissa · Director", can: "The overview of every department, approvals, staff access and the activity log." },
-  { key: "admin", role: "admin", user: "emp-ria", icon: "book", who: "Alexia · Administrative Assistant", can: "Supplier specials, sell-out reports, requests, customer feedback, bulk orders, tasks." },
+  { key: "owner", role: "owner", user: "emp-vishala", icon: "grid", who: "Mellisa · Director", can: "The overview of every department, approvals, staff access and the activity log." },
+  { key: "admin", role: "admin", user: "emp-ria", icon: "book", who: "Alexia · Executive Assistant", can: "Supplier specials, sell-out reports, requests, customer feedback, bulk orders, tasks." },
   { key: "marketing", role: "marketing", user: "emp-tricia", icon: "chart", who: "Isabel · Marketing Team Lead", can: "Marketing figures, social accounts, the calendar, offers, events, the website studio." },
   { key: "designer", role: "marketing", user: "emp-addae", icon: "brush", who: "Addae · Graphic Designer", can: "Flyers and posts for the public site, events, the content calendar." },
   { key: "hr", role: "hr", user: "emp-devon", icon: "users", who: "Faith · HR Manager", can: "Applications, jobs, the team at all five stores, HR resources." },

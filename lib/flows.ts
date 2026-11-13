@@ -72,7 +72,7 @@ export const FLOWS: FlowDef[] = [
       { icon: "file", label: "Reply goes out", who: "Administration", text: "The reply is written on the card and e-mailed. Notes between staff stay on the same thread, marked as internal." },
       { icon: "check", label: "Handed over", who: "The store", text: "Marked done when the goods leave or the event is held. The year’s total gives adds up by itself." },
     ],
-    tryIt: "open the cricket league’s card under “With the director”. Signed in as the administration you can add a note; signed in as Melissa you can approve it.",
+    tryIt: "open the cricket league’s card under “With the director”. Signed in as the administration you can add a note; signed in as Mellisa you can approve it.",
   },
   {
     id: "events",
