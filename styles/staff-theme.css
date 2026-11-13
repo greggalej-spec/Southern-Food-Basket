@@ -412,3 +412,11 @@ html[data-staff-theme="dark"] .switch.is-on i::after{ background: #20141A; }
 .units-table .cell-input{ width: 100%; min-width: 0; }
 .units-table td.num{ white-space: nowrap; }
 .units-table td.is-check{ white-space: normal; }
+
+/* specials: their run, and the history grouped by the month each one ended */
+.app .deal-views{ margin-bottom: 10px; }
+.app .deals-table .run-dates{ display: block; margin-top: 4px; font-size: 0.8125rem; color: var(--muted); white-space: nowrap; }
+.app .deals-table tr.is-ended .admin-thumb{ filter: grayscale(1); opacity: .7; }
+.app .deals-table tr.month-row > th{ padding: 10px 14px; background: var(--head); color: var(--head-on); font: 700 0.9375rem/1.2 var(--ui); letter-spacing: 0; text-transform: none; text-align: left; }
+.app .deals-table tr.month-row > th span{ margin-left: 10px; padding: 2px 10px; border-radius: 999px; background: var(--head-on); color: var(--head); font-size: 0.75rem; font-weight: 800; }
+.app .deals-table tr.month-row:hover > th{ background: var(--head); }

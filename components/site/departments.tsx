@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Icon } from "@/components/icon";
 import { Pic } from "@/components/pic";
 import { fmtDate, money } from "@/lib/format";
+import { useToday } from "@/components/use-today";
 import { dealsIn, dollars, newestFirst } from "@/lib/site/deals";
 import { useJumpToHash } from "@/lib/site/jump-to-hash";
 import { useData } from "@/lib/store";
@@ -23,9 +24,10 @@ export function DeptJumps() {
 
 export function DeptSections() {
   const d = useData();
+  const today = useToday();
   useJumpToHash();
   return d.departments.map((x, i) => {
-    const deals = newestFirst(dealsIn(d, x.id));
+    const deals = newestFirst(dealsIn(d, x.id, today));
     return (
       <section className="dept-section" id={x.id} aria-labelledby={x.id + "-title"} key={x.id}>
         <div className="container">

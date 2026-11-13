@@ -62,7 +62,10 @@ export interface Special {
   dept: string;
   price: number;
   img: string;
+  /** The first day it runs, "YYYY-MM-DD". */
   posted: string;
+  /** The last day it runs. Absent: it runs until someone ends it. */
+  to?: string;
   couva?: boolean;
   isNew?: boolean;
   alt?: string;

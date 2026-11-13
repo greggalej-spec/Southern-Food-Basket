@@ -110,6 +110,8 @@ const VERB: Record<string, string> = {
   "flyers.edit": "changed a flyer",
   "flyers.remove": "deleted a flyer",
   "specials.bulk": "added specials from a list",
+  "specials.end": "ended a special",
+  "specials.rerun": "ran an old special again",
   "feedback.submit": "sent feedback through the website",
   "feedback.status": "moved a feedback ticket along",
   "feedback.message": "wrote on a feedback ticket",

@@ -287,7 +287,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
 
   /* 3. housekeeping */
   if (has("specials.edit")) {
-    const old = (d.specials || []).filter((sp) => now - new Date(sp.posted + "T00:00:00-04:00").getTime() > STALE_DAYS * DAY);
+    const old = (d.specials || []).filter((sp) => !sp.to && now - new Date(sp.posted + "T00:00:00-04:00").getTime() > STALE_DAYS * DAY);
     if (old.length) {
       out.push({
         key: "stale-specials",

@@ -29,7 +29,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 15,
+  version: 16,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -123,7 +123,22 @@ export const SEED: Seed = {
     { id: 'sp-old-spice', name: 'Old Spice body wash, Captain', dept: 'care', price: 74.95, img: 'old-spice', posted: '2026-09-08', alt: 'A red bottle of Old Spice Captain body wash' },
     { id: 'sp-irish-spring', name: 'Irish Spring body wash, aloe mist', dept: 'care', price: 52.95, img: 'irish-spring', posted: '2026-09-08', alt: 'A green bottle of Irish Spring aloe mist body wash' },
     { id: 'sp-tone', name: 'Tone body wash, Miami glow up', dept: 'care', price: 44.95, img: 'tone', posted: '2026-09-08', alt: 'A green bottle of Tone Miami glow up body wash' },
-    { id: 'sp-dove', name: 'Dove body wash, glowing', dept: 'care', price: 42.95, img: 'dove', posted: '2026-09-08', alt: 'A white bottle of Dove glowing body wash' }
+    { id: 'sp-dove', name: 'Dove body wash, glowing', dept: 'care', price: 42.95, img: 'dove', posted: '2026-09-08', alt: 'A white bottle of Dove glowing body wash' },
+    // One posted special scheduled to come back at its posted price, to show the Scheduled view.
+    { id: 'sp-veg-chunky-xmas', name: 'Chunky veg pack', dept: 'fresh', price: 24.95, img: 'veg-chunky', posted: '2026-11-20', to: '2026-12-24', couva: true, alt: 'Tray of chunky cut carrot, broccoli, cauliflower, sweet pepper and cabbage' },
+    /* DEMO history: ended specials, made up so the History view has months to look back through. They never
+       show on the public pages, because they have ended. */
+    { id: 'sp-h-sponge', name: 'Sponge cake, Divali', dept: 'bakery', price: 59.95, img: 'cake-sponge', posted: '2026-10-05', to: '2026-11-11', alt: 'A sponge cake in a clear box' },
+    { id: 'sp-h-coconut', name: 'Coconut cake, Divali', dept: 'bakery', price: 64.95, img: 'cake-coconut', posted: '2026-10-05', to: '2026-11-11', alt: 'A coconut cake in a clear box' },
+    { id: 'sp-h-ripples', name: 'Ripples chips, Divali', dept: 'snacks', price: 7.95, img: 'ripples', posted: '2026-10-05', to: '2026-11-11', alt: 'A bag of Ripples chips' },
+    { id: 'sp-h-flip', name: 'Chobani Flip, two for', dept: 'chilled', price: 27.95, img: 'chobani-flip', posted: '2026-10-12', to: '2026-10-25', alt: 'Chobani Flip yogurt cups' },
+    { id: 'sp-h-crunch', name: 'Protein crunch bar', dept: 'health', price: 18.95, img: 'protein-crunch', posted: '2026-10-12', to: '2026-10-25', alt: 'A protein crunch bar held up in an aisle' },
+    { id: 'sp-h-cheezees', name: 'Chee Zees, back to school', dept: 'snacks', price: 9.95, img: 'chee-zees', posted: '2026-09-01', to: '2026-09-13', alt: 'A bag of Chee Zees' },
+    { id: 'sp-h-gogurt', name: 'Go-Gurt tubes, back to school', dept: 'chilled', price: 21.95, img: 'gogurt', posted: '2026-09-01', to: '2026-09-13', alt: 'A box of Go-Gurt tubes' },
+    { id: 'sp-h-snackpack', name: 'Snack Pack pudding, back to school', dept: 'snacks', price: 16.95, img: 'snack-pack', posted: '2026-09-01', to: '2026-09-13', alt: 'Snack Pack pudding cups' },
+    { id: 'sp-h-oldspice', name: 'Old Spice body wash', dept: 'care', price: 39.95, img: 'old-spice', posted: '2026-08-17', to: '2026-08-31', alt: 'A bottle of Old Spice body wash' },
+    { id: 'sp-h-irish', name: 'Irish Spring, three bars', dept: 'care', price: 24.95, img: 'irish-spring', posted: '2026-08-17', to: '2026-08-31', alt: 'A pack of Irish Spring soap' },
+    { id: 'sp-h-parsley', name: 'Parsley, a bunch', dept: 'fresh', price: 4.95, img: 'parsley', posted: '2026-07-20', to: '2026-07-31', alt: 'A bunch of fresh parsley' },
   ],
 
   /* wholesale: sourced product lines, kept apart from demo copy */

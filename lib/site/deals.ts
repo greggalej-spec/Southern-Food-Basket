@@ -1,3 +1,4 @@
+import { runningDeals } from "@/lib/ops/deals";
 import { byId } from "@/lib/store";
 import type { Department, Seed, Special } from "@/lib/types";
 
@@ -18,8 +19,9 @@ export function newestFirst(list: Special[]) {
   return list.slice().sort((a, b) => (a.posted < b.posted ? 1 : a.posted > b.posted ? -1 : 0));
 }
 
-export function dealsIn(d: Seed, id: string) {
-  return (d.specials || []).filter((sp) => sp.dept === id);
+/** A department's specials that are running. `today` is "YYYY-MM-DD", or "" before the date is known. */
+export function dealsIn(d: Seed, id: string, today = "") {
+  return runningDeals(d.specials || [], today).filter((sp) => sp.dept === id);
 }
 
 /** dollars(24.95) → "$24.95", the price as the posts print it. */

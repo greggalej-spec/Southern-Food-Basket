@@ -7,6 +7,8 @@ import { Icon } from "@/components/icon";
 import { NewsletterSignup } from "@/components/members/newsletter-signup";
 import { PriceSeal } from "@/components/price-seal";
 import { fmtDate, money } from "@/lib/format";
+import { useToday } from "@/components/use-today";
+import { runningDeals } from "@/lib/ops/deals";
 import { dealsIn, dept, dollars, newestFirst } from "@/lib/site/deals";
 import { useData } from "@/lib/store";
 import type { Seed, Special } from "@/lib/types";
@@ -24,7 +26,7 @@ function fromQuery(q: { get(name: string): string | null }): Filters {
 
 /** The filters in force: a department without deals falls back to all of them. */
 function inForce(d: Seed, f: Filters): Filters {
-  const ok = f.dept !== "all" && d.departments.some((x) => x.id === f.dept && dealsIn(d, x.id).length);
+  const ok = f.dept !== "all" && d.departments.some((x) => x.id === f.dept && (d.specials || []).some((sp) => sp.dept === x.id));
   return { dept: ok ? f.dept : "all", couva: f.couva };
 }
 
@@ -85,8 +87,9 @@ export function DealsNote() {
 /** The toolbar and the grid for one set of filters (already in force). Without onChange it is the first paint. */
 function DealsBoard({ state, onChange }: { state: Filters; onChange?: (f: Filters) => void }) {
   const d = useData();
-  const list = newestFirst(d.specials || []);
-  const depts = d.departments.filter((x) => dealsIn(d, x.id).length);
+  const today = useToday();
+  const list = newestFirst(runningDeals(d.specials || [], today));
+  const depts = d.departments.filter((x) => dealsIn(d, x.id, today).length);
   const shown = list.filter((sp) => (state.dept === "all" || sp.dept === state.dept) && (!state.couva || sp.couva));
   const what = state.dept === "all" ? "deals" : dept(d, state.dept).name.toLowerCase() + " deals";
   const set = (f: Filters) => onChange?.(f);
@@ -98,7 +101,7 @@ function DealsBoard({ state, onChange }: { state: Filters; onChange?: (f: Filter
           {[{ id: "all", short: "All deals" }, ...depts].map((x) => (
             <li key={x.id}>
               <button type="button" className="chip" data-dept={x.id} aria-pressed={state.dept === x.id} onClick={() => set({ ...state, dept: x.id })}>
-                {x.short} <span className="count">{"(" + (x.id === "all" ? list.length : dealsIn(d, x.id).length) + ")"}</span>
+                {x.short} <span className="count">{"(" + (x.id === "all" ? list.length : dealsIn(d, x.id, today).length) + ")"}</span>
               </button>
             </li>
           ))}

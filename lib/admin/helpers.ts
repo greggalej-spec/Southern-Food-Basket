@@ -171,12 +171,14 @@ export type DealValues = {
   dept: string;
   price: string;
   posted: string;
+  /** The last day, or "" for no end date. */
+  to: string;
   img: string;
   isNew: boolean;
   couva: boolean;
   alt: string;
 };
-export const DEAL_FIELDS = ["name", "price", "posted", "img", "alt"] as const;
+export const DEAL_FIELDS = ["name", "price", "posted", "to", "img", "alt"] as const;
 export type DealField = (typeof DEAL_FIELDS)[number];
 
 export function readDeal(v: DealValues) {
@@ -187,6 +189,7 @@ export function readDeal(v: DealValues) {
     priceRaw,
     price,
     posted: v.posted,
+    to: v.to,
     img: v.img,
     isNew: v.isNew,
     couva: v.couva,
@@ -201,7 +204,9 @@ export function checkDeal(v: DealValues, lib: string[]) {
   if (!r.priceRaw || !isFinite(r.price) || r.price <= 0) e.price = "Enter a price above 0, for example 24.95.";
   else if (Math.abs(r.price * 100 - Math.round(r.price * 100)) > 1e-6) e.price = "Use no more than two decimal places, for example 24.95.";
   else if (r.price >= 100000) e.price = "Enter a price below TTD 100,000.00.";
-  if (!isDay(r.posted)) e.posted = "Choose the date the deal was posted.";
+  if (!isDay(r.posted)) e.posted = "Choose the day the special starts.";
+  if (r.to && !isDay(r.to)) e.to = "Choose the last day, or leave it empty.";
+  else if (r.to && isDay(r.posted) && r.to < r.posted) e.to = "The last day cannot be before the first day.";
   if (!lib.includes(r.img)) e.img = "Choose a photo from the list.";
   if (!r.alt) e.alt = "Describe the photo in a few words, for example “Tray of cut carrot and broccoli”.";
   return e;

@@ -102,8 +102,8 @@ function DealForm({
     const sp = id ? byId(d0.specials, id) : null;
     const depts = retailDepts(d0), lib = photoLibrary(d0);
     const v: DealValues = sp
-      ? { name: sp.name, dept: sp.dept, price: Number(sp.price).toFixed(2), posted: sp.posted, img: stemOf(sp.img), isNew: !!sp.isNew, couva: !!sp.couva, alt: sp.alt || "" }
-      : { name: "", dept: defaultDept !== "all" ? defaultDept : depts[0]?.id || "", price: "", posted: todayIso(), img: "", isNew: false, couva: false, alt: "" };
+      ? { name: sp.name, dept: sp.dept, price: Number(sp.price).toFixed(2), posted: sp.posted, to: sp.to || "", img: stemOf(sp.img), isNew: !!sp.isNew, couva: !!sp.couva, alt: sp.alt || "" }
+      : { name: "", dept: defaultDept !== "all" ? defaultDept : depts[0]?.id || "", price: "", posted: todayIso(), to: "", img: "", isNew: false, couva: false, alt: "" };
     /* a new deal starts with its department's own photo */
     if (!sp) {
       const st = stemOf(byId(depts, v.dept)?.img);
@@ -234,21 +234,40 @@ function DealForm({
               <ErrorText id="df-price-err" msg={errors.price} />
             </div>
           </div>
-          <div className="field">
-            <label htmlFor="df-posted">Date posted</label>
-            <input
-              type="date"
-              id="df-posted"
-              name="posted"
-              value={v.posted}
-              onChange={(e) => change("posted", e.target.value)}
-              aria-invalid={errors.posted ? "true" : undefined}
-              aria-describedby={describedBy("df-posted-hint", "df-posted-err", errors.posted)}
-            />
-            <p className="hint" id="df-posted-hint">
-              Shown on the card as “Posted” with this date.
-            </p>
-            <ErrorText id="df-posted-err" msg={errors.posted} />
+          <div className="form-row">
+            <div className="field">
+              <label htmlFor="df-posted">Starts</label>
+              <input
+                type="date"
+                id="df-posted"
+                name="posted"
+                value={v.posted}
+                onChange={(e) => change("posted", e.target.value)}
+                aria-invalid={errors.posted ? "true" : undefined}
+                aria-describedby={describedBy("df-posted-hint", "df-posted-err", errors.posted)}
+              />
+              <p className="hint" id="df-posted-hint">
+                A date ahead schedules it.
+              </p>
+              <ErrorText id="df-posted-err" msg={errors.posted} />
+            </div>
+            <div className="field">
+              <label htmlFor="df-to">Ends</label>
+              <input
+                type="date"
+                id="df-to"
+                name="to"
+                value={v.to}
+                min={v.posted}
+                onChange={(e) => change("to", e.target.value)}
+                aria-invalid={errors.to ? "true" : undefined}
+                aria-describedby={describedBy("df-to-hint", "df-to-err", errors.to)}
+              />
+              <p className="hint" id="df-to-hint">
+                Empty: runs until you end it.
+              </p>
+              <ErrorText id="df-to-err" msg={errors.to} />
+            </div>
           </div>
           <div className="field">
             <label htmlFor="df-img">Photo</label>

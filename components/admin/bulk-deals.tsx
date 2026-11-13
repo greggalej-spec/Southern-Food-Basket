@@ -21,17 +21,18 @@ export function BulkDeals({ onClose }: { onClose: () => void }) {
   const depts = retailDepts(d);
   const [text, setText] = useState("");
   const [working, setWorking] = useState(false);
+  const [from, setFrom] = useState(() => nowIso().slice(0, 10));
+  const [to, setTo] = useState("");
   const rows: DealRow[] = text.trim() ? parseDeals(text, depts, depts[0]?.id || "") : [];
   const good = rows.filter((r) => r.price != null);
   const stem = (deptId: string) => (depts.find((x) => x.id === deptId)?.img || "").replace(/^.*\//, "").replace(/\.[a-z]+$/, "") || "snacks-basket";
 
   function add() {
-    const today = nowIso().slice(0, 10);
     const ok = act(
       s,
       "specials.bulk",
       good.length + " specials",
-      () => good.forEach((r) => saveDeal(s, null, { name: r.name, dept: r.dept, priceRaw: String(r.price), price: r.price as number, img: stem(r.dept), posted: today, alt: r.name, isNew: true, couva: false })),
+      () => good.forEach((r) => saveDeal(s, null, { name: r.name, dept: r.dept, priceRaw: String(r.price), price: r.price as number, img: stem(r.dept), posted: from, to: to && to >= from ? to : "", alt: r.name, isNew: true, couva: false })),
       good.length + " specials added. They are on the Specials page.",
     );
     if (ok) onClose();
@@ -63,6 +64,17 @@ export function BulkDeals({ onClose }: { onClose: () => void }) {
               Use a sample list
             </button>
           </p>
+        </div>
+        <div className="form-row">
+          <div className="field">
+            <label htmlFor="bd-from">They all start</label>
+            <input id="bd-from" type="date" value={from} onChange={(e) => setFrom(e.target.value)} />
+          </div>
+          <div className="field">
+            <label htmlFor="bd-to">They all end</label>
+            <input id="bd-to" type="date" value={to} min={from} onChange={(e) => setTo(e.target.value)} />
+            <p className="hint">Empty: they run until you end them.</p>
+          </div>
         </div>
         {rows.length ? (
           <div className="table-wrap">

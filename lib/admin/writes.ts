@@ -21,6 +21,8 @@ export function saveDeal(s: Session | null, editId: string | null, r: DealRecord
       else delete cur.isNew;
       if (r.couva) cur.couva = true;
       else delete cur.couva;
+      if (r.to) cur.to = r.to;
+      else delete cur.to;
       savedId = cur.id;
       audit(dd, s, "specials.edit", cur.name, "Edited the special");
     } else {
@@ -30,6 +32,7 @@ export function saveDeal(s: Session | null, editId: string | null, r: DealRecord
       const add: Special = Object.assign({ id: nid }, rec);
       if (r.isNew) add.isNew = true;
       if (r.couva) add.couva = true;
+      if (r.to) add.to = r.to;
       dd.specials.unshift(add);
       savedId = nid;
       audit(dd, s, "specials.add", add.name, "Added a special");

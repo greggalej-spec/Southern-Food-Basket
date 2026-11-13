@@ -118,12 +118,14 @@ const SLIDES = [
 
 /* ---------- specials ---------- */
 // Newest first, as the old script sorted them (its comparator never returns 0; kept so ties land in the same order).
-const DEALS = D.specials.slice().sort((a, b) => (a.posted < b.posted ? 1 : -1)).slice(0, 12);
+// The home page is built once, so it cannot know today's date: it shows the specials with no end date.
+const OPEN = D.specials.filter((s) => !s.to);
+const DEALS = OPEN.slice().sort((a, b) => (a.posted < b.posted ? 1 : -1)).slice(0, 12);
 
 /* ---------- departments: a coloured tile each, the quickest layout to scan on a phone ---------- */
 const TILE: Record<string, string> = { fresh: "#1D6B35", bakery: "#C81A35", chilled: "#1C6863", snacks: "#B8195A", health: "#123F22", care: "#164F4B" };
 const DEPTS = D.departments.filter((x) => x.id !== "wholesale");
-const countOf = (id: string) => D.specials.filter((s) => s.dept === id).length;
+const countOf = (id: string) => OPEN.filter((s) => s.dept === id).length;
 
 function DeptCard({ x }: { x: Department }) {
   const n = countOf(x.id);

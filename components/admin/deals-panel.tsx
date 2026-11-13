@@ -2,13 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import { flushSync } from "react-dom";
+import { Seg, act } from "@/components/admin/bits";
 import { BulkDeals } from "@/components/admin/bulk-deals";
 import { DealDrawer } from "@/components/admin/deal-drawer";
 import { useConfirm } from "@/components/confirm";
 import { Icon } from "@/components/icon";
 import { toast } from "@/components/ui/sonner";
 import { attempt } from "@/lib/admin/guard";
-import { cssEsc, dept, photoSrc, plural, retailDepts, shownDeals } from "@/lib/admin/helpers";
+import { cssEsc, dept, photoSrc, plural, retailDepts, shownDeals, todayIso } from "@/lib/admin/helpers";
+import { DEAL_STATE, dealCounts, dealState, endDeal, endMonth, monthName, rerunDeal, type DealState } from "@/lib/ops/deals";
 import { removeDeal } from "@/lib/admin/writes";
 import { fmtDate, money } from "@/lib/format";
 import { KEY, byId, load, useData, useSession } from "@/lib/store";
@@ -20,6 +22,10 @@ type Saved = { id: string; name: string; dept: string };
 
 export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void }) {
   const [bulk, setBulk] = useState(false);
+  // Which specials the list shows: what is running now, what is scheduled, or the history of what has ended.
+  const [view, setView] = useState<DealState | "all">("running");
+  const [month, setMonth] = useState("all");
+  const [today] = useState(() => todayIso());
   const d = useData();
   const s = useSession();
   const { confirm } = useConfirm();
@@ -38,7 +44,13 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
   const depts = retailDepts(d);
   const all = d.specials || [];
   const deptId = depts.some((x) => x.id === deptSel) ? deptSel : "all";
-  const shown = shownDeals(d, deptId, query);
+  const counts = dealCounts(d, today);
+  const matched = shownDeals(d, deptId, query);
+  const inView = matched.filter((sp) => view === "all" || dealState(sp, today) === view);
+  // The history's months, newest first, each with how many specials ended in it.
+  const months = Array.from(new Set(matched.filter((sp) => dealState(sp, today) === "ended").map(endMonth))).sort().reverse();
+  const monthOn = view === "ended" && months.includes(month) ? month : "all";
+  const shown = (monthOn === "all" ? inView : inView.filter((sp) => endMonth(sp) === monthOn)).slice().sort((a, b) => (view === "ended" ? endMonth(b).localeCompare(endMonth(a)) || (b.to || "").localeCompare(a.to || "") : 0));
 
   function openDealDrawer(id: string | null, from: HTMLElement | null) {
     if (id && !byId(load().specials, id)) {
@@ -156,6 +168,34 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
           </div>
         ) : null}
       </div>
+      <div className="toolbar deal-views">
+        <Seg
+          label="Show"
+          value={view}
+          onChange={setView}
+          options={[
+            { id: "running", label: "Running", count: counts.running },
+            { id: "soon", label: "Scheduled", count: counts.soon },
+            { id: "ended", label: "History", count: counts.ended },
+            { id: "all", label: "All" },
+          ]}
+        />
+        {view === "ended" && months.length ? (
+          <div>
+            <label className="visually-hidden" htmlFor="deal-month">
+              Month it ended
+            </label>
+            <select id="deal-month" value={monthOn} onChange={(e) => setMonth(e.target.value)}>
+              <option value="all">Every month</option>
+              {months.map((m) => (
+                <option key={m} value={m}>
+                  {monthName(m) + " (" + matched.filter((sp) => dealState(sp, today) === "ended" && endMonth(sp) === m).length + ")"}
+                </option>
+              ))}
+            </select>
+          </div>
+        ) : null}
+      </div>
       <div className="toolbar">
         <div>
           <label className="visually-hidden" htmlFor="deal-dept">
@@ -199,7 +239,7 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
               <th scope="col" className="num">
                 Price
               </th>
-              <th scope="col">Posted</th>
+              <th scope="col">Runs</th>
               <th scope="col">Tags</th>
               <th scope="col">
                 <span className="visually-hidden">Actions</span>
@@ -208,8 +248,19 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
           </thead>
           <tbody id="deal-rows" ref={rowsRef}>
             {shown.length ? (
-              shown.map((sp) => (
-                <tr key={sp.id} data-id={sp.id}>
+              shown.map((sp, i) => {
+                const st = dealState(sp, today);
+                const head = view === "ended" && (i === 0 || endMonth(shown[i - 1]) !== endMonth(sp)) ? endMonth(sp) : null;
+                return [
+                  head ? (
+                    <tr key={"m-" + head} className="month-row">
+                      <th scope="colgroup" colSpan={7}>
+                        {monthName(head)}
+                        <span>{plural(shown.filter((x) => endMonth(x) === head).length, "special")}</span>
+                      </th>
+                    </tr>
+                  ) : null,
+                <tr key={sp.id} data-id={sp.id} className={"is-" + st}>
                   <td className="col-photo">
                     <img className="admin-thumb" src={photoSrc(sp.img)} alt="" width={64} height={64} loading="lazy" decoding="async" />
                   </td>
@@ -217,8 +268,8 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
                   <td className="dept-cell">{dept(d, sp.dept).short}</td>
                   <td className="num price-cell">{money(sp.price)}</td>
                   <td className="posted-cell">
-                    <span className="cell-label">Posted </span>
-                    {fmtDate(sp.posted)}
+                    <span className={"badge " + DEAL_STATE[st].badge}>{DEAL_STATE[st].label}</span>
+                    <span className="run-dates">{fmtDate(sp.posted, { year: false }) + (sp.to ? " to " + fmtDate(sp.to) : " · no end date")}</span>
                   </td>
                   <td className="tag-cell">
                     {sp.isNew ? <span className="badge badge-clay">New</span> : null}
@@ -228,16 +279,27 @@ export function DealsPanel({ onMakePost }: { onMakePost: (id: string) => void })
                     <button className="btn btn-ghost btn-sm" type="button" data-edit={sp.id} onClick={(e) => openDealDrawer(sp.id, e.currentTarget)}>
                       Edit<span className="visually-hidden">{" " + sp.name}</span>
                     </button>
+                    {st === "running" ? (
+                      <button className="btn btn-ghost btn-sm" type="button" onClick={() => act(s, "specials.end", sp.name, () => endDeal(s, sp.id, today), "Today is its last day. It moves to the history tomorrow.")}>
+                        End today<span className="visually-hidden">{" " + sp.name}</span>
+                      </button>
+                    ) : null}
+                    {st === "ended" ? (
+                      <button className="btn btn-ghost btn-sm" type="button" onClick={() => { if (act(s, "specials.rerun", sp.name, () => rerunDeal(s, sp.id, today), "Running again from today.")) setView("running"); }}>
+                        Run again<span className="visually-hidden">{" " + sp.name}</span>
+                      </button>
+                    ) : null}
                     <button className="btn btn-ghost btn-sm" type="button" data-remove={sp.id} onClick={(e) => remove(sp.id, e.currentTarget)}>
                       Remove<span className="visually-hidden">{" " + sp.name}</span>
                     </button>
                   </td>
-                </tr>
-              ))
+                </tr>,
+                ];
+              })
             ) : (
               <tr>
                 <td className="empty-cell" colSpan={7}>
-                  <p>{all.length ? "No deals match. Clear the search or pick All departments." : "There are no deals yet. Add the first one."}</p>
+                  <p>{all.length ? (view === "soon" ? "Nothing is scheduled. Add a special with a start date ahead." : view === "ended" ? "Nothing in the history matches." : "No specials match. Clear the search, pick All departments, or choose All.") : "There are no deals yet. Add the first one."}</p>
                   {all.length ? (
                     <button className="btn btn-ghost btn-sm" type="button" data-show-all="" onClick={showAll}>
                       Show every deal
