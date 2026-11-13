@@ -24,6 +24,11 @@ const OLD_PAGES = [
   ["/careers/apply.html", "/careers"],
   // The three alternative home designs are retired; their old links land on the one home.
   ["/options/:path*", "/"],
+  // Members' offers and Wholesale left the public site on 2026-11-13 (Gregg: the members' money-off is not a real
+  // offer, and the wholesale tab goes). The pages stay in the code, unlinked, behind these redirects.
+  ["/offers", "/events"],
+  ["/offers/:slug", "/events"],
+  ["/wholesale", "/"],
 ];
 
 const nextConfig: NextConfig = {

@@ -90,7 +90,7 @@ export function NewsletterSignup({ source, compact = false, id }: { source: Sour
     <div className={cls} id={id} data-tour="newsletter-signup">
       <div className="nl-intro">
         <h2 className="nl-title">{compact ? "The weekly specials, by e-mail" : "Get the specials by e-mail"}</h2>
-        <p>{compact ? "About one e-mail a week. No account needed." : "About one e-mail a week with the new specials and members’ offers. No account needed, and you can stop any time."}</p>
+        <p>{compact ? "About one e-mail a week. No account needed." : "About one e-mail a week with the new specials, events and promotions. No account needed, and you can stop any time."}</p>
       </div>
       <form className="nl-form" noValidate onSubmit={submit} aria-label="Sign up for the weekly e-mail">
         <div className="nl-field">

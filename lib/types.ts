@@ -705,6 +705,8 @@ export interface StoreEvent {
   href?: string;
   cta?: string;
   featured?: boolean;
+  /** No posted end date: it runs until taken down (`to` is then a far-off date, for sorting). */
+  ongoing?: boolean;
 }
 
 /** A finished picture from the graphic designer: a weekly specials flyer or a post. */

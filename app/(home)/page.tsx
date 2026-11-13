@@ -2,9 +2,11 @@ import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { HomeLive } from "@/components/home/home-live";
+import { NearMe } from "@/components/home/near-me";
 import { StoreToday } from "@/components/home/store-today";
 import { PriceSeal } from "@/components/price-seal";
 import { StoreMap } from "@/components/site/store-map";
+import { SocialLinks } from "@/components/social-links";
 import { fmtDate, mapsDir, telHref } from "@/lib/format";
 import { FIRST_FRAME } from "@/lib/home/camera";
 import { SEED } from "@/lib/seed";
@@ -17,9 +19,9 @@ import { SCENE } from "./scene";
 // hydration (components/home/home-live.tsx).
 
 export const metadata: Metadata = {
-  title: { absolute: "Southern Food Basket · Supermarket and wholesale, south Trinidad" },
+  title: { absolute: "Southern Food Basket · Supermarket, bakery and restaurant in south Trinidad" },
   description:
-    "Southern Food Basket: five supermarkets across south Trinidad. Jobs, this week's specials, store hours and the staff portal. Prototype.",
+    "Southern Food Basket: five supermarkets across south Trinidad, serving the south since 1991. Specials, events, store hours and careers. Prototype.",
 };
 
 const D = SEED, S = SEED.settings;
@@ -46,32 +48,6 @@ const PHONE = (
     <path d="M6 3h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 12l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
   </svg>
 );
-const SOCIAL_ICON = {
-  Instagram: (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" strokeWidth="2" />
-      <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
-      <circle cx="17.4" cy="6.6" r="1.3" fill="currentColor" />
-    </svg>
-  ),
-  Facebook: (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M14 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5H17V4.4A21 21 0 0 0 14.6 4C12.3 4 10.8 5.4 10.8 8v2.5H8.2v3h2.6V21Z" fill="currentColor" />
-    </svg>
-  ),
-  TikTok: (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M14 3h3a4.5 4.5 0 0 0 4 4v3a7.4 7.4 0 0 1-4-1.3V15a6 6 0 1 1-6-6v3.1A3 3 0 1 0 14 15Z" fill="currentColor" />
-    </svg>
-  ),
-  WhatsApp: (
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 20l1.2-4.2A8 8 0 1 1 8.4 19Z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
-      <path d="M9 8.5c0 3.5 2.6 6.5 6.5 6.5l1-1.6-2-1-1 .8a4 4 0 0 1-2.2-2.2l.8-1-1-2Z" fill="currentColor" />
-    </svg>
-  ),
-};
-
 /** A headline that rises word by word (living.ts adds the motion): screen readers get the sentence once, untouched. */
 function Words({ text }: { text: string }) {
   return (
@@ -100,20 +76,21 @@ const Eyebrow = ({ children, light }: { children: React.ReactNode; light?: boole
 const NAV = [
   ["/careers", "Careers"],
   ["#deals", "Specials"],
-  ["/events", "What’s on"],
-  ["/offers", "Offers"],
-  ["#stores", "Stores"],
+  ["/events", "Events & promotions"],
+  ["/restaurant", "Restaurant & bakery"],
+  ["#stores", "A store near me"],
   ["#aisles", "Departments"],
-  ["/wholesale", "Wholesale"],
   ["#who", "About us"],
   ["/portal", "Staff portal"],
 ] as const;
 
-const SLIDES = [
-  { img: "veg-chunky", h: 667, alt: "A tray of chunky cut vegetables", eyebrow: "Specials", title: "1 for the price on the post", text: "Every special goes up on Instagram as “1 FOR $x · TRY ME”. The newest are on the shelf below.", cta: ["btn btn-outline", "#deals", "See the specials"] },
+// The first two are running now, from the company's own posts (lib/seed-events.ts says where each came from).
+const SLIDES: { img: string; src?: string; h: number; alt: string; eyebrow: string; title: string; text: string; cta: [string, string, string] }[] = [
+  { img: "flash", src: "/assets/img/social/flash-slide.webp", h: 533, alt: "Flash Sale flyer: Central Farms duck, 4 lbs for $89.95, and Anchor cheddar cheese 250 g, 2 for $39.95", eyebrow: "On now · 13 to 15 November", title: "Flash Sale, three days only", text: "Big savings on everyday essentials at all five stores, Friday to Sunday.", cta: ["btn btn-outline", "/specials", "See the flyers"] },
+  { img: "escape", src: "/assets/img/social/escape-on-wheels.webp", h: 800, alt: "Escape on Wheels with a BYD Song Pro, for the 35th anniversary: shop, enter, win", eyebrow: "35 Years of Rewards", title: "Win a BYD Song Pro", text: "Spend $300 for an entry form, fill it out and drop it in the box at any store.", cta: ["btn btn-glass", "/events", "How to enter"] },
   { img: "veg-stir-fry", h: 667, alt: "A tray of cut stir fry vegetables", eyebrow: "Fresh and cut veg", title: "Ready-cut veg packs", text: "Chunky, stir fry and chow mein packs, cut and ready to cook, beside the whole produce.", cta: ["btn btn-outline", "/departments#fresh", "Fresh and cut veg"] },
-  { img: "cake-red-velvet", h: 667, alt: "A 9-inch red velvet cake in a clear cake box", eyebrow: "Cakes and bakery", title: "Double-layer cakes", text: "Sponge, chocolate, coconut, almond crumble and red velvet, in 7-inch and 9-inch sizes.", cta: ["btn btn-outline", "/departments#bakery", "Cakes and bakery"] },
-  { img: "flags-car", h: 600, alt: "Southern Food Basket flags flying from a vehicle on the road", eyebrow: "Five stores", title: "Look for the pink and green flags", text: "Couva, San Fernando, Princes Town, Penal and Point Fortin.", cta: ["btn btn-glass", "#stores", "Find your store"] },
+  { img: "cake-red-velvet", h: 667, alt: "A 9-inch red velvet cake in a clear cake box", eyebrow: "Restaurant and bakery", title: "Double-layer cakes", text: "Sponge, chocolate, coconut, almond crumble and red velvet, from our in-house bakery.", cta: ["btn btn-outline", "/restaurant", "Restaurant and bakery"] },
+  { img: "flags-car", h: 600, alt: "Southern Food Basket flags flying from a vehicle on the road", eyebrow: "Five stores", title: "Look for the pink and green flags", text: "Couva, San Fernando, Princes Town, Penal and Point Fortin.", cta: ["btn btn-glass", "#stores", "A store near me"] },
 ];
 
 /* ---------- specials ---------- */
@@ -143,15 +120,6 @@ function DeptCard({ x }: { x: Department }) {
   );
 }
 
-
-const SOCIALS = (
-  [
-    ["Instagram", S.instagram?.url, S.instagram?.handle],
-    ["Facebook", S.facebook],
-    ["TikTok", S.tiktok],
-    ["WhatsApp", S.whatsappChannel, "WhatsApp channel"],
-  ] as const
-).filter((s) => s[1]);
 
 export default function HomePage() {
   return (
@@ -274,7 +242,7 @@ export default function HomePage() {
                 {SLIDES.map((s, i) => (
                   <article key={s.img} className="slide" role="group" aria-roledescription="slide" aria-label={i + 1 + " of " + SLIDES.length}>
                     <figure className="slide-photo">
-                      <img src={"/assets/img/photos/" + s.img + ".webp"} width="800" height={s.h} alt={s.alt} loading={i ? "lazy" : undefined} />
+                      <img src={s.src || "/assets/img/photos/" + s.img + ".webp"} width="800" height={s.h} alt={s.alt} loading={i ? "lazy" : undefined} />
                     </figure>
                     <div className="slide-copy">
                       <Eyebrow>{s.eyebrow}</Eyebrow>
@@ -400,7 +368,7 @@ export default function HomePage() {
           <div className="wrap">
             <div className="section-head">
               <div>
-                <Eyebrow>Who is Southern Food Basket?</Eyebrow>
+                <Eyebrow>Our story</Eyebrow>
                 <h2 id="who-title">
                   <Words text="A family grocer for the south" />
                 </h2>
@@ -413,27 +381,30 @@ export default function HomePage() {
                 </div>
                 <p className="who-role">In loving memory</p>
                 <h3>Nazim Mohammed</h3>
-                <p>Father of the family behind Southern Food Basket, and principal of Southern Food Basket Limited, Princes Town.</p>
-                <p className="who-small">His story and photograph will go here in the family&apos;s own words, when they are ready to share them.</p>
+                <p>Father of the family behind Southern Food Basket.</p>
+                <p className="who-small">A place is kept here for his photograph and his story, in the family’s own words.</p>
               </article>
               <article className="who-card who-family">
                 <p className="who-year" aria-hidden="true">
                   1991
                 </p>
                 <h3>A family business</h3>
-                <p>Southern Food Basket is a family business, serving the south since 1991: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
+                <p>Southern Food Basket has been family-run since 1991. Today there are five stores across the south, and this year we are celebrating 35 Years of Rewards.</p>
                 <p className="who-small">The team in red runs the shop floor, and the pink-and-green flags go out on the music truck.</p>
               </article>
               <article className="who-card who-where">
                 <h3>Where we are</h3>
-                <StoreMap compact id="route" />
-                <p className="who-small" id="route-cap">
-                  Each store is pinned where its Google Maps listing puts it. Tap a pin for today’s hours and directions.
+                <figure className="sf-window">
+                  <img src="/assets/img/social/store-front.webp" width="640" height="640" alt="The red Southern Food Basket lettering on the teal glass front of a store" loading="lazy" decoding="async" />
+                </figure>
+                <p className="who-small">San Fernando, Couva, Princes Town, Penal and Point Fortin. Look for the red letters on the glass.</p>
+                <p className="more">
+                  <a href="#stores">A store near me</a>
                 </p>
               </article>
             </div>
             <p className="more">
-              <Link href="/about">The family, every store and the public record</Link>
+              <Link href="/about">More about our family and our stores</Link>
             </p>
           </div>
         </section>
@@ -461,7 +432,7 @@ export default function HomePage() {
             </ul>
             <p className="more more-pair">
               <Link href="/departments">Every department, with its specials</Link>
-              <Link href="/wholesale">Buying for a business? Wholesale and trade</Link>
+              <Link href="/restaurant">Our restaurant and bakery</Link>
             </p>
           </div>
         </section>
@@ -473,10 +444,14 @@ export default function HomePage() {
               <div>
                 <Eyebrow light>Five stores, one welcome</Eyebrow>
                 <h2 id="stores-title">
-                  <Words text="Find your nearest store" />
+                  <Words text="A store near me" />
                 </h2>
-                <p className="note light">Hours and phone numbers from each store&apos;s Google Maps listing, October 2026.</p>
+                <p className="note light">Five stores across the south, open seven days a week.</p>
               </div>
+            </div>
+            <NearMe places={D.branches.map((b) => ({ id: b.id, name: b.name, lat: b.lat, lng: b.lng }))} />
+            <div className="near-map">
+              <StoreMap id="stores-map" />
             </div>
             <div className="stores" id="store-grid">
               {D.branches.map((b) => (
@@ -484,6 +459,7 @@ export default function HomePage() {
                   <div className="cap" aria-hidden="true" />
                   <h3>{b.name}</h3>
                   <address>{b.address}</address>
+                  <span className="store-km" data-km={b.id} />
                   <p className="row-i">
                     {CLOCK}
                     <StoreToday branch={b} />
@@ -517,7 +493,7 @@ export default function HomePage() {
             </div>
             <p className="more">
               <Link className="btn btn-outline" href="/locations">
-                The full week&apos;s hours, plus codes and maps
+                Every store, with its full hours
               </Link>
             </p>
           </div>
@@ -527,21 +503,11 @@ export default function HomePage() {
           <div className="wrap social">
             <div>
               <h2 id="social-title">
-                <Words text="Follow the specials" />
+                <Words text="Follow Southern Food Basket" />
               </h2>
-              <p>New products, giveaways and the week&apos;s specials, as the stores post them.</p>
+              <p>New specials, competitions and store news, as we post them.</p>
             </div>
-            <ul className="social-links" id="social-links">
-              {SOCIALS.map((s) => (
-                <li key={s[0]}>
-                  <a href={s[1]} target="_blank" rel="noopener">
-                    {SOCIAL_ICON[s[0]]}
-                    <span>{s[2] || s[0]}</span>
-                    <span className="visually-hidden">{", " + s[0] + ", opens in a new tab"}</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
+            <SocialLinks settings={S} />
           </div>
         </section>
       </main>
@@ -551,7 +517,7 @@ export default function HomePage() {
         <div className="wrap footer-grid">
           <div>
             <img className="footer-logo" src="/assets/img/sfb-logo.svg" width="861" height="393" alt="Southern Food Basket" />
-            <p>Supermarket and wholesale for the south of Trinidad.</p>
+            <p>We’ve got the food for your basket.</p>
             <p id="footer-phone">{S.phone ? <a href={telHref(S.phone)}>{S.phone}</a> : null}</p>
           </div>
           <div>
@@ -570,10 +536,10 @@ export default function HomePage() {
             <h3>Shop</h3>
             <ul>
               <li><Link href="/specials">Specials</Link></li>
-              <li><Link href="/offers">Members’ offers</Link></li>
+              <li><Link href="/events">Events and promotions</Link></li>
               <li><Link href="/departments">Departments</Link></li>
-              <li><Link href="/wholesale">Wholesale and trade</Link></li>
-              <li><Link href="/locations">Store hours</Link></li>
+              <li><Link href="/restaurant">Restaurant and bakery</Link></li>
+              <li><Link href="/locations">A store near me</Link></li>
             </ul>
           </div>
           <div>
@@ -585,15 +551,12 @@ export default function HomePage() {
               <li><Link href="/portal">Staff portal</Link></li>
               <li><Link href="/tour">Guided tour of this prototype</Link></li>
               <li><Link href="/how-it-works">How the system works</Link></li>
-              {S.instagram ? (
-                <li>
-                  <a href={S.instagram.url} target="_blank" rel="noopener">
-                    {S.instagram.handle} on Instagram<span className="visually-hidden"> (opens in a new tab)</span>
-                  </a>
-                </li>
-              ) : null}
             </ul>
           </div>
+        </div>
+        <div className="wrap footer-social">
+          <span>Follow us</span>
+          <SocialLinks settings={S} compact />
         </div>
         <div className="wrap legal">
           <p>

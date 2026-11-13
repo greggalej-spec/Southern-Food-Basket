@@ -5,7 +5,6 @@ import { OPS_CHAPTERS } from "./tour-ops";
    attribute). The people and codes are the demo's own (lib/seed-staff.ts, lib/seed-members.ts); "Reset the demo"
    on /tour puts them back, so every chapter starts the same way. */
 
-const shopper = { role: "customer" as const, userId: "cust-marisa" };
 const keisha = { role: "employee" as const, userId: "emp-keisha" };
 const tricia = { role: "marketing" as const, userId: "emp-tricia" };
 const vishala = { role: "owner" as const, userId: "emp-vishala" };
@@ -37,76 +36,6 @@ const SITE_CHAPTERS: TourChapter[] = [
           "Under them, shoppers can ask for the weekly e-mail. The box is never ticked for them, and nothing is sent until they confirm from their inbox.",
         ],
         try: "Sign up with any address. The confirmation e-mail lands in the demo outbox.",
-      },
-      {
-        path: "/offers",
-        target: "offers-list",
-        title: "Members’ offers",
-        body: [
-          "Offers that need a code live here. Anyone can read them; taking a code needs a free sign-in with an e-mail address, and no password.",
-          "Each offer says which stores take it and until when, in Trinidad time.",
-        ],
-      },
-    ],
-  },
-  {
-    id: "code",
-    title: "A code, from phone to till",
-    summary: "A shopper takes a code; the cashier checks it. Wrong store, used or ended codes are refused.",
-    cast: "Marisa, a shopper · Keisha, on the San Fernando till",
-    steps: [
-      {
-        path: "/offers/cake-offer",
-        as: "signed-out",
-        target: "offer-claim",
-        title: "One code per shopper",
-        body: [
-          "Signed out, the offer explains itself and asks the shopper to sign in.",
-          "There is no password to forget: a link arrives by e-mail and works once, for 15 minutes.",
-        ],
-      },
-      {
-        path: "/account",
-        as: shopper,
-        target: "account-wallet",
-        title: "Marisa’s codes",
-        body: [
-          "The tour has signed you in as Marisa Singh, who took two codes this week. Each is big enough to read across a counter.",
-          "The site keeps only a fingerprint of each code, so not even staff can read one back. Only Marisa’s account shows it.",
-        ],
-      },
-      {
-        path: "/portal/till",
-        as: keisha,
-        target: "till-input",
-        title: "At the till",
-        body: [
-          "Now you are Keisha Ramlogan on the San Fernando till. Beyond her own shifts and pay, her access covers one thing: checking codes, at her store only.",
-          "Marisa’s veg code is for the Couva store.",
-        ],
-        fill: { target: "till-input", value: "P4NF-7GAE", label: "Fill in P4NF-7GAE" },
-        try: "Fill in the Couva code, then press Check and record.",
-      },
-      {
-        path: "/portal/till",
-        target: "till-result",
-        title: "Refused, and why",
-        body: [
-          "A code for another store is turned away with the reason in plain words, and the try is logged.",
-          "Five wrong tries in ten minutes pause this till’s code check for five minutes.",
-        ],
-        fill: { target: "till-input", value: "K7QM-4XDP", label: "Fill in K7QM-4XDP" },
-        try: "Now fill in the cake code and record it. Try it a second time too.",
-      },
-      {
-        path: "/admin#codes",
-        as: vishala,
-        target: "codes-table",
-        title: "What the office sees",
-        body: [
-          "The owner’s office sees claims and redemptions by store, and each till check with who made it.",
-          "Codes only ever appear as their last four characters.",
-        ],
       },
     ],
   },

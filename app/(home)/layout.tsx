@@ -2,6 +2,7 @@ import "../../styles/home.css";
 import "../../styles/tour.css";
 import "../../styles/season.css";
 import "../../styles/motion.css";
+import "../../styles/storefront.css";
 import { fontVars } from "@/lib/fonts";
 import { baseMetadata, baseViewport } from "@/lib/site-meta";
 import { FeedbackButton } from "@/components/feedback-button";

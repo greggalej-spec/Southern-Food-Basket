@@ -29,7 +29,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 17,
+  version: 18,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -257,10 +257,10 @@ export const SEED: Seed = {
   content: {
     hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and specials at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },
     values: [
-      { title: 'Fresh, and ready to cook', text: 'Ready-cut veg packs and fresh herbs sit next to the whole produce, so dinner takes less time.' },
-      { title: 'Prices you can see', text: 'Every special is posted with its price, in store and on Instagram, before you come in.' },
-      { title: 'Here for the south', text: 'San Fernando, Couva, Princes Town, Penal and Point Fortin. We hire from the communities we serve.' },
-      { title: 'Part of the community', text: 'The flag truck on the road, and prize giveaways on the shop floor.' }
+      { title: 'Fresh every day', text: 'Fruit and vegetables, a butcher shop and an in-house bakery, with ready-cut veg packs for busy evenings.' },
+      { title: 'D Best 4 Less', text: 'Honest prices all year, with specials and flash sales posted before you leave home.' },
+      { title: 'Rooted in the south', text: 'Five stores from Couva to Point Fortin, open seven days a week and staffed by people from the communities we serve.' },
+      { title: 'More than a supermarket', text: 'Colouring days for the children, celebrations in store and prizes to be won. Our stores are part of community life.' }
     ],
     facts: [
       { text: 'Southern Food Basket Limited, registered in Princes Town, Trinidad and Tobago.', source: 'Dun & Bradstreet company profile' },
@@ -268,7 +268,7 @@ export const SEED: Seed = {
     ],
     community: {
       title: 'Out in the community',
-      text: 'You will see the pink-and-green flags on the music truck around the south, and the team in red shirts running prize giveaways on the shop floor.',
+      text: 'Colour Me Divali for our little artists, henna and treats at Couva, giveaways on the shop floor, and the pink-and-green flags on the road. Wherever the south is celebrating, we are there.',
       source: 'The company’s Instagram, October 2026',
       img: '/assets/img/photos/flags-car.webp', alt: 'Southern Food Basket flags flying from a vehicle on the road'
     },

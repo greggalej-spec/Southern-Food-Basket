@@ -4,12 +4,12 @@ import Link from "next/link";
 import { NewsletterSignup } from "@/components/members/newsletter-signup";
 import { Logo } from "@/components/site-header";
 import { ResetDemoButton } from "@/components/reset-demo-button";
+import { SocialLinks } from "@/components/social-links";
 import { DISCLAIMER, telHref } from "@/lib/format";
 import { useData } from "@/lib/store";
 
 export function SiteFooter() {
   const d = useData();
-  const ig = d.settings.instagram;
   return (
     <footer className="site-footer">
       <div className="facade-band" aria-hidden="true" />
@@ -22,7 +22,7 @@ export function SiteFooter() {
             <Link className="brand" href="/" aria-label="Southern Food Basket, home">
               <Logo />
             </Link>
-            <p style={{ marginTop: 16 }}>Supermarket and wholesale for the south of Trinidad.</p>
+            <p style={{ marginTop: 16 }}>We’ve got the food for your basket.</p>
             {d.settings.phone && (
               <p>
                 <a href={telHref(d.settings.phone)}>{d.settings.phone}</a>
@@ -46,10 +46,10 @@ export function SiteFooter() {
             <h4>Shop</h4>
             <ul>
               <li><Link href="/specials">Specials</Link></li>
-              <li><Link href="/offers">Members’ offers</Link></li>
+              <li><Link href="/events">Events and promotions</Link></li>
               <li><Link href="/departments">Departments</Link></li>
-              <li><Link href="/wholesale">Wholesale and trade</Link></li>
-              <li><Link href="/locations">Store hours</Link></li>
+              <li><Link href="/restaurant">Restaurant and bakery</Link></li>
+              <li><Link href="/locations">A store near me</Link></li>
             </ul>
           </div>
           <div>
@@ -60,15 +60,12 @@ export function SiteFooter() {
               <li><Link href="/community">Community and partnerships</Link></li>
               <li><Link href="/portal">Staff portal</Link></li>
               <li><Link href="/how-it-works">How the system works</Link></li>
-              {ig && (
-                <li>
-                  <a href={ig.url} target="_blank" rel="noopener">
-                    {ig.handle} on Instagram<span className="visually-hidden"> (opens in a new tab)</span>
-                  </a>
-                </li>
-              )}
             </ul>
           </div>
+        </div>
+        <div className="footer-social">
+          <span>Follow us</span>
+          <SocialLinks settings={d.settings} compact />
         </div>
         <div className="footer-bottom">
           <p>{DISCLAIMER}</p>

@@ -13,12 +13,12 @@ import type { Campaign, ConsentEvent, OutboxMessage, Seed, Session, Subscriber }
 
 export const CONSENT = {
   version: "nl-2026-10",
-  text: "E-mail me Southern Food Basket’s weekly specials and members’ offers, about once a week. Every e-mail has an unsubscribe link.",
+  text: "E-mail me Southern Food Basket’s weekly specials, events and promotions, about once a week. Every e-mail has an unsubscribe link.",
 } as const;
 
 export const TOPICS = [
   { id: "weekly-specials", label: "This week’s specials" },
-  { id: "offers", label: "Members’ offers and codes" },
+  { id: "offers", label: "Events and promotions" },
   { id: "store-news", label: "Store news and events" },
 ] as const;
 

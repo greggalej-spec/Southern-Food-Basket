@@ -71,8 +71,13 @@ The team chose type system 7, "Homey serif and hand", on 13 Nov 2026 (`docs/bran
   `tabular-nums` on prices, tables and payslips. Line length ≤ 68ch.
 
 ## Ornament (brand-sourced, use sparingly)
-- **Wave ribbon** from the company's flags: a pink wave over a thin green wave. On the lower edge of a page
-  hero and between major home sections, never more than three on a page. `.ribbon` in tokens.css.
+- **Glass transom** (2026-11-13, replaces the wave ribbon): a row of shop-front glass panes in a cream frame,
+  teal with one gold pane in six, from the stores' glass fronts; a glint of light crosses it every few seconds.
+  On the lower edge of a page hero and between major home sections, never more than three on a page. Same
+  `.ribbon` hooks; drawn in `styles/storefront.css`. The season looks keep their own ribbons.
+- **Storefront layer** (`styles/storefront.css`, public pages only): frosted-glass cards that lift on hover and
+  rise in on scroll, a wash of glass light behind page headings, the framed "shop window" photo, the four
+  social logos on their brand colours. Motion only when the visitor has not asked for less.
 - **Price seal** from the company's posts: scalloped red seal, "1 FOR" on top, yellow pill with the price,
   "TRY ME" banner below. `SFBUI.seal(price)`. Only on product photos.
 - **NEW corner** from the posts' "NEW PRODUCT" ribbon. Only on items the post marked new.

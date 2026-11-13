@@ -42,6 +42,7 @@ export function LocationsList() {
               <p className="eyebrow">Store</p>
               <h2 id={b.id + "-title"}>{b.name}</h2>
               <address>{b.address}</address>
+              <span className="store-km" data-km={b.id} />
               {b.plusCode ? <p className="plus-code">{"Plus code " + b.plusCode}</p> : null}
               {services.length ? (
                 <>
@@ -53,7 +54,6 @@ export function LocationsList() {
                       </span>
                     ))}
                   </div>
-                  {b.servicesSource ? <span className="source-line">{"From " + b.servicesSource + "."}</span> : null}
                 </>
               ) : null}
               <ul className="contact-list">
@@ -83,7 +83,6 @@ export function LocationsList() {
                   View on Google Maps<span className="visually-hidden"> (opens in a new tab)</span>
                 </a>
               </div>
-              <span className="source-line">{"Source: " + b.source + "."}</span>
             </div>
             <div className="card hours-card">
               <h3>Opening hours</h3>
@@ -103,7 +102,7 @@ export function LocationsList() {
                   ))}
                 </tbody>
               </table>
-              <span className="source-line">From the store’s Google Maps listing, October 2026. Public holiday hours may differ.</span>
+              <span className="source-line">Public holiday hours may differ.</span>
             </div>
           </div>
         </div>

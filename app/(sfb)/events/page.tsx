@@ -6,7 +6,7 @@ import { EventsBoard } from "@/components/site/events";
 // The office adds them in the console (Events and flyers); nothing here is typed into the page.
 
 export const metadata: Metadata = {
-  title: "What’s on",
+  title: "Events and promotions",
   description: "Promotions, in-store events, community drives and notices at Southern Food Basket’s five stores in south Trinidad. Prototype.",
 };
 
@@ -15,9 +15,9 @@ export default function EventsPage() {
     <SiteFrame active="events">
       <section className="page-hero" aria-labelledby="ev-title">
         <div className="container">
-          <p className="eyebrow">Events and promotions</p>
-          <h1 id="ev-title">What’s on</h1>
-          <p className="lede">Everything running at our stores, and what is coming next.</p>
+          <p className="eyebrow">At our stores</p>
+          <h1 id="ev-title">Events and promotions</h1>
+          <p className="lede">Sales, competitions and celebrations at our five stores, straight from our own posts.</p>
         </div>
       </section>
       <section className="section ev-section" aria-label="Events">

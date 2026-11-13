@@ -1,41 +1,79 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
-import { AboutFacts, AboutValues } from "@/components/site/about";
+import { AboutValues } from "@/components/site/about";
 import { StoreMap } from "@/components/site/store-map";
+import { SocialLinks } from "@/components/social-links";
 import { SEED } from "@/lib/seed";
 
-// The home's "Who" band in full (DESIGN.md "One design"): the same memorial card, family card and route map, then
-// what the home leaves out: every store linked to its listing, how the stores run, the community, the sourced record.
+// The company's own story, told the way a supermarket tells it: the family, the 35 years, what it stands for, where
+// it is and how to follow it. The wording leans on the company's own lines ("D Best 4 Less", "35 Years of Rewards",
+// the Facebook intro's list of counters). No source notes on the page: SITE.md keeps where each fact came from.
 
 export const metadata: Metadata = {
   title: "About us",
-  description:
-    "About Southern Food Basket, a family supermarket and wholesale business in south Trinidad, with the public records this concept draws on. Prototype.",
+  description: "Southern Food Basket, est. 1991: five supermarkets across the south of Trinidad, from Couva to Point Fortin. Prototype.",
 };
 
 const community = SEED.content.community;
+const YEARS = 2026 - SEED.settings.founded;
+
+const STATS = [
+  [String(SEED.settings.founded), "The year we opened"],
+  [String(YEARS), "Years serving the south"],
+  [String(SEED.branches.length), "Stores, Couva to Point Fortin"],
+  ["7", "Days a week, every week"],
+] as const;
 
 export default function AboutPage() {
   return (
     <SiteFrame active="about">
-      <section className="page-hero" aria-labelledby="about-title">
-        <div className="container">
-          <p className="eyebrow">About us</p>
-          <h1 id="about-title">A family grocer for the south</h1>
-          <p className="lede">
-            Southern Food Basket sells groceries, fresh produce, cakes and everyday goods from five stores in San Fernando, Couva, Princes Town, Penal and Point Fortin, and supplies shops and caterers in bulk. The stores carry an in-house bakery, a restaurant, a butcher shop and a pharmacy alongside the grocery.
-          </p>
-          <p>On Instagram the store is known for its “1 FOR · TRY ME” posts, its ready-cut veg packs and double-layer cakes, and the pink-and-green flags on the music truck.</p>
+      <section className="page-hero about-hero" aria-labelledby="about-title">
+        <div className="container page-hero-grid">
+          <div>
+            <p className="eyebrow">About us</p>
+            <h1 id="about-title">Southern Food Basket, est. {SEED.settings.founded}</h1>
+            <p className="lede">
+              For {YEARS} years Southern Food Basket has put good food on tables across the south of Trinidad. Fresh produce, an in-house bakery and restaurant, a butcher shop, a pharmacy and a household department, all under one roof.
+            </p>
+            <p className="about-tag">
+              Here you get <b>D Best 4 Less</b>
+            </p>
+            <div className="cluster">
+              <Link className="btn btn-sign" href="/locations">
+                A store near me
+              </Link>
+              <Link className="btn btn-outline" href="/events">
+                Events and promotions
+              </Link>
+            </div>
+          </div>
+          <figure className="sf-window">
+            <img src="/assets/img/social/store-front.webp" width="640" height="640" alt="The red Southern Food Basket lettering on the teal glass front of a store" decoding="async" />
+            <figcaption>Look for the red letters on the glass.</figcaption>
+          </figure>
         </div>
       </section>
 
-      <section className="section" aria-labelledby="who-title">
+      <section className="about-stats" aria-label="Southern Food Basket in numbers">
+        <div className="container">
+          <ul className="sf-stats">
+            {STATS.map(([n, label]) => (
+              <li className="sf-stat" key={label}>
+                <b>{n}</b>
+                <span>{label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section className="section sf-glassroom" aria-labelledby="who-title">
         <div className="container">
           <div className="section-head">
             <div>
-              <p className="eyebrow">Who is Southern Food Basket?</p>
-              <h2 id="who-title">The family and the five stores</h2>
+              <p className="eyebrow">Our story</p>
+              <h2 id="who-title">A family, and five stores</h2>
             </div>
           </div>
           <div className="who">
@@ -45,24 +83,23 @@ export default function AboutPage() {
               </div>
               <p className="who-role">In loving memory</p>
               <h3>Nazim Mohammed</h3>
-              <p>Father of the family behind Southern Food Basket, and principal of Southern Food Basket Limited, Princes Town.</p>
-              <p className="who-small">His story and photograph will go here in the family&apos;s own words, when they are ready to share them.</p>
+              <p>Father of the family behind Southern Food Basket.</p>
+              <p className="who-small">A place is kept here for his photograph and his story, in the family’s own words.</p>
             </article>
             <article className="who-card who-family">
               <p className="who-year" aria-hidden="true">
-                1991
+                {SEED.settings.founded}
               </p>
               <h3>A family business</h3>
-              <p>Southern Food Basket is a family business, serving the south since 1991: groceries, fresh-cut veg, double-layer cakes and wholesale.</p>
-              <p className="who-small">The team in red runs the shop floor, and the pink-and-green flags go out on the music truck.</p>
-              <p className="source-line">Established 1991, as the company gives it.</p>
+              <p>Southern Food Basket has been family-run since {SEED.settings.founded}. Today there are five stores across the south, and this year we are celebrating {YEARS} Years of Rewards with our customers.</p>
+              <p className="who-small">You will know us by the team in red on the shop floor, and by the pink-and-green flags on the road.</p>
             </article>
             <article className="who-card who-where">
               <h3>Where we are</h3>
               <StoreMap compact />
-              <p className="who-small">Each store is pinned where its Google Maps listing puts it. Tap a pin for today’s hours and directions.</p>
+              <p className="who-small">San Fernando, Couva, Princes Town, Penal and Point Fortin. Tap a pin for today’s hours and directions.</p>
               <Link className="more-link" href="/locations">
-                Hours, phone numbers and directions
+                A store near me
               </Link>
             </article>
           </div>
@@ -74,10 +111,10 @@ export default function AboutPage() {
           <div className="section-head">
             <div>
               <p className="eyebrow">What we stand for</p>
-              <h2 id="values-title">How we try to run the store</h2>
+              <h2 id="values-title">Our promise to every shopper</h2>
             </div>
           </div>
-          <div className="value-grid" data-values="">
+          <div className="sf-values">
             <AboutValues />
           </div>
         </div>
@@ -93,32 +130,22 @@ export default function AboutPage() {
               <p className="eyebrow">In the south</p>
               <h2 id="community-title">{community.title}</h2>
               <p className="lede">{community.text}</p>
-              <span className="source-line">{"Source: " + community.source}</span>
+              <Link className="btn btn-outline" href="/events">
+                See what is happening
+              </Link>
             </div>
           </div>
         </section>
       ) : null}
 
-      <section className="section record" aria-labelledby="record-title">
-        <div className="container narrow">
-          <p className="eyebrow">On the record</p>
-          <h2 id="record-title">What public sources say</h2>
-          <p className="muted">These facts come from public directories and have not been checked with the company.</p>
-          <ul className="fact-list" data-facts="">
-            <AboutFacts />
-          </ul>
-        </div>
-      </section>
-
-      <section className="section" aria-labelledby="concept-title">
-        <div className="container narrow">
-          <div className="concept-box">
-            <h2 id="concept-title">About this concept</h2>
-            <p>
-              This website is an unsolicited prototype. It is not affiliated with Southern Food Basket Ltd.
-            </p>
-            <p>The logo, product photos and special prices come from the company’s public Instagram, and store addresses, hours and phone numbers from each store’s Google Maps listing. Jobs, staff, applicants, payslips and documents are invented demo data. Nothing you enter on this site leaves your browser.</p>
+      <section className="section sf-glassroom" aria-labelledby="follow-title">
+        <div className="container sf-follow">
+          <div>
+            <p className="eyebrow">Stay close</p>
+            <h2 id="follow-title">Follow Southern Food Basket</h2>
+            <p>New specials, competitions and store news, as we post them.</p>
           </div>
+          <SocialLinks settings={SEED.settings} />
         </div>
       </section>
     </SiteFrame>

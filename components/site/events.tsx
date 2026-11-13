@@ -19,7 +19,7 @@ function useToday() {
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const dm = (day: string) => Number(day.slice(8, 10)) + " " + MONTHS[Number(day.slice(5, 7)) - 1];
-const span = (e: Pick<StoreEvent, "from" | "to">) => (e.from === e.to ? dm(e.from) : e.from.slice(0, 7) === e.to.slice(0, 7) ? Number(e.from.slice(8, 10)) + " to " + dm(e.to) : dm(e.from) + " to " + dm(e.to));
+const span = (e: Pick<StoreEvent, "from" | "to" | "ongoing">) => (e.ongoing ? "Since " + dm(e.from) : e.from === e.to ? dm(e.from) : e.from.slice(0, 7) === e.to.slice(0, 7) ? Number(e.from.slice(8, 10)) + " to " + dm(e.to) : dm(e.from) + " to " + dm(e.to));
 const days = (n: number) => (n === 1 ? "1 day" : n + " days");
 
 function when(e: StoreEvent, today: string) {
@@ -27,6 +27,7 @@ function when(e: StoreEvent, today: string) {
   const st = eventState(e, today);
   if (st === "past") return "Ended " + dm(e.to);
   if (st === "soon") return "Starts in " + days(daysTo(e.from, today));
+  if (e.ongoing) return "";
   const left = daysTo(e.to, today);
   return left === 0 ? "Last day today" : days(left) + " left";
 }
@@ -59,7 +60,7 @@ function EventCard({ e, today, lead = false }: { e: StoreEvent; today: string; l
         <p className="ev-when">
           <strong>{span(e)}</strong>
           {e.time ? " · " + e.time : ""}
-          {st && st !== "past" ? <em>{when(e, today)}</em> : null}
+          {st && st !== "past" && when(e, today) ? <em>{when(e, today)}</em> : null}
         </p>
         <p className="ev-sum">{e.summary}</p>
         {e.points?.length ? (

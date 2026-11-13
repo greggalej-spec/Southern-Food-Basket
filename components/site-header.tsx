@@ -9,16 +9,17 @@ import { Icon } from "@/components/icon";
 export const SITE_NAV = [
   { id: "careers", label: "Careers", href: "/careers" },
   { id: "specials", label: "Specials", href: "/specials" },
-  { id: "events", label: "What’s on", href: "/events" },
-  { id: "offers", label: "Offers", href: "/offers" },
-  { id: "locations", label: "Stores", href: "/locations" },
+  { id: "events", label: "Events & promotions", href: "/events" },
+  { id: "restaurant", label: "Restaurant & bakery", href: "/restaurant" },
+  { id: "locations", label: "A store near me", href: "/locations" },
   { id: "departments", label: "Departments", href: "/departments" },
-  { id: "wholesale", label: "Wholesale", href: "/wholesale" },
   { id: "about", label: "About us", href: "/about" },
   { id: "portal", label: "Staff portal", href: "/portal" },
 ] as const;
 
-export type SiteNavId = (typeof SITE_NAV)[number]["id"];
+// "offers" and "wholesale" left the menu on 2026-11-13 (their addresses redirect, next.config.ts); the ids stay in the
+// type so those pages still compile.
+export type SiteNavId = (typeof SITE_NAV)[number]["id"] | "offers" | "wholesale";
 
 /** The real logo, traced to SVG from the company's own artwork (docs/SOURCES.md). */
 export function Logo() {

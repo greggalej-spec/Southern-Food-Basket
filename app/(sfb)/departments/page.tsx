@@ -42,7 +42,6 @@ export default function DepartmentsPage() {
               <li key={s}>{s}</li>
             ))}
           </ul>
-          <span className="source-line">Source: the company&apos;s Facebook page.</span>
           <Link className="more-link" href="/locations">
             What each store has
           </Link>

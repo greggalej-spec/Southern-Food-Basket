@@ -156,7 +156,7 @@ export function EventsPanel() {
                         <Badge variant={TONE[st]}>{STATE_LABEL[st]}</Badge>
                       </p>
                       <strong>{e.title}</strong>
-                      <span className="meta">{(e.from === e.to ? fmtDate(e.from, { year: false }) : fmtDate(e.from, { year: false }) + " to " + fmtDate(e.to, { year: false })) + " · " + (e.branchIds ? e.branchIds.map((id) => d.branches.find((b) => b.id === id)?.name || id).join(", ") : "All five stores")}</span>
+                      <span className="meta">{(e.ongoing ? "Since " + fmtDate(e.from, { year: false }) : e.from === e.to ? fmtDate(e.from, { year: false }) : fmtDate(e.from, { year: false }) + " to " + fmtDate(e.to, { year: false })) + " · " + (e.branchIds ? e.branchIds.map((id) => d.branches.find((b) => b.id === id)?.name || id).join(", ") : "All five stores")}</span>
                     </div>
                     <div className="cluster">
                       <button className="btn btn-ghost btn-sm" type="button" onClick={() => setEdit(e)}>

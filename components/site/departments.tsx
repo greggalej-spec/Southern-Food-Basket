@@ -12,8 +12,11 @@ import { useData } from "@/lib/store";
 // site.js departments(): the jump chips and one section per department with its recent specials, from this browser's
 // copy of the data (the seed until hydration).
 
+/** Wholesale is off the public site (2026-11-13). */
+const shown = (x: { id: string }) => x.id !== "wholesale";
+
 export function DeptJumps() {
-  return useData().departments.map((x) => (
+  return useData().departments.filter(shown).map((x) => (
     <li key={x.id}>
       <a className="chip" href={"#" + x.id}>
         {x.short}
@@ -26,7 +29,7 @@ export function DeptSections() {
   const d = useData();
   const today = useToday();
   useJumpToHash();
-  return d.departments.map((x, i) => {
+  return d.departments.filter(shown).map((x, i) => {
     const deals = newestFirst(dealsIn(d, x.id, today));
     return (
       <section className="dept-section" id={x.id} aria-labelledby={x.id + "-title"} key={x.id}>
@@ -57,12 +60,6 @@ export function DeptSections() {
                     </Link>
                   </p>
                 </>
-              ) : x.id === "wholesale" ? (
-                <p>
-                  <Link className="btn btn-outline" href="/wholesale">
-                    Wholesale and trade accounts
-                  </Link>
-                </p>
               ) : null}
             </div>
           </div>
