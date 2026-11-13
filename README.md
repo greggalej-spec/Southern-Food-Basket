@@ -5,7 +5,7 @@ south Trinidad. Not affiliated with the company. Version 2 (2026-10-23) uses the
 posted special prices from its public Instagram, in a traditional look aimed at older shoppers and millennials.
 People, jobs, documents, hours and phone numbers are demo data. Sources: `SITE.md`; design law: `DESIGN.md`.
 
-This branch (`next-rebuild`) is the same site ported to Next.js 16, Tailwind 4 and shadcn. Plan and port log:
+The site runs on Next.js 16, Tailwind 4 and shadcn. Plan and port log:
 `docs/plan/rebuild-nextjs-shadcn.md`.
 
 ## What is in it
@@ -52,5 +52,9 @@ tools/grand-entrance/   the scene generator
 
 ## Deploy
 
-Preview deploys only, to a separate Vercel project. The live alias still serves the static site from `concept-v1`;
-production is a human decision.
+Vercel builds the live site from the `concept-v1` branch. The separate
+`southern-food-basket-next` project hosted previews during the rebuild.
+
+## Contributors
+
+Gregg (greggalej-spec) and Isabel (isabelleesing-pixel) both contribute to `concept-v1`.

@@ -2,17 +2,17 @@
 
 - **What:** concept website + hiring portal with applicant KYC + HR console + employee portal for a real south-Trinidad grocer, built unsolicited. v1 2026-10-22 (modern, own illustrations); v2 2026-10-23 (traditional, real brand) after Gregg judged v1 too modern for older shoppers and millennials; v3 2026-10-24: four homepage designs on one site, the Grand Entrance (animated store-front arrival) as the main home page, after Gregg rejected the v2 home; on `next-rebuild` 2026-10-28 the three alternatives and both switchers were removed at Gregg's call ("take off the options"), leaving the Grand Entrance as the one home. Badged "Unofficial concept" on every page.
 - **Kind:** concept (classification: third-party-media). The logo, product photos and special prices come from the company's own public Instagram, supplied by Gregg on 2026-10-23. No business permission is recorded.
-- **Run:** on `concept-v1` (the static site): `python -m http.server 4175` in the folder (or the `sfb` / `sfb-options` entries in `Dev/.claude/launch.json`, ports 4175 and 4180). On `next-rebuild` (the Next.js port): `npm run dev`, or the `sfb-next` entry on port 4176. The home scene is generated: edit `tools/grand-entrance/make-scene.js`, then `npm run scene`.
+- **Run:** `npm run dev`. The home scene is generated: edit `tools/grand-entrance/make-scene.js`, then `npm run scene`.
 - **Rebuild:** branch `next-rebuild` ports the site to Next.js 16 + Tailwind 4 + shadcn, page for page, still a mock with no backend. Plan and port log: `docs/plan/rebuild-nextjs-shadcn.md`.
-- **Rebuild deploy:** Vercel project `southern-food-basket-next` (Next.js preset, Node 24.x, no Git integration), deployed by CLI from the worktree, where `vercel link` wrote `.vercel/` and a `.env.local` (both gitignored and in `.vercelignore`). It never touches the live alias. The first deploy (2026-10-28, commit 2ede067) was assigned Production by Vercel even with `--target preview`, and Standard Protection left its short alias `southern-food-basket-next.vercel.app` public; that alias was removed the same minute and now returns 404. Every remaining URL redirects to Vercel login: https://southern-food-basket-next-greggs-projects-fbe529a0.vercel.app. Latest preview: commit e0d4277 (2026-10-29), target preview, no aliases, https://southern-food-basket-next-1jmgli1ol-greggs-projects-fbe529a0.vercel.app (the b2cc915 preview before it stays up, behind the same login)
-- **Deploy:** Vercel project `southern-food-basket` (static, no build), linked in `.vercel/` (gitignored). `.vercelignore` keeps `tools/` and the Markdown out of the upload. The first CLI deploy on 2026-10-23 was assigned the Production target by Vercel, so the public alias exists; the per-deploy URL is behind Vercel login.
+- **Rebuild preview history:** the separate `southern-food-basket-next` Vercel project hosted previews of the Next.js port.
+- **Deploy:** Vercel project `southern-food-basket` builds the Next.js site from `concept-v1`.
 - **URL:** https://southern-food-basket.vercel.app (public, noindex; HTTP 200 and rendered in the browser 2026-10-23)
 - **Screenshot:** none in the registry yet
-- **Status:** live on the Vercel alias (v3 from 2026-10-24); not linked from anywhere
+- **Status:** the live alias hosts the Next.js rebuild.
 - **Publicity:** Gregg decided on 2026-10-23 to keep the Vercel alias public so he can share the link with the business. That is the only approved use: do not take the alias down, and do not put the concept on trinovata.com/work or social until the business agrees (third-party media, no permission).
-- **Repo:** greggalej-spec/Southern-Food-Basket (private) · branch `concept-v1` · Source: `_work.json` slug `southern-food-basket`
+- **Repo:** greggalej-spec/Southern-Food-Basket (public) · branch `concept-v1` · Source: `_work.json` slug `southern-food-basket`
 
-## Layout (next-rebuild)
+## Layout
 - `/` the main design, Grand Entrance (`app/(home)/`, `styles/home.css`, `lib/home/`, scene generator in `tools/grand-entrance/`)
 - The inner pages and the portal: `/specials`, `/departments`, `/wholesale`, `/locations`, `/about`, `/careers`, `/portal`, `/hr`, `/admin`.
 - `/tour` the guided tour (2026-10-29): eight chapters, each played as the person who would do it (shopper, office, HR, staff member). It signs in as that person, points at the real control and says what to try. Engine `lib/tour.ts` + `components/tour/`, chapters `lib/tour-chapters.ts`; linked from the concept banner and the home footer. Its "reset the demo first" box is on by default, so each chapter finds the data it expects.
