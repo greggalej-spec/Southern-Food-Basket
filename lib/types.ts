@@ -527,7 +527,7 @@ export interface StaffUpdate {
 
 /* ---------- Website studio (lib/ops/site.ts). Public: the pages read it to dress the site. ---------- */
 
-export type SeasonId = "none" | "christmas" | "divali" | "carnival" | "easter";
+export type SeasonId = "none" | "christmas" | "divali" | "carnival" | "easter" | "newyear" | "valentine" | "mothers" | "fathers" | "independence" | "republic" | "eid";
 
 export interface SiteConfig {
   season: {

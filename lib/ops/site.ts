@@ -40,6 +40,63 @@ export const SEASONS: Record<Exclude<SeasonId, "none">, { name: string; blurb: s
     to: "03-29",
     palette: [["Sky", "#7CC6E8"], ["Pink", "#F4A6C0"], ["Chick", "#FFD21A"], ["Leaf", "#2A8A45"]],
   },
+  // The seven below are data-driven looks (lib/season-kits.ts), added 13 Nov 2026.
+  newyear: {
+    name: "New Year",
+    blurb: "Midnight blue and gold, confetti, stars under the header, and a firework, a balloon and a party hat to tap.",
+    greeting: "Happy New Year from all of us at Southern Food Basket",
+    from: "12-29",
+    to: "01-05",
+    palette: [["Midnight", "#1B2A5C"], ["Gold", "#F4C542"], ["Pink", "#E3336F"], ["Silver", "#D9DEE8"]],
+  },
+  valentine: {
+    name: "Valentine’s Day",
+    blurb: "Reds and pinks, rose petals drifting down, hearts strung under the header, and a heart, a rose and a love letter to tap.",
+    greeting: "Happy Valentine’s Day from all of us at Southern Food Basket",
+    from: "02-07",
+    to: "02-14",
+    palette: [["Rose red", "#D62839"], ["Pink", "#F4A6C0"], ["Magenta", "#E3336F"], ["Deep red", "#A3122A"]],
+  },
+  mothers: {
+    name: "Mother’s Day",
+    blurb: "Soft pink and lilac, petals drifting down, hearts under the header, and a flower, a heart and a present to tap.",
+    greeting: "Happy Mother’s Day from all of us at Southern Food Basket",
+    from: "05-01",
+    to: "05-09",
+    palette: [["Pink", "#E86A9A"], ["Lilac", "#B79AE0"], ["Sun", "#FFD21A"], ["Plum", "#8E1556"]],
+  },
+  fathers: {
+    name: "Father’s Day",
+    blurb: "Navy, sky blue and gold, confetti, flags under the header, and a tie, a mug and a medal to tap.",
+    greeting: "Happy Father’s Day from all of us at Southern Food Basket",
+    from: "06-12",
+    to: "06-20",
+    palette: [["Navy", "#1F4E79"], ["Blue", "#2F6FA3"], ["Gold", "#E9B949"], ["Sky", "#7CC6E8"]],
+  },
+  independence: {
+    name: "Independence Day",
+    blurb: "The national colours, red, white and black: flags under the header, and the flag, a steelpan and a balloon to tap. 31 August.",
+    greeting: "Happy Independence Day, Trinidad and Tobago",
+    from: "08-24",
+    to: "08-31",
+    palette: [["Red", "#D3202D"], ["White", "#FFFFFF"], ["Black", "#20141A"], ["Gold", "#E9B949"]],
+  },
+  republic: {
+    name: "Republic Day",
+    blurb: "Red, white and black with gold: flags under the header, and the flag, a rosette and a star to tap. 24 September.",
+    greeting: "Happy Republic Day, Trinidad and Tobago",
+    from: "09-17",
+    to: "09-24",
+    palette: [["Red", "#D3202D"], ["Black", "#20141A"], ["Gold", "#E9B949"], ["White", "#FFFFFF"]],
+  },
+  eid: {
+    name: "Eid",
+    blurb: "Emerald and gold, stars under the header, and a crescent moon, a lantern and a present to tap. Eid moves each year: set its dates when the day is announced.",
+    greeting: "Eid Mubarak from all of us at Southern Food Basket",
+    from: "03-06",
+    to: "03-11",
+    palette: [["Emerald", "#0F5A3E"], ["Green", "#1F7A5C"], ["Gold", "#E9B949"], ["Cream", "#FFE08A"]],
+  },
 };
 
 export const SEASON_IDS = Object.keys(SEASONS) as Exclude<SeasonId, "none">[];

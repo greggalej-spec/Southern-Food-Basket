@@ -8,6 +8,7 @@ import { Sleigh } from "@/components/season/sleigh";
 import { Snow } from "@/components/season/snow";
 import { activeSeason } from "@/lib/ops/site";
 import { ART, artUri } from "@/lib/season-art";
+import { KITS, KIT_VARS } from "@/lib/season-kits";
 import { useData, useHydrated } from "@/lib/store";
 import type { SeasonId } from "@/lib/types";
 
@@ -23,7 +24,7 @@ import type { SeasonId } from "@/lib/types";
    address; this reads those too. Mounted once in each root layout. */
 
 const STAFF = /^\/(admin|hr|portal|outbox|tour|how-it-works)(\/|$)|^\/careers\/me/;
-const SEASON_IDS: SeasonId[] = ["none", "christmas", "divali", "carnival", "easter"];
+const SEASON_IDS: SeasonId[] = ["none", "christmas", "divali", "carnival", "easter", "newyear", "valentine", "mothers", "fathers", "independence", "republic", "eid"];
 
 // The clock is read once, in the browser. The server render (and the prerender) sees 0 and dresses nothing.
 let clientNow = 0;
@@ -64,6 +65,11 @@ const ORNAMENT: Partial<Record<SeasonId, { mark: string; seal: string; lights: s
   easter: { mark: artUri(E.egg), seal: artUri(E.chick), lights: artUri(E.eggs) },
 };
 const KITE = artUri(E.kite);
+/** What falls over the page for the two seasons drawn in lib/season-art.ts; the kits carry their own. */
+const FALLING: Partial<Record<SeasonId, { colours: readonly string[]; petal?: boolean }>> = {
+  carnival: { colours: ["#E3336F", "#2F918A", "#FFD21A", "#8E1556", "#F26A2E", "#FFFFFF"] },
+  easter: { colours: ["#F4A6C0", "#FFFFFF", "#FFE9A8", "#BFE3F4", "#F9C9DA"], petal: true },
+};
 
 export function SeasonLayer() {
   const d = useData();
@@ -98,7 +104,14 @@ export function SeasonLayer() {
     // The stylesheet places these on cards, headings and the footer.
     const vars: [string, string][] = [["--xmas-cane", U.cane], ["--xmas-ginger", U.ginger], ["--xmas-reindeer", U.reindeer], ["--xmas-present", U.present], ["--xmas-stocking", U.stocking], ["--xmas-hat", U.hat]];
     vars.forEach(([k, v]) => (season === "christmas" ? root.style.setProperty(k, 'url("' + v + '")') : root.style.removeProperty(k)));
-    const orn = ORNAMENT[season];
+    // a kit season (lib/season-kits.ts) brings its colours as variables, on <html> and on the home page's <body>
+    const kit = KITS[season];
+    KIT_VARS.forEach((k) => { root.style.removeProperty(k); document.body.style.removeProperty(k); });
+    if (kit) {
+      root.dataset.seasonKit = "1";
+      Object.entries(kit.vars).forEach(([k, v]) => { root.style.setProperty(k, v); document.body.style.setProperty(k, v); });
+    } else delete root.dataset.seasonKit;
+    const orn = ORNAMENT[season] || (kit ? { mark: kit.mark, seal: kit.seal, lights: kit.strip } : undefined);
     const set = (k: string, v: string | null) => (v ? root.style.setProperty(k, v) : root.style.removeProperty(k));
     set("--season-mark", orn ? 'url("' + orn.mark + '")' : null);
     set("--season-seal", orn ? 'url("' + orn.seal + '")' : null);
@@ -129,8 +142,8 @@ export function SeasonLayer() {
     setTimeout(() => setShaken((cur) => (cur === id ? null : cur)), 900);
   }
 
-  const gifts = GIFTS[season];
-  const falling = season === "carnival" || season === "easter" ? season : null;
+  const gifts = GIFTS[season] || KITS[season]?.gifts;
+  const falling = FALLING[season] || KITS[season]?.falling;
   if (!hasStrip && !xmas && !gifts) return null;
   return (
     <>
@@ -166,7 +179,7 @@ export function SeasonLayer() {
 
       {xmas && path === "/" ? <Sleigh /> : null}
 
-      {falling && lights ? <Confetti look={falling} /> : null}
+      {falling && lights ? <Confetti colours={falling.colours} petal={falling.petal} /> : null}
 
       {season === "easter" && path === "/" ? (
         <div className="season-kites" aria-hidden="true">
@@ -177,7 +190,7 @@ export function SeasonLayer() {
       ) : null}
 
       {gifts ? (
-        <div className={"season-gifts is-" + season}>
+        <div className={"season-gifts is-" + season} key={season}>
           {gifts.map((g) => (
             <button key={g.id} type="button" className={shaken === g.id ? "is-shaken" : undefined} aria-label={g.label} onClick={() => shake(g.id)}>
               <img src={g.src} alt="" width="44" height="44" />

@@ -2,18 +2,17 @@
 
 import { useEffect, useRef } from "react";
 
-/* The falling layer for Carnival and Easter, on one canvas (the Christmas snow has its own, components/season/snow.tsx).
-   Carnival: paper confetti in the season's colours, tumbling as it falls. Easter: soft petals that drift and rock.
+/* The falling layer for every season but Christmas, on one canvas (the Christmas snow has its own, components/season/snow.tsx).
+   Paper confetti in the season's colours, tumbling as it falls, or soft petals that drift and rock.
    It never takes a click, stops when the tab is hidden, and does not run under "reduce motion". */
 
 type Bit = { x: number; y: number; w: number; h: number; vy: number; vx: number; a: number; va: number; flip: number; vf: number; c: string };
 
-const LOOKS = {
-  carnival: { colours: ["#E3336F", "#2F918A", "#FFD21A", "#8E1556", "#F26A2E", "#FFFFFF"], per: 16000, speed: [46, 96], size: [6, 12], petal: false },
-  easter: { colours: ["#F4A6C0", "#FFFFFF", "#FFE9A8", "#BFE3F4", "#F9C9DA"], per: 26000, speed: [22, 46], size: [7, 12], petal: true },
-} as const;
+/** Paper falls fast and thick; petals are fewer and slower. */
+const PAPER = { per: 16000, speed: [46, 96], size: [6, 12] } as const;
+const PETALS = { per: 26000, speed: [22, 46], size: [7, 12] } as const;
 
-export function Confetti({ look }: { look: keyof typeof LOOKS }) {
+export function Confetti({ colours, petal = false }: { colours: readonly string[]; petal?: boolean }) {
   const ref = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -21,7 +20,7 @@ export function Confetti({ look }: { look: keyof typeof LOOKS }) {
     if (!canvas || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    const L = LOOKS[look];
+    const L = { ...(petal ? PETALS : PAPER), colours, petal };
     let w = 0, h = 0, raf = 0, last = performance.now(), bits: Bit[] = [];
     const rnd = (a: number, b: number) => a + Math.random() * (b - a);
 
@@ -87,7 +86,7 @@ export function Confetti({ look }: { look: keyof typeof LOOKS }) {
       removeEventListener("resize", resize);
       document.removeEventListener("visibilitychange", onVis);
     };
-  }, [look]);
+  }, [colours, petal]);
 
   return <canvas ref={ref} className="snow-canvas" aria-hidden="true" />;
 }

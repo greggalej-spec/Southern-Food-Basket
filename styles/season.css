@@ -284,3 +284,18 @@ html[data-season="carnival"] .topbar::after, html[data-season="easter"] .topbar:
   75% { transform: translate(84vw, -16px) rotate(8deg); }
   100% { transform: translate(calc(100vw + 180px), 6px) rotate(-6deg); }
 }
+
+/* =====================================================================================================
+   Kit seasons (13 Nov 2026): New Year, Valentine's Day, Mother's Day, Father's Day, Independence Day, Republic Day
+   and Eid. Their colours, ribbon and ornament arrive as variables from lib/season-kits.ts (set by
+   components/season-layer.tsx, which also marks <html data-season-kit>). These rules only say where they go.
+   ===================================================================================================== */
+html[data-season-kit] .ge-root .ribbon{ background-image: var(--ribbon); }
+html[data-season-kit] .site-greeting{ background: var(--season-greet-bg); color: var(--season-greet-on); }
+html[data-season-kit] .ge-root .band-deals{ background: linear-gradient(180deg, var(--season-wash), var(--cream) 60%); }
+html[data-season-kit] .page-hero{ background: radial-gradient(60% 110% at 92% 0%, var(--season-glow-a), transparent 62%), radial-gradient(46% 90% at 0% 100%, var(--season-glow-b), transparent 60%), #FFFBF2; }
+html[data-season-kit] .topbar::before{ background-size: 64px 28px; filter: drop-shadow(0 2px 2px rgba(42,26,31,.22)); }
+html[data-season-kit] .topbar::after{ display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-season-kit] .topbar::before{ animation: season-flap 3s ease-in-out infinite alternate; transform-origin: center top; }
+}
