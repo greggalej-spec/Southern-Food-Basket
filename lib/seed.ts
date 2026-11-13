@@ -1,3 +1,4 @@
+import { EVENTS, FLYERS } from "./seed-events";
 import type { Promotion, Seed } from "./types";
 
 /* DEMO promotions: invented for the prototype, built on two real specials. Only approved promotions that have already
@@ -28,7 +29,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 13,
+  version: 14,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -236,6 +237,7 @@ export const SEED: Seed = {
   /* Operations: filled by the staff tier (lib/seed-ops.ts), never shipped to public pages. */
   suppliers: [], specialsBooks: [], supplierSheets: [], sellouts: [], requests: [], bulkOrders: [], tasks: [], resources: [],
   socialAccounts: [], socialPosts: [], socialWeeks: [], sitePages: [], plan: [], feedback: [],
+  events: EVENTS, flyers: FLYERS,
 
   content: {
     hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and specials at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },

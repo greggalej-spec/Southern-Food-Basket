@@ -30,14 +30,14 @@ export function outcomeLetter(a: Applicant): Message | null {
   return (a.messages || []).find((m) => m.at === o.at) || null;
 }
 
-/** "Devon" from "Devon Baptiste"; null when the sender is just "HR". */
+/** "Faith" from "Faith"; null when the sender is just "HR". */
 export function senderFirst(from: string | null | undefined) {
   const f = String(from || "").trim();
   if (!f || f === "HR") return null;
   return f.split(" ")[0];
 }
 
-/** "Devon from HR" or "the HR team". */
+/** "Faith from HR" or "the HR team". */
 export function hrWho(from: string | null | undefined) {
   const first = senderFirst(from);
   return first ? first + " from HR" : "the HR team";

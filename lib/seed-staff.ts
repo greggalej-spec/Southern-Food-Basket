@@ -52,7 +52,7 @@ const CAMPAIGNS: Campaign[] = [
     intro: 'Dinner in less time: three ready-cut veg packs are on special this week, with fresh parsley alongside.',
     specialIds: ['sp-veg-chunky', 'sp-veg-stir-fry', 'sp-veg-chow-mein', 'sp-parsley'], segment: { branches: null, topics: ['weekly-specials'] },
     status: 'sent', scheduledFor: '2026-10-22T07:00:00-04:00', sentAt: '2026-10-22T07:00:00-04:00', sentTo: 9, createdBy: 'emp-tricia', createdAt: '2026-10-20T15:00:00-04:00',
-    testSends: [{ at: '2026-10-21T16:10:00-04:00', to: 'tricia.baboolal@sfb.example' }] },
+    testSends: [{ at: '2026-10-21T16:10:00-04:00', to: 'isabel@sfb.example' }] },
   { id: 'cmp-1030', subject: 'Cakes for the weekend, and TT$15 off for members', preheader: 'Red velvet, chocolate, sponge, coconut and almond crumble.', template: 'offer',
     intro: 'Five double-layer cakes are on special, and members can take TT$15 off any one of them until 15 November.',
     specialIds: ['sp-cake-red-velvet', 'sp-cake-chocolate', 'sp-cake-sponge'], promoId: 'promo-cake', segment: { branches: null, topics: ['offers'] },
@@ -84,7 +84,7 @@ export const STAFF_TIER: Tier = {
         'address': { state: 'flagged', fileName: 'tt-electricity-bill.pdf', size: 150000, type: 'application/pdf', reason: 'Bill is older than three months. Please upload a recent one.', updatedAt: '2026-10-16T09:10:00' },
         'refs': { state: 'uploaded', fileName: 'references.pdf', size: 60000, type: 'application/pdf', updatedAt: '2026-10-14T10:25:00' }
       },
-      notes: [{ at: '2026-10-16T09:12:00', author: 'Devon Baptiste', text: 'Strong cash-handling background. Chasing a recent proof of address, then schedule interview at Coffee Street.' }],
+      notes: [{ at: '2026-10-16T09:12:00', author: 'Faith', text: 'Strong cash-handling background. Chasing a recent proof of address, then schedule interview at Coffee Street.' }],
       messages: [{ at: '2026-10-16T09:15:00', from: 'HR', text: 'Hi Aaliyah, thanks for applying. Your proof of address is older than three months. Please upload a bill or statement from the last three months and we will move you to interview.' }],
       timeline: [
         { at: '2026-10-14T10:12:00', text: 'Application submitted' },
@@ -106,7 +106,7 @@ export const STAFF_TIER: Tier = {
         'bank': { state: 'uploaded', fileName: 'bank-letter.pdf', size: 90000, type: 'application/pdf' },
         'food-badge': { state: 'verified', fileName: 'food-badge.jpg', size: 300000, type: 'image/jpeg', expiry: '2027-08-31' }
       },
-      notes: [{ at: '2026-10-19T11:00:00', author: 'Devon Baptiste', text: 'All documents in. Interview booked with Marsha for Mon 27 Oct.' }],
+      notes: [{ at: '2026-10-19T11:00:00', author: 'Faith', text: 'All documents in. Interview booked with Marsha for Mon 27 Oct.' }],
       messages: [{ at: '2026-10-19T11:05:00', from: 'HR', text: 'Hi Jerome, your interview is on Monday 27 October at 10:00 am at the Princes Town head office. Ask for Marsha at the wholesale desk.' }],
       timeline: [
         { at: '2026-10-13T08:40:00', text: 'Application submitted' },
@@ -128,7 +128,7 @@ export const STAFF_TIER: Tier = {
     { id: 'app-shanice', outcome: { kind: 'offer', at: '2026-10-27T15:00:00' }, name: 'Shanice Lewis', email: 'shanice.lewis@example.com', phone: '(868) 000-0205', jobId: 'job-perish-penal', stage: 'offer', submittedAt: '2026-10-02T09:00:00',
       personal: { address: 'Demo Street, Penal', dob: '1999-12-30', nonNational: false },
       experience: { summary: 'Two years in produce at a Siparia supermarket. Knows the Penal farmers by name.', availability: ['Early mornings', 'Sundays'], startDate: '2026-11-02' },
-      interview: { at: '2026-10-13T14:00:00', where: 'Penal store, S.S. Erin Road', with: 'Devon Baptiste, HR' },
+      interview: { at: '2026-10-13T14:00:00', where: 'Penal store, S.S. Erin Road', with: 'Faith, HR' },
       offer: { startDate: '2026-11-09', pay: 4300, payUnit: 'month', sentAt: '2026-10-27T15:00:00', status: 'sent' },
       docs: {
         'photo-id': { state: 'verified', fileName: 'id.jpg', size: 350000, type: 'image/jpeg', expiry: '2030-06-15' },
@@ -140,8 +140,8 @@ export const STAFF_TIER: Tier = {
         'bank': { state: 'verified', fileName: 'bank.pdf', size: 80000, type: 'application/pdf' },
         'food-badge': { state: 'verified', fileName: 'badge.jpg', size: 280000, type: 'image/jpeg', expiry: '2027-04-30' }
       },
-      notes: [{ at: '2026-10-27T15:00:00', author: 'Devon Baptiste', text: 'Offer sent at TTD 4,300 / month, start 9 Nov. Pay agreed with the Penal manager after the interview.' }],
-      messages: [{ at: '2026-10-13T16:30:00', from: 'Devon Baptiste', text: 'Hi Shanice, thank you for coming in today. We will be in touch within two weeks.' }],
+      notes: [{ at: '2026-10-27T15:00:00', author: 'Faith', text: 'Offer sent at TTD 4,300 / month, start 9 Nov. Pay agreed with the Penal manager after the interview.' }],
+      messages: [{ at: '2026-10-13T16:30:00', from: 'Faith', text: 'Hi Shanice, thank you for coming in today. We will be in touch within two weeks.' }],
       timeline: [
         { at: '2026-10-02T09:00:00', text: 'Application submitted' }, { at: '2026-10-05T10:00:00', text: 'Moved to Screening' },
         { at: '2026-10-07T10:00:00', text: 'Moved to KYC review' }, { at: '2026-10-13T10:00:00', text: 'Moved to Interview' },
@@ -151,8 +151,8 @@ export const STAFF_TIER: Tier = {
       personal: { address: 'Demo Street, San Fernando', dob: '1996-04-18', nonNational: false },
       experience: { summary: 'Help-desk experience at a call centre; no POS background.', availability: ['Weekdays'], startDate: '2026-10-19' },
       docs: { 'photo-id': { state: 'verified', fileName: 'id.jpg', size: 350000, type: 'image/jpeg', expiry: '2029-09-01' } },
-      notes: [{ at: '2026-10-26T11:20:00', author: 'Devon Baptiste', text: 'Role filled internally. Keep on file for the next support opening.' }],
-      messages: [{ at: '2026-09-25T10:05:00', from: 'Devon Baptiste', text: 'Hi Kwame, thank you for applying. We are reading applications for this role now and will be in touch.' }],
+      notes: [{ at: '2026-10-26T11:20:00', author: 'Faith', text: 'Role filled internally. Keep on file for the next support opening.' }],
+      messages: [{ at: '2026-09-25T10:05:00', from: 'Faith', text: 'Hi Kwame, thank you for applying. We are reading applications for this role now and will be in touch.' }],
       timeline: [{ at: '2026-09-22T11:00:00', text: 'Application submitted' }, { at: '2026-09-25T10:00:00', text: 'Moved to Screening' }, { at: '2026-10-26T11:20:00', text: 'Moved to Not selected' }] },
     { id: 'app-nadia', name: 'Nadia Ali', email: 'nadia.ali@example.com', phone: '(868) 000-0207', jobId: 'job-checkout-penal', stage: 'submitted', submittedAt: '2026-10-22T08:15:00',
       personal: { address: 'Demo Trace, Penal', dob: '2005-02-11', nonNational: false },
@@ -165,7 +165,7 @@ export const STAFF_TIER: Tier = {
       notes: [], messages: [], timeline: [{ at: '2026-10-17T13:45:00', text: 'Application submitted' }, { at: '2026-10-20T09:05:00', text: 'Moved to Screening' }] }
   ],
 
-  /* demo employees. Keisha is the Employee demo login; Devon is the HR demo login. */
+  /* demo employees. Keisha is the Employee demo login; Faith is the HR demo login. */
   employees: [
     { id: 'emp-keisha', name: 'Keisha Ramlogan', role: 'Checkout Supervisor', dept: 'Checkout', branchId: 'sando', startDate: '2021-03-08', employeeNo: 'SFB-0412',
       email: 'keisha.ramlogan@sfb.example', phone: '(868) 000-0101', address: 'Demo Street, Marabella',
@@ -218,9 +218,9 @@ export const STAFF_TIER: Tier = {
         { docId: 'bir', state: 'verified' },
         { docId: 'food-badge', state: 'verified', expiry: '2026-11-18' }
       ] },
-    { id: 'emp-devon', name: 'Devon Baptiste', role: 'HR Manager', dept: 'HR', branchId: 'ptown', startDate: '2019-01-14', employeeNo: 'SFB-0117',
-      email: 'devon.baptiste@sfb.example', phone: '(868) 000-0103', address: 'Demo Avenue, Princes Town',
-      emergency: { name: 'Carla Baptiste', relation: 'Sister', phone: '(868) 000-0104' },
+    { id: 'emp-devon', name: 'Faith', role: 'HR Manager', dept: 'HR', branchId: 'ptown', startDate: '2019-01-14', employeeNo: 'SFB-0117',
+      email: 'faith@sfb.example', phone: '(868) 000-0103', address: 'Demo Avenue, Princes Town',
+      emergency: { name: 'On file', relation: 'Sister', phone: '(868) 000-0104' },
       bank: { bank: 'Demo Bank', masked: '•••• 7730' },
       leave: { annualEntitled: 20, annualUsed: 8, sickEntitled: 14, sickUsed: 0, casualEntitled: 3, casualUsed: 0 },
       leaveRequests: [{ id: 'lv-d1', type: 'Annual', from: '2026-07-20', to: '2026-07-24', days: 5, reason: 'Tobago', status: 'approved', requestedAt: '2026-06-01T09:00:00' }],
@@ -254,18 +254,18 @@ export const STAFF_TIER: Tier = {
       payslips: [],
       training: [{ id: 'tr-food', name: 'Food safety, level 1', done: true, completedAt: '2023-02-01', minutes: 45 }, { id: 'tr-cust', name: 'Customer care refresher 2026', done: false, due: '2026-11-30', minutes: 25 }],
       compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2027-02-28' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }, { docId: 'food-badge', state: 'verified', expiry: '2026-09-30' }] },
-    { id: 'emp-ria', name: 'Ria Seecharan', role: 'Administrative Officer', dept: 'Head office', branchId: 'sando', startDate: '2022-02-01', employeeNo: 'SFB-0233',
-      email: 'ria.seecharan@sfb.example', phone: '(868) 000-0109', address: 'Demo Street, San Fernando',
-      emergency: { name: 'Vikash Seecharan', relation: 'Brother', phone: '(868) 000-0110' },
+    { id: 'emp-ria', name: 'Alexia', role: 'Administrative Assistant', dept: 'Head office', branchId: 'sando', startDate: '2022-02-01', employeeNo: 'SFB-0233',
+      email: 'alexia@sfb.example', phone: '(868) 000-0109', address: 'Demo Street, San Fernando',
+      emergency: { name: 'On file', relation: 'Brother', phone: '(868) 000-0110' },
       bank: { bank: 'Demo Bank', masked: '•••• 3307' },
       leave: { annualEntitled: 16, annualUsed: 4, sickEntitled: 14, sickUsed: 1, casualEntitled: 3, casualUsed: 0 },
       leaveRequests: [], swapRequests: [],
       shifts: [{ date: '2026-10-22', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-23', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-26', start: '08:00', end: '16:30', role: 'Head office' }],
       payslips: [], training: [{ id: 'tr-cust', name: 'Customer care refresher 2026', done: true, completedAt: '2026-08-14', minutes: 25 }],
       compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2031-04-30' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
-    { id: 'emp-tricia', name: 'Tricia Baboolal', role: 'Marketing Coordinator', dept: 'Head office', branchId: 'sando', startDate: '2024-06-03', employeeNo: 'SFB-0371',
-      email: 'tricia.baboolal@sfb.example', phone: '(868) 000-0111', address: 'Demo Avenue, Gasparillo',
-      emergency: { name: 'Neil Baboolal', relation: 'Husband', phone: '(868) 000-0112' },
+    { id: 'emp-tricia', name: 'Isabel', role: 'Marketing Team Lead', dept: 'Head office', branchId: 'sando', startDate: '2024-06-03', employeeNo: 'SFB-0371',
+      email: 'isabel@sfb.example', phone: '(868) 000-0111', address: 'Demo Avenue, Gasparillo',
+      emergency: { name: 'On file', relation: 'Next of kin', phone: '(868) 000-0112' },
       bank: { bank: 'Demo Bank', masked: '•••• 6614' },
       leave: { annualEntitled: 14, annualUsed: 6, sickEntitled: 14, sickUsed: 0, casualEntitled: 3, casualUsed: 1 },
       leaveRequests: [], swapRequests: [],

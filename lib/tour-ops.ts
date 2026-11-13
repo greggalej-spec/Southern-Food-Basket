@@ -60,7 +60,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "specials",
     title: "Supplier specials, without the retyping",
     summary: "The office’s Excel workbook as a system: companies’ specials read in, case prices added, key lines starred.",
-    cast: "Ria, administration · Nigel, purchasing",
+    cast: "Alexia, administration · Nigel, purchasing",
     steps: [
       {
         path: "/admin#suppliers",
@@ -119,7 +119,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "requests",
     title: "A request, from a school to a yes",
     summary: "Donations, sponsorships, partnerships and promotions in one pipeline, with the conversation on the card.",
-    cast: "A school principal · Ria, administration · Melissa, the director",
+    cast: "A school principal · Alexia, administration · Melissa, the director",
     steps: [
       {
         path: "/community",
@@ -186,7 +186,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "figures",
     title: "What worked, and where",
     summary: "The website and the social accounts on one page, down to which video did best.",
-    cast: "Tricia, marketing",
+    cast: "Isabel, marketing",
     steps: [
       {
         path: "/admin#analytics",
@@ -227,7 +227,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "season",
     title: "Christmas, in one click",
     summary: "A seasonal look goes over the whole public site and comes off again without touching the content.",
-    cast: "Tricia, marketing · any shopper",
+    cast: "Isabel, marketing · any shopper",
     steps: [
       {
         path: "/admin#studio",
@@ -268,7 +268,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "team",
     title: "The team at five stores",
     summary: "Everyone in one list, what needs attention on each file, and every application since it arrived.",
-    cast: "Devon, HR",
+    cast: "Faith, HR",
     steps: [
       {
         path: "/hr#people",

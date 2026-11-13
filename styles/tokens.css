@@ -327,3 +327,6 @@ dialog.sfb-dialog .dialog-actions { display: flex; gap: var(--s3); justify-conte
   .site-header, .site-footer, .concept-banner, .toast-host, [data-sonner-toaster], .app-sidebar, .app-topbar, .no-print { display: none !important; }
   body { background: #fff; }
 }
+
+/* Nine links since "What is on" joined: tighter between 980 and 1240 px so the bar never scrolls sideways. */
+@media (min-width: 980px) and (max-width: 1240px) { .topnav a { padding-inline: 7px; font-size: 0.9375rem; } .topnav a[aria-current="page"]::after { left: 7px; right: 7px; } }

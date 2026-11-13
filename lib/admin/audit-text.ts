@@ -29,6 +29,8 @@ export const AREA_LABEL: Record<string, string> = {
   sellout: "Sell-out reports",
   requests: "Partnerships and donations",
   feedback: "Customer feedback",
+  events: "Events",
+  flyers: "Flyers",
   bulk: "Bulk orders",
   tasks: "Tasks",
   resources: "Office documents",
@@ -101,6 +103,13 @@ const VERB: Record<string, string> = {
   "suppliers.check": "checked a supplier sheet",
   "sellout.compile": "recorded a sell-out report",
   "sellout.send": "sent a sell-out report",
+  "events.add": "added an event",
+  "events.edit": "changed an event",
+  "events.remove": "removed an event",
+  "flyers.add": "added flyers",
+  "flyers.edit": "changed a flyer",
+  "flyers.remove": "deleted a flyer",
+  "specials.bulk": "added specials from a list",
   "feedback.submit": "sent feedback through the website",
   "feedback.status": "moved a feedback ticket along",
   "feedback.message": "wrote on a feedback ticket",
@@ -137,7 +146,7 @@ export function verbOf(action: string) {
   return VERB[action] || "did " + action.replace(/[.-]/g, " ");
 }
 
-/** "Tricia Baboolal, Marketing", "A shopper", or "The newsletter schedule". */
+/** "Isabel, Marketing", "A shopper", or "The newsletter schedule". */
 export function actorOf(d: Seed, e: AuditEvent) {
   if (e.actor === "guest" || e.role === "guest") {
     if (e.action === "newsletter.send") return "The newsletter schedule";

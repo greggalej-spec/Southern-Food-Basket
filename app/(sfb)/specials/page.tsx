@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { FlyerWall } from "@/components/site/events";
 import { SiteFrame } from "@/components/site-frame";
 import { DealsNote, SpecialsBoard, SpecialsExtras, SpecialsFallback } from "@/components/site/specials";
 
@@ -20,7 +21,7 @@ export default function SpecialsPage() {
         <div className="container">
           <p className="eyebrow">1 for the price shown</p>
           <h1 id="deals-title">Specials</h1>
-          <p className="lede">Everything we have put up with a special price, newest first. Pick a department, or show only the posts tagged at our Couva store.</p>
+          <p className="lede">This week’s special prices, newest first.</p>
           <p className="note" data-deals-note="">
             <DealsNote />
           </p>
@@ -29,6 +30,7 @@ export default function SpecialsPage() {
 
       <section className="section deals-band" aria-label="Deals">
         <div className="container">
+          <FlyerWall />
           <Suspense fallback={<SpecialsFallback />}>
             <SpecialsBoard />
           </Suspense>

@@ -318,6 +318,9 @@ export interface Seed {
   plan: PlanItem[];
   /** What shoppers send with the Feedback button. A ticket made on a public page lives here; the seeded ones join with the staff tier. */
   feedback: FeedbackTicket[];
+  /** What is on, for the public Events page, and the designer's flyers that lead the Specials page. Public. */
+  events: StoreEvent[];
+  flyers: Flyer[];
 }
 
 export interface Session {
@@ -675,6 +678,43 @@ export interface CommunityRequest {
   doneAt?: string;
   letter?: FileMeta;
   messages: RequestMessage[];
+}
+
+export type EventKind = "promotion" | "event" | "community" | "notice";
+
+/** Something running that a customer should know about. It shows on the Events page from `from` to `to`. */
+export interface StoreEvent {
+  id: string;
+  kind: EventKind;
+  title: string;
+  /** First and last day, "YYYY-MM-DD". A one-day event has the same date twice. */
+  from: string;
+  to: string;
+  /** "8:00 am to 11:00 am", when the time matters. */
+  time?: string;
+  /** The stores it is at, or null for every store. */
+  branchIds: string[] | null;
+  /** One sentence. Detail goes in `points`, three short lines at most. */
+  summary: string;
+  points?: string[];
+  /** A site path or an uploaded picture (a data URL). */
+  img?: string;
+  href?: string;
+  cta?: string;
+  featured?: boolean;
+}
+
+/** A finished picture from the graphic designer: a weekly specials flyer or a post. */
+export interface Flyer {
+  id: string;
+  title: string;
+  img: string;
+  addedBy: string;
+  addedAt: string;
+  from?: string;
+  to?: string;
+  /** Featured flyers lead the public Specials page. */
+  featured: boolean;
 }
 
 export type FeedbackKind = "compliment" | "suggestion" | "question" | "complaint";

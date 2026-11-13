@@ -10,7 +10,7 @@ import type { Department, Seed, Special } from "@/lib/types";
 /** The console's sections, in sidebar order. They match the OFFICE ids in components/app-shell.tsx. "staffnews" is
  *  the Staff updates section (components/admin/staff-updates-panel.tsx). */
 export const TABS = [
-  "today", "overview", "suppliers", "sellout", "requests", "feedback", "bulk", "tasks", "studio", "deals", "posts", "stores", "publish", "analytics", "social", "plan",
+  "today", "overview", "suppliers", "sellout", "requests", "feedback", "bulk", "tasks", "studio", "events", "deals", "posts", "stores", "publish", "analytics", "social", "plan",
   "promos", "codes", "newsletter", "list", "staffnews", "notices", "access", "audit",
 ] as const;
 export type AdminTab = (typeof TABS)[number];
@@ -23,6 +23,7 @@ export const TAB_PERMS: Record<AdminTab, Permission[]> = {
   sellout: ["sellout.log"],
   requests: ["requests.log", "requests.decide"],
   feedback: ["feedback.handle"],
+  events: ["events.manage"],
   bulk: ["bulk.manage", "bulk.store"],
   tasks: [],
   studio: ["site.customize"],

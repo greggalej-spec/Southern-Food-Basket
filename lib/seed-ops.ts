@@ -27,6 +27,8 @@ const food = (expiry: string) => [{ docId: "photo-id", state: "verified" as cons
 
 export const MORE_PEOPLE: Employee[] = [
   person("emp-nigel", "Nigel Sookram", "Purchasing Officer", "Head office", "ptown", "2018-08-13", 141),
+  // The graphic designer, part of the marketing team: he makes the flyers and posts that go on the public site.
+  person("emp-addae", "Addae", "Graphic Designer", "Head office", "sando", "2025-02-03", 388),
   person("emp-vanessa", "Vanessa Ali", "Accounts Clerk", "Head office", "ptown", "2020-02-03", 198),
   person("emp-sunil", "Sunil Ragoonanan", "Store Manager", "Management", "ptown", "2009-04-20", 22),
   person("emp-cheryl", "Cheryl Thomas", "Customer Service Clerk", "Checkout", "ptown", "2023-07-10", 356),
@@ -54,13 +56,15 @@ const since = (userId: string, branchId: string, at: string): Grant => ({ id: "g
 
 export const MORE_GRANTS: Grant[] = [
   { id: "g-nigel-purchasing", userId: "emp-nigel", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2026-11-02T08:00:00-04:00" },
+  { id: "g-addae-marketing", userId: "emp-addae", role: "marketing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2025-02-03T08:00:00-04:00" },
   // Store managers give their own store's numbers for a bulk order, and nothing else in the office.
   ...(["emp-sunil:ptown", "emp-ravi:sando", "emp-anand:couva", "emp-rajesh:penal", "emp-michelle:pfortin"] as const).map((x): Grant => {
     const [userId, branchId] = x.split(":");
     return { id: "g-" + userId.slice(4), userId, role: "employee", branchIds: [branchId], extra: ["bulk.store"], grantedBy: "emp-vishala", grantedAt: "2024-01-08T08:00:00-04:00" };
   }),
-  ...MORE_PEOPLE.filter((p) => p.role !== "Store Manager" && p.id !== "emp-nigel").map((p) => since(p.id, p.branchId, p.startDate)),
+  ...MORE_PEOPLE.filter((p) => p.role !== "Store Manager" && p.id !== "emp-nigel" && p.id !== "emp-addae").map((p) => since(p.id, p.branchId, p.startDate)),
   since("emp-nigel", "ptown", "2018-08-13"),
+  since("emp-addae", "sando", "2025-02-03"),
 ];
 
 /* ---------- partnership, promotion and donation requests ---------- */
