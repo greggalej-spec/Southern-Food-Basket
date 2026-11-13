@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Confetti } from "@/components/season/confetti";
 import { Sleigh } from "@/components/season/sleigh";
 import { Snow } from "@/components/season/snow";
 import { activeSeason } from "@/lib/ops/site";
@@ -22,7 +23,7 @@ import type { SeasonId } from "@/lib/types";
    address; this reads those too. Mounted once in each root layout. */
 
 const STAFF = /^\/(admin|hr|portal|outbox|tour|how-it-works)(\/|$)|^\/careers\/me/;
-const SEASON_IDS: SeasonId[] = ["none", "christmas", "divali"];
+const SEASON_IDS: SeasonId[] = ["none", "christmas", "divali", "carnival", "easter"];
 
 // The clock is read once, in the browser. The server render (and the prerender) sees 0 and dresses nothing.
 let clientNow = 0;
@@ -37,11 +38,32 @@ function subscribeUrl(cb: () => void) {
 const X = ART.christmas;
 const U = { cane: artUri(X.cane), ginger: artUri(X.ginger), reindeer: artUri(X.reindeer), present: artUri(X.present), stocking: artUri(X.stocking), hat: artUri(X.hat) };
 
-const GIFTS = [
-  { id: "present", src: U.present, label: "Shake the present" },
-  { id: "stocking", src: U.stocking, label: "Shake the stocking" },
-  { id: "ginger", src: U.ginger, label: "Wave at the gingerbread man" },
-];
+type Gift = { id: string; src: string; label: string };
+const C = ART.carnival, E = ART.easter;
+/** The three things in the corner that answer a touch, per season. */
+const GIFTS: Partial<Record<SeasonId, Gift[]>> = {
+  christmas: [
+    { id: "present", src: U.present, label: "Shake the present" },
+    { id: "stocking", src: U.stocking, label: "Shake the stocking" },
+    { id: "ginger", src: U.ginger, label: "Wave at the gingerbread man" },
+  ],
+  carnival: [
+    { id: "pan", src: artUri(C.pan), label: "Play the steelpan" },
+    { id: "shak", src: artUri(C.shak), label: "Shake the shak-shak" },
+    { id: "mask", src: artUri(C.mask), label: "Tap the mask" },
+  ],
+  easter: [
+    { id: "egg", src: artUri(E.egg), label: "Tap the egg" },
+    { id: "bunny", src: artUri(E.bunny), label: "Pat the bunny" },
+    { id: "chick", src: artUri(E.chick), label: "Wake the chick" },
+  ],
+};
+/** Carnival and Easter hand their ornament to the stylesheet as the shared season variables. */
+const ORNAMENT: Partial<Record<SeasonId, { mark: string; seal: string; lights: string }>> = {
+  carnival: { mark: artUri(C.mask), seal: artUri(C.feather), lights: artUri(C.flags) },
+  easter: { mark: artUri(E.egg), seal: artUri(E.chick), lights: artUri(E.eggs) },
+};
+const KITE = artUri(E.kite);
 
 export function SeasonLayer() {
   const d = useData();
@@ -76,6 +98,12 @@ export function SeasonLayer() {
     // The stylesheet places these on cards, headings and the footer.
     const vars: [string, string][] = [["--xmas-cane", U.cane], ["--xmas-ginger", U.ginger], ["--xmas-reindeer", U.reindeer], ["--xmas-present", U.present], ["--xmas-stocking", U.stocking], ["--xmas-hat", U.hat]];
     vars.forEach(([k, v]) => (season === "christmas" ? root.style.setProperty(k, 'url("' + v + '")') : root.style.removeProperty(k)));
+    const orn = ORNAMENT[season];
+    const set = (k: string, v: string | null) => (v ? root.style.setProperty(k, v) : root.style.removeProperty(k));
+    set("--season-mark", orn ? 'url("' + orn.mark + '")' : null);
+    set("--season-seal", orn ? 'url("' + orn.seal + '")' : null);
+    set("--season-lights-a", orn ? 'url("' + orn.lights + '")' : null);
+    set("--season-lights-b", orn ? "none" : null);
   }, [season, lights, hidden]);
 
   // The strip is fixed above the header; the page makes room for however tall it turns out to be.
@@ -101,7 +129,9 @@ export function SeasonLayer() {
     setTimeout(() => setShaken((cur) => (cur === id ? null : cur)), 900);
   }
 
-  if (!hasStrip && !xmas) return null;
+  const gifts = GIFTS[season];
+  const falling = season === "carnival" || season === "easter" ? season : null;
+  if (!hasStrip && !xmas && !gifts) return null;
   return (
     <>
       {hasStrip ? (
@@ -136,9 +166,19 @@ export function SeasonLayer() {
 
       {xmas && path === "/" ? <Sleigh /> : null}
 
-      {xmas ? (
-        <div className="season-gifts">
-          {GIFTS.map((g) => (
+      {falling && lights ? <Confetti look={falling} /> : null}
+
+      {season === "easter" && path === "/" ? (
+        <div className="season-kites" aria-hidden="true">
+          <img src={KITE} alt="" width="64" height="64" />
+          <img src={KITE} alt="" width="46" height="46" />
+          <img src={KITE} alt="" width="54" height="54" />
+        </div>
+      ) : null}
+
+      {gifts ? (
+        <div className={"season-gifts is-" + season}>
+          {gifts.map((g) => (
             <button key={g.id} type="button" className={shaken === g.id ? "is-shaken" : undefined} aria-label={g.label} onClick={() => shake(g.id)}>
               <img src={g.src} alt="" width="44" height="44" />
               <span className="gift-burst" aria-hidden="true">

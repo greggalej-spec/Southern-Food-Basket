@@ -225,3 +225,62 @@ html[data-season="christmas"] .site-footer::after, html[data-season="christmas"]
 
 /* Type system 7: greetings are written by hand (Kalam). */
 .site-greeting{ font-family: var(--font-kalam), "Kalam", "Segoe Print", cursive; font-weight: 700; font-size: 1.0625rem; letter-spacing: .01em; }
+
+/* =====================================================================================================
+   Carnival (finished 13 Nov 2026): magenta, teal and sun yellow. Confetti falls (components/season/confetti.tsx),
+   flags hang under the header, a feather sits on every price seal, the mask rides beside the logo, and a
+   steelpan, a shak-shak and a mask in the corner answer a tap. The artwork is lib/season-art.ts.
+   ===================================================================================================== */
+html[data-season="carnival"]{
+  --pink: #E3336F; --clay: #8E1556; --pink-ink: #8E1556; --clay-dark: #6B0F41; --pink-wash: #FDE7F0;
+  --red: #E04A1B; --sign: #C2185B; --yellow: #FFD21A; --gold: #FFC400;
+  --ribbon: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27360%27 height=%2724%27 viewBox=%270 0 360 24%27%3E%3Cpath d=%27M0 9 C45 1 135 1 180 9 S315 17 360 9%27 fill=%27none%27 stroke=%27%23E3336F%27 stroke-width=%276%27/%3E%3Cpath d=%27M0 17 C45 9 135 9 180 17 S315 25 360 17%27 fill=%27none%27 stroke=%27%232F918A%27 stroke-width=%273%27/%3E%3Cg fill=%27%23FFD21A%27%3E%3Ccircle cx=%2730%27 cy=%2720%27 r=%273%27/%3E%3Ccircle cx=%27120%27 cy=%274%27 r=%273%27/%3E%3Ccircle cx=%27210%27 cy=%2721%27 r=%273%27/%3E%3Ccircle cx=%27300%27 cy=%275%27 r=%273%27/%3E%3C/g%3E%3C/svg%3E");
+}
+html[data-season="carnival"] .ge-root{ --pink: #E3336F; --pink-ink: #8E1556; --red: #E04A1B; --sign: #C2185B; --yellow: #FFD21A; --gold: #FFC400; }
+html[data-season="carnival"] .ge-root .band-deals{ background: linear-gradient(180deg, #FFEAF2, var(--cream) 60%); }
+html[data-season="carnival"] .ge-root .ribbon{ background-image: var(--ribbon); }
+html[data-season="carnival"] .site-greeting{ background: #8E1556; color: #FFE08A; }
+html[data-season="carnival"] .page-hero{ background: radial-gradient(60% 110% at 92% 0%, rgba(47,145,138,.22), transparent 62%), radial-gradient(46% 90% at 0% 100%, rgba(227,51,111,.16), transparent 60%), #FFF7EC; }
+
+/* =====================================================================================================
+   Easter (finished 13 Nov 2026): sky blue, pink and chick yellow. Petals drift down, a garland of eggs hangs under
+   the header, kites cross the front page, a chick sits on every price seal, and an egg, a bunny and a chick in the
+   corner answer a tap.
+   ===================================================================================================== */
+html[data-season="easter"]{
+  --pink: #E86A9A; --clay: #A6246B; --pink-ink: #A6246B; --clay-dark: #7A1750; --pink-wash: #FDEAF2;
+  --red: #D9486E; --sign: #1F7A3D; --yellow: #FFD21A; --gold: #F5C330;
+  --ribbon: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%27360%27 height=%2724%27 viewBox=%270 0 360 24%27%3E%3Cpath d=%27M0 8l15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8 15 8 15-8%27 fill=%27none%27 stroke=%27%23F4A6C0%27 stroke-width=%275%27 stroke-linejoin=%27round%27/%3E%3Cg fill=%27%237CC6E8%27%3E%3Ccircle cx=%2715%27 cy=%274%27 r=%272.6%27/%3E%3Ccircle cx=%2775%27 cy=%274%27 r=%272.6%27/%3E%3Ccircle cx=%27135%27 cy=%274%27 r=%272.6%27/%3E%3Ccircle cx=%27195%27 cy=%274%27 r=%272.6%27/%3E%3Ccircle cx=%27255%27 cy=%274%27 r=%272.6%27/%3E%3Ccircle cx=%27315%27 cy=%274%27 r=%272.6%27/%3E%3C/g%3E%3Cg fill=%27%23FFD21A%27%3E%3Ccircle cx=%2745%27 cy=%2721%27 r=%272.6%27/%3E%3Ccircle cx=%27105%27 cy=%2721%27 r=%272.6%27/%3E%3Ccircle cx=%27165%27 cy=%2721%27 r=%272.6%27/%3E%3Ccircle cx=%27225%27 cy=%2721%27 r=%272.6%27/%3E%3Ccircle cx=%27285%27 cy=%2721%27 r=%272.6%27/%3E%3Ccircle cx=%27345%27 cy=%2721%27 r=%272.6%27/%3E%3C/g%3E%3C/svg%3E");
+}
+html[data-season="easter"] .ge-root{ --pink: #E86A9A; --pink-ink: #A6246B; --red: #D9486E; --sign: #1F7A3D; --yellow: #FFD21A; --gold: #F5C330; }
+html[data-season="easter"] .ge-root .band-deals{ background: linear-gradient(180deg, #E6F4FB, var(--cream) 60%); }
+html[data-season="easter"] .ge-root .ribbon{ background-image: var(--ribbon); }
+html[data-season="easter"] .site-greeting{ background: #CDEBF7; color: #123F22; }
+html[data-season="easter"] .page-hero{ background: radial-gradient(60% 110% at 92% 0%, rgba(124,198,232,.34), transparent 62%), radial-gradient(46% 90% at 0% 100%, rgba(244,166,192,.30), transparent 60%), #FFFBF2; }
+
+/* both: the flags or the eggs hang in one row under the header */
+html[data-season="carnival"] .topbar::before, html[data-season="easter"] .topbar::before{ background-size: 64px 28px; filter: drop-shadow(0 2px 2px rgba(42,26,31,.22)); }
+html[data-season="carnival"] .topbar::after, html[data-season="easter"] .topbar::after{ display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  html[data-season="carnival"] .topbar::before{ animation: season-flap 2.4s ease-in-out infinite alternate; transform-origin: center top; }
+  html[data-season="easter"] .topbar::before{ animation: season-flap 3.4s ease-in-out infinite alternate; transform-origin: center top; }
+}
+@keyframes season-flap { from { transform: skewX(-4deg); } to { transform: skewX(4deg); } }
+
+/* Easter kites over the front page: three, at their own heights and speeds */
+.season-kites{ position: absolute; z-index: 30; left: 0; right: 0; top: 0; height: min(100svh, 760px); overflow: hidden; pointer-events: none; }
+.season-kites img{ position: absolute; left: 12%; top: 18%; filter: drop-shadow(0 6px 8px rgba(42,26,31,.25)); }
+.season-kites img:nth-child(2){ left: 58%; top: 30%; }
+.season-kites img:nth-child(3){ left: 82%; top: 12%; }
+@media (prefers-reduced-motion: no-preference) {
+  .season-kites img{ left: -90px; animation: kite-fly 28s linear infinite; }
+  .season-kites img:nth-child(2){ left: -90px; animation-duration: 36s; animation-delay: -14s; }
+  .season-kites img:nth-child(3){ left: -90px; animation-duration: 44s; animation-delay: -30s; }
+}
+@keyframes kite-fly {
+  0% { transform: translate(0, 0) rotate(-10deg); }
+  25% { transform: translate(28vw, -22px) rotate(8deg); }
+  50% { transform: translate(56vw, 14px) rotate(-8deg); }
+  75% { transform: translate(84vw, -16px) rotate(8deg); }
+  100% { transform: translate(calc(100vw + 180px), 6px) rotate(-6deg); }
+}

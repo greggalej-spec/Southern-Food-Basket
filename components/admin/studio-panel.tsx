@@ -125,7 +125,7 @@ export function StudioPanel() {
                 </div>
                 <label className="check">
                   <input type="checkbox" checked={lights} onChange={(e) => setLights(e.target.checked)} />
-                  <span>{pick === "divali" ? "A row of deyas under the header" : "Falling snow, and a string of lights under the header"}</span>
+                  <span>{pick === "divali" ? "A row of deyas under the header" : pick === "carnival" ? "Falling confetti, and flags under the header" : pick === "easter" ? "Drifting petals, and a garland of eggs under the header" : "Falling snow, and a string of lights under the header"}</span>
                 </label>
                 <div className="form-row cols-2 studio-dates">
                   <div className="field">

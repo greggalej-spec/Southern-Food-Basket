@@ -24,6 +24,22 @@ export const SEASONS: Record<Exclude<SeasonId, "none">, { name: string; blurb: s
     to: "11-09",
     palette: [["Marigold", "#E08A00"], ["Magenta", "#8E1556"], ["Flame", "#F4B400"], ["Henna", "#6B2D14"]],
   },
+  carnival: {
+    name: "Carnival",
+    blurb: "Magenta, teal and sun yellow, confetti over every page, flags strung under the header, feathers on the price seals, and a steelpan, a shak-shak and a mask to tap.",
+    greeting: "Happy Carnival from all of us at Southern Food Basket",
+    from: "01-25",
+    to: "02-09",
+    palette: [["Magenta", "#E3336F"], ["Teal", "#2F918A"], ["Sun", "#FFD21A"], ["Plum", "#8E1556"]],
+  },
+  easter: {
+    name: "Easter",
+    blurb: "Sky blue, pink and chick yellow, petals drifting down, a garland of eggs under the header, kites over the front page, and an egg, a bunny and a chick to tap.",
+    greeting: "Happy Easter from all of us at Southern Food Basket",
+    from: "03-21",
+    to: "03-29",
+    palette: [["Sky", "#7CC6E8"], ["Pink", "#F4A6C0"], ["Chick", "#FFD21A"], ["Leaf", "#2A8A45"]],
+  },
 };
 
 export const SEASON_IDS = Object.keys(SEASONS) as Exclude<SeasonId, "none">[];
@@ -67,10 +83,10 @@ export function saveSite(s: Session | null, next: SiteConfig, what: string) {
   });
 }
 
-/** Seasons being designed. Their artwork exists (lib/season-art.ts) and shows in the studio; they cannot be put on
- *  the site until the look is finished. Christmas is listed so its pieces can be seen beside them. */
+/** The seasons' icon sheets, for the studio: every piece of each season's artwork (lib/season-art.ts). Carnival and
+ *  Easter were finished on 2026-11-13 and can be put on the site like Christmas and Divali. */
 export const SEASON_SHEETS: { id: "christmas" | "carnival" | "easter"; name: string; when: string; status: "Ready" | "In design"; note: string; palette: [string, string][] }[] = [
   { id: "christmas", name: "Christmas", when: "20 November to 2 January", status: "Ready", note: "Snow, the sleigh, snow-capped cards, and gifts that shake when touched.", palette: [["Red", "#C8102E"], ["Pine", "#0F5A2E"], ["Gold", "#F4C542"], ["Snow", "#FFFFFF"]] },
-  { id: "carnival", name: "Carnival", when: "The weeks before Carnival Monday and Tuesday", status: "In design", note: "Feathers fanning out behind the header, masks on the price seals, a steelpan that plays when tapped.", palette: [["Magenta", "#E3336F"], ["Teal", "#2F918A"], ["Sun", "#FFD21A"], ["Plum", "#8E1556"]] },
-  { id: "easter", name: "Easter", when: "Holy Week to Easter Monday", status: "In design", note: "Eggs hidden around each page to find, bunnies and chicks on the cards, kites flying over the front page.", palette: [["Sky", "#7CC6E8"], ["Pink", "#F4A6C0"], ["Chick", "#FFD21A"], ["Leaf", "#2A8A45"]] },
+  { id: "carnival", name: "Carnival", when: "The weeks before Carnival Monday and Tuesday", status: "Ready", note: "Confetti, flags under the header, a feather on every price seal, and a steelpan, shak-shak and mask that answer a tap.", palette: [["Magenta", "#E3336F"], ["Teal", "#2F918A"], ["Sun", "#FFD21A"], ["Plum", "#8E1556"]] },
+  { id: "easter", name: "Easter", when: "Holy Week to Easter Monday", status: "Ready", note: "Drifting petals, a garland of eggs under the header, kites over the front page, and an egg, bunny and chick that answer a tap.", palette: [["Sky", "#7CC6E8"], ["Pink", "#F4A6C0"], ["Chick", "#FFD21A"], ["Leaf", "#2A8A45"]] },
 ];
