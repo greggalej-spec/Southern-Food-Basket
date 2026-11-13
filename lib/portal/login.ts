@@ -11,8 +11,9 @@ export const ROLE_HOME: Record<Role, string> = {
   employee: "/portal/home",
   hr: "/hr",
   admin: "/admin",
-  marketing: "/admin",
-  owner: "/admin",
+  purchasing: "/admin#suppliers",
+  marketing: "/admin#analytics",
+  owner: "/admin#overview",
 };
 
 const ROLE_AREA: Record<Role, string[]> = {
@@ -21,6 +22,7 @@ const ROLE_AREA: Record<Role, string[]> = {
   employee: ["/portal"],
   hr: ["/portal", "/hr"],
   admin: ["/admin", "/portal"],
+  purchasing: ["/admin", "/portal"],
   marketing: ["/admin", "/portal"],
   owner: ["/admin", "/portal"],
 };

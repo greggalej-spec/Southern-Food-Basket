@@ -8,7 +8,7 @@ import { SiteFrame } from "@/components/site-frame";
 
 export const metadata: Metadata = {
   title: "Members’ offers",
-  description: "Free codes for money off at Southern Food Basket: sign in with your e-mail, take a code, and show it at the till. Unofficial concept with demo offers.",
+  description: "Free codes for money off at Southern Food Basket: sign in with your e-mail, take a code, and show it at the till. Prototype with demo offers.",
 };
 
 export default function OffersPage() {

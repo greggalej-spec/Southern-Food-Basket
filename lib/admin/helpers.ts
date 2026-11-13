@@ -9,12 +9,26 @@ import type { Department, Seed, Special } from "@/lib/types";
 
 /** The console's sections, in sidebar order. They match the OFFICE ids in components/app-shell.tsx. "staffnews" is
  *  the Staff updates section (components/admin/staff-updates-panel.tsx). */
-export const TABS = ["today", "deals", "posts", "stores", "notices", "publish", "staffnews", "promos", "codes", "newsletter", "list", "access", "audit"] as const;
+export const TABS = [
+  "today", "overview", "suppliers", "sellout", "requests", "feedback", "bulk", "tasks", "studio", "deals", "posts", "stores", "publish", "analytics", "social", "plan",
+  "promos", "codes", "newsletter", "list", "staffnews", "notices", "access", "audit",
+] as const;
 export type AdminTab = (typeof TABS)[number];
 
 /** What a section needs: any one of the list will do. Today needs nothing; it shows what the session may see. */
 export const TAB_PERMS: Record<AdminTab, Permission[]> = {
   today: [],
+  overview: ["overview.view"],
+  suppliers: ["suppliers.view", "suppliers.edit"],
+  sellout: ["sellout.log"],
+  requests: ["requests.log", "requests.decide"],
+  feedback: ["feedback.handle"],
+  bulk: ["bulk.manage", "bulk.store"],
+  tasks: [],
+  studio: ["site.customize"],
+  analytics: ["analytics.view"],
+  social: ["social.connect", "analytics.view"],
+  plan: ["plan.edit"],
   deals: ["specials.edit"],
   posts: ["posts.make"],
   stores: ["stores.edit"],

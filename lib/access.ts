@@ -26,8 +26,24 @@ export const PERMISSIONS = {
   "hr.pipeline": "Review applications and their documents",
   "hr.jobs": "Open and close jobs",
   "hr.compliance": "Staff documents, training and leave",
+  "hr.people": "See the staff list for every store, and add or update people",
   "access.manage": "Give, limit and revoke staff access",
   "audit.view": "Read the audit log",
+  "suppliers.view": "See supplier specials and the key specials sheet",
+  "suppliers.edit": "Bring in supplier sheets, enter case prices and mark them checked",
+  "sellout.log": "Record and send sell-out reports",
+  "requests.log": "Log partnership, promotion and donation requests, reply to them and follow them up",
+  "requests.decide": "Approve or decline partnership, promotion and donation requests",
+  "feedback.handle": "Read customer feedback, reply to it and mark it resolved",
+  "bulk.manage": "Set up bulk orders and place them",
+  "bulk.store": "Give your store's quantity for a bulk order",
+  "tasks.assign": "Hand out tasks and see everyone's",
+  "resources.edit": "Add and change office templates and guides",
+  "analytics.view": "See the marketing figures",
+  "social.connect": "Connect and disconnect social accounts",
+  "plan.edit": "Plan posts on the content calendar",
+  "site.customize": "Change the website's season, notice bar and home page",
+  "overview.view": "See the owner's overview of every department",
 } as const;
 
 export type Permission = keyof typeof PERMISSIONS;
@@ -39,10 +55,21 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
   customer: [],
   applicant: [],
   employee: ["portal.self"],
-  hr: ["portal.self", "hr.pipeline", "hr.jobs", "hr.compliance", "staff.updates"],
-  admin: ["portal.self", "specials.edit", "posts.make", "stores.edit", "notices.post", "staff.updates", "site.publish", "codes.view"],
-  marketing: ["portal.self", "posts.make", "promos.draft", "codes.view", "newsletter.view", "newsletter.compose", "newsletter.send"],
+  hr: ["portal.self", "hr.pipeline", "hr.jobs", "hr.compliance", "hr.people", "staff.updates"],
+  admin: [
+    "portal.self", "specials.edit", "posts.make", "stores.edit", "notices.post", "staff.updates", "site.publish", "codes.view",
+    "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "bulk.manage", "bulk.store", "tasks.assign", "resources.edit",
+    "feedback.handle",
+  ],
+  // Purchasing checks the supplier specials and can correct them. Nothing else in the office is theirs.
+  purchasing: ["portal.self", "suppliers.view", "suppliers.edit", "bulk.store"],
+  marketing: [
+    "portal.self", "posts.make", "promos.draft", "codes.view", "newsletter.view", "newsletter.compose", "newsletter.send",
+    "analytics.view", "social.connect", "plan.edit", "site.customize", "suppliers.view",
+  ],
   owner: [
+    "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "requests.decide", "bulk.manage", "bulk.store", "tasks.assign",
+    "resources.edit", "analytics.view", "social.connect", "plan.edit", "site.customize", "overview.view", "feedback.handle",
     "portal.self",
     "specials.edit",
     "posts.make",
@@ -62,14 +89,15 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
   ],
 };
 
-export const STAFF_ROLES: StaffRole[] = ["employee", "hr", "admin", "marketing", "owner"];
+export const STAFF_ROLES: StaffRole[] = ["employee", "hr", "admin", "purchasing", "marketing", "owner"];
 
 export const ROLE_NAME: Record<Role, string> = {
   customer: "Shopper",
   applicant: "Applicant",
   employee: "Employee",
   hr: "HR",
-  admin: "Store admin",
+  admin: "Administration",
+  purchasing: "Purchasing",
   marketing: "Marketing",
   owner: "Owner's office",
 };

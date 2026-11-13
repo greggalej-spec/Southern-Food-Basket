@@ -9,7 +9,7 @@ import { CustomerTypes, EnquiryForm, WholesaleLines, WholesaleSourced } from "@/
 export const metadata: Metadata = {
   title: "Wholesale and trade",
   description:
-    "Wholesale and export supply from Southern Food Basket’s Princes Town trade desk: rice, peas, meats, produce, oils and paper goods by the bag, case or pallet. Trade account enquiry. Unofficial concept by Trinovata.",
+    "Wholesale and export supply from Southern Food Basket’s Princes Town trade desk: rice, peas, meats, produce, oils and paper goods by the bag, case or pallet. Trade account enquiry. Prototype.",
 };
 
 export default function WholesalePage() {

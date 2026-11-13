@@ -10,6 +10,17 @@ import { useData, useSession } from "@/lib/store";
 
 export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
   today: { title: "Today", purpose: "What needs you now, worked out from your own access." },
+  overview: { title: "Overview", purpose: "Every department on one page: what is waiting, what is moving, and what changed today." },
+  suppliers: { title: "Supplier specials", purpose: "Each company’s specials for the round, in the columns the office already uses. Bring in what they send, add the case price, mark it checked." },
+  sellout: { title: "Sell-out reports", purpose: "Which companies are owed a report for each round of specials, which are done, and which have gone out." },
+  feedback: { title: "Customer feedback", purpose: "Compliments, questions, suggestions and complaints sent from the website, each one answered and closed in one place." },
+  requests: { title: "Partnerships and donations", purpose: "Every request from a school, charity, club or company in one list, from the day it arrives to the day it is done." },
+  bulk: { title: "Bulk orders", purpose: "One order for all five stores: each store gives its number, the office places the order, and last time’s figures sit alongside." },
+  tasks: { title: "Tasks and resources", purpose: "Work handed from one person to another, and the templates and checklists the office keeps to hand." },
+  studio: { title: "Website studio", purpose: "The seasonal look, the notice bar, and what the home page leads with. Preview first, then put it live." },
+  analytics: { title: "Marketing figures", purpose: "How the website and the social accounts are doing, and which posts earned it." },
+  social: { title: "Social accounts", purpose: "Which accounts feed the figures, and how each one is connected." },
+  plan: { title: "Content calendar", purpose: "What is going out, where and when, so posts, e-mails and website changes line up." },
   deals: { title: "Specials", purpose: "The deals on the public Specials page and the home page, newest first." },
   posts: { title: "Post maker", purpose: "Turn a deal into a 1080 × 1350 pixel picture for Instagram, with the logo and the price seal." },
   stores: { title: "Stores and hours", purpose: "Each store’s opening hours and phone number, as the site header and the Store locations page show them." },

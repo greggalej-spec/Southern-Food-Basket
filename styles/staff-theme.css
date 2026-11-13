@@ -1,0 +1,246 @@
+/* The staff side's two colour schemes, as the team approved them on the brand boards (docs/brand-options):
+     Light mode = Option A, "Market Fresh": warm white page, white cards, raspberry / leaf / sun for the cards that
+                  matter, green table heads over alternating blush and mint rows.
+     Dark mode  = Option B, "Evergreen and Gold": deep green page, green cards, gold / raspberry / moss for the cards
+                  that matter, gold table heads over two greens.
+   Revision 3 of the staff skin (Gregg, 13 Nov 2026): no orange, no gradients, no drifting or frosted colour. Every
+   fill is one flat colour and is the same on every screen. Imported unlayered from app/globals.css, after the page
+   sheets, so it wins over styles/glass.css without a specificity fight. The switch is components/theme-toggle.tsx,
+   which sets data-staff-theme on <html> while a staff screen is open.
+
+   Contrast (WCAG): white on #D92C66 4.7:1, white on #1D6B35 6.6:1, #20141A on #FFD21A 12.6:1, #20141A on #E9B949
+   9.6:1, #20141A on #FCE4EC 14.6:1 and on #E3F2E6 15.2:1, #F7F2E6 on #123F22 10.6:1 and on #1A5230 8.1:1. */
+
+/* ================= Light mode: Option A ================= */
+.app, [data-css~="app"] [data-slot="sheet-content"], [data-css~="app"] [data-slot="dialog-content"]{
+  --cream: #FFF6F1; --flour: #FFFFFF; --paper: #FFFFFF; --facade: #FBEDEA; --wash: #FBEDEA; --ink: #20141A; --muted: #6A5560;
+  --line: #EBD8D6; --line-strong: #D3B9BD; --pink-wash: #FCE4EC; --green-wash: #E3F2E6;
+  --a-pink: #D92C66; --a-pink-on: #FFFFFF; --a-green: #1D6B35; --a-green-on: #FFFFFF; --a-sun: #FFD21A; --a-sun-on: #20141A;
+  --row-a: #FCE4EC; --row-b: #E3F2E6; --row-a-hover: #F9D3E0; --row-b-hover: #D2EAD7; --head: #1D6B35; --head-on: #FFFFFF;
+  --card: #FFFFFF; --card-line: #EBD8D6; --page: #FFF6F1;
+  --glass: var(--card); --glass-strong: var(--card); --glass-soft: #FFFAF8; --glass-edge: var(--card-line); --glass-line: var(--card-line);
+  --glass-shadow: 0 1px 2px rgba(32, 20, 26, .05), 0 10px 24px -18px rgba(32, 20, 26, .28);
+  --glass-lift: 0 2px 4px rgba(32, 20, 26, .06), 0 18px 34px -18px rgba(32, 20, 26, .34);
+  --blur: none;
+}
+.app{ background: var(--page); color: var(--ink); }
+.app .app-body::before{ background: var(--page); animation: none !important; }
+.app .app-body::after{ background: none; animation: none !important; }
+.app .panel, .app .stat, .app .flow, .app .dept-tile, .app .card, .app .empty, .app .no-access, .app .app-topbar, .app .pipe-col, .app .company-list, .app .kpi, .app .glass{
+  background: var(--card); border-color: var(--card-line); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.app .pipe-col{ background: var(--glass-soft); }
+.app .app-topbar{ background: var(--card); }
+[data-css~="app"] > .concept-banner{ background: var(--card); color: var(--ink); border-bottom: 1px solid var(--card-line); }
+
+/* the three cards that matter, each one flat colour */
+.app .hero{ background: var(--a-green); border-color: transparent; }
+.app .hero::before{ display: none; }
+.app .decide-card, .app .decide-card:hover{ background: var(--a-pink); color: var(--a-pink-on); border-color: transparent; box-shadow: var(--glass-shadow); }
+.app .kpi::after{ display: none; }
+.app .kpi-icon{ background: var(--wash); color: var(--ink); box-shadow: none; }
+.app .kpi-bar{ background: var(--line); }
+.app .kpi-bar span, .app .kpi.is-pink .kpi-bar span, .app .kpi.is-warn .kpi-bar span{ background: var(--a-green); }
+
+/* needs attention: sun (light) or gold (dark). Never orange. */
+.app .kpi.is-warn, .app .kpi.is-warn:hover{ background: var(--a-sun); border-color: transparent; color: var(--a-sun-on); box-shadow: var(--glass-shadow); }
+.app .kpi.is-warn .kpi-value, .app .kpi.is-warn .kpi-label, .app .kpi.is-warn .kpi-hint{ color: var(--a-sun-on); }
+.app .kpi.is-warn .kpi-icon{ background: rgba(255, 255, 255, .55); color: var(--a-sun-on); box-shadow: none; }
+.app .kpi.is-warn .kpi-bar{ background: rgba(32, 20, 26, .18); }
+.app .kpi.is-warn .kpi-bar span, .app .kpi.is-warn .gauge-fill{ background: #20141A; stroke: #20141A; }
+.app .kpi.is-warn .gauge-track{ stroke: rgba(32, 20, 26, .18); }
+.app .kpi.is-warn .gauge-value, .app .kpi.is-warn .gauge-of{ fill: #20141A; }
+
+/* a decision or a reply is waiting: raspberry */
+.app .kpi.is-pink, .app .kpi.is-pink:hover{ background: var(--a-pink); border-color: transparent; color: var(--a-pink-on); }
+/* in good order: leaf (light) or moss (dark) */
+.app .kpi.is-ok, .app .kpi.is-ok:hover{ background: var(--a-green); border-color: transparent; color: var(--a-green-on); }
+.app .kpi.is-pink .kpi-value, .app .kpi.is-pink .kpi-label, .app .kpi.is-pink .kpi-hint, .app .kpi.is-pink .delta,
+.app .kpi.is-ok .kpi-value, .app .kpi.is-ok .kpi-label, .app .kpi.is-ok .kpi-hint, .app .kpi.is-ok .delta{ color: #FFFFFF; }
+.app .kpi.is-pink .kpi-icon, .app .kpi.is-ok .kpi-icon{ background: rgba(255, 255, 255, .2); color: #FFFFFF; box-shadow: none; }
+.app .kpi.is-pink .kpi-bar, .app .kpi.is-ok .kpi-bar{ background: rgba(255, 255, 255, .28); }
+.app .kpi.is-pink .kpi-bar span, .app .kpi.is-ok .kpi-bar span{ background: #FFFFFF; }
+.app .kpi.is-pink .gauge-track, .app .kpi.is-ok .gauge-track{ stroke: rgba(255, 255, 255, .28); }
+.app .kpi.is-pink .gauge-fill, .app .kpi.is-ok .gauge-fill{ stroke: #FFFFFF; }
+.app .kpi.is-pink .gauge-value, .app .kpi.is-pink .gauge-of, .app .kpi.is-ok .gauge-value, .app .kpi.is-ok .gauge-of{ fill: #FFFFFF; }
+.app .kpi.is-pink .spark path, .app .kpi.is-ok .spark path, .app .kpi.is-pink .spark polyline, .app .kpi.is-ok .spark polyline{ stroke: #FFFFFF; }
+/* something is wrong: a blush card with a raspberry edge, so it is not mistaken for "waiting" */
+.app .kpi.is-bad, .app .kpi.is-bad:hover{ background: var(--row-a); border-color: var(--a-pink); }
+.app .kpi.is-bad .kpi-value{ color: var(--ink); }
+.app .kpi.is-bad .kpi-icon{ background: var(--a-pink); color: #FFFFFF; }
+
+/* tables: a solid head, then two row colours in turn */
+.app thead th, .app .sheet-table thead th{ background: var(--head); color: var(--head-on); border-color: transparent; }
+.app thead th a, .app thead th button{ color: inherit; }
+.app tbody tr:nth-child(odd) > th, .app tbody tr:nth-child(odd) > td{ background: var(--row-a); }
+.app tbody tr:nth-child(even) > th, .app tbody tr:nth-child(even) > td{ background: var(--row-b); }
+.app tbody tr:nth-child(odd):hover > th, .app tbody tr:nth-child(odd):hover > td{ background: var(--row-a-hover); }
+.app tbody tr:nth-child(even):hover > th, .app tbody tr:nth-child(even):hover > td{ background: var(--row-b-hover); }
+.app tbody th, .app tbody td{ color: var(--ink); border-color: rgba(32, 20, 26, .08); }
+.app tbody .meta, .app tbody .muted{ color: var(--muted); }
+.app .sheet-table .group-row th, .app .bulk-note, .app .bulk-table tfoot th, .app .bulk-table tfoot td{ background: var(--card); color: var(--ink); }
+.app tbody td.empty-cell{ background: var(--card); }
+
+/* buttons: raspberry is the main action in light mode */
+.app .btn-primary{ background: var(--a-pink); color: var(--a-pink-on); border-color: transparent; }
+.app .btn-primary:hover{ background: #B91F54; color: #FFFFFF; }
+.app .pipe-col:nth-child(3) h3 .num{ background: var(--a-pink); color: #FFFFFF; }
+.app .store-wait{ color: #8A123F; }
+.app .top-post:first-child{ background: var(--row-b); }
+.app .flow{ background: var(--card); }
+
+/* the light / dark switch in the top bar */
+.theme-toggle{ display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 12px; margin-left: auto; border: 1px solid var(--card-line, #EBD8D6); border-radius: 999px; background: var(--card, #fff); color: var(--ink, #20141A); font: 700 .875rem/1 var(--ui, system-ui); cursor: pointer; white-space: nowrap; }
+.theme-toggle svg{ width: 18px; height: 18px; flex: none; }
+.theme-toggle:hover{ border-color: var(--line-strong, #D3B9BD); }
+.theme-toggle:focus-visible{ outline: 3px solid var(--a-sun, #FFD21A); outline-offset: 2px; }
+.theme-toggle + .app-user{ margin-left: 12px; }
+@media (max-width: 640px){ .theme-toggle span{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); } .theme-toggle{ padding: 0 11px; } }
+
+/* ================= Dark mode: Option B ================= */
+html[data-staff-theme="dark"]{
+  color-scheme: dark;
+  --cream: #0B2E19; --flour: #123F22; --paper: #123F22; --facade: #1A5230; --wash: #1A5230; --ink: #F7F2E6; --muted: #B9C9BC;
+  --line: #2A5C3B; --line-strong: #3D7350; --icon: #A9BDAE; --leaf: #082313;
+  --green: #E9B949; --green-wash: #1A5230; --clay: #FFA3C2; --clay-dark: #FFC2D6; --pink-wash: #4A1830;
+  --ok: #B9E5A3; --ok-bg: #24583A; --warn: #F5D27A; --warn-bg: #4A3A12; --bad: #FFB4B4; --bad-bg: #5A1F24; --info: #BBD3FF; --info-bg: #1E3358;
+  --background: #0B2E19; --foreground: #F7F2E6; --card: #123F22; --card-foreground: #F7F2E6; --popover: #123F22; --popover-foreground: #F7F2E6;
+  --primary: #E9B949; --primary-foreground: #20141A; --secondary: #1A5230; --secondary-foreground: #F7F2E6;
+  --accent: #1A5230; --accent-foreground: #F7F2E6; --destructive: #E5484D; --border: #2A5C3B; --input: #3D7350; --ring: #E9B949;
+}
+html[data-staff-theme="dark"] body{ background: #0B2E19; color: #F7F2E6; }
+html[data-staff-theme="dark"] .app, html[data-staff-theme="dark"] [data-slot="sheet-content"], html[data-staff-theme="dark"] [data-slot="dialog-content"]{
+  --cream: #0B2E19; --flour: #123F22; --paper: #123F22; --facade: #1A5230; --wash: #1A5230; --ink: #F7F2E6; --muted: #B9C9BC;
+  --line: #2A5C3B; --line-strong: #3D7350; --pink-wash: #4A1830; --green-wash: #1A5230;
+  --a-pink: #D92C66; --a-pink-on: #FFFFFF; --a-green: #1D6B35; --a-green-on: #FFFFFF; --a-sun: #E9B949; --a-sun-on: #20141A;
+  --row-a: #1A5230; --row-b: #123F22; --row-a-hover: #216039; --row-b-hover: #184C2B; --head: #E9B949; --head-on: #20141A;
+  --card: #123F22; --card-line: #2A5C3B; --page: #0B2E19;
+  --glass-soft: #0F3720;
+  --glass-shadow: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 26px -18px rgba(0, 0, 0, .7);
+  --glass-lift: 0 2px 4px rgba(0, 0, 0, .35), 0 20px 36px -18px rgba(0, 0, 0, .8);
+}
+html[data-staff-theme="dark"] .app-sidebar{ background: #082313; border-right: 1px solid #1A5230; }
+html[data-staff-theme="dark"] .hero{ background: #1D6B35; }
+html[data-staff-theme="dark"] .app tbody th, html[data-staff-theme="dark"] .app tbody td{ border-color: rgba(255, 255, 255, .08); }
+html[data-staff-theme="dark"] .kpi-bar span{ background: #E9B949; }
+html[data-staff-theme="dark"] .kpi.is-bad{ background: #4A1830; }
+html[data-staff-theme="dark"] .store-wait{ color: #FFB3CC; }
+/* gold is the main action; whatever sits on gold is ink, never white */
+html[data-staff-theme="dark"] .btn-primary, html[data-staff-theme="dark"] .btn-primary{ background: #E9B949; color: #20141A; }
+html[data-staff-theme="dark"] .btn-primary:hover, html[data-staff-theme="dark"] .btn-primary:hover{ background: #F2CB6C; color: #20141A; }
+html[data-staff-theme="dark"] .app-avatar, html[data-staff-theme="dark"] .flow-stage.is-active .flow-dot, html[data-staff-theme="dark"] .working .is-done .working-mark,
+html[data-staff-theme="dark"] .signin-ok .tick, html[data-staff-theme="dark"] .till-result.is-go, html[data-staff-theme="dark"] .toast-ok, html[data-staff-theme="dark"] .signin-steps li.is-on{ color: #20141A; }
+html[data-staff-theme="dark"] .chart-tip{ background: #20141A; color: #F7F2E6; border: 1px solid #3D7350; }
+html[data-staff-theme="dark"] .app input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"]), html[data-staff-theme="dark"] .app select, html[data-staff-theme="dark"] .app textarea,
+html[data-staff-theme="dark"] [data-slot="sheet-content"] input:not([type="checkbox"], [type="radio"]), html[data-staff-theme="dark"] [data-slot="sheet-content"] select, html[data-staff-theme="dark"] [data-slot="sheet-content"] textarea,
+html[data-staff-theme="dark"] [data-slot="dialog-content"] input:not([type="checkbox"], [type="radio"]), html[data-staff-theme="dark"] [data-slot="dialog-content"] select, html[data-staff-theme="dark"] [data-slot="dialog-content"] textarea{
+  background: #0B2E19; color: #F7F2E6; border-color: #3D7350; }
+html[data-staff-theme="dark"] .app ::placeholder, html[data-staff-theme="dark"] [data-slot="sheet-content"] ::placeholder{ color: #9DB3A3; }
+html[data-staff-theme="dark"] [data-css~="app"] > .concept-banner a{ color: #E9B949; }
+html[data-staff-theme="dark"] .app svg text{ fill: #D8E3DA; }
+html[data-staff-theme="dark"] .kpi.is-warn svg text, html[data-staff-theme="dark"] .kpi.is-warn .gauge-value, html[data-staff-theme="dark"] .kpi.is-warn .gauge-of{ fill: #20141A; }
+html[data-staff-theme="dark"] .kpi.is-pink svg text, html[data-staff-theme="dark"] .kpi.is-ok svg text{ fill: #FFFFFF; }
+
+/* the process guide: flat dots, in both modes */
+.app .flow-dot{ background: var(--card); border-color: var(--line-strong); color: var(--muted); }
+.app .flow-label{ color: var(--muted); }
+.app .flow-stage.is-done .flow-dot{ background: var(--row-b); border-color: var(--a-green); color: var(--ink); }
+.app .flow-stage.is-active .flow-dot{ background: var(--a-green); border-color: transparent; color: #FFFFFF; }
+.app .flow-stage.is-active .flow-label{ color: var(--ink); }
+.app .flow-detail, .app .pipe-card, .app .look-card, .app .thread li, .app .decide-form, .app .working{ background: var(--card); border-color: var(--card-line); }
+html[data-staff-theme="dark"] .flow-stage.is-active .flow-dot{ background: #E9B949; color: #20141A; }
+html[data-staff-theme="dark"] .flow-stage.is-done .flow-dot{ border-color: #E9B949; }
+html[data-staff-theme="dark"] .flow-detail, html[data-staff-theme="dark"] .pipe-card, html[data-staff-theme="dark"] .look-card, html[data-staff-theme="dark"] .thread li, html[data-staff-theme="dark"] .decide-form, html[data-staff-theme="dark"] .working{ background: #0F3720; }
+
+/* every remaining frosted or graded surface, made flat and drawn from the scheme's own colours */
+.app, [data-css~="app"] [data-slot="sheet-content"], [data-css~="app"] [data-slot="dialog-content"]{ --bar: var(--a-green); }
+html[data-staff-theme="dark"] .app, html[data-staff-theme="dark"] [data-slot="sheet-content"], html[data-staff-theme="dark"] [data-slot="dialog-content"]{ --bar: #E9B949; }
+.app .kpi-bar span, .app .mini-bar span{ background: var(--bar); }
+.app .seg{ background: var(--wash); border-color: var(--card-line); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.app .seg .btn[aria-pressed="true"]{ background: var(--card); color: var(--ink); }
+.app .btn-ghost, .app .btn-outline{ background: var(--card); border-color: var(--line-strong); }
+.app .btn-ghost:hover, .app .btn-outline:hover{ background: var(--wash); }
+.app tbody tr:hover{ background: transparent; }
+.app input[type="text"], .app input[type="email"], .app input[type="tel"], .app input[type="date"], .app input[type="search"], .app input[type="password"], .app input[type="number"], .app select, .app textarea{
+  background: var(--card); border-color: var(--line-strong); color: var(--ink); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.app .app-sidebar{ background: #123F22; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.app .app-nav a[aria-current="page"]{ background: rgba(255, 255, 255, .14); }
+[data-css~="app"] [data-slot="sheet-content"], [data-css~="app"] [data-slot="dialog-content"]{ background: var(--card); color: var(--card-foreground); -webkit-backdrop-filter: none; backdrop-filter: none; }
+.app .trend-key{ background: var(--card); border-color: var(--card-line); color: var(--ink); }
+.app .trend-key:hover{ background: var(--wash); }
+.app .dept-icon{ background: var(--row-b); box-shadow: none; color: var(--ink); }
+.app .sf-icon{ background: var(--row-a); box-shadow: none; }
+.app .art-row li, .app .art-row li:nth-child(odd){ background: var(--card); }
+.app .art-row li:nth-child(odd){ background: var(--row-b); }
+.app .cell-input.is-empty{ background: var(--card); border-color: var(--a-sun); }
+.app .hero-rings .gauge-clay .gauge-fill{ stroke: #FFD21A; }
+.app .hero-rings .gauge-teal .gauge-fill{ stroke: #FFFFFF; }
+html[data-staff-theme="dark"] .app-sidebar{ background: #082313; }
+html[data-staff-theme="dark"] .season-chip.season-christmas{ background: #5A1F24; }
+html[data-staff-theme="dark"] .season-chip.season-divali{ background: #4A3A12; }
+html[data-staff-theme="dark"] .star-btn.is-on{ color: #FFD21A; }
+html[data-staff-theme="dark"] .app button.star-btn:hover{ color: #FFD21A; }
+
+/* contrast audit, 13 Nov 2026: text on a filled card is the solid "on" colour, never a see-through white */
+.app .app-nav-group{ color: #C9D8CD; opacity: 1; }
+.app .hero .hero-date, .app .hero p, .app .hero .gauge-of, .app .hero .gauge-value, .app .hero figcaption{ color: #FFFFFF; fill: #FFFFFF; opacity: 1; }
+.app .decide-card .queue-area, .app .decide-card span, .app .decide-card strong, .app .decide-card .decide-go{ color: #FFFFFF !important; opacity: 1; }
+
+/* whatever sits on sun yellow or gold is ink, in both modes */
+.app .hero-chip b, .app .flow-count, .app .posts-table tbody tr:first-child .rank, .app .top-post:first-child .top-rank{ color: #20141A; }
+.app .posts-table .rank, .app .top-post:nth-child(n+2) .top-rank{ background: var(--wash); color: var(--ink); }
+.app .posts-table tbody tr:first-child .rank{ background: #FFD21A; }
+.app .pipe-col h3 .num{ background: var(--card); color: var(--ink); }
+.app .pipe-col:nth-child(3) h3 .num{ background: var(--a-pink); color: #FFFFFF; }
+.app .seg-count{ background: var(--row-b); color: var(--ink); }
+.app .seg .btn{ color: var(--muted); }
+.app .seg .btn[aria-pressed="true"]{ color: var(--ink); }
+.app .steps-funnel li{ background: var(--card); border-color: var(--card-line); }
+.app .steps-funnel li em{ color: var(--muted); }
+
+/* dark mode, element by element (contrast audit, 13 Nov 2026) */
+html[data-staff-theme="dark"] [data-css]{ --note-bg: #4A3A12; --note-out-line: #3D7350; --note-in-line: #3A5A99; --ink-soft: #D8E3DA; --hair: rgba(255, 255, 255, .1); --lift: 0 1px 2px rgba(0, 0, 0, .3), 0 12px 26px -18px rgba(0, 0, 0, .7); }
+html[data-staff-theme="dark"] .skip-link{ background: #20141A; color: #FFFFFF; }
+html[data-staff-theme="dark"] .badge:not(.badge-ok, .badge-warn, .badge-bad, .badge-info, .badge-clay, .badge-green){ background: #2A5C3B; color: #F7F2E6; }
+html[data-staff-theme="dark"] .badge-green{ background: #24583A; color: #B9E5A3; }
+html[data-staff-theme="dark"] .cell-input.is-empty{ background: #0B2E19; border-color: #E9B949; }
+html[data-staff-theme="dark"] .store-wait{ color: #FFB3CC; }
+html[data-staff-theme="dark"] .figs .fig span, html[data-staff-theme="dark"] .pipe-ask{ color: #D8E3DA; }
+
+/* sheets and dialogs render beside the shell, not inside it: the same card rules for what they contain */
+[data-css~="app"] [data-slot="sheet-content"] .thread li, [data-css~="app"] [data-slot="sheet-content"] .decide-form, [data-css~="app"] [data-slot="sheet-content"] .working, [data-css~="app"] [data-slot="dialog-content"] .working{ background: var(--card); border-color: var(--card-line); }
+[data-css~="app"] [data-slot="sheet-content"] .btn-primary, [data-css~="app"] [data-slot="dialog-content"] .btn-primary{ background: var(--a-pink); color: #FFFFFF; border-color: transparent; }
+[data-css~="app"] [data-slot="sheet-content"] .btn-primary:hover, [data-css~="app"] [data-slot="dialog-content"] .btn-primary:hover{ background: #B91F54; }
+[data-css~="app"] [data-slot="sheet-content"] .btn-ghost, [data-css~="app"] [data-slot="sheet-content"] .btn-outline, [data-css~="app"] [data-slot="dialog-content"] .btn-ghost, [data-css~="app"] [data-slot="dialog-content"] .btn-outline{ background: var(--card); border-color: var(--line-strong); }
+[data-css~="app"] [data-slot="sheet-content"] .seg, [data-css~="app"] [data-slot="dialog-content"] .seg{ background: var(--wash); border-color: var(--card-line); }
+[data-css~="app"] [data-slot="sheet-content"] .seg .btn, [data-css~="app"] [data-slot="dialog-content"] .seg .btn{ color: var(--muted); background: transparent; }
+[data-css~="app"] [data-slot="sheet-content"] .seg .btn[aria-pressed="true"], [data-css~="app"] [data-slot="dialog-content"] .seg .btn[aria-pressed="true"]{ background: var(--card); color: var(--ink); }
+[data-css~="app"] [data-slot="sheet-content"] thead th, [data-css~="app"] [data-slot="dialog-content"] thead th{ background: var(--head); color: var(--head-on); }
+html[data-staff-theme="dark"] [data-slot="sheet-content"] .btn-primary, html[data-staff-theme="dark"] [data-slot="dialog-content"] .btn-primary{ background: #E9B949; color: #20141A; }
+html[data-staff-theme="dark"] [data-slot="sheet-content"] .btn-primary:hover, html[data-staff-theme="dark"] [data-slot="dialog-content"] .btn-primary:hover{ background: #F2CB6C; color: #20141A; }
+/* a control that is switched off still has to be readable */
+.app .btn[disabled], .app .btn[aria-disabled="true"], [data-css~="app"] [data-slot="sheet-content"] .btn[disabled], [data-css~="app"] [data-slot="dialog-content"] .btn[disabled]{ opacity: 1; background: var(--wash); color: var(--muted); border-color: var(--card-line); cursor: not-allowed; }
+
+/* charts in dark mode: the same four platforms, on steps chosen for the dark card (all six palette checks pass) */
+html[data-staff-theme="dark"]{ --pf-instagram: #E0588B; --pf-facebook: #6990E6; --pf-website: #BF8628; --pf-tiktok: #30A587; }
+html[data-staff-theme="dark"] .gauge-gold .gauge-fill{ stroke: #E9B949; }
+html[data-staff-theme="dark"] .gauge-teal .gauge-fill{ stroke: #5CC8BD; }
+html[data-staff-theme="dark"] .gauge-track{ stroke: #2A5C3B; }
+html[data-staff-theme="dark"] .chart-grid{ stroke: rgba(255, 255, 255, .12); }
+html[data-staff-theme="dark"] .chart-axis{ stroke: rgba(255, 255, 255, .4); }
+html[data-staff-theme="dark"] .chart-cross{ stroke: #F7F2E6; }
+html[data-staff-theme="dark"] .chart-dot{ stroke: #123F22; }
+html[data-staff-theme="dark"] .pair-then{ background: #6E8F7A; }
+html[data-staff-theme="dark"] .hero .gauge-track{ stroke: rgba(255, 255, 255, .28); }
+
+/* the sidebar's headings are dropdowns: click one to fold its items away */
+.app .app-nav-sec{ display: grid; }
+.app button.app-nav-group{ display: flex; align-items: center; justify-content: space-between; gap: 8px; width: 100%; min-height: 40px; margin: 10px 0 2px; padding: 6px 12px; border: 0; border-radius: 10px; background: transparent; color: #C9D8CD; opacity: 1; font: 700 0.75rem/1.2 var(--ui); letter-spacing: .12em; text-transform: uppercase; text-align: left; cursor: pointer; transition: background-color 180ms ease, color 180ms ease; }
+.app button.app-nav-group:hover{ background: rgba(255, 255, 255, .09); color: #FFFFFF; }
+.app button.app-nav-group:focus-visible{ outline: 3px solid #FFD21A; outline-offset: 2px; }
+.app .app-nav-chev{ flex: none; width: 16px; height: 16px; transition: transform 260ms cubic-bezier(.2, .8, .2, 1); }
+.app .app-nav-sec.is-shut .app-nav-chev{ transform: rotate(-90deg); }
+.app .app-nav-items{ display: grid; grid-template-rows: 1fr; transition: grid-template-rows 280ms cubic-bezier(.2, .8, .2, 1); }
+.app .app-nav-sec.is-shut .app-nav-items{ grid-template-rows: 0fr; }
+.app .app-nav-items > div{ display: grid; gap: 2px; min-height: 0; overflow: hidden; }
+.app .app-nav-group.has-current > span::after{ content: ""; display: inline-block; width: 8px; height: 8px; margin-left: 8px; border-radius: 50%; background: #FFD21A; vertical-align: middle; }
+@media (prefers-reduced-motion: reduce){ .app .app-nav-items, .app .app-nav-chev{ transition: none; } }

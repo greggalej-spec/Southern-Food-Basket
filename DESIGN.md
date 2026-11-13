@@ -62,11 +62,11 @@ v3 changes (2026-10-28): `--cream` `#FFF8F1` → `#FBF6EC`, `--muted` `#66525A` 
 Status colours (ok / warn / bad / info) keep their v1 values and always carry a text label.
 
 ## Type
-- Display: **Caprasimo** (single weight). h1 and h2 only, plus the seal-free headline moments. Echoes the
-  Cooper-style wordmark.
-- Text and UI: **Atkinson Hyperlegible Next** 400 / 600 / 700 / 800, chosen for low-vision legibility. h3, h4,
-  product names, buttons, labels, tables.
-- Prices in seals: **Alfa Slab One**, echoing the flyer numerals. Nowhere else.
+The team chose type system 7, "Homey serif and hand", on 13 Nov 2026 (`docs/brand-options/type-system-7.png`).
+- Display: **Lora** Bold. h1 and h2, and the headline moments. A warm bookish serif.
+- Text and UI: **Karla** 400 / 600 / 700 / 800. h3, h4, product names, buttons, labels, tables.
+- Figures and prices in seals: **Karla** ExtraBold.
+- Accent: **Kalam** (handwriting), for the season's greeting, a thank-you, a note in the margin. Never body copy.
 - Base size 17 px (1.0625rem); public body copy 18 px; lede 20 px. Line height 1.6 body, 1.1 headings.
   `tabular-nums` on prices, tables and payslips. Line length ≤ 68ch.
 
@@ -125,7 +125,7 @@ of children; event photos only of staff in uniform. Provenance in `docs/SOURCES.
   company's posts.
 
 ## Contract for page builders
-- Fonts come from `lib/fonts.ts` (`next/font`): Caprasimo, Atkinson Hyperlegible Next and Alfa Slab One.
+- Fonts come from `lib/fonts.ts` (`next/font`): Lora, Karla and Kalam.
 - Public pages render inside `<SiteFrame>`; app pages inside `<AppShell app="…" active="…">`. Each names the
   section stylesheets it needs (`css={["app", "hr"]}`), which load from `styles/`.
 - React escapes text; `dangerouslySetInnerHTML` is banned by lint except for the generated home scene. Prices via

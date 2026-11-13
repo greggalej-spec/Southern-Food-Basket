@@ -4,8 +4,8 @@
 .tour-root{
   --t-green: #1D6B35; --t-leaf: #123F22; --t-flour: #FFFDFA; --t-ink: #2A1A1F; --t-muted: #5E4E54; --t-line: #E6DCC8;
   --t-yellow: #FFD21A; --t-wash: #F3ECDD;
-  --t-ui: var(--font-atkinson), "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --t-display: var(--font-caprasimo), "Caprasimo", "Cooper Black", Georgia, serif;
+  --t-ui: var(--font-karla), "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --t-display: var(--font-lora), "Lora", Georgia, "Times New Roman", serif;
   --t-ease: cubic-bezier(.22,.8,.3,1);
   font: 400 1rem/1.5 var(--t-ui); color: var(--t-ink);
 }

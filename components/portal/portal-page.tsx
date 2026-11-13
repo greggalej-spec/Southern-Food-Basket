@@ -2,6 +2,7 @@
 
 import { Fragment, useEffect } from "react";
 import { AppShell } from "@/components/app-shell";
+import type { CssName } from "@/components/scope";
 import { Badge } from "@/components/ui/badge";
 import { currentEmployee, logout, useData, useRequireRole } from "@/lib/store";
 import type { Employee, LeaveStatus, Role, Seed } from "@/lib/types";
@@ -9,7 +10,7 @@ import type { Employee, LeaveStatus, Role, Seed } from "@/lib/types";
 // The frame and the small renderers every employee portal page shares, from portal.js.
 
 // Every page except the demo login needs an employee, HR or admin session (HR and admin also have "My portal").
-const PORTAL_ROLES: Role[] = ["employee", "hr", "admin", "marketing", "owner"];
+const PORTAL_ROLES: Role[] = ["employee", "hr", "admin", "purchasing", "marketing", "owner"];
 
 /** An employee portal page: the app shell, the role guard, and the signed-in employee's record. The body renders
  *  once both exist, which is after hydration, so it may read the clock. */
@@ -17,11 +18,13 @@ export function PortalPage({
   active,
   title,
   page,
+  css = ["app", "portal"],
   children,
 }: {
   active: string;
   title: string;
   page: string;
+  css?: CssName[];
   children: (me: Employee, d: Seed) => React.ReactNode;
 }) {
   const s = useRequireRole(PORTAL_ROLES);
@@ -41,7 +44,7 @@ export function PortalPage({
   }, [ready]);
 
   return (
-    <AppShell app="portal" active={active} title={title} css={["app", "portal"]} page={page}>
+    <AppShell app="portal" active={active} title={title} css={css} page={page}>
       {me ? <Fragment key={me.id}>{children(me, d)}</Fragment> : null}
     </AppShell>
   );

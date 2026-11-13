@@ -13,7 +13,7 @@ import type { Role, Seed, Session } from "@/lib/types";
 // try, and the answer is one large panel that says what to do. Every rule (store, dates, used once, the lockout after
 // five misses) lives in redeemCode(); this screen only shows its answer.
 
-const TILL_ROLES: Role[] = ["employee", "hr", "admin", "marketing", "owner"];
+const TILL_ROLES: Role[] = ["employee", "hr", "admin", "purchasing", "marketing", "owner"];
 const BRANCH_KEY = "sfb-till-branch";
 
 const HEADLINE: Record<Exclude<RedeemReason, "recorded">, string> = {

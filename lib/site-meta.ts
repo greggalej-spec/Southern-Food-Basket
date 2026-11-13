@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 
-// Shared by both root layouts and the global 404. Every page stays out of search: it is an unofficial concept.
+// Shared by both root layouts and the global 404. Every page stays out of search: it is an prototype.
 export const baseMetadata: Metadata = {
   title: { template: "%s · Southern Food Basket", default: "Southern Food Basket" },
   robots: { index: false },

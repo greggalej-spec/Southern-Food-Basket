@@ -10,7 +10,7 @@ import { createContext, useContext, useState } from "react";
 // undefined = no Scope above (Base UI falls back to document.body); null = Scope not mounted yet (Base UI waits).
 const ScopeContext = createContext<HTMLElement | null | undefined>(undefined);
 
-export type CssName = "site" | "app" | "careers" | "portal" | "admin" | "members";
+export type CssName = "site" | "app" | "careers" | "portal" | "admin" | "members" | "ops";
 
 export function Scope({ css, page, children }: { css: CssName[]; page?: string; children: React.ReactNode }) {
   const [node, setNode] = useState<HTMLDivElement | null>(null);

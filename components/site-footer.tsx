@@ -57,7 +57,9 @@ export function SiteFooter() {
             <ul>
               <li><Link href="/about">About us</Link></li>
               <li><Link href="/careers">Careers</Link></li>
+              <li><Link href="/community">Community and partnerships</Link></li>
               <li><Link href="/portal">Staff portal</Link></li>
+              <li><Link href="/how-it-works">How the system works</Link></li>
               {ig && (
                 <li>
                   <a href={ig.url} target="_blank" rel="noopener">
@@ -71,7 +73,7 @@ export function SiteFooter() {
         <div className="footer-bottom">
           <p>{DISCLAIMER}</p>
           <p>
-            <span className="concept-pill">Unofficial concept</span> &nbsp;{" "}
+            <span className="concept-pill">Prototype</span> &nbsp;{" "}
             <ResetDemoButton className="link-btn" style={{ color: "#F3EBDD" }}>
               Reset demo data
             </ResetDemoButton>

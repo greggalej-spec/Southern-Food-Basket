@@ -36,7 +36,7 @@ export function ConceptBanner() {
     <div className="concept-banner" role="note">
       <div className="container">
         <p>
-          <strong>Demo.</strong> {DISCLAIMER} Nothing you enter leaves this browser. <Link href="/tour">Take the guided tour</Link>
+          <strong>Prototype.</strong> {DISCLAIMER} Nothing you enter leaves this browser. <Link href="/tour">Take the guided tour</Link> or <Link href="/how-it-works">see how it all flows</Link>.
         </p>
         <button type="button" onClick={dismiss}>
           Got it

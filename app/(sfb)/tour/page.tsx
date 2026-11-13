@@ -6,7 +6,7 @@ import { TourPicker } from "@/components/tour/tour-picker";
 
 export const metadata: Metadata = {
   title: "Guided tour",
-  description: "A guided walk through the Southern Food Basket concept: the shop, members’ codes, the weekly e-mail, hiring and staff access. Unofficial concept by Trinovata.",
+  description: "A guided walk through the Southern Food Basket concept: the shop, members’ codes, the weekly e-mail, hiring and staff access. Prototype.",
 };
 
 export default function TourPage() {

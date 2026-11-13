@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SiteFrame } from "@/components/site-frame";
 import { AboutFacts, AboutValues } from "@/components/site/about";
-import { StoreRouteMap } from "@/components/store-route";
-import { storeRoute } from "@/lib/route";
+import { StoreMap } from "@/components/site/store-map";
 import { SEED } from "@/lib/seed";
 
 // The home's "Who" band in full (DESIGN.md "One design"): the same memorial card, family card and route map, then
@@ -12,10 +11,9 @@ import { SEED } from "@/lib/seed";
 export const metadata: Metadata = {
   title: "About us",
   description:
-    "About Southern Food Basket, a family supermarket and wholesale business in south Trinidad, with the public records this concept draws on. Unofficial concept by Trinovata.",
+    "About Southern Food Basket, a family supermarket and wholesale business in south Trinidad, with the public records this concept draws on. Prototype.",
 };
 
-const route = storeRoute(SEED.branches);
 const community = SEED.content.community;
 
 export default function AboutPage() {
@@ -61,15 +59,8 @@ export default function AboutPage() {
             </article>
             <article className="who-card who-where">
               <h3>Where we are</h3>
-              {route ? <StoreRouteMap route={route} /> : null}
-              <ol className="route-list" aria-label="Our five stores">
-                {route?.stops.map((s) => (
-                  <li key={s.b.id}>
-                    <Link href={"/locations#" + s.b.id}>{s.b.name}</Link>
-                  </li>
-                ))}
-              </ol>
-              <p className="who-small">Each store placed from its Google Maps listing; the line joins them in order.</p>
+              <StoreMap compact />
+              <p className="who-small">Each store is pinned where its Google Maps listing puts it. Tap a pin for today’s hours and directions.</p>
               <Link className="more-link" href="/locations">
                 Hours, phone numbers and directions
               </Link>

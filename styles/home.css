@@ -6,9 +6,10 @@
   --pink: #E3336F; --pink-ink: #B8195A; --green: #1D6B35; --leaf: #123F22; --red: #D3202D; --sign: #C81A35;
   --yellow: #FFD21A; --gold: #E9C460; --teal: #2F918A; --teal-ink: #1C6863; --teal-deep: #164F4B; --teal-light: #A3DCD5;
   --cream: #FBF6EC; --paper: #FFFDFA; --facade: #F3ECDD; --line: #E6DCC8; --ink: #2A1A1F; --muted: #5E4E54;
-  --display: var(--font-caprasimo), "Caprasimo", "Cooper Black", Georgia, serif;
-  --ui: var(--font-atkinson), "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --slab: var(--font-alfa), "Alfa Slab One", Rockwell, Georgia, serif;
+  --display: var(--font-lora), "Lora", Georgia, "Times New Roman", serif;
+  --ui: var(--font-karla), "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --slab: var(--font-karla), "Karla", system-ui, sans-serif;
+  --hand: var(--font-kalam), "Kalam", "Segoe Print", "Bradley Hand", cursive;
   --r: 14px; --shadow: 0 2px 4px rgba(42,26,31,.06), 0 16px 34px -22px rgba(42,26,31,.4);
 }
 .ge-root *, .ge-root *::before, .ge-root *::after{ box-sizing: border-box; }
@@ -166,9 +167,9 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .seal svg{ position: absolute; inset: 0; width: 100%; height: 100%; }
 .ge-root .seal-in{ position: relative; display: grid; justify-items: center; gap: 1.2cqi; transform: translateY(-7%); }
 .ge-root .seal-qty{ font: 800 7.6cqi/1 var(--ui); }
-.ge-root .seal-price{ background: var(--yellow); color: var(--ink); font: 400 6.6cqi/1 var(--slab); padding: 1.4cqi 2.6cqi; border-radius: 999px; white-space: nowrap; }
-.ge-root .seal-try{ position: absolute; left: -5%; right: -5%; bottom: 4%; background: var(--red); color: #fff; font: 400 4.8cqi/1 var(--slab); letter-spacing: .08em; padding: 1.6cqi 0 1.8cqi; clip-path: polygon(2% 8%, 100% 0, 98% 92%, 0 100%); }
-.ge-root .new-corner{ position: absolute; top: 5cqi; right: -12cqi; width: 46cqi; transform: rotate(35deg); background: var(--red); color: #fff; text-align: center; font: 400 4.4cqi/1 var(--slab); letter-spacing: .08em; padding: 1.6cqi 0; }
+.ge-root .seal-price{ background: var(--yellow); color: var(--ink); font: 800 6.6cqi/1 var(--slab); padding: 1.4cqi 2.6cqi; border-radius: 999px; white-space: nowrap; }
+.ge-root .seal-try{ position: absolute; left: -5%; right: -5%; bottom: 4%; background: var(--red); color: #fff; font: 800 4.8cqi/1 var(--slab); letter-spacing: .08em; padding: 1.6cqi 0 1.8cqi; clip-path: polygon(2% 8%, 100% 0, 98% 92%, 0 100%); }
+.ge-root .new-corner{ position: absolute; top: 5cqi; right: -12cqi; width: 46cqi; transform: rotate(35deg); background: var(--red); color: #fff; text-align: center; font: 800 4.4cqi/1 var(--slab); letter-spacing: .08em; padding: 1.6cqi 0; }
 .ge-root .deal-body{ padding: 14px 16px 18px; display: grid; gap: 4px; }
 .ge-root .deal-dept{ font: 800 .8125rem/1.3 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--pink-ink); margin: 0; }
 .ge-root .deal-name{ font: 800 1.125rem/1.3 var(--ui); margin: 0; }
@@ -228,10 +229,12 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .band-careers{ background: var(--cream); }
 .ge-root .careers{ display: grid; gap: 40px; align-items: center; }
 @media (min-width: 900px) { .ge-root .careers{ grid-template-columns: .9fr 1.1fr; gap: 64px; } }
+/* no photo in the band (the team photo was removed at Gregg's call, 12 Nov 2026): one column, held to a reading width */
+.ge-root .careers.careers-solo{ grid-template-columns: 1fr; }
+.ge-root .careers-solo > div{ max-width: 760px; }
 .ge-root .arch-photo{ position: relative; margin: 0; aspect-ratio: 5 / 6; max-width: 460px; overflow: hidden; border: 10px solid #F7F4EC; border-radius: 50% 50% 16px 16px / 41.67% 41.67% 16px 16px; box-shadow: 0 0 0 2px #CFC4AC, var(--shadow); }
 .ge-root .arch-photo{ background: #F7F4EC; }
-/* The fanlight covers the top 42% of the window, so the photo starts under its sill: in team-flags.webp the faces sit
-   8–23% down the frame, and this puts them at roughly 47–58% of the arch, in clear glass. */
+/* The fanlight covers the top 42% of the window, so a photo starts under its sill, in clear glass. */
 .ge-root .arch-photo img{ position: absolute; left: -7.5%; top: 41.5%; width: 115%; max-width: none; height: auto; }
 .ge-root .arch-photo::before{ content: ""; position: absolute; left: 0; right: 0; top: 0; height: 41.67%; z-index: 1; background: url(/assets/img/glass/fanlight.svg) no-repeat center bottom / 100% 100%; }
 .ge-root .why{ list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 14px; }
@@ -278,7 +281,7 @@ html:not(.js) .ge-root .cue, html:not(.js) .ge-root .skip-pill{ display: none; }
 .ge-root .ticker-track{ display: flex; align-items: center; width: max-content; will-change: transform; }
 .ge-root .tk-item{ display: inline-flex; align-items: center; gap: 10px; padding: 0 16px; white-space: nowrap; font: 700 1rem/1 var(--ui); }
 .ge-root .tk-qty{ font: 800 .8125rem/1 var(--ui); letter-spacing: .06em; color: var(--yellow); }
-.ge-root .tk-price{ background: var(--yellow); color: var(--ink); font: 400 1rem/1 var(--slab); padding: 6px 10px 5px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.ge-root .tk-price{ background: var(--yellow); color: var(--ink); font: 800 1rem/1 var(--slab); padding: 6px 10px 5px; border-radius: 999px; font-variant-numeric: tabular-nums; }
 .ge-root .tk-flag{ flex: none; width: 14px; height: 17px; background: var(--pink); clip-path: polygon(0 0, 100% 0, 50% 100%); }
 .ge-root .tk-flag:nth-of-type(4n){ background: #FFFDFA; }
 .ge-root .ticker:hover .tk-item{ text-decoration: underline; text-underline-offset: 4px; }

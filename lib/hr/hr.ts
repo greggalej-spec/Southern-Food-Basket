@@ -12,7 +12,7 @@ import type { Applicant, ComplianceDoc, Employee, Job, KycDoc, LeaveRequest, Out
 export const MAIN_STAGES = ["submitted", "screening", "kyc", "interview", "offer", "hired"];
 export const CLOSED_STAGES = ["not-selected", "withdrawn"];
 /** "updates" is the Staff updates composer (components/admin/staff-updates-panel.tsx), shown with staff.updates. */
-export const TABS = ["pipeline", "roles", "compliance", "updates"] as const;
+export const TABS = ["pipeline", "roles", "log", "people", "compliance", "resources", "updates"] as const;
 export type HrTab = (typeof TABS)[number];
 export const DRAWER_TABS = ["details", "documents", "notes", "messages", "timeline"] as const;
 export type DrawerTab = (typeof DRAWER_TABS)[number];
@@ -20,7 +20,7 @@ export type ActionForm = "interview" | "decision" | null;
 
 export const isActive = (a: Applicant) => !["hired", "not-selected", "withdrawn"].includes(a.stage);
 
-/* ---------- tabs (#pipeline, #roles, #compliance, #updates) ---------- */
+/* ---------- tabs (#pipeline, #roles, #log, #people, #compliance, #resources, #updates) ---------- */
 function currentTab(): HrTab {
   const h = location.hash.replace("#", "");
   return (TABS as readonly string[]).includes(h) ? (h as HrTab) : "pipeline";

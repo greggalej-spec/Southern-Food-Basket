@@ -3,7 +3,7 @@
 
 /** Who is signed in. customer and applicant are self-service identities; the rest are staff roles, each held through
  *  a Grant (lib/access.ts) that the owner can scope to stores, time-limit or revoke. */
-export type Role = "customer" | "applicant" | "employee" | "hr" | "admin" | "marketing" | "owner";
+export type Role = "customer" | "applicant" | "employee" | "hr" | "admin" | "purchasing" | "marketing" | "owner";
 export type Tone = "info" | "warn" | "ok" | "bad" | "plain";
 export type DocState = "missing" | "uploaded" | "verified" | "flagged" | "expired";
 export type LeaveType = "Annual" | "Sick" | "Casual";
@@ -239,6 +239,8 @@ export interface Employee {
   leave: LeaveBalance;
   leaveRequests: LeaveRequest[];
   swapRequests: SwapRequest[];
+  /** Where the person stands with HR. Absent means active. */
+  status?: "active" | "probation" | "on-leave";
   shifts: Shift[];
   payslips: Payslip[];
   training: Training[];
@@ -298,6 +300,24 @@ export interface Seed {
   staffUpdates: StaffUpdate[];
   outbox: OutboxMessage[];
   audit: AuditEvent[];
+  /** What the website studio controls: the season, the notice bar and which home bands show. Public. */
+  site: SiteConfig;
+  /* Operations (lib/seed-ops.ts, staff tier) */
+  suppliers: Supplier[];
+  specialsBooks: SpecialsBook[];
+  supplierSheets: SupplierSheet[];
+  sellouts: SelloutReport[];
+  requests: CommunityRequest[];
+  bulkOrders: BulkOrder[];
+  tasks: Task[];
+  resources: ResourceDoc[];
+  socialAccounts: SocialAccount[];
+  socialPosts: SocialPost[];
+  socialWeeks: MetricWeek[];
+  sitePages: SitePage[];
+  plan: PlanItem[];
+  /** What shoppers send with the Feedback button. A ticket made on a public page lives here; the seeded ones join with the staff tier. */
+  feedback: FeedbackTicket[];
 }
 
 export interface Session {
@@ -497,4 +517,299 @@ export interface StaffUpdate {
   createdAt: string;
   sentBy?: string;
   testSends: { at: string; to: string }[];
+}
+
+/* ---------- Website studio (lib/ops/site.ts). Public: the pages read it to dress the site. ---------- */
+
+export type SeasonId = "none" | "christmas" | "divali";
+
+export interface SiteConfig {
+  season: {
+    id: SeasonId;
+    /** off: the everyday site. on: dressed now. dates: dressed between from and to (Trinidad days, inclusive). */
+    mode: "off" | "on" | "dates";
+    from: string;
+    to: string;
+    /** The string of lights under the header. */
+    lights: boolean;
+    /** The greeting ribbon across the top of every public page. Empty hides it. */
+    greeting: string;
+  };
+  /** One line above the header on every public page: a closure, a late opening, a sale. */
+  notice: { on: boolean; text: string; linkLabel: string; href: string };
+  /** Home page bands switched off (their section ids: highlights, deals, careers, aisles, stores). */
+  hiddenBands: string[];
+}
+
+/* ---------- Administration (lib/ops/admin-ops.ts) ---------- */
+
+/** What the demo keeps of an uploaded file: never its bytes. */
+export interface FileMeta {
+  fileName: string;
+  size: number;
+  type: string;
+}
+
+export interface LogLine {
+  at: string;
+  by: string;
+  text: string;
+}
+
+export interface Supplier {
+  id: string;
+  name: string;
+  rep: string;
+  phone: string;
+  /** How their specials usually arrive. */
+  channel: "WhatsApp" | "E-mail" | "Rep visit";
+  /** Whether they ask for a sell-out report after a special. */
+  wantsSellout: boolean;
+  addedAt: string;
+}
+
+/** One round of specials, as the office keeps one workbook today: "Divali 2026", "Christmas 2026", "November 2026". */
+export interface SpecialsBook {
+  id: string;
+  title: string;
+  from: string;
+  to: string;
+  /** closed: the round is over. It stays on record and can still be read. */
+  status: "open" | "closed";
+  createdAt: string;
+}
+
+/** One row, in the columns the office already uses: item, count, case price, VAT, special, notes. */
+export interface SupplierLine {
+  id: string;
+  item: string;
+  /** As written: "24", "12 X 454G". */
+  count: string;
+  /** Suppliers often leave it off; the office looks it up and types it in. */
+  casePrice: number | null;
+  vat: "Y" | "N" | "";
+  /** The shelf special as written: "3 FOR 24.95", "7.95 PER LB", "19.95". */
+  special: string;
+  /** The trade deal, when there is one: "Sell in 10 cs, get 5 cs free". */
+  deal?: string;
+  /** When it runs, as the company wrote it: "5 Oct - 11 Nov". */
+  valid?: string;
+  note?: string;
+  /** The heading it sits under on the company's sheet: "Canned vegetables". */
+  group?: string;
+  /** On the key specials sheet. */
+  key?: boolean;
+}
+
+/** One company's specials inside a book, read from the file they sent. */
+export interface SupplierSheet {
+  id: string;
+  bookId: string;
+  supplierId: string;
+  source: (FileMeta & { via: "WhatsApp" | "E-mail" | "Scan" | "Typed in" | "Workbook" }) | null;
+  importedAt: string;
+  importedBy: string;
+  /** to-check: the system read it and a person has not confirmed it yet. */
+  status: "to-check" | "checked";
+  checkedAt?: string;
+  checkedBy?: string;
+  lines: SupplierLine[];
+}
+
+export interface SelloutReport {
+  id: string;
+  supplierId: string;
+  bookId: string;
+  /** compiled: the numbers are in. sent: the company has them. */
+  status: "compiled" | "sent";
+  lines: { item: string; units: number; special: string }[];
+  /** The notebook page or till print-out it was taken from. */
+  scan?: FileMeta;
+  compiledAt: string;
+  compiledBy: string;
+  sentAt?: string;
+  note?: string;
+}
+
+export type RequestKind = "donation" | "sponsorship" | "partnership" | "promotion";
+export type RequestStatus = "new" | "reviewing" | "with-owner" | "approved" | "declined" | "done";
+
+export interface RequestMessage {
+  at: string;
+  /** An employee id, or "requester" for a reply from the organisation. */
+  by: string;
+  /** internal: only staff see it. outbound: it went to the requester by e-mail. inbound: they wrote back. */
+  kind: "internal" | "outbound" | "inbound";
+  text: string;
+}
+
+/** A request from outside for the store's help or to work together: a school asking for hampers, a charity drive,
+ *  a club's sponsorship, a brand's in-store promotion. One log for all of them, wherever they came in. */
+export interface CommunityRequest {
+  id: string;
+  /** "RQ-0142", what the office quotes on the phone. */
+  ref: string;
+  kind: RequestKind;
+  org: string;
+  /** "Primary school", "Charity", "Sports club", "Religious body", "Supplier", "Community group" */
+  orgType: string;
+  contact: string;
+  phone: string;
+  email: string;
+  via: "Letter" | "WhatsApp" | "E-mail" | "Walk-in" | "Website";
+  /** The store it came through or is about, or null for head office. */
+  branchId: string | null;
+  receivedAt: string;
+  ask: string;
+  purpose: string;
+  neededBy?: string;
+  status: RequestStatus;
+  /** Who in the office is looking after it. */
+  owner?: string;
+  /** What was agreed, in words: "2 hampers and 4 cases of juice". */
+  give?: string;
+  value?: number;
+  decidedBy?: string;
+  decidedAt?: string;
+  decisionNote?: string;
+  doneAt?: string;
+  letter?: FileMeta;
+  messages: RequestMessage[];
+}
+
+export type FeedbackKind = "compliment" | "suggestion" | "question" | "complaint";
+
+/** One message from a shopper, sent with the Feedback button on the public site, and what customer service did with it. */
+export interface FeedbackTicket {
+  id: string;
+  /** "FB-0231", what the customer is shown and can quote. */
+  ref: string;
+  kind: FeedbackKind;
+  /** The store it is about, or null when it is not about one store. */
+  branchId: string | null;
+  message: string;
+  name: string;
+  /** A phone number or an e-mail address, as the customer typed it. May be empty. */
+  contact: string;
+  wantsReply: boolean;
+  receivedAt: string;
+  status: "new" | "in-progress" | "resolved";
+  assignedTo?: string;
+  resolvedAt?: string;
+  resolution?: string;
+  messages: RequestMessage[];
+}
+
+export type BulkStatus ="collecting" | "ordered" | "received" | "shared";
+
+export interface BulkOrder {
+  id: string;
+  /** "Christmas 2026" */
+  season: string;
+  item: string;
+  supplierName: string;
+  /** "case of 6" */
+  unit: string;
+  unitCost: number;
+  /** Stores give their numbers by this day. */
+  orderBy: string;
+  expected?: string;
+  status: BulkStatus;
+  orderedAt?: string;
+  receivedAt?: string;
+  allocations: { branchId: string; qty: number; confirmedBy?: string; confirmedAt?: string }[];
+  createdBy: string;
+  createdAt: string;
+  note?: string;
+  log: LogLine[];
+}
+
+export type Area = "admin" | "marketing" | "hr" | "website" | "owner";
+
+export interface Task {
+  id: string;
+  title: string;
+  detail: string;
+  area: Area;
+  assignedTo: string;
+  assignedBy: string;
+  due: string;
+  status: "open" | "done";
+  createdAt: string;
+  doneAt?: string;
+}
+
+/** A template, form or guide the office keeps to hand. The text is the document. */
+export interface ResourceDoc {
+  id: string;
+  area: "admin" | "hr" | "marketing";
+  kind: "Template" | "Form" | "Contact list" | "Guide" | "Checklist";
+  title: string;
+  summary: string;
+  updated: string;
+  body: string[];
+}
+
+/* ---------- Marketing analytics (lib/ops/social.ts). Every figure is DEMO until the accounts are connected. ---------- */
+
+export type Platform = "instagram" | "tiktok" | "facebook" | "website";
+
+export interface SocialAccount {
+  id: Platform;
+  name: string;
+  handle: string;
+  url: string;
+  connected: boolean;
+  connectedAt?: string;
+  connectedBy?: string;
+  /** What the store has to do to connect it, in one sentence. */
+  needs: string;
+  /** What comes back once it is connected. */
+  gives: string;
+}
+
+export interface SocialPost {
+  id: string;
+  platform: Exclude<Platform, "website">;
+  kind: "Video" | "Photo" | "Carousel";
+  title: string;
+  postedAt: string;
+  branchId?: string | null;
+  views: number;
+  reach: number;
+  likes: number;
+  comments: number;
+  shares: number;
+  saves: number;
+  /** Taps through to the website. */
+  clicks: number;
+}
+
+/** One platform's week. `week` is its Monday. For the website, reach is visitors and engagements are page views. */
+export interface MetricWeek {
+  id: string;
+  week: string;
+  platform: Platform;
+  followers: number;
+  reach: number;
+  engagements: number;
+}
+
+export interface SitePage {
+  id: string;
+  path: string;
+  title: string;
+  views: number;
+  visitors: number;
+}
+
+export interface PlanItem {
+  id: string;
+  date: string;
+  platforms: Platform[];
+  title: string;
+  kind: "Video" | "Photo" | "Carousel" | "E-mail" | "Website";
+  status: "idea" | "planned" | "posted";
+  owner: string;
+  note?: string;
 }

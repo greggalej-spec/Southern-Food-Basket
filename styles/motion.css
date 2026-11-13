@@ -1,0 +1,87 @@
+/* Motion and interaction, site-wide (Gregg, 13 Nov 2026): the twenty principles of UX and animation, as rules.
+   Loaded by both documents, after everything else. What each block is for:
+
+   1  Squash and stretch     buttons compress under the finger and spring back past their size
+   2  Anticipation           a control dips slightly before it lifts or moves
+   3  Staging                one thing moves at a time; the dimmed page behind a drawer keeps the focus on it
+   5  Follow through         arrows and icons inside a control carry on a little after it stops
+   6  Slow in and slow out   everything eases; nothing moves at a constant speed except falling snow
+   7  Arcs                   toasts and the sleigh travel on curves, not straight lines
+   8  Secondary action       an icon nudges while its button lifts
+   9  Snappy timing          presses answer in 90 to 140 ms, hovers in 180 to 240 ms
+   10 Exaggerated feedback   a saved change pops; a ticked box bounces
+   12 Appeal                 soft shadows that deepen on lift, round shapes
+   13 Fitts and 14 hit areas small controls have a 44 px target even when they look smaller
+   15 Hick and 16 Miller     (structure, not CSS) menus are grouped, flows have at most six steps
+   17 Doherty threshold      feedback begins within 100 ms; no transition here runs past 400 ms
+   18 Postel                 (code) price and number boxes accept "$1,200.50", "1200.5" and spaces
+   19 Jakob                  (structure) sidebar, top bar, tables and drawers sit where people expect them
+   20 Frequency of use       the thing done most on a screen is the one filled button on it
+
+   Everything here is inside prefers-reduced-motion: no-preference, except the hit areas. */
+
+:root{
+  --spring: cubic-bezier(.34, 1.56, .64, 1);      /* overshoots, then settles: stretch and follow-through */
+  --ease-out: cubic-bezier(.22, .8, .3, 1);       /* slow out */
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);    /* slow in and slow out */
+  --t-press: 110ms; --t-hover: 200ms; --t-move: 320ms;
+}
+
+/* ---------- 13, 14: bigger hit areas ---------- */
+.link-btn, .star-btn, .icon-btn, .tour-btn, .trend-key, .seg .btn{ position: relative; }
+.link-btn::after, .star-btn::after, .icon-btn::after{ content: ""; position: absolute; inset: -9px -8px; }
+.app-nav a, .mobile-menu a{ min-height: 44px; }
+.check input{ width: 24px; height: 24px; }
+.cell-input{ min-height: 40px; }
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---------- 1, 2, 9: buttons squash, then spring ---------- */
+  .btn, .role-card, .pipe-card, .look-card, .hero-chip, .trend-key, .kind-option, .dept-tile, .decide-card, .top-post, .company-list li button, .flow-node, .car-dot, .round{
+    transition: transform var(--t-hover) var(--spring), box-shadow var(--t-hover) var(--ease-out), background-color var(--t-hover) var(--ease-out), border-color var(--t-hover) var(--ease-out), color var(--t-hover) var(--ease-out), opacity var(--t-hover) var(--ease-out);
+  }
+  .btn:hover{ transform: translateY(-2px); }
+  .btn:active, .hero-chip:active, .trend-key:active, .flow-node:active .flow-dot{ transform: translateY(1px) scale(.96, .93); transition-duration: var(--t-press); }
+  .role-card:active, .pipe-card:active, .look-card:active, .dept-tile:active, .decide-card:active, .kind-option:active{ transform: scale(.985); transition-duration: var(--t-press); }
+  .btn-primary:hover, .btn-sign:hover{ box-shadow: 0 10px 22px -12px rgba(18, 63, 34, .65); }
+
+  /* ---------- 5, 8: what is inside a control follows through ---------- */
+  .btn .icon, .hero-chip .icon{ transition: transform var(--t-move) var(--spring); }
+  .btn:hover .icon{ transform: translateX(2px) rotate(-4deg); }
+  .btn:active .icon{ transform: scale(.9); }
+  .app-nav a .icon{ transition: transform var(--t-move) var(--spring); }
+  .app-nav a:hover .icon{ transform: scale(1.15) rotate(-6deg); }
+  .app-nav a[aria-current="page"] .icon{ transform: scale(1.08); }
+
+  /* ---------- 10: exaggerated feedback where something was confirmed ---------- */
+  .check input:checked{ animation: mo-tick 360ms var(--spring); }
+  .badge{ animation: mo-badge 320ms var(--spring) both; }
+  .toast{ animation: mo-toast 420ms var(--spring) both; }
+  .toast-ok::before{ content: ""; display: inline-block; width: 16px; height: 9px; margin-right: 10px; border-left: 3px solid currentColor; border-bottom: 3px solid currentColor; transform: rotate(-45deg) translateY(-3px); animation: mo-check 380ms 120ms var(--spring) both; }
+  .kpi-value, .stat-value{ animation: mo-rise 420ms var(--ease-out) both; }
+  .cell-input:focus{ animation: mo-focus 280ms var(--spring); }
+
+  /* ---------- 3, 6, 7: staging and arcs for what opens ---------- */
+  [data-slot="sheet-content"]{ transition-timing-function: var(--ease-out) !important; }
+  [data-slot="sheet-content"] .drawer-body > *{ animation: mo-rise 360ms var(--ease-out) both; animation-delay: 80ms; }
+  [data-slot="dialog-content"]{ animation: mo-dialog 300ms var(--spring) both; }
+  details[open] > summary ~ *{ animation: mo-rise 260ms var(--ease-out) both; }
+  .tabs button, .seg .btn{ transition: transform var(--t-hover) var(--spring), background-color var(--t-hover) var(--ease-out), color var(--t-hover) var(--ease-out), box-shadow var(--t-hover) var(--ease-out); }
+  .seg .btn[aria-pressed="true"]{ animation: mo-select 300ms var(--spring); }
+
+  /* public pages: cards answer the pointer the same way the console's do */
+  .deal, .ge-root .store, .ge-root .dept a, .footer-branch a{ transition: transform var(--t-move) var(--spring), box-shadow var(--t-move) var(--ease-out); }
+  .deal:hover{ transform: translateY(-5px) rotate(-.4deg); box-shadow: 0 18px 34px -22px rgba(42, 26, 31, .5); }
+  .deal:hover .seal{ animation: mo-seal 520ms var(--spring); }
+  .topnav a{ transition: transform var(--t-hover) var(--spring), color var(--t-hover) var(--ease-out), background-color var(--t-hover) var(--ease-out); }
+  .topnav a:hover{ transform: translateY(-2px); }
+}
+
+@keyframes mo-tick { 0% { transform: scale(.7); } 60% { transform: scale(1.25); } 100% { transform: scale(1); } }
+@keyframes mo-badge { from { opacity: 0; transform: scale(.8); } to { opacity: 1; transform: none; } }
+@keyframes mo-toast { 0% { opacity: 0; transform: translateY(24px) scale(.9, .8) rotate(-1.5deg); } 60% { opacity: 1; transform: translateY(-4px) scale(1.03, 1.05) rotate(.5deg); } 100% { opacity: 1; transform: none; } }
+@keyframes mo-check { from { opacity: 0; transform: rotate(-45deg) translateY(-3px) scale(.2); } to { opacity: 1; transform: rotate(-45deg) translateY(-3px) scale(1); } }
+@keyframes mo-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes mo-focus { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes mo-dialog { from { opacity: 0; transform: translateY(14px) scale(.94); } to { opacity: 1; transform: none; } }
+@keyframes mo-select { 0% { transform: scale(.94); } 60% { transform: scale(1.05); } 100% { transform: scale(1); } }
+@keyframes mo-seal { 0% { transform: rotate(0); } 30% { transform: rotate(-9deg) scale(1.08); } 65% { transform: rotate(6deg) scale(1.04); } 100% { transform: rotate(0); } }

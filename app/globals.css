@@ -16,12 +16,19 @@
 @import "../styles/members.css" layer(components);
 @import "../styles/staff-updates.css" layer(components);
 @import "../styles/tour.css" layer(components);
+@import "../styles/ops.css" layer(components);
+@import "../styles/season.css" layer(components);
+@import "../styles/glass.css" layer(components);
+@import "../styles/motion.css" layer(components);
+/* Unlayered on purpose: the staff colour schemes win over every layered sheet above. */
+@import "../styles/staff-theme.css";
 
 /* Legacy class names Tailwind would also generate as utilities, and the utilities layer would beat the ported rule
    (.container lost its gutter). Found by tools/port/tw-collisions.mjs; re-run it after porting more markup. */
 @source not inline("{container,grid,grow}");
 
-/* There is no dark theme. The variant stays defined so shadcn's dark: classes never match the OS setting. */
+/* The staff side has its own light and dark schemes (styles/staff-theme.css), switched by data-staff-theme on <html>.
+   The variant stays defined so shadcn's dark: classes never match the OS setting. */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -155,3 +162,9 @@
     bottom: revert;
   }
 }
+
+
+
+
+
+

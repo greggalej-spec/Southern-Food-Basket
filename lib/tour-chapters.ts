@@ -1,4 +1,5 @@
 import type { TourChapter } from "./tour";
+import { OPS_CHAPTERS } from "./tour-ops";
 
 /* The guided tour's script. Each step opens a page as a given person and rings one element (its data-tour
    attribute). The people and codes are the demo's own (lib/seed-staff.ts, lib/seed-members.ts); "Reset the demo"
@@ -11,7 +12,7 @@ const vishala = { role: "owner" as const, userId: "emp-vishala" };
 const devon = { role: "hr" as const, userId: "emp-devon" };
 const marsha = { role: "admin" as const, userId: "emp-marsha" };
 
-export const CHAPTERS: TourChapter[] = [
+const SITE_CHAPTERS: TourChapter[] = [
   {
     id: "shop",
     title: "The shop",
@@ -113,7 +114,7 @@ export const CHAPTERS: TourChapter[] = [
     id: "approve",
     title: "An offer, drafted and approved",
     summary: "Marketing drafts an offer; someone else approves it. Nobody approves their own.",
-    cast: "Tricia, marketing · Vishala, the owner’s office",
+    cast: "Tricia, marketing · Melissa, the owner’s office",
     steps: [
       {
         path: "/admin#today",
@@ -140,7 +141,7 @@ export const CHAPTERS: TourChapter[] = [
         target: "promo-approve",
         title: "A second pair of eyes",
         body: [
-          "Tricia’s Christmas offer is waiting. Vishala approves it, or sends it back with a note Tricia will see.",
+          "Tricia’s Christmas offer is waiting. Melissa approves it, or sends it back with a note Tricia will see.",
           "Whoever wrote an offer can never approve it, and both moves go in the audit log.",
         ],
         try: "Approve the Christmas shop offer, or send it back with a note.",
@@ -151,7 +152,7 @@ export const CHAPTERS: TourChapter[] = [
     id: "newsletter",
     title: "The weekly e-mail",
     summary: "A newsletter built from the specials, sent only to people who confirmed.",
-    cast: "Tricia, marketing · Vishala, the owner’s office",
+    cast: "Tricia, marketing · Melissa, the owner’s office",
     steps: [
       {
         path: "/admin#newsletter",
@@ -195,7 +196,7 @@ export const CHAPTERS: TourChapter[] = [
     id: "staffnews",
     title: "Staff updates, the internal newsletter",
     summary: "News for staff by store and team, with a record of who has read it.",
-    cast: "Vishala, the owner’s office · Marsha, store admin for Princes Town",
+    cast: "Melissa, the owner’s office · Marsha, store admin for Princes Town",
     steps: [
       {
         path: "/admin?update=su-till-codes#staffnews",
@@ -326,7 +327,7 @@ export const CHAPTERS: TourChapter[] = [
     id: "access",
     title: "Who can see what",
     summary: "Access by person, store and end date; revoking it; the audit log.",
-    cast: "Vishala, the owner’s office",
+    cast: "Melissa, the owner’s office",
     steps: [
       {
         path: "/admin#access",
@@ -361,3 +362,6 @@ export const CHAPTERS: TourChapter[] = [
     ],
   },
 ];
+
+/** The department dashboards first (lib/tour-ops.ts), then the shop, codes, offers, e-mail, hiring and access. */
+export const CHAPTERS: TourChapter[] = [...OPS_CHAPTERS, ...SITE_CHAPTERS];

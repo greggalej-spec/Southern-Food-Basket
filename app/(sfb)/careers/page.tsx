@@ -7,15 +7,15 @@ import { SiteFrame } from "@/components/site-frame";
 
 export const metadata: Metadata = {
   title: "Careers",
-  description: "Open roles at Southern Food Basket across San Fernando, Princes Town and Penal. Unofficial concept with demo data.",
+  description: "Open roles at Southern Food Basket across San Fernando, Princes Town and Penal. Prototype with demo data.",
 };
 
 export default function CareersPage() {
   return (
     <SiteFrame active="careers" css={["careers"]} page="index" banner>
-      {/* the home's careers band, in full: the team in the arched window (fanlight = people) and the family's line */}
+      {/* the home page careers band, in full: the family line and the two ways in */}
       <section className="page-hero" aria-labelledby="careers-title">
-        <div className="container page-hero-grid">
+        <div className="container">
           <div>
             <p className="eyebrow">Careers</p>
             <h1 id="careers-title">Be a part of the family, join the team!</h1>
@@ -29,9 +29,6 @@ export default function CareersPage() {
               </Link>
             </div>
           </div>
-          <figure className="arch-photo">
-            <img src="/assets/img/photos/team-flags.webp" width="800" height="600" alt="Southern Food Basket staff in red shirts holding the company's pink and green flags" />
-          </figure>
         </div>
       </section>
 

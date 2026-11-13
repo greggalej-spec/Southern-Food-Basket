@@ -35,7 +35,6 @@ Drawn in code by Trinovata on 2026-10-23 (scratch generator) from photos of the 
 |---|---|---|
 | `store-produce.webp` | 1 Oct 2026 | Fruits and vegetables section, cropped clear of staff and customers |
 | `flags-car.webp` | 4 Oct 2026 | Company flags flying from a vehicle; no faces |
-| `team-flags.webp` | 4 Oct 2026 | Staff in red company shirts holding flags (adults, company promotional photo) |
 | `veg-chunky.webp`, `veg-stir-fry.webp`, `veg-chow-mein.webp`, `parsley.webp` | 8 Oct 2026 | Tagged Couva |
 | `cake-red-velvet.webp`, `cake-chocolate.webp`, `cake-sponge.webp`, `cake-coconut.webp`, `cake-almond-crumble.webp` | 9 Sep 2026 | Tagged Couva |
 | `protein-chips.webp`, `protein-crunch.webp` | 14 Sep 2026 | Marked new; tagged Couva |

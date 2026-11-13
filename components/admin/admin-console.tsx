@@ -3,6 +3,16 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { AppShell } from "@/components/app-shell";
 import { AccessPanel } from "@/components/admin/access-panel";
+import { AnalyticsPanel } from "@/components/admin/analytics-panel";
+import { BulkPanel } from "@/components/admin/bulk-panel";
+import { OverviewPanel } from "@/components/admin/overview-panel";
+import { FeedbackPanel } from "@/components/admin/feedback-panel";
+import { RequestsPanel } from "@/components/admin/requests-panel";
+import { SelloutPanel } from "@/components/admin/sellout-panel";
+import { PlanPanel, SocialPanel } from "@/components/admin/social-panel";
+import { StudioPanel } from "@/components/admin/studio-panel";
+import { SuppliersPanel } from "@/components/admin/suppliers-panel";
+import { TasksPanel } from "@/components/admin/tasks-panel";
 import { AuditPanel } from "@/components/admin/audit-panel";
 import { CodesPanel } from "@/components/admin/codes-panel";
 import { DealsPanel } from "@/components/admin/deals-panel";
@@ -20,7 +30,7 @@ import { can } from "@/lib/access";
 import { TABS, TAB_PERMS, goToTab, itemOf, tabOf, type AdminTab } from "@/lib/admin/helpers";
 import { useData, useRequireRole } from "@/lib/store";
 
-// The office console: one page for the store admin, marketing and the owner's office. The sidebar (AppShell) is the
+// The office console: one page for administration, purchasing, marketing and the owner's office. The sidebar (AppShell) is the
 // navigation; the URL hash picks the section (#today, #promos, ... see TABS), and "#promos/<id>" opens one item in
 // it. Only the current section renders. Each one checks access itself: a hidden menu item is not access control, so
 // a hash for a section this session cannot use shows what is missing, never the content.
@@ -41,7 +51,7 @@ function closeSidebar(tab: AdminTab) {
 }
 
 export function AdminConsole() {
-  const s = useRequireRole(["admin", "marketing", "owner"]);
+  const s = useRequireRole(["admin", "purchasing", "marketing", "owner"]);
   const d = useData();
   const hash = useSyncExternalStore(subscribeHash, readHash, serverHash);
   const tab = tabOf(hash);
@@ -82,6 +92,28 @@ export function AdminConsole() {
     switch (tab) {
       case "today":
         return <TodayPanel />;
+      case "overview":
+        return <OverviewPanel />;
+      case "suppliers":
+        return <SuppliersPanel />;
+      case "sellout":
+        return <SelloutPanel />;
+      case "feedback":
+        return <FeedbackPanel item={item} />;
+      case "requests":
+        return <RequestsPanel item={item} />;
+      case "bulk":
+        return <BulkPanel />;
+      case "tasks":
+        return <TasksPanel />;
+      case "studio":
+        return <StudioPanel />;
+      case "analytics":
+        return <AnalyticsPanel />;
+      case "social":
+        return <SocialPanel />;
+      case "plan":
+        return <PlanPanel />;
       case "deals":
         return <DealsPanel onMakePost={makePost} />;
       case "posts":
@@ -110,7 +142,7 @@ export function AdminConsole() {
   }
 
   return (
-    <AppShell app="admin" active={tab} title="Office console" css={["app", "admin"]}>
+    <AppShell app="admin" active={tab} title="Office console" css={["app", "admin", "ops"]}>
       <section id={"sec-" + tab} className="admin-section" tabIndex={-1} aria-labelledby={"sec-" + tab + "-h"}>
         <SectionHead id={tab} />
         {!s ? null : allowed ? content() : <NoAccess id={tab} perms={perms} />}

@@ -28,7 +28,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 10,
+  version: 13,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -226,6 +226,16 @@ export const SEED: Seed = {
   staffUpdates: [],
   outbox: [],
   audit: [],
+
+  /* The website studio's settings (lib/ops/site.ts). The season is switched off here: the studio turns it on. */
+  site: {
+    season: { id: 'christmas', mode: 'off', from: '2026-11-20', to: '2027-01-02', lights: true, greeting: 'Merry Christmas from all of us at Southern Food Basket' },
+    notice: { on: false, text: '', linkLabel: '', href: '' },
+    hiddenBands: []
+  },
+  /* Operations: filled by the staff tier (lib/seed-ops.ts), never shipped to public pages. */
+  suppliers: [], specialsBooks: [], supplierSheets: [], sellouts: [], requests: [], bulkOrders: [], tasks: [], resources: [],
+  socialAccounts: [], socialPosts: [], socialWeeks: [], sitePages: [], plan: [], feedback: [],
 
   content: {
     hero: { headline: 'Fresh food and fair prices, close to home.', sub: 'Groceries, fresh-cut veg, double-layer cakes and specials at five stores: San Fernando, Couva, Princes Town, Penal and Point Fortin.' },

@@ -25,9 +25,10 @@
   --ok: #3F6212; --ok-bg: #ECFCCB; --warn: #92400E; --warn-bg: #FEF3C7;
   --bad: #991B1B; --bad-bg: #FEE2E2; --info: #1E3A8A; --info-bg: #DBEAFE;
   /* type */
-  --display: var(--font-caprasimo), "Caprasimo", "Cooper Black", Georgia, serif;
-  --ui: var(--font-atkinson), "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --price: var(--font-alfa), "Alfa Slab One", "Rockwell Extra Bold", Rockwell, Georgia, serif;
+  --display: var(--font-lora), "Lora", Georgia, "Times New Roman", serif;
+  --ui: var(--font-karla), "Karla", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --price: var(--font-karla), "Karla", system-ui, sans-serif;
+  --hand: var(--font-kalam), "Kalam", "Segoe Print", "Bradley Hand", cursive;
   /* space, shape, motion */
   --s1: 4px; --s2: 8px; --s3: 12px; --s4: 16px; --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px; --s10: 128px;
   --r-sm: 6px; --r: 14px; --r-lg: 22px; --pill: 999px; --r-btn: 12px;
@@ -267,9 +268,9 @@ td.num, th.num { text-align: right; white-space: nowrap; }
 .seal .seal-bg { position: absolute; inset: 0; width: 100%; height: 100%; }
 .seal-in { position: relative; display: grid; justify-items: center; gap: 1.2cqi; transform: translateY(-7%); }
 .seal-qty { font: 800 7.4cqi/1 var(--ui); letter-spacing: .02em; }
-.seal-price { background: var(--yellow); color: var(--ink); font: 400 6.4cqi/1 var(--price); padding: 1.4cqi 2.6cqi; border-radius: var(--pill); white-space: nowrap; }
-.seal-try { position: absolute; left: -5%; right: -5%; bottom: 4%; background: var(--red); color: #fff; font: 400 4.6cqi/1 var(--price); letter-spacing: .08em; padding: 1.6cqi 0 1.8cqi; clip-path: polygon(2% 8%, 100% 0, 98% 92%, 0 100%); }
-.new-corner { position: absolute; top: 5cqi; right: -12cqi; width: 46cqi; transform: rotate(35deg); background: var(--red); color: #fff; text-align: center; font: 400 4.2cqi/1 var(--price); letter-spacing: .08em; padding: 1.6cqi 0; box-shadow: 0 2px 4px rgba(42,26,31,.25); }
+.seal-price { background: var(--yellow); color: var(--ink); font: 800 6.4cqi/1 var(--price); padding: 1.4cqi 2.6cqi; border-radius: var(--pill); white-space: nowrap; }
+.seal-try { position: absolute; left: -5%; right: -5%; bottom: 4%; background: var(--red); color: #fff; font: 800 4.6cqi/1 var(--price); letter-spacing: .08em; padding: 1.6cqi 0 1.8cqi; clip-path: polygon(2% 8%, 100% 0, 98% 92%, 0 100%); }
+.new-corner { position: absolute; top: 5cqi; right: -12cqi; width: 46cqi; transform: rotate(35deg); background: var(--red); color: #fff; text-align: center; font: 800 4.2cqi/1 var(--price); letter-spacing: .08em; padding: 1.6cqi 0; box-shadow: 0 2px 4px rgba(42,26,31,.25); }
 
 /* deal card */
 .deal { background: var(--flour); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; display: flex; flex-direction: column; box-shadow: var(--shadow); }
@@ -290,7 +291,7 @@ td.num, th.num { text-align: right; white-space: nowrap; }
   .deal-name { font-size: 1.0625rem; }
   .deal-price { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; margin: 2px 0; justify-self: start; }
   .deal-price .qty { background: var(--red); color: #fff; font: 800 0.75rem/1 var(--ui); padding: 5px 7px; border-radius: 4px; letter-spacing: .04em; white-space: nowrap; }
-  .deal-price .amt { background: var(--yellow); color: var(--ink); font: 400 1.375rem/1 var(--price); padding: 6px 12px; border-radius: var(--pill); white-space: nowrap; }
+  .deal-price .amt { background: var(--yellow); color: var(--ink); font: 800 1.375rem/1 var(--price); padding: 6px 12px; border-radius: var(--pill); white-space: nowrap; }
   .new-corner { font-size: 6cqi; padding: 2cqi 0; top: 7cqi; right: -16cqi; width: 60cqi; }
 }
 

@@ -215,7 +215,7 @@ function LeaveBody({ me }: { me: Employee }) {
                       </span>
                       <span className="num">{plural(b.left, "day") + " left"}</span>
                     </div>
-                    <div className="bar-track" role="img" aria-label={b.label + " leave: " + b.used + " of " + b.ent + " days used"}>
+                    <div className="bar-track has-tip" tabIndex={0} role="img" aria-label={b.label + " leave: " + b.used + " of " + b.ent + " days used"} data-tip={b.used + " of " + b.ent + " days used\n" + b.left + " left (" + Math.round(pct) + "% used)"}>
                       <div className={"bar-fill" + (b.ent && b.left === 0 ? " is-full" : "")} style={{ width: pct + "%" }} />
                     </div>
                   </div>

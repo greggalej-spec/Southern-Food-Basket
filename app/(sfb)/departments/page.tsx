@@ -10,7 +10,7 @@ import { SEED } from "@/lib/seed";
 export const metadata: Metadata = {
   title: "Departments",
   description:
-    "What is in store at Southern Food Basket: fresh produce and cut veg, cakes, dairy and chilled, snacks, health and fitness, personal care, and bulk wholesale. Unofficial concept by Trinovata.",
+    "What is in store at Southern Food Basket: fresh produce and cut veg, cakes, dairy and chilled, snacks, health and fitness, personal care, and bulk wholesale. Prototype.",
 };
 
 export default function DepartmentsPage() {

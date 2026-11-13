@@ -4,10 +4,9 @@ import Link from "next/link";
 import { HomeLive } from "@/components/home/home-live";
 import { StoreToday } from "@/components/home/store-today";
 import { PriceSeal } from "@/components/price-seal";
-import { StoreRouteMap } from "@/components/store-route";
+import { StoreMap } from "@/components/site/store-map";
 import { fmtDate, mapsDir, telHref } from "@/lib/format";
 import { FIRST_FRAME } from "@/lib/home/camera";
-import { storeRoute } from "@/lib/route";
 import { SEED } from "@/lib/seed";
 import type { Department } from "@/lib/types";
 import { SCENE } from "./scene";
@@ -20,7 +19,7 @@ import { SCENE } from "./scene";
 export const metadata: Metadata = {
   title: { absolute: "Southern Food Basket · Supermarket and wholesale, south Trinidad" },
   description:
-    "Southern Food Basket: five supermarkets across south Trinidad. Jobs, this week's specials, store hours and the staff portal. Unofficial concept by Trinovata.",
+    "Southern Food Basket: five supermarkets across south Trinidad. Jobs, this week's specials, store hours and the staff portal. Prototype.",
 };
 
 const D = SEED, S = SEED.settings;
@@ -110,7 +109,6 @@ const NAV = [
 ] as const;
 
 const SLIDES = [
-  { img: "team-flags", h: 600, alt: "Southern Food Basket staff in red shirts holding the company's pink and green flags", eyebrow: "Now hiring", title: "Be a part of the family, join the team!", text: "Shop floor, bakery, warehouse and office jobs at five stores. Apply online in about ten minutes.", cta: ["btn btn-sign", "/careers", "See open jobs"] },
   { img: "veg-chunky", h: 667, alt: "A tray of chunky cut vegetables", eyebrow: "Specials", title: "1 for the price on the post", text: "Every special goes up on Instagram as “1 FOR $x · TRY ME”. The newest are on the shelf below.", cta: ["btn btn-outline", "#deals", "See the specials"] },
   { img: "veg-stir-fry", h: 667, alt: "A tray of cut stir fry vegetables", eyebrow: "Fresh and cut veg", title: "Ready-cut veg packs", text: "Chunky, stir fry and chow mein packs, cut and ready to cook, beside the whole produce.", cta: ["btn btn-outline", "/departments#fresh", "Fresh and cut veg"] },
   { img: "cake-red-velvet", h: 667, alt: "A 9-inch red velvet cake in a clear cake box", eyebrow: "Cakes and bakery", title: "Double-layer cakes", text: "Sponge, chocolate, coconut, almond crumble and red velvet, in 7-inch and 9-inch sizes.", cta: ["btn btn-outline", "/departments#bakery", "Cakes and bakery"] },
@@ -142,8 +140,6 @@ function DeptCard({ x }: { x: Department }) {
   );
 }
 
-/* ---------- where we are: the five stores placed from their Google Maps coordinates (lib/route.ts) ---------- */
-const route = storeRoute(D.branches);
 
 const SOCIALS = (
   [
@@ -373,10 +369,7 @@ export default function HomePage() {
 
         <section className="band band-careers" id="careers" aria-labelledby="careers-title">
           <div className="ribbon" aria-hidden="true" />
-          <div className="wrap careers">
-            <figure className="arch-photo">
-              <img src="/assets/img/photos/team-flags.webp" width="800" height="600" alt="Southern Food Basket staff in red shirts holding the company's pink and green flags" loading="lazy" />
-            </figure>
+          <div className="wrap careers careers-solo">
             <div>
               <Eyebrow>Careers</Eyebrow>
               <h2 id="careers-title">
@@ -436,18 +429,9 @@ export default function HomePage() {
               </article>
               <article className="who-card who-where">
                 <h3>Where we are</h3>
-                {route ? <StoreRouteMap route={route} id="route" /> : null}
-                <ol className="route-list" id="route-list" aria-label="Our five stores">
-                  {route
-                    ? route.stops.map((s) => (
-                        <li key={s.b.id}>
-                          <a href={"#store-" + s.b.id}>{s.b.name}</a>
-                        </li>
-                      ))
-                    : null}
-                </ol>
+                <StoreMap compact id="route" />
                 <p className="who-small" id="route-cap">
-                  Each store placed from its Google Maps listing; the line joins them in order.
+                  Each store is pinned where its Google Maps listing puts it. Tap a pin for today’s hours and directions.
                 </p>
               </article>
             </div>
@@ -600,8 +584,10 @@ export default function HomePage() {
             <ul>
               <li><Link href="/about">About us</Link></li>
               <li><Link href="/careers">Careers</Link></li>
+              <li><Link href="/community">Community and partnerships</Link></li>
               <li><Link href="/portal">Staff portal</Link></li>
-              <li><Link href="/tour">Guided tour of this concept</Link></li>
+              <li><Link href="/tour">Guided tour of this prototype</Link></li>
+              <li><Link href="/how-it-works">How the system works</Link></li>
               {S.instagram ? (
                 <li>
                   <a href={S.instagram.url} target="_blank" rel="noopener">
@@ -614,7 +600,7 @@ export default function HomePage() {
         </div>
         <div className="wrap legal">
           <p>
-            Unofficial concept by Trinovata. Not affiliated with Southern Food Basket Ltd. Store hours and phone numbers come from Google Maps; prices and photos from the company&apos;s public Instagram. The opening animation is an illustration.
+            Prototype for Southern Food Basket, by Trinovata. Store hours and phone numbers come from Google Maps; prices and photos from the company&apos;s public Instagram. The opening animation is an illustration.
           </p>
           <a className="credit" href="https://trinovata.com" target="_blank" rel="noopener">
             <img src="/assets/img/trinovata-mark-ondark.png" alt="" width="19" height="16" decoding="async" />

@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Option C: Carnival Bright</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Nunito+Sans:wght@400;700&display=block" rel="stylesheet"><style>
+  *{box-sizing:border-box;margin:0}
+  body{width:1400px;height:2200px;overflow:hidden;background:#FFFFFF;color:#1F1A2B;font:400 20px/1.5 "Nunito Sans",system-ui,sans-serif;padding:56px 60px}
+  h1,h2,h3,.h{font-family:"Poppins",system-ui,sans-serif;letter-spacing:-.02em;line-height:1.1}
+  .top{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:end;margin-bottom:34px}
+  .tag{display:inline-block;padding:8px 18px;border-radius:999px;background:#E3336F;color:#fff;font:700 18px/1 "Nunito Sans";letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+  h1{font-size:76px;font-weight:800} .idea{font-size:24px;color:#6B6478;max-width:820px;margin-top:14px}
+  .label{font:700 16px/1 "Nunito Sans";letter-spacing:.12em;text-transform:uppercase;color:#6B6478;margin:34px 0 14px}
+  .plates{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .plate{height:190px;border-radius:28px;display:grid;place-items:center;border:1px solid #F1E4D8} .plate img{width:74%;height:auto}
+  .pal{display:grid;grid-template-columns:repeat(7,1fr);gap:14px}
+  .sw{border-radius:28px;padding:18px 16px;height:196px;display:flex;flex-direction:column;justify-content:flex-end;border:1px solid #F1E4D8}
+  .sw b{font:700 19px/1.2 "Poppins"} .sw i{font-style:normal;font:600 16px/1.3 ui-monospace,Consolas,monospace;opacity:.9} .sw span{font-size:14px;line-height:1.25;opacity:.85;margin-top:6px}
+  .type{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;align-items:stretch}
+  .spec{background:#FFF7EF;border:1px solid #F1E4D8;border-radius:28px;padding:30px 34px}
+  .spec h2{font-size:54px;font-weight:800} .spec h3{font-size:28px;font-weight:600;margin:10px 0;color:#6B6478} .spec p{font-size:20px}
+  .spec .nums{font:800 46px/1 "Poppins";font-variant-numeric:tabular-nums;margin-top:16px} .fname{font:700 15px/1 "Nunito Sans";letter-spacing:.1em;text-transform:uppercase;color:#6B6478;margin-bottom:14px}
+  .ui{display:grid;grid-template-columns:230px 1fr;gap:22px}
+  .side{background:#1F1A2B;color:#fff;border-radius:28px;padding:22px 16px;display:flex;flex-direction:column;gap:6px}
+  .side img{width:150px;background:#fff;border-radius:12px;padding:8px;margin-bottom:14px}
+  .side span{padding:12px 14px;border-radius:12px;font:600 17px/1.2 "Nunito Sans";opacity:.85} .side .on{background:#F26A2E;color:#fff;opacity:1}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:18px}
+  .kpi{border-radius:28px;padding:22px;min-height:168px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 14px 30px -20px rgba(0,0,0,.45);border:1px solid rgba(0,0,0,.06)}
+  .kpi small{font:700 15px/1.25 "Nunito Sans";letter-spacing:.04em;text-transform:uppercase;opacity:.9} .kpi b{font:800 50px/1 "Poppins";letter-spacing:-.03em} .kpi em{font-style:normal;font-size:15px;opacity:.9}
+  .row2{display:grid;grid-template-columns:1.55fr 1fr;gap:18px}
+  table{width:100%;border-collapse:separate;border-spacing:0;border-radius:28px;overflow:hidden;font-size:18px;box-shadow:0 14px 30px -22px rgba(0,0,0,.45)}
+  th{background:#E3336F;color:#fff;text-align:left;padding:15px 16px;font:700 15px/1 "Nunito Sans";letter-spacing:.08em;text-transform:uppercase}
+  td{padding:14px 16px;color:#1F1A2B} tr:nth-child(odd) td{background:#FFE9DA} tr:nth-child(even) td{background:#E5F5E0} td:first-child{font-weight:700}
+  .pill{display:inline-block;white-space:nowrap;padding:5px 12px;border-radius:999px;font:700 14px/1.2 "Nunito Sans"} .ok{background:#2F918A;color:#fff} .todo{background:#E3336F;color:#fff}
+  .chart{background:#FFF7EF;border:1px solid #F1E4D8;border-radius:28px;padding:22px 24px;display:flex;flex-direction:column}
+  .chart h3{font-size:22px;font-weight:700} .bars{flex:1;display:flex;align-items:flex-end;gap:14px;margin-top:16px;min-height:150px} .bars i{flex:1;border-radius:10px 10px 4px 4px}
+  .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px;align-items:center}
+  .btn{padding:14px 24px;border-radius:16px;font:700 18px/1 "Nunito Sans"} .ghost{border:2px solid #1F1A2B;color:#1F1A2B}
+  .price{font:800 26px/1 "Poppins";padding:10px 18px;border-radius:999px;background:#FFD21A;color:#1F1A2B}
+  .notes{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px} .note{border-radius:28px;padding:20px 24px;background:#FFF7EF;border:1px solid #F1E4D8;font-size:19px} .note b{display:block;font:700 15px/1 "Nunito Sans";letter-spacing:.1em;text-transform:uppercase;color:#6B6478;margin-bottom:8px}
+  .foot{position:absolute;left:60px;right:60px;bottom:30px;display:flex;justify-content:space-between;font-size:15px;color:#6B6478}</style></head><body>
+<div class="top"><div><span class="tag">Option C</span><h1>Carnival Bright</h1><p class="idea">White space with big blocks of colour: pink, orange, yellow, green and teal. Friendly, round, very Trinidad.</p></div></div>
+<p class="label">Logo lockups</p>
+<div class="plates"><div class="plate" style="background:#FFFFFF"><img src="../../public/assets/img/sfb-logo.svg" alt=""></div><div class="plate" style="background:#FFD21A"><img src="../../public/assets/img/sfb-logo.svg" alt=""></div><div class="plate" style="background:#2F918A"><img src="../../public/assets/img/sfb-logo.svg" alt=""></div></div>
+<p class="label">Palette</p>
+<div class="pal"><div class="sw" style="background:#E3336F;color:#fff"><b>Raspberry</b><i>#E3336F</i><span>Brand. Lead colour</span></div><div class="sw" style="background:#F26A2E;color:#1F1A2B"><b>Mango</b><i>#F26A2E</i><span>Attention, offers</span></div><div class="sw" style="background:#FFD21A;color:#1F1A2B"><b>Sun</b><i>#FFD21A</i><span>Prices</span></div><div class="sw" style="background:#2A8A45;color:#fff"><b>Leaf</b><i>#2A8A45</i><span>Brand. Success</span></div><div class="sw" style="background:#2F918A;color:#fff"><b>Sea</b><i>#2F918A</i><span>Stores, info</span></div><div class="sw" style="background:#FFE9DA;color:#1F1A2B"><b>Peach</b><i>#FFE9DA</i><span>Table band</span></div><div class="sw" style="background:#E5F5E0;color:#1F1A2B"><b>Lime mist</b><i>#E5F5E0</i><span>Table band</span></div></div>
+<p class="label">Type</p>
+<div class="type"><div class="spec"><p class="fname">Headings: Poppins</p><h2>Fresh food and fair prices, close to home.</h2><h3>Five stores across south Trinidad</h3><p class="nums">TT$24.95 &nbsp; 1,284 &nbsp; 86%</p></div>
+<div class="spec"><p class="fname">Text: Nunito Sans</p><p>Every special shows one price and one unit, so nobody has to guess. Type the case price where the company left it off and the margin works itself out.</p><div class="btns"><span class="btn" style="background:#E3336F;color:#fff">Bring in specials</span><span class="btn" style="background:#2F918A;color:#fff">Approve</span><span class="btn ghost">Cancel</span><span class="price">1 for $24.95</span></div></div></div>
+<p class="label">On the dashboards: cards with contrast, tables in colour</p>
+<div class="ui"><div class="side"><img src="../../public/assets/img/sfb-logo.svg" alt=""><span class="on">Overview</span><span class="">Supplier specials</span><span class="">Requests</span><span class="">Bulk orders</span><span class="">Marketing figures</span></div>
+<div><div class="kpis"><div class="kpi" style="background:#E3336F;color:#fff"><small>Requests to decide</small><b>2</b><em>waiting on the director</em></div><div class="kpi" style="background:#F26A2E;color:#1F1A2B"><small>Sheets checked</small><b>14 / 15</b><em>Divali 2026</em></div><div class="kpi" style="background:#2A8A45;color:#fff"><small>Case prices to add</small><b>86</b><em>across open books</em></div><div class="kpi" style="background:#2F918A;color:#fff"><small>People reached</small><b>323k</b><em>up 41% in 4 weeks</em></div></div>
+<div class="row2"><table><tr><th>Item</th><th>Company</th><th>Special</th><th>Margin</th><th>Status</th></tr><tr><td>Fruta 1 L</td><td>SM Jaleel</td><td>2 for 19.95</td><td>11%</td><td><span class="pill ok">Checked</span></td></tr><tr><td>Cow Brand ghee 2 lb</td><td>Langston</td><td>119.95</td><td>18%</td><td><span class="pill ok">Checked</span></td></tr><tr><td>Carnation 24 x 250 ml</td><td>Nestle</td><td>3 for 24.95</td><td>23%</td><td><span class="pill todo">To check</span></td></tr><tr><td>Swiss elbows 300 g</td><td>Acado Foods</td><td>4 for 19.95</td><td>20%</td><td><span class="pill ok">Checked</span></td></tr><tr><td>Eve ketchup 750 ml</td><td>AS Bryden</td><td>2 for $20</td><td>20%</td><td><span class="pill ok">Checked</span></td></tr><tr><td>Vita Malt 6-pack</td><td>Carib</td><td>39.95</td><td>Add price</td><td><span class="pill todo">To check</span></td></tr></table>
+<div class="chart"><h3>Reach by week</h3><div class="bars"><i style="height:46%;background:#E3336F"></i><i style="height:58%;background:#F26A2E"></i><i style="height:52%;background:#FFD21A"></i><i style="height:70%;background:#2A8A45"></i><i style="height:86%;background:#2F918A"></i><i style="height:100%;background:#E3336F"></i></div></div></div></div></div>
+<div class="notes"><div class="note"><b>Why it works</b>The most visual of the four. Every department can own a colour.</div><div class="note"><b>Watch out for</b>Five colours can read as playful rather than premium. Best with strict rules on where each goes.</div></div>
+<div class="foot"><span>Southern Food Basket · brand direction C of 4 · for review by marketing</span><span>Prototype. Sample figures.</span></div>
+</body></html>

@@ -165,7 +165,7 @@ s += `<rect x="730" y="632" width="140" height="6" fill="#E8E2D4"/><rect id="doo
 s += `<rect x="140" y="712" width="1320" height="10" fill="#CFC4AC"/><rect x="-1400" y="722" width="4400" height="34" fill="#D9D6CE"/><rect x="-1400" y="756" width="4400" height="6" fill="#BDB9AE"/><rect x="-1400" y="762" width="4400" height="1400" fill="url(#asphalt)"/>`;
 for (let i = -12; i < 24; i++) { const x = 60 + i * 130; s += `<path d="M${x} 790L${x - 60} 1000" stroke="#F3F1EA" stroke-width="6" opacity=".85"/><path d="M${x - 90} 1110L${x - 150} 1320" stroke="#F3F1EA" stroke-width="6" opacity=".75"/>`; }
 s += `<rect x="700" y="770" width="200" height="14" fill="#F3F1EA" opacity=".8"/><rect x="700" y="790" width="200" height="14" fill="#F3F1EA" opacity=".8"/><rect x="700" y="810" width="200" height="14" fill="#F3F1EA" opacity=".8"/>`;
-// company flags on the wing roofs, drawn after the real ones (team-flags.webp): white field, a swept pink edge top and
+// company flags on the wing roofs, drawn after the real ones (the company flag photos): white field, a swept pink edge top and
 // bottom each with a green line inside, the full logo across the middle, a black sleeve on the pole.
 // lib/home/living.ts drapes this same design (FLAG, vTop, vBot) on a cloth simulation; this flat cloth is the
 // no-JS and reduced-motion version. Cloth 150×100, hoist pinned 4 units right of the pole.

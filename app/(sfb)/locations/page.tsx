@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteFrame } from "@/components/site-frame";
 import { BranchJumps, LocationsList, StoreServices } from "@/components/site/locations";
+import { StoreMap } from "@/components/site/store-map";
 
 // Ported from locations.html; the store chips, the counters and the store sections come from the data, as site.js
 // locations() rendered them, and #<branch id> still lands on its store.
@@ -8,7 +9,7 @@ import { BranchJumps, LocationsList, StoreServices } from "@/components/site/loc
 export const metadata: Metadata = {
   title: "Store locations",
   description:
-    "Southern Food Basket stores in San Fernando, Couva, Princes Town, Penal and Point Fortin: addresses, phone numbers, opening hours and Google Maps directions. Unofficial concept by Trinovata.",
+    "Southern Food Basket stores in San Fernando, Couva, Princes Town, Penal and Point Fortin: addresses, phone numbers, opening hours and Google Maps directions. Prototype.",
 };
 
 export default function LocationsPage() {
@@ -22,6 +23,16 @@ export default function LocationsPage() {
           <ul className="chips jump-chips" data-branch-jumps="" aria-label="Jump to a store">
             <BranchJumps />
           </ul>
+        </div>
+      </section>
+
+      <section className="map-section" aria-labelledby="map-title">
+        <div className="container">
+          <h2 id="map-title" className="visually-hidden">
+            Our stores on the map
+          </h2>
+          <StoreMap id="store-map" />
+          <p className="map-note">Pins sit where each store’s Google Maps listing puts it. Click the map once to zoom with the wheel.</p>
         </div>
       </section>
 

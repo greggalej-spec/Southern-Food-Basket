@@ -1,12 +1,15 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Stat } from "@/components/admin/bits";
 import { StaffUpdatesPanel } from "@/components/admin/staff-updates-panel";
 import { AppShell } from "@/components/app-shell";
 import { ApplicantDrawer } from "@/components/hr/applicant-drawer";
 import { CompliancePanels } from "@/components/hr/compliance-panels";
+import { HiringLog, HrResources, PeoplePanel } from "@/components/hr/people-panel";
 import { PipelineBoard } from "@/components/hr/pipeline-board";
 import { RolesTable } from "@/components/hr/roles-table";
+import { Flow } from "@/components/viz";
 import { TABS, complianceRows, goToTab, isActive, useHrTab, type HrTab } from "@/lib/hr/hr";
 import { can } from "@/lib/access";
 import { byId, useData, useRequireRole } from "@/lib/store";
@@ -16,17 +19,7 @@ import type { Seed } from "@/lib/types";
 // #updates is the Staff updates composer, shown to people with staff.updates. Role: hr. The headings, tabs and empty sections render on the server, as the static HTML did; the data
 // fills in once the session is known.
 
-const TAB_LABEL: Record<HrTab, string> = { pipeline: "Hiring pipeline", roles: "Jobs", compliance: "Compliance", updates: "Staff updates" };
-
-function Stat({ label, value, sub }: { label: string; value: number; sub?: string }) {
-  return (
-    <div className="stat">
-      <div className="stat-label">{label}</div>
-      <div className="stat-value">{String(value)}</div>
-      {sub ? <div className="stat-sub">{sub}</div> : null}
-    </div>
-  );
-}
+const TAB_LABEL: Record<HrTab, string> = { pipeline: "Hiring pipeline", roles: "Jobs", log: "Hiring log", people: "People", compliance: "Compliance", resources: "Resources", updates: "Staff updates" };
 
 function HrStats({ d }: { d: Seed }) {
   const active = d.applicants.filter(isActive);
@@ -36,11 +29,11 @@ function HrStats({ d }: { d: Seed }) {
   const comp = complianceRows(d);
   return (
     <>
-      <Stat label="Open roles" value={d.jobs.filter((j) => j.status === "open").length} sub={d.jobs.length + " in total"} />
-      <Stat label="Active applicants" value={active.length} sub="still in progress" />
-      <Stat label="New this week" value={thisWeek} sub="submitted in the last 7 days" />
-      <Stat label="Documents to check" value={awaiting} sub="uploaded, waiting for you to verify or flag" />
-      <Stat label="Compliance alerts" value={comp.total} sub={comp.docs.length + " docs · " + comp.training.length + " training · " + comp.leave.length + " leave"} />
+      <Stat icon="briefcase" label="Open roles" value={d.jobs.filter((j) => j.status === "open").length} bar={{ value: d.jobs.filter((j) => j.status === "open").length, of: d.jobs.length }} />
+      <Stat icon="users" tone="pink" label="Applicants in progress" value={active.length} />
+      <Stat icon="file" label="New this week" value={thisWeek} />
+      <Stat icon="shield" label="Documents to check" value={awaiting} tone={awaiting ? "warn" : "ok"} />
+      <Stat icon="bell" label="Compliance alerts" value={comp.total} tone={comp.total ? "warn" : "ok"} sub={comp.docs.length + " docs · " + comp.training.length + " training · " + comp.leave.length + " leave"} />
     </>
   );
 }
@@ -51,7 +44,9 @@ export function HrConsole() {
   const hashTab = useHrTab();
   const ready = !!s;
   const updates = ready && can(d, s, "staff.updates");
-  const tabs = TABS.filter((t) => t !== "updates" || updates);
+  const people = ready && can(d, s, "hr.people");
+  const tabs = TABS.filter((t) => (t !== "updates" || updates) && ((t !== "people" && t !== "resources") || people));
+  const count = (stage: string) => d.applicants.filter((a) => a.stage === stage).length;
   const tab: HrTab = tabs.includes(hashTab) ? hashTab : "pipeline";
 
   // The drawer keeps the last applicant after closing, so the content stays put while it slides out.
@@ -73,12 +68,12 @@ export function HrConsole() {
   }
 
   return (
-    <AppShell app="hr" active={tab === "updates" ? "hr-updates" : tab} title="HR console" css={["app", "careers"]}>
+    <AppShell app="hr" active={tab === "updates" ? "hr-updates" : tab} title="HR console" css={["app", "careers", "admin", "ops"]}>
       <div className="page-head">
         <div>
           <p className="eyebrow">HR console</p>
-          <h1>Hiring and compliance</h1>
-          <p className="muted">Applications, open jobs, and the staff documents and training that need you.</p>
+          <h1>Hiring and people</h1>
+          <p className="muted">Applications, open jobs, the team at all five stores, and the documents and training that need you.</p>
         </div>
       </div>
 
@@ -119,12 +114,29 @@ export function HrConsole() {
       </div>
 
       <section id="pipeline" role="tabpanel" aria-labelledby="tab-pipeline" hidden={tab !== "pipeline"}>
+        {ready ? <Flow id="hiring" counts={[d.jobs.filter((j) => j.status === "open").length, count("submitted") + count("screening"), count("kyc"), count("interview"), count("offer"), count("hired")]} /> : null}
         <PipelineBoard ready={ready} onOpen={openDrawer} />
       </section>
 
       <section id="roles" role="tabpanel" aria-labelledby="tab-roles" hidden={tab !== "roles"}>
         <RolesTable ready={ready} />
       </section>
+
+      <section id="log" role="tabpanel" aria-labelledby="tab-log" hidden={tab !== "log"}>
+        {tab === "log" ? <HiringLog ready={ready} /> : null}
+      </section>
+
+      {people ? (
+        <section id="people" role="tabpanel" aria-labelledby="tab-people" hidden={tab !== "people"}>
+          {tab === "people" ? <PeoplePanel ready={ready} /> : null}
+        </section>
+      ) : null}
+
+      {people ? (
+        <section id="resources" role="tabpanel" aria-labelledby="tab-resources" hidden={tab !== "resources"}>
+          {tab === "resources" ? <HrResources ready={ready} /> : null}
+        </section>
+      ) : null}
 
       <section id="compliance" role="tabpanel" aria-labelledby="tab-compliance" hidden={tab !== "compliance"}>
         <CompliancePanels ready={ready} />

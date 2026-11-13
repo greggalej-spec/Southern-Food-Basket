@@ -10,7 +10,7 @@ import { DealsNote, SpecialsBoard, SpecialsExtras, SpecialsFallback } from "@/co
 export const metadata: Metadata = {
   title: "Specials",
   description:
-    "Southern Food Basket specials: fresh-cut veg packs, double-layer cakes, yogurts, snacks, protein snacks and body washes, with the prices as posted on the company’s Instagram. Unofficial concept by Trinovata.",
+    "Southern Food Basket specials: fresh-cut veg packs, double-layer cakes, yogurts, snacks, protein snacks and body washes, with the prices as posted on the company’s Instagram. Prototype.",
 };
 
 export default function SpecialsPage() {

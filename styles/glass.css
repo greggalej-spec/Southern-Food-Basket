@@ -1,0 +1,339 @@
+/* The staff console's skin (Gregg, 12 Nov 2026): a modern dashboard rather than the public brand repeated. Frosted
+   glass cards float over a slow-moving canvas of the brand's own colours; headings are the UI sans, not the shop
+   sign's serif; cards lift and grow slightly under the pointer; figures come with an icon and a small live chart.
+   The colours are the brand's. Only the staff shell (.app) wears this: public pages keep DESIGN.md.
+
+   Glass is kept honest: every pane has a visible 1px edge, text sits on a pane that is at least 58% opaque cream
+   (ink on it stays above 10:1), and browsers without backdrop-filter get a solid pane. The canvas drifts only when
+   the visitor has not asked for reduced motion. Loaded after ops.css; plain .app selectors so it wins over the
+   zero-specificity page sheets. */
+
+.app{
+  --glass: rgba(255, 253, 250, .60); --glass-strong: rgba(255, 253, 250, .82); --glass-soft: rgba(255, 253, 250, .38);
+  --glass-edge: rgba(255, 255, 255, .78); --glass-line: rgba(42, 26, 31, .09);
+  --glass-shadow: 0 1px 0 rgba(255,255,255,.65) inset, 0 18px 40px -26px rgba(42,26,31,.42), 0 2px 8px -4px rgba(42,26,31,.10);
+  --glass-lift: 0 1px 0 rgba(255,255,255,.7) inset, 0 28px 50px -24px rgba(18,63,34,.45), 0 6px 14px -6px rgba(42,26,31,.14);
+  --blur: blur(20px) saturate(1.55);
+  --r: 18px; --r-lg: 24px;
+  background: #F3ECDD;
+}
+
+/* ---------- the canvas: three soft lights in the brand's colours, drifting ---------- */
+.app .app-body{ position: relative; isolation: isolate; }
+.app .app-body::before, .app .app-body::after{ content: ""; position: fixed; z-index: -1; pointer-events: none; inset: -20vmax; }
+.app .app-body::before{ background:
+    radial-gradient(38vmax 38vmax at 78% 18%, rgba(227, 51, 111, .30), transparent 62%),
+    radial-gradient(44vmax 44vmax at 22% 82%, rgba(29, 107, 53, .28), transparent 62%),
+    linear-gradient(155deg, #FBF6EC 0%, #F4ECDB 55%, #EFE6D2 100%); }
+.app .app-body::after{ background:
+    radial-gradient(30vmax 30vmax at 58% 62%, rgba(255, 210, 26, .26), transparent 60%),
+    radial-gradient(26vmax 26vmax at 30% 20%, rgba(47, 145, 138, .22), transparent 60%); }
+@media (prefers-reduced-motion: no-preference) {
+  .app .app-body::before{ animation: glass-drift-a 26s ease-in-out infinite alternate; }
+  .app .app-body::after{ animation: glass-drift-b 32s ease-in-out infinite alternate; }
+}
+@keyframes glass-drift-a { from { transform: translate3d(-3vmax, -2vmax, 0) scale(1); } to { transform: translate3d(4vmax, 3vmax, 0) scale(1.08); } }
+@keyframes glass-drift-b { from { transform: translate3d(5vmax, 2vmax, 0) scale(1.05); } to { transform: translate3d(-4vmax, -4vmax, 0) scale(.96); } }
+
+/* ---------- type: the console speaks in the UI face ---------- */
+.app .app-main{ font-size: 1rem; }
+.app .app-main h1, .app .app-main h2, .app .app-main h3{ font-family: var(--ui); font-weight: 800; letter-spacing: -0.02em; line-height: 1.15; }
+.app .section-head h1, .app .page-head h1{ font-size: clamp(1.75rem, 1.35rem + 1.4vw, 2.375rem); letter-spacing: -0.03em; }
+.app .section-head p, .app .page-head p{ font-size: 1rem; }
+.app .panel-head h2, .app .panel-head h3{ font-size: 1.0625rem; letter-spacing: -0.01em; }
+.app .eyebrow{ letter-spacing: .1em; }
+
+/* ---------- panes ---------- */
+.app .panel, .app .stat, .app .flow, .app .dept-tile, .app .card, .app .empty, .app .no-access, .app .app-topbar, .app .pipe-col, .app .company-list, .app .kpi, .app .hero, .app .glass{
+  background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow);
+  -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .app .panel, .app .stat, .app .flow, .app .dept-tile, .app .card, .app .empty, .app .no-access, .app .app-topbar, .app .pipe-col, .app .company-list, .app .kpi, .app .hero, .app .glass{ background: #FFFDFA; }
+}
+.app .panel{ border-radius: var(--r); overflow: clip; }
+.app .panel-head{ border-bottom: 1px solid var(--glass-line); }
+.app .flow{ background: linear-gradient(180deg, rgba(255,253,250,.66), rgba(255,253,250,.46)); }
+.app .pipe-col{ background: var(--glass-soft); }
+.app .empty{ border-style: solid; }
+.app .table-wrap, .app .table-wrap.flat{ background: transparent; border-color: var(--glass-line); }
+.app .table-wrap.flat{ border-top: 1px solid var(--glass-line); }
+.app table th, .app table td{ border-color: var(--glass-line); }
+.app thead th, .app .sheet-table thead th{ background: rgba(243, 236, 221, .55); }
+.app tbody tr:hover{ background: rgba(255, 255, 255, .45); }
+.app .list > li{ border-color: var(--glass-line); }
+.app .sheet-table .group-row th, .app .bulk-note, .app .bulk-table tfoot th, .app .bulk-table tfoot td{ background: rgba(243, 236, 221, .5); }
+.app .flow-detail, .app .pipe-card, .app .look-card, .app .thread li, .app .decide-form, .app .working{ background: var(--glass-strong); border-color: var(--glass-edge); }
+.app input[type="text"], .app input[type="email"], .app input[type="tel"], .app input[type="date"], .app input[type="search"], .app input[type="password"], .app input[type="number"], .app select, .app textarea{ background: rgba(255, 255, 255, .72); border-color: rgba(42, 26, 31, .18); }
+.app .seg{ background: rgba(255, 255, 255, .42); border-color: var(--glass-edge); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); }
+.app .seg .btn[aria-pressed="true"]{ background: #fff; }
+.app .btn-ghost, .app .btn-outline{ background: rgba(255, 255, 255, .7); }
+.app .app-topbar{ border-radius: 20px; }
+.app .app-avatar{ box-shadow: 0 0 0 3px rgba(255,255,255,.7); }
+
+/* things that lift and grow a little under the pointer */
+.app .stat, .app .kpi, .app .dept-tile, .app .pipe-card, .app .look-card, .app .account, .app .bulk-order, .app .top-post{ transition: transform 260ms var(--ease), box-shadow 260ms var(--ease), border-color 260ms var(--ease), background 260ms var(--ease); will-change: transform; }
+.app .stat:hover, .app .kpi:hover, .app .dept-tile:hover, .app .account:hover, .app .bulk-order:hover, .app .top-post:hover{ transform: translateY(-4px) scale(1.015); box-shadow: var(--glass-lift); border-color: #fff; background: var(--glass-strong); }
+.app .pipe-card:hover, .app .look-card:hover{ transform: translateY(-3px) scale(1.02); box-shadow: var(--glass-lift); }
+@media (prefers-reduced-motion: reduce) { .app .stat:hover, .app .kpi:hover, .app .dept-tile:hover, .app .account:hover, .app .bulk-order:hover, .app .top-post:hover, .app .pipe-card:hover, .app .look-card:hover{ transform: none; } }
+
+/* ---------- the sidebar: deep green glass ---------- */
+.app .app-sidebar{ background: linear-gradient(180deg, rgba(9, 44, 25, .94), rgba(18, 63, 34, .90) 55%, rgba(13, 52, 44, .92)); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); border-right: 1px solid rgba(255,255,255,.08); }
+.app .app-nav a{ border-radius: 12px; transition: background 200ms var(--ease), transform 200ms var(--ease), color 200ms var(--ease); }
+.app .app-nav a:hover{ background: rgba(255, 255, 255, .09); transform: translateX(2px); }
+.app .app-nav a[aria-current="page"]{ background: linear-gradient(90deg, rgba(255,255,255,.18), rgba(255,255,255,.07)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.16), inset 3px 0 0 var(--yellow); }
+.app .app-nav-group{ opacity: .7; letter-spacing: .12em; }
+
+/* ---------- the demo banner, slimmer over the canvas ---------- */
+[data-css~="app"] > .concept-banner{ background: rgba(252, 228, 236, .9); font-size: 0.8125rem; }
+[data-css~="app"] > .concept-banner p{ max-width: none; }
+
+/* ---------- drawers and dialogs wear the same glass ---------- */
+[data-css~="app"] [data-slot="sheet-content"]{ background: rgba(255, 253, 250, .88); -webkit-backdrop-filter: blur(26px) saturate(1.5); backdrop-filter: blur(26px) saturate(1.5); border-left: 1px solid rgba(255,255,255,.8); box-shadow: -30px 0 60px -30px rgba(42,26,31,.45); }
+[data-css~="app"] [data-slot="sheet-content"] h2{ font-family: var(--ui); font-weight: 800; letter-spacing: -0.02em; }
+
+/* =====================================================================================================
+   KPI cards: an icon, the figure, two or three words, and one small picture of it
+   ===================================================================================================== */
+.app .stats{ gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr)); }
+.app .kpi{ position: relative; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto 1fr; gap: 2px var(--s3); padding: var(--s4) var(--s5) var(--s4); border-radius: var(--r); overflow: hidden; min-height: 132px; }
+.app .kpi-icon{ grid-column: 1; display: grid; place-items: center; width: 38px; height: 38px; margin-bottom: var(--s2); border-radius: 12px; color: var(--green); background: linear-gradient(135deg, rgba(29,107,53,.16), rgba(29,107,53,.06)); box-shadow: inset 0 0 0 1px rgba(29,107,53,.14); }
+.app .kpi-icon .icon{ width: 20px; height: 20px; }
+.app .kpi-value{ grid-column: 1; font: 800 2.125rem/1.05 var(--ui); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--ink); }
+.app .kpi-label{ grid-column: 1; font: 700 0.875rem/1.3 var(--ui); color: var(--muted); }
+.app .kpi-hint{ grid-column: 1 / -1; align-self: end; margin-top: var(--s2); font-size: 0.8125rem; color: var(--muted); }
+.app .kpi-hint .delta{ font-weight: 800; }
+.app .kpi-visual{ grid-column: 2; grid-row: 1 / span 3; align-self: center; width: 92px; }
+.app .kpi-visual .spark{ height: 54px; }
+.app .kpi-visual .gauge{ width: 76px !important; margin-left: auto; }
+.app .kpi-visual .gauge figcaption{ display: none; }
+.app .kpi-bar{ grid-column: 1 / -1; align-self: end; height: 6px; margin-top: var(--s3); border-radius: var(--pill); background: rgba(42,26,31,.08); overflow: hidden; }
+.app .kpi-bar span{ display: block; height: 100%; border-radius: var(--pill); background: linear-gradient(90deg, var(--green), #2F918A); transform-origin: left center; }
+.app .kpi.is-warn .kpi-icon{ color: #9A5B00; background: linear-gradient(135deg, rgba(255,210,26,.38), rgba(255,210,26,.12)); box-shadow: inset 0 0 0 1px rgba(154,91,0,.18); }
+.app .kpi.is-warn .kpi-value{ color: #7A4300; }
+.app .kpi.is-warn .kpi-bar span{ background: linear-gradient(90deg, #E0A100, #F26A2E); }
+.app .kpi.is-bad .kpi-icon{ color: var(--bad); background: var(--bad-bg); }
+.app .kpi.is-bad .kpi-value{ color: var(--bad); }
+.app .kpi.is-ok .kpi-icon{ color: var(--ok); background: linear-gradient(135deg, rgba(63,98,18,.18), rgba(63,98,18,.06)); }
+.app .kpi.is-pink .kpi-icon{ color: var(--clay); background: linear-gradient(135deg, rgba(227,51,111,.2), rgba(227,51,111,.06)); box-shadow: inset 0 0 0 1px rgba(184,25,90,.16); }
+.app .kpi.is-pink .kpi-bar span{ background: linear-gradient(90deg, var(--pink), #F26A2E); }
+.app .kpi::after{ content: ""; position: absolute; right: -30px; top: -30px; width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,.75), transparent 65%); pointer-events: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .app .kpi-bar span{ animation: ops-grow-x 900ms var(--ease) both; }
+  .app .kpi-icon{ animation: ops-pop 420ms var(--ease) both; }
+}
+@media (max-width: 520px) { .app .stats{ grid-template-columns: 1fr 1fr; gap: var(--s3); } .app .kpi{ padding: var(--s3) var(--s4); min-height: 0; } .app .kpi-value{ font-size: 1.625rem; } .app .kpi-visual{ display: none; } }
+
+/* =====================================================================================================
+   The flow guide, slimmer: icons carry it, words appear for the step in hand
+   ===================================================================================================== */
+.app .flow{ padding: var(--s4) var(--s5) var(--s4); border-radius: var(--r-lg); }
+.app .flow-head{ margin-bottom: var(--s3); }
+.app .flow-head h2{ font: 800 0.8125rem/1.3 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.app .flow-dot{ width: 48px; height: 48px; background: rgba(255,255,255,.75); border-color: rgba(42,26,31,.14); }
+.app .flow-dot .icon{ width: 21px; height: 21px; }
+.app .flow-link{ top: 22px; margin-right: 25px; width: calc(100% - 50px); height: 3px; background: rgba(42,26,31,.10); }
+.app .flow-label{ font-size: 0.8125rem; }
+.app .flow-stage.is-active .flow-dot{ background: linear-gradient(135deg, #1D6B35, #2F918A); border-color: transparent; }
+.app .flow-detail{ display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px var(--s3); margin-top: var(--s3); padding: var(--s2) var(--s4); border-radius: var(--pill); }
+.app .flow-who{ margin: 0; font-size: 0.8125rem; flex: none; }
+.app .flow-text{ font-size: 0.9375rem; flex: 1 1 320px; max-width: none; }
+.app .flow-try{ display: none; }
+@media (max-width: 760px) { .app .flow-detail{ border-radius: var(--r); } .app .flow-link{ top: auto; left: 22px; width: 3px; margin: 0; } }
+
+/* =====================================================================================================
+   Hero: who you are, what is waiting, in pictures
+   ===================================================================================================== */
+.app .hero{ position: relative; display: grid; gap: var(--s5); padding: var(--s6); border-radius: var(--r-lg); overflow: hidden; background: linear-gradient(135deg, rgba(18,63,34,.92), rgba(28,104,99,.86) 60%, rgba(184,25,90,.82)); color: #fff; border-color: rgba(255,255,255,.28); }
+.app .hero::before{ content: ""; position: absolute; inset: -40% -10% auto auto; width: 60%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255,210,26,.34), transparent 62%); pointer-events: none; }
+.app .hero > *{ position: relative; }
+@media (min-width: 980px) { .app .hero{ grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; } }
+.app .hero h2{ color: #fff; font-size: clamp(1.625rem, 1.2rem + 1.4vw, 2.25rem) !important; letter-spacing: -0.03em; margin: 0 0 var(--s2); }
+.app .hero-date{ margin: 0 0 var(--s3); font: 700 0.8125rem/1.3 var(--ui); letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.72); }
+.app .hero-line{ margin: 0; color: rgba(255,255,255,.86); max-width: 46ch; }
+.app .hero-chips{ display: flex; flex-wrap: wrap; gap: var(--s2); margin-top: var(--s4); }
+.app .hero-chip{ display: inline-flex; align-items: center; gap: var(--s2); padding: 8px 14px; border-radius: var(--pill); background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.3); color: #fff; font: 700 0.9375rem/1.2 var(--ui); text-decoration: none; -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: background 200ms var(--ease), transform 200ms var(--ease); }
+.app .hero-chip:hover{ background: rgba(255,255,255,.28); color: #fff; transform: translateY(-2px); }
+.app .hero-chip b{ display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 6px; border-radius: var(--pill); background: var(--yellow); color: var(--ink); font-size: 0.8125rem; }
+.app .hero-chip .icon{ width: 16px; height: 16px; }
+.app .hero-rings{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--s4); justify-items: center; }
+.app .hero-rings .gauge{ width: 100% !important; max-width: 128px; }
+.app .hero-rings .gauge-track{ stroke: rgba(255,255,255,.2); }
+.app .hero-rings .gauge-fill{ stroke: var(--yellow); }
+.app .hero-rings .gauge-clay .gauge-fill{ stroke: #FF9BC0; }
+.app .hero-rings .gauge-teal .gauge-fill{ stroke: #A3DCD5; }
+.app .hero-rings .gauge-value{ fill: #fff; }
+.app .hero-rings .gauge-of{ fill: rgba(255,255,255,.72); }
+.app .hero-rings figcaption{ color: rgba(255,255,255,.86); }
+
+/* decisions as cards, not a list */
+.app .decide-cards{ display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.app .decide-card{ display: grid; gap: var(--s2); align-content: start; padding: var(--s4) var(--s5); border-radius: var(--r); text-decoration: none; color: var(--ink); background: linear-gradient(135deg, rgba(255,210,26,.30), rgba(255,253,250,.62) 55%); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); transition: transform 260ms var(--ease), box-shadow 260ms var(--ease); }
+.app .decide-card:hover{ transform: translateY(-4px) scale(1.015); box-shadow: var(--glass-lift); color: var(--ink); }
+.app .decide-card .queue-area{ margin: 0; color: #7A4300; }
+.app .decide-card strong{ font: 800 1.0625rem/1.3 var(--ui); }
+.app .decide-card span{ font-size: 0.9375rem; color: var(--ink-soft, #45343A); }
+.app .decide-go{ display: inline-flex; align-items: center; gap: 6px; margin-top: var(--s2); font: 800 0.9375rem/1.2 var(--ui); color: var(--green) !important; }
+.app .decide-go .icon{ width: 16px; height: 16px; transition: transform 220ms var(--ease); }
+.app .decide-card:hover .decide-go .icon{ transform: translateX(4px); }
+
+/* =====================================================================================================
+   The trend chart and the post cards
+   ===================================================================================================== */
+.app .trend-head{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--s3); margin-bottom: var(--s3); }
+.app .trend-keys{ display: flex; flex-wrap: wrap; gap: var(--s2); }
+.app .trend-key{ display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: var(--pill); border: 1px solid var(--glass-edge); background: rgba(255,255,255,.6); font: 700 0.875rem/1.2 var(--ui); color: var(--ink); cursor: pointer; transition: opacity 200ms var(--ease), transform 200ms var(--ease), background 200ms var(--ease); }
+.app .trend-key:hover{ transform: translateY(-1px); background: #fff; }
+.app .trend-key[aria-pressed="false"]{ opacity: .45; }
+.app .trend-key i{ width: 10px; height: 10px; border-radius: 3px; }
+.app .trend-key b{ font-variant-numeric: tabular-nums; color: var(--muted); font-weight: 700; }
+.app .trend svg{ width: 100%; height: auto; overflow: visible; touch-action: pan-y; cursor: crosshair; }
+.app .trend .t-line{ fill: none; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; transition: opacity 240ms var(--ease), stroke-width 240ms var(--ease); }
+.app .trend .t-area{ transition: opacity 240ms var(--ease); }
+.app .trend .is-dim .t-line{ opacity: .22; }
+.app .trend .is-dim .t-area{ opacity: 0; }
+.app .trend .is-hot .t-line{ stroke-width: 3.5; }
+.app .trend-range{ position: relative; }
+.app .top-posts{ display: grid; gap: var(--s4); grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); margin-bottom: var(--s2); }
+.app .top-post{ position: relative; display: grid; gap: var(--s2); align-content: start; padding: var(--s4) var(--s5); border-radius: var(--r); background: var(--glass); border: 1px solid var(--glass-edge); box-shadow: var(--glass-shadow); -webkit-backdrop-filter: var(--blur); backdrop-filter: var(--blur); overflow: hidden; }
+.app .top-post::before{ content: ""; position: absolute; left: 0; right: 0; top: 0; height: 4px; background: var(--c, var(--green)); }
+.app .top-rank{ display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--yellow); color: var(--ink); font: 800 0.9375rem/1 var(--ui); }
+.app .top-post:nth-child(n+2) .top-rank{ background: rgba(42,26,31,.08); }
+.app .top-post h3{ margin: 0; font-size: 1rem !important; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.app .top-num{ font: 800 1.75rem/1 var(--ui); letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.app .top-num small{ font: 700 0.8125rem/1 var(--ui); letter-spacing: 0; color: var(--muted); margin-left: 6px; }
+.app .top-meta{ display: flex; flex-wrap: wrap; gap: 4px var(--s3); font-size: 0.8125rem; color: var(--muted); }
+.app .top-meta span{ display: inline-flex; align-items: center; gap: 4px; }
+.app .top-meta .icon{ width: 14px; height: 14px; }
+.app .bar-cell{ display: block; height: 4px; margin-top: 6px; border-radius: var(--pill); background: rgba(42,26,31,.08); overflow: hidden; }
+.app .bar-cell span{ display: block; height: 100%; border-radius: var(--pill); background: var(--c, var(--green)); transform-origin: left center; }
+@media (prefers-reduced-motion: no-preference) { .app .bar-cell span{ animation: ops-grow-x 900ms var(--ease) both; } }
+
+/* the overview's department tiles lose their paragraphs: an icon, a picture, four figures */
+.app .dept-tile{ border-radius: var(--r-lg); }
+.app .dept-icon{ border-radius: 14px; background: linear-gradient(135deg, rgba(29,107,53,.18), rgba(47,145,138,.10)); box-shadow: inset 0 0 0 1px rgba(29,107,53,.14); }
+.app .dept-foot{ border-top-color: var(--glass-line); }
+.app .activity-dot{ box-shadow: 0 0 0 4px rgba(29,107,53,.12); }
+.app .mini-bar{ background: rgba(42,26,31,.08); }
+.app .mini-bar span{ background: linear-gradient(90deg, var(--teal-ink), #2F918A); }
+.app .hbar-fill, .app .pair-now{ background-image: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.25)); }
+
+/* the funnel as steps: each figure, and what share of the step before it kept */
+.app .steps-funnel{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
+.app .steps-funnel li{ position: relative; display: grid; grid-template-columns: 38px auto 1fr; align-items: center; gap: 2px var(--s3); padding: var(--s3); border-radius: 14px; background: rgba(255,255,255,.55); border: 1px solid var(--glass-edge); }
+.app .steps-funnel li:nth-child(2){ margin-left: 5%; }
+.app .steps-funnel li:nth-child(3){ margin-left: 10%; }
+.app .steps-funnel li:nth-child(4){ margin-left: 15%; }
+.app .sf-icon{ grid-row: span 2; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; color: var(--clay); background: linear-gradient(135deg, rgba(227,51,111,.2), rgba(227,51,111,.06)); }
+.app .steps-funnel strong{ font: 800 1.25rem/1.1 var(--ui); letter-spacing: -0.02em; }
+.app .steps-funnel li > span:not(.sf-icon){ font-size: 0.9375rem; color: var(--ink-soft, #45343A); }
+.app .steps-funnel em{ grid-column: 2 / -1; font-style: normal; font-size: 0.8125rem; color: var(--muted); }
+@media (prefers-reduced-motion: no-preference) { .app .steps-funnel li{ animation: ops-rise 420ms var(--ease) both; } .app .steps-funnel li:nth-child(2){ animation-delay: 90ms; } .app .steps-funnel li:nth-child(3){ animation-delay: 180ms; } .app .steps-funnel li:nth-child(4){ animation-delay: 270ms; } }
+
+/* row headings in tables are names, not column labels: sentence case, normal tracking */
+.app tbody th{ font: 700 0.9375rem/1.45 var(--ui); letter-spacing: 0; text-transform: none; color: var(--ink); }
+.app .sheet-table tbody th{ font-weight: 400; }
+.app .kpi-label{ text-wrap: balance; }
+
+/* the studio's sheets of seasonal artwork: hover a piece and it lifts and tilts */
+.app .season-sheets{ display: grid; gap: var(--s4); padding: var(--s5); grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.app .season-sheet{ display: grid; gap: var(--s2); align-content: start; padding: var(--s4) var(--s5); border-radius: var(--r); background: var(--glass-strong); border: 1px solid var(--glass-edge); transition: transform 260ms var(--ease), box-shadow 260ms var(--ease); }
+.app .season-sheet:hover{ transform: translateY(-4px); box-shadow: var(--glass-lift); }
+.app .season-sheet header{ display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.app .season-sheet h3{ margin: 0; font-size: 1.1875rem !important; }
+.app .season-sheet p{ margin: 0; }
+.app .art-row{ list-style: none; display: flex; flex-wrap: wrap; gap: var(--s2); margin: var(--s2) 0; padding: 0; }
+.app .art-row li{ display: grid; place-items: center; width: 68px; height: 68px; border-radius: 16px; background: linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,.5)); border: 1px solid var(--glass-edge); box-shadow: 0 6px 14px -10px rgba(42,26,31,.4); transition: transform 240ms cubic-bezier(.22,.8,.3,1); }
+.app .art-row li:nth-child(odd){ background: linear-gradient(135deg, rgba(15,90,46,.14), rgba(255,255,255,.6)); }
+.app .art-row li:hover{ transform: translateY(-6px) rotate(-8deg) scale(1.12); }
+.app .art-row img{ display: block; width: 52px; height: 52px; }
+
+/* the studio's two dates sit one under the other until the column is wide enough for both */
+.app .studio-dates{ grid-template-columns: 1fr; }
+@media (min-width: 1700px) { .app .studio-dates{ grid-template-columns: 1fr 1fr; } }
+
+/* =====================================================================================================
+   Revision 2 (Gregg, 13 Nov 2026). Three changes, all overriding what is above:
+   1. Type: Inter throughout the staff console. A plain, professional face that reads easily at small sizes; the
+      shop-sign serif stays on the public site only.
+   2. Canvas: no colour blotches. A quiet neutral with a faint dot grid, so the frosted cards read as glass.
+   3. Colour by importance. Most cards are clear glass. Bright pink marks a decision waiting on someone, bright
+      orange marks something that needs attention, deep green marks the main summary. Pink and green tints give
+      variety without shouting.
+   ===================================================================================================== */
+
+[data-css~="app"]:has(> .app){ --ui: var(--font-karla), "Karla", system-ui, -apple-system, "Segoe UI", sans-serif; --display: var(--font-lora), "Lora", Georgia, "Times New Roman", serif; font-family: var(--ui); }
+[data-css~="app"]:has(> .app) [data-slot="sheet-content"], [data-css~="app"]:has(> .app) [data-slot="dialog-content"]{ font-family: var(--ui); }
+.app{ font-family: var(--ui); font-feature-settings: "cv11", "ss03"; background: #F4F2EE; }
+.app .app-main{ font-size: 0.9375rem; line-height: 1.55; }
+.app .app-main h1, .app .app-main h2, .app .app-main h3{ font-weight: 700; letter-spacing: -0.022em; }
+.app .section-head h1, .app .page-head h1{ font-weight: 700; letter-spacing: -0.03em; }
+.app .app-brand{ font: 700 1rem/1.2 var(--ui); letter-spacing: -0.01em; }
+.app .app-topbar-title strong{ font: 700 1.0625rem/1.2 var(--ui); letter-spacing: -0.015em; }
+.app .app-nav a{ font-weight: 550; font-size: 0.9375rem; }
+.app .btn{ font-weight: 650; letter-spacing: -0.005em; }
+.app .kpi-value{ font-weight: 700; letter-spacing: -0.035em; }
+.app .kpi-label, .app .flow-label{ font-weight: 600; }
+.app .eyebrow, .app .app-nav-group, .app .queue-area, .app .pipe-kind, .app thead th, .app .flow-head h2{ font-weight: 650; }
+.app tbody th{ font-weight: 600; }
+.app .role-card strong{ font: 700 1.125rem/1.25 var(--ui); letter-spacing: -0.015em; }
+
+/* the canvas: neutral, still, with a faint grid for the glass to sit on */
+.app .app-body::before, .app .app-body::after{ animation: none !important; inset: 0; transform: none; }
+.app .app-body::before{ background: linear-gradient(180deg, #F8F6F2 0%, #EFECE6 100%); }
+.app .app-body::after{ background:
+    radial-gradient(rgba(42, 26, 31, .055) 1px, transparent 1.4px) 0 0 / 22px 22px,
+    radial-gradient(70vmax 44vmax at 100% 0%, rgba(255, 255, 255, .95), transparent 62%),
+    radial-gradient(60vmax 40vmax at 0% 100%, rgba(255, 255, 255, .7), transparent 60%); }
+
+/* clear glass */
+.app{ --glass: rgba(255, 255, 255, .58); --glass-strong: rgba(255, 255, 255, .86); --glass-soft: rgba(255, 255, 255, .34); --glass-edge: rgba(255, 255, 255, .95); --glass-line: rgba(42, 26, 31, .08);
+  --glass-shadow: 0 1px 0 rgba(255,255,255,.9) inset, 0 0 0 1px rgba(42,26,31,.04), 0 16px 34px -24px rgba(42,26,31,.38), 0 2px 6px -3px rgba(42,26,31,.08); }
+.app .flow{ background: var(--glass); }
+.app .app-topbar{ background: rgba(255, 255, 255, .7); }
+.app thead th, .app .sheet-table thead th{ background: rgba(42, 26, 31, .035); }
+.app .sheet-table .group-row th, .app .bulk-note, .app .bulk-table tfoot th, .app .bulk-table tfoot td{ background: rgba(42, 26, 31, .03); }
+[data-css~="app"] > .concept-banner{ background: rgba(255, 255, 255, .7); color: var(--ink); border-bottom: 1px solid rgba(42,26,31,.08); }
+[data-css~="app"] > .concept-banner a{ color: var(--clay); }
+
+/* ---------- colour by importance ---------- */
+
+/* deep green: the main summary at the top of a dashboard */
+.app .hero{ background: linear-gradient(135deg, #0E3A20 0%, #1D6B35 100%); border-color: rgba(255,255,255,.18); }
+.app .hero::before{ background: radial-gradient(circle, rgba(255,255,255,.14), transparent 62%); }
+
+/* bright pink: a decision is waiting on someone */
+.app .decide-card{ background: linear-gradient(135deg, #DB2F6A 0%, #B8195A 100%); color: #fff; border-color: rgba(255,255,255,.28); box-shadow: 0 1px 0 rgba(255,255,255,.3) inset, 0 18px 34px -20px rgba(184,25,90,.7); }
+.app .decide-card:hover{ color: #fff; box-shadow: 0 1px 0 rgba(255,255,255,.3) inset, 0 26px 44px -20px rgba(184,25,90,.8); }
+.app .decide-card .queue-area{ color: rgba(255,255,255,.86); }
+.app .decide-card .queue-area::before{ background: #FFD21A; }
+.app .decide-card span{ color: rgba(255,255,255,.9); }
+.app .decide-card .decide-go{ color: #fff !important; }
+
+/* bright orange: this needs attention */
+.app .kpi.is-warn{ background: linear-gradient(135deg, #F47A3A 0%, #F26A2E 100%); border-color: rgba(255,255,255,.4); color: #2A1A1F; box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 18px 34px -22px rgba(242,106,46,.85); }
+.app .kpi.is-warn:hover{ background: linear-gradient(135deg, #F68446 0%, #F47236 100%); border-color: rgba(255,255,255,.6); }
+.app .kpi.is-warn .kpi-icon{ color: #2A1A1F; background: rgba(255,255,255,.38); box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); }
+.app .kpi.is-warn .kpi-value, .app .kpi.is-warn .kpi-label{ color: #2A1A1F; }
+.app .kpi.is-warn .kpi-hint{ color: rgba(42,26,31,.82); }
+.app .kpi.is-warn .kpi-bar{ background: rgba(42,26,31,.18); }
+.app .kpi.is-warn .kpi-bar span{ background: #2A1A1F; }
+.app .kpi.is-warn .gauge-track{ stroke: rgba(42,26,31,.18); }
+.app .kpi.is-warn .gauge-fill{ stroke: #2A1A1F; }
+.app .kpi.is-warn .gauge-value{ fill: #2A1A1F; }
+.app .kpi.is-warn .gauge-of{ fill: rgba(42,26,31,.75); }
+.app .kpi.is-warn::after{ background: radial-gradient(circle, rgba(255,255,255,.3), transparent 65%); }
+
+/* tints for variety: pink and green glass */
+.app .kpi.is-pink{ background: linear-gradient(135deg, rgba(227,51,111,.16), rgba(255,255,255,.56) 70%); border-color: rgba(227,51,111,.22); }
+.app .kpi.is-pink .kpi-icon{ color: #fff; background: linear-gradient(135deg, #E3336F, #B8195A); box-shadow: 0 6px 12px -6px rgba(184,25,90,.7); }
+.app .kpi.is-ok{ background: linear-gradient(135deg, rgba(42,138,69,.16), rgba(255,255,255,.56) 70%); border-color: rgba(42,138,69,.22); }
+.app .kpi.is-ok .kpi-icon{ color: #fff; background: linear-gradient(135deg, #2A8A45, #1D6B35); box-shadow: 0 6px 12px -6px rgba(29,107,53,.7); }
+.app .kpi.is-ok .kpi-value{ color: var(--ink); }
+.app .kpi.is-bad{ background: linear-gradient(135deg, rgba(211,32,45,.14), rgba(255,255,255,.56) 70%); border-color: rgba(211,32,45,.22); }
+.app .kpi-icon{ background: rgba(42,26,31,.06); color: var(--ink); box-shadow: none; }
+
+/* the pipeline column that waits on the director, and a store still to answer, carry the same signals */
+.app .pipe-col:nth-child(3) h3 .num{ background: #DB2F6A; color: #fff; }
+.app .store-wait{ color: #B4470F; }
+.app .top-post:first-child{ background: linear-gradient(135deg, rgba(255,210,26,.22), rgba(255,255,255,.6) 60%); }
