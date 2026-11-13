@@ -251,3 +251,44 @@ html:is(:not([data-season]), [data-season="none"]) .page-hero::after{
 .footer-social .soc-list.is-compact{ display: flex; flex-flow: row wrap; gap: 10px; margin: 0; padding: 0; }
 .footer-social .soc-list.is-compact li{ display: block; margin: 0; }
 .site-footer .footer-social .soc, .site-footer .footer-social .soc:hover{ text-decoration: none; }
+
+/* ---------- third pass (2026-11-13): a calmer home page, with more to look at and less to read ---------- */
+/* rows of cards that slide sideways */
+.rail-head{ display: flex; justify-content: flex-end; margin: 0 0 14px; }
+.ge-root .stores.is-rail{ display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; padding: 6px 4px 22px; margin-inline: -4px; scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.5) transparent; }
+.ge-root .stores.is-rail .store{ flex: 0 0 min(330px, 84vw); scroll-snap-align: start; grid-column: auto; }
+.ge-root .band-stores .rail-controls .round{ background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.45); color: #fff; }
+.ge-root .band-stores .rail-controls .round:hover{ background: rgba(255,255,255,.24); }
+.flyer-row.is-rail{ display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x proximity; padding: 6px 4px 18px; margin-inline: -4px; scrollbar-width: thin; }
+.flyer-row.is-rail li{ flex: 0 0 min(230px, 62vw); scroll-snap-align: start; }
+.ge-root .band-deals .flyers{ margin: 36px 0 8px; }
+
+/* our story: the shop front beside four numbers */
+.ge-root .story{ display: grid; gap: 32px; align-items: center; }
+@media (min-width: 900px) { .ge-root .story{ grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 56px; } }
+.ge-root .story-pic{ transform: rotate(-1.2deg); max-width: 460px; justify-self: center; width: 100%; }
+.ge-root .story-body h2{ margin-bottom: 20px; }
+.ge-root .story-stats{ margin-bottom: 22px; }
+@media (min-width: 900px) { .ge-root .story-stats{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .ge-root .story-stats{ grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.ge-root .story-memory{ display: flex; align-items: center; gap: 16px; margin: 0 0 18px; padding: 14px 18px; border-radius: 18px; background: rgba(255,255,255,.8); border: 1px solid var(--sf-line); }
+.ge-root .story-memory .who-arch{ flex: none; width: 56px; aspect-ratio: 5 / 6; padding-bottom: 6px; }
+.ge-root .story-memory .who-arch span{ font-size: 1.05rem; }
+.ge-root .story-memory > span:last-child{ display: grid; gap: 2px; color: var(--sf-muted); }
+.ge-root .story-memory b{ color: var(--sf-leaf); font: 700 1.125rem/1.25 var(--display, Georgia, serif); }
+
+/* careers: the line and the buttons beside the vacancy poster */
+.ge-root .sf-careers{ display: grid; gap: 32px; align-items: center; }
+@media (min-width: 860px) { .ge-root .sf-careers{ grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 56px; } }
+.ge-root .sf-careers .lede{ margin-bottom: 22px; }
+.ge-root .sf-careers .row{ display: flex; flex-wrap: wrap; gap: 12px; }
+.hire-poster{ display: block; max-width: 380px; width: 100%; justify-self: center; border-radius: 22px; overflow: hidden; box-shadow: 0 30px 56px -34px rgba(18,40,30,.8); transform: rotate(1.5deg); transition: transform .35s var(--sf-ease); }
+.hire-poster .fit{ aspect-ratio: 4 / 5; }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { .hire-poster:hover{ transform: rotate(0) translateY(-4px); } }
+
+/* ---------- the memorial portrait: the photograph fills the arch ---------- */
+.who-arch.has-photo{ padding: 0; border-radius: 999px 999px 16px 16px; background: #F3ECDD; box-shadow: 0 0 0 4px #FFFDFA, 0 0 0 5px var(--sf-line), 0 18px 30px -20px rgba(18,40,30,.7); }
+.who-arch.has-photo::before{ display: none; }
+.who-arch.has-photo img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
+@media (max-width: 520px) { .who-card.who-founder{ grid-template-columns: 1fr; } }
+.ge-root .story-memory .who-arch.has-photo{ width: 76px; position: relative; overflow: hidden; }

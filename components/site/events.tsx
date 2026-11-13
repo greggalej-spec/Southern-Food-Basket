@@ -172,7 +172,7 @@ export function EventsBoard() {
 
 /* ---------- the flyer wall: the designer's finished flyers, leading the Specials page ---------- */
 
-export function FlyerWall() {
+export function FlyerWall({ rail = false }: { rail?: boolean }) {
   const d = useData();
   const today = useToday();
   const [open, setOpen] = useState<Flyer | null>(null);
@@ -189,7 +189,7 @@ export function FlyerWall() {
         <h2 id="flyers-h">This week’s flyers</h2>
         <p>Tap one to see it large.</p>
       </div>
-      <ul className="flyer-row">
+      <ul className={rail ? "flyer-row is-rail" : "flyer-row"}>
         {list.map((f) => (
           <li key={f.id}>
             <button type="button" className="flyer" onClick={() => setOpen(f)}>

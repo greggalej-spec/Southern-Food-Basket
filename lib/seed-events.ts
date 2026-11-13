@@ -23,7 +23,7 @@ export const EVENTS: StoreEvent[] = [
     img: SOCIAL + "hiring-custodian.webp", summary: "A keen eye for cleanliness, janitorial experience and a strong work ethic. Join the Southern Food Basket family.",
     points: ["S.S. Erin Road, Penal", "Résumé to foodbasketjobs@gmail.com", "Apply by 18 November"], href: "/careers", cta: "See careers" },
   { id: "ev-colour-me-divali", kind: "event", title: "Colour Me Divali", from: "2026-11-06", to: "2026-11-07", time: "Until 3:00 pm", branchIds: ["sando", "couva"],
-    summary: "Two days of colouring for our little artists, with henna, treats, prizes and Divali goodie bags.",
+    summary: "Two days of colouring for our little artists, with prizes to be won and Divali goodie bags.",
     points: ["Day 1: Coffee Street, San Fernando", "Day 2: Couva", "All supplies provided"] },
   { id: "ev-divali-hours", kind: "notice", title: "Divali opening hours", from: "2026-11-08", to: "2026-11-09", branchIds: null,
     img: SOCIAL + "divali-hours.webp", summary: "Every branch opened on Sunday 8 and Monday 9 November, with adjusted hours.",

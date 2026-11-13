@@ -1,11 +1,13 @@
 import { Fragment, type CSSProperties } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { HiringPoster, RailButtons } from "@/components/home/extras";
 import { Highlights, Spotlight, type Slide } from "@/components/home/highlights";
 import { HomeLive } from "@/components/home/home-live";
 import { NearMe } from "@/components/home/near-me";
 import { StoreToday } from "@/components/home/store-today";
 import { PriceSeal } from "@/components/price-seal";
+import { FlyerWall } from "@/components/site/events";
 import { StoreMap } from "@/components/site/store-map";
 import { SocialLinks } from "@/components/social-links";
 import { fmtDate, mapsDir, telHref } from "@/lib/format";
@@ -93,6 +95,14 @@ const STANDING: Slide[] = [
   { key: "cakes", src: PHOTOS + "cake-red-velvet.webp", alt: "A 9-inch red velvet cake in a clear cake box", eyebrow: "Restaurant and bakery", title: "Double-layer cakes", text: "Sponge, chocolate, coconut, almond crumble and red velvet, from our in-house bakery.", btn: "btn btn-outline", href: "/restaurant", cta: "Restaurant and bakery" },
   { key: "flags", src: PHOTOS + "flags-car.webp", alt: "Southern Food Basket flags flying from a vehicle on the road", eyebrow: "Five stores", title: "Look for the pink and green flags", text: "Couva, San Fernando, Princes Town, Penal and Point Fortin.", btn: "btn btn-glass", href: "#stores", cta: "A store near me" },
 ];
+
+/* ---------- our story, in four numbers ---------- */
+const STORY = [
+  [String(S.founded), "The year we opened"],
+  [String(2026 - S.founded), "Years of Rewards"],
+  [String(D.branches.length), "Stores across the south"],
+  ["7", "Days a week"],
+] as const;
 
 /* ---------- specials ---------- */
 // Newest first, as the old script sorted them (its comparator never returns 0; kept so ties land in the same order).
@@ -196,12 +206,6 @@ export default function HomePage() {
             </div>
           </div>
           <p className="concept-note">Prototype. Final visuals and drone footage are added when the project begins.</p>
-          <a className="skip-pill" id="skip-intro" href="#inside">
-            Skip intro
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M6 6l6 6 6-6M6 12l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
           <div className="progress" aria-hidden="true">
             <span id="progress-bar" />
           </div>
@@ -256,9 +260,6 @@ export default function HomePage() {
                 <h2 id="deals-title">
                   <Words text="On the shelf right now" />
                 </h2>
-                <p className="note" id="deals-note">
-                  {S.dealsNote}
-                </p>
               </div>
               <div className="shelf-controls" aria-label="Scroll the specials">
                 <button className="round" type="button" data-shelf="-1" aria-label="Previous specials">
@@ -290,6 +291,7 @@ export default function HomePage() {
                 </article>
               ))}
             </div>
+            <FlyerWall rail />
             <p className="more">
               <Link href="/specials">All specials, with filters</Link>
             </p>
@@ -298,23 +300,13 @@ export default function HomePage() {
 
         <section className="band band-careers" id="careers" aria-labelledby="careers-title">
           <div className="ribbon" aria-hidden="true" />
-          <div className="wrap careers careers-solo">
+          <div className="wrap sf-careers">
             <div>
               <Eyebrow>Careers</Eyebrow>
               <h2 id="careers-title">
                 <Words text="Be a part of the family, join the team!" />
               </h2>
-              <p className="lede">Shop floor, bakery, warehouse and office jobs across five stores, with one online application for all of them.</p>
-              <ul className="why" id="why">
-                {D.content.careersWhy.slice(0, 3).map((w) => (
-                  <li key={w.title}>
-                    <div>
-                      <strong>{w.title}</strong>
-                      <p>{w.text}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <p className="lede">Jobs across our five stores, with one online application.</p>
               <div className="row">
                 <Link className="btn btn-sign" href="/careers">
                   See open jobs
@@ -324,52 +316,42 @@ export default function HomePage() {
                 </Link>
               </div>
             </div>
+            <HiringPoster />
           </div>
         </section>
 
         <section className="band band-who" id="who" aria-labelledby="who-title">
           <div className="ribbon" aria-hidden="true" />
-          <div className="wrap">
-            <div className="section-head">
-              <div>
-                <Eyebrow>Our story</Eyebrow>
-                <h2 id="who-title">
-                  <Words text="A family grocer for the south" />
-                </h2>
-              </div>
+          <div className="wrap story">
+            <figure className="sf-window story-pic">
+              <img src="/assets/img/social/store-front.webp" width="640" height="640" alt="The red Southern Food Basket lettering on the teal glass front of a store" loading="lazy" decoding="async" />
+            </figure>
+            <div className="story-body">
+              <Eyebrow>Our story</Eyebrow>
+              <h2 id="who-title">
+                <Words text="Southern Food Basket, est. 1991" />
+              </h2>
+              <ul className="sf-stats story-stats">
+                {STORY.map(([n, label]) => (
+                  <li className="sf-stat" key={label}>
+                    <b>{n}</b>
+                    <span>{label}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="story-memory">
+                <span className="who-arch has-photo">
+                  <img src="/assets/img/people/nazim-mohammed.webp" width="325" height="390" alt="Mr. Nazim Jameel Mohammed" loading="lazy" decoding="async" />
+                </span>
+                <span>
+                  <b>In loving memory of Mr. Nazim Jameel Mohammed</b>
+                  Director of Southern Food Basket and Food Basket Marketplace.
+                </span>
+              </p>
+              <p className="more">
+                <Link href="/about">More about us</Link>
+              </p>
             </div>
-            <div className="who">
-              <article className="who-card who-founder">
-                <div className="who-arch" aria-hidden="true">
-                  <span>NM</span>
-                </div>
-                <p className="who-role">In loving memory</p>
-                <h3>Nazim Mohammed</h3>
-                <p>Father of the family behind Southern Food Basket.</p>
-                <p className="who-small">A place is kept here for his photograph and his story, in the family’s own words.</p>
-              </article>
-              <article className="who-card who-family">
-                <p className="who-year" aria-hidden="true">
-                  1991
-                </p>
-                <h3>A family business</h3>
-                <p>Southern Food Basket has been family-run since 1991. Today there are five stores across the south, and this year we are celebrating 35 Years of Rewards.</p>
-                <p className="who-small">The team in red runs the shop floor, and the pink-and-green flags go out on the music truck.</p>
-              </article>
-              <article className="who-card who-where">
-                <h3>Where we are</h3>
-                <figure className="sf-window">
-                  <img src="/assets/img/social/store-front.webp" width="640" height="640" alt="The red Southern Food Basket lettering on the teal glass front of a store" loading="lazy" decoding="async" />
-                </figure>
-                <p className="who-small">San Fernando, Couva, Princes Town, Penal and Point Fortin. Look for the red letters on the glass.</p>
-                <p className="more">
-                  <a href="#stores">A store near me</a>
-                </p>
-              </article>
-            </div>
-            <p className="more">
-              <Link href="/about">More about our family and our stores</Link>
-            </p>
           </div>
         </section>
 
@@ -417,7 +399,10 @@ export default function HomePage() {
             <div className="near-map">
               <StoreMap id="stores-map" />
             </div>
-            <div className="stores" id="store-grid">
+            <div className="rail-head">
+              <RailButtons target="store-grid" label="stores" />
+            </div>
+            <div className="stores is-rail" id="store-grid" tabIndex={0} aria-label="Our five stores, scroll sideways">
               {D.branches.map((b) => (
                 <article key={b.id} className="store" id={"store-" + b.id}>
                   <div className="cap" aria-hidden="true" />

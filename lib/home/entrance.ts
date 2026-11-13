@@ -1,6 +1,6 @@
 // Southern Food Basket — design option D, Grand Entrance. Ported from assets/js/grand-entrance.js.
 // app/(home)/page.tsx renders the whole page from the seed; this wires up its behaviour:
-//   1) the arrival: it plays on its own. After a beat on the wide shot, a camera travels from an aerial, tilted view of
+//   1) the arrival: it plays on its own, in about three seconds. After a beat on the wide shot, a camera travels from an aerial, tilted view of
 //      the store front down to the front door; the sliding doors open and the crew in red steps forward waving; the
 //      welcome card ("Come on in.") fades in. Nobody has to scroll for it
 //   2) the top bar: mobile menu, the ink pill that follows the pointer, the section spy
@@ -34,7 +34,7 @@ export function startEntrance(): { stage: Stage | null; stop: () => void } {
     const measure = () => (geo = cameraShots(stageEl.clientWidth || innerWidth || 1, stageEl.clientHeight || innerHeight || 1));
     // The clock: HOLD seconds on the opening shot so the welcome can be read, then RUN seconds to the door. It only
     // counts frames that were drawn, so a hidden tab picks up where it left off.
-    const HOLD = 1.2, RUN = 6;
+    const HOLD = 0.5, RUN = 3;
     // the stage has been scrolled off screen (a hidden tab reports no height: that is not "scrolled past")
     const gone = () => intro.offsetHeight > 0 && scrollY >= intro.offsetTop + intro.offsetHeight - 8;
     let clock = 0, done = reduce.matches || gone();

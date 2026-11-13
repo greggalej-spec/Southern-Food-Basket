@@ -77,13 +77,12 @@ export default function AboutPage() {
           </div>
           <div className="who">
             <article className="who-card who-founder">
-              <div className="who-arch" aria-hidden="true">
-                <span>NM</span>
+              <div className="who-arch has-photo">
+                <img src="/assets/img/people/nazim-mohammed.webp" width="325" height="390" alt="Mr. Nazim Jameel Mohammed" decoding="async" />
               </div>
               <p className="who-role">In loving memory</p>
-              <h3>Nazim Mohammed</h3>
-              <p>Father of the family behind Southern Food Basket.</p>
-              <p className="who-small">A place is kept here for his photograph and his story, in the family’s own words.</p>
+              <h3>Mr. Nazim Jameel Mohammed</h3>
+              <p>Director of Southern Food Basket and Food Basket Marketplace.</p>
             </article>
             <article className="who-card who-family">
               <p className="who-year" aria-hidden="true">
