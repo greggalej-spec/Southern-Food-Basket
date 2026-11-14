@@ -56,19 +56,36 @@ type Look = {
   logoY?: number;
   logoX?: number;
   logoW?: number;
+  /** a slimmer build: narrower shoulders, a waist, the arms set in to match (2 is slimmer still) */
+  slim?: boolean | 2;
 };
 
 /** One person, waist-up: the crew's neck, black polo, arms (one resting, one waving) and head, with their own look. */
 function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
-  const { skin, sk, wave } = look;
+  const { skin, sk, wave, slim } = look;
   const rest = -wave as 1 | -1;
+  const sx = slim === 2 ? 7.4 : slim ? 8.1 : 8.8; // where the arms join the shoulders
   return (
     <g transform={"translate(" + x + " 0)"}>
       <g className={"of-body" + (alt ? " of-alt" : "")}>
         {look.back}
         <rect x="-2.5" y="-50.6" width="5" height="4" rx="1.6" fill={sk} />
-        <path d="M-11 -25.2Q-12 -36 -10.2 -44.2Q-7.4 -47.6 -3.4 -47.8H3.4Q7.4 -47.6 10.2 -44.2Q12 -36 11 -25.2Z" fill={SHIRT} />
-        <path d="M4.6 -47.5Q8.9 -46.4 10.2 -44.2Q12 -36 11 -25.2H7.2Q8.6 -34 7.5 -41Z" fill={SHIRT_D} opacity=".7" />
+        {slim === 2 ? (
+          <>
+            <path d="M-8 -25.2Q-7.3 -30.6 -7.6 -35.6Q-8.6 -40.8 -8.6 -44.2Q-6.6 -47.6 -3.3 -47.8H3.3Q6.6 -47.6 8.6 -44.2Q8.6 -40.8 7.6 -35.6Q7.3 -30.6 8 -25.2Z" fill={SHIRT} />
+            <path d="M4.2 -47.5Q7.6 -46.4 8.6 -44.2Q8.6 -40.8 7.6 -35.6Q7.3 -30.6 8 -25.2H5.8Q6.4 -32 6.1 -38Q6.1 -42 4.2 -47.5Z" fill={SHIRT_D} opacity=".7" />
+          </>
+        ) : slim ? (
+          <>
+            <path d="M-9 -25.2Q-8.2 -31 -8.6 -36Q-9.6 -41 -9.4 -44.2Q-7 -47.6 -3.4 -47.8H3.4Q7 -47.6 9.4 -44.2Q9.6 -41 8.6 -36Q8.2 -31 9 -25.2Z" fill={SHIRT} />
+            <path d="M4.4 -47.5Q8.2 -46.4 9.4 -44.2Q9.6 -41 8.6 -36Q8.2 -31 9 -25.2H6.4Q7.2 -32 6.9 -38Q6.9 -42 4.4 -47.5Z" fill={SHIRT_D} opacity=".7" />
+          </>
+        ) : (
+          <>
+            <path d="M-11 -25.2Q-12 -36 -10.2 -44.2Q-7.4 -47.6 -3.4 -47.8H3.4Q7.4 -47.6 10.2 -44.2Q12 -36 11 -25.2Z" fill={SHIRT} />
+            <path d="M4.6 -47.5Q8.9 -46.4 10.2 -44.2Q12 -36 11 -25.2H7.2Q8.6 -34 7.5 -41Z" fill={SHIRT_D} opacity=".7" />
+          </>
+        )}
         <path d="M-3.2 -47.8L0 -44.2L3.2 -47.8Z" fill={sk} />
         <path d="M-3.8 -48.1L0 -46.4L-1.2 -43.4L-4.9 -46.3ZM3.8 -48.1L0 -46.4L1.2 -43.4L4.9 -46.3Z" fill="#2E2E36" />
         <path d="M0 -44.2V-39.6" stroke={TRIM} strokeWidth=".8" />
@@ -81,7 +98,7 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         {look.overShirt}
 
         {/* the arm at rest */}
-        <g transform={"translate(" + rest * 8.8 + " -44.6)"}>
+        <g transform={"translate(" + rest * sx + " -44.6)"}>
           <g transform={"rotate(" + -rest * 10 + ")"}>
             <path d="M0 5L0 9.5" stroke={skin} strokeWidth="3.6" strokeLinecap="round" />
             <g transform="translate(0 9.5)">
@@ -97,7 +114,7 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         </g>
 
         {/* the waving arm: shoulder, elbow and wrist each turn, as the crew wave */}
-        <g transform={"translate(" + wave * 8.8 + " -44.6)"}>
+        <g transform={"translate(" + wave * sx + " -44.6)"}>
           <g transform={"rotate(" + -wave * 140 + ")"}>
             <g className="of-sh">
               <path d="M0 5L0 9.5" stroke={skin} strokeWidth="3.6" strokeLinecap="round" />
@@ -416,6 +433,7 @@ const HER: Look = {
   skin: HER_SKIN,
   sk: HER_SK,
   wave: 1,
+  slim: true,
   logoY: -38.4,
   logoX: -6.1,
   logoW: 5.8,
@@ -502,34 +520,36 @@ const FAITH_HAIR = "#33241E", FAITH_LINE = "#170E0B";
 // (second pass, Gregg: "make her forehead bigger and match her head shape, and her hair reaches a little past her
 // shoulders") her head is taller with the hairline set well back, and the curls fall a little past her shoulders
 // the hair behind her head and shoulders
-const FAITH_BACK: Pt[] = [[-7, -46], [-9.4, -43.8], [-11.2, -44.4], [-11.8, -48], [-11.6, -52.6], [-11.2, -57], [-10.4, -60.6], [-8.8, -65.3], [-6.2, -67.9], [-3, -69.3], [0.6, -69.5], [4, -68.9], [6.8, -67.3], [9, -64.9], [10.6, -61.6], [11.4, -56.8], [11.8, -52.2], [12, -47.6], [11.6, -44.2], [9.8, -43.4], [7.4, -46]];
-const FAITH_TOP: Pt[] = [[-7.6, -57.6], [-8.2, -60.6], [-7.6, -65.1], [-5.8, -67.7], [-3.7, -68.8], [-3.05, -68.2], [-2.4, -68.95], [0.4, -69.1], [3.8, -68.5], [6.4, -66.9], [8, -64.1], [8.6, -60.8], [8.3, -57.2], [7.3, -58.4], [6.8, -61.6], [5.6, -63.3], [3.8, -64.7], [1.6, -65.3], [-1, -65.5], [-3, -65.3], [-4.8, -64.7], [-6.2, -63.3], [-7, -61.6], [-7.3, -59.2]];
+const FAITH_BACK: Pt[] = [[-7, -46], [-9.6, -43.8], [-10.9, -44.8], [-11.4, -48], [-11.3, -52.6], [-10.9, -57], [-10.1, -61], [-8.5, -64.6], [-6.1, -67.3], [-3, -68.5], [0.6, -68.7], [4, -68.3], [6.8, -66.7], [9, -64.3], [10.4, -60.9], [11.3, -56.8], [11.8, -52.2], [11.9, -47.6], [11.5, -44.4], [9.8, -43.6], [7.4, -46]];
+const FAITH_TOP: Pt[] = [[-7.6, -57.6], [-9.18, -60.6], [-8.5, -65.2], [-5.8, -68.4], [-3.7, -69.5], [-3.05, -68.9], [-2.4, -69.65], [0.4, -69.8], [3.8, -69.2], [6.4, -66.9], [8.96, -64.1], [9.63, -60.8], [9.3, -57.2], [7.3, -58.4], [6.8, -61.6], [5.6, -63.3], [3.8, -64.7], [1.6, -65.3], [-1, -65.5], [-3, -65.3], [-4.8, -64.7], [-6.2, -63.3], [-7, -61.6], [-7.3, -59.2]];
 // curls framing either side of her face and falling over her shoulders (the side away from the part a little fuller)
-const FAITH_SIDE_L: Pt[] = [[-7.2, -61], [-8.8, -59.4], [-10, -56.4], [-10.5, -52.8], [-10.6, -49], [-10.4, -45.6], [-9.4, -43.4], [-8, -43.6], [-7.4, -45.8], [-7.1, -49.4], [-6.9, -53], [-7, -57]];
-const FAITH_SIDE_R: Pt[] = [[7.2, -61.4], [9, -59.8], [10.4, -56.8], [11, -53], [11.2, -49], [11, -45.4], [10, -43], [8.4, -43.2], [7.6, -45.6], [7.2, -49.4], [7, -53], [7.1, -57.2]];
+const FAITH_SIDE_L: Pt[] = [[-7.2, -61], [-9.86, -59.4], [-11.2, -56.4], [-11.76, -52.8], [-11.87, -49], [-11.65, -45.6], [-10.53, -43.4], [-8.96, -43.6], [-7.4, -45.8], [-7.1, -49.4], [-6.9, -53], [-7, -57]];
+const FAITH_SIDE_R: Pt[] = [[7.2, -61.4], [10.08, -59.8], [11.65, -56.8], [12.32, -53], [12.54, -49], [12.32, -45.4], [11.2, -43], [9.41, -43.2], [7.6, -45.6], [7.2, -49.4], [7, -53], [7.1, -57.2]];
 const FAITH_TOP_COILS: Coil[] = [
-  [-3, -68.9, -6.8, -68.7, -8.2, -60, 4, 0.5],
-  [-3.2, -67.7, -6, -67.3, -7.2, -61.4, 3, 0.45],
-  [-2.8, -69.1, 4.6, -69.9, 8.5, -59.6, 5, 0.55],
-  [-2.6, -67.9, 3.6, -68.3, 7.4, -60.8, 4, 0.5],
-  [-2.4, -66.7, 2.2, -66.5, 6, -61.8, 3, 0.45],
+  [-3, -69.6, -6.8, -69.4, -9.18, -60, 4, 0.54],
+  [-3.2, -68.4, -6, -68.0, -7.2, -61.4, 3, 0.49],
+  [-2.8, -69.8, 4.6, -70.6, 9.52, -59.6, 5, 0.59],
+  [-2.6, -68.6, 3.6, -69.0, 7.4, -60.8, 4, 0.54],
+  [-2.4, -66.7, 2.2, -66.5, 6, -61.8, 3, 0.49],
 ];
 const FAITH_SIDE_COILS: Coil[] = [
-  [-8.2, -60, -10.4, -52, -9.8, -43.8, 7, 0.75], [-7.4, -57.6, -8.2, -50.4, -7.9, -44, 6, 0.65],
-  [8.4, -60.2, 10.8, -52, 10.4, -43.6, 7, 0.8], [7.6, -57.8, 8.8, -50.4, 8.4, -43.6, 6, 0.7], [9.6, -58.4, 11.4, -51, 11, -44.6, 6, 0.6],
+  [-9.18, -60, -11.65, -52, -10.98, -43.8, 7, 0.81],
+  [-7.4, -57.6, -9.18, -50.4, -8.85, -44, 6, 0.7],
+  [9.41, -60.2, 12.1, -52, 11.65, -43.6, 7, 0.86],
+  [7.6, -57.8, 9.86, -50.4, 9.41, -43.6, 6, 0.76],
+  [10.75, -58.4, 12.77, -51, 12.32, -44.6, 6, 0.65],
 ];
-const FAITH_BACK_COILS: Coil[] = [[-9.6, -60.6, -12, -53, -10.8, -44.6, 7, 0.75], [9.8, -60.6, 12.2, -53, 11, -44.4, 7, 0.75]];
 const FAITH: Look = {
   skin: FAITH_SKIN,
   sk: FAITH_SK,
   wave: -1,
+  slim: 2,
+  logoX: -6.9,
+  logoW: 6.3,
   back: (
     <>
-      <clipPath id="hr-clip-back">
-        <path d={curly(FAITH_BACK, EDGE)} />
-      </clipPath>
-      <path d={curly(FAITH_BACK, EDGE)} fill={FAITH_HAIR} stroke="#120C0A" strokeWidth=".3" strokeLinejoin="round" />
-      <g clipPath="url(#hr-clip-back)">{coils(FAITH_BACK_COILS, "fb", FAITH_LINE)}</g>
+      {/* tucked inside the curls that frame her face, with no outline, so nothing pokes out past them */}
+      <path d={curly(FAITH_BACK, 0.15)} fill={FAITH_HAIR} />
     </>
   ),
   locks: (
@@ -554,7 +574,7 @@ const FAITH: Look = {
       <path d={curly(FAITH_TOP, 0.4)} fill={FAITH_HAIR} stroke="#120C0A" strokeWidth=".3" strokeLinejoin="round" />
       <g clipPath="url(#hr-clip-top)">{coils(FAITH_TOP_COILS, "ft", FAITH_LINE)}</g>
       {/* the side part: the hair divides here, a thin strip of scalp showing between the two sides, not outlined */}
-      <path d="M-3.32 -68.35Q-3.1 -66.9 -3.22 -65.35L-2.92 -65.35Q-2.8 -66.9 -2.82 -68.35Z" fill="#A36A4C" />
+      <path d="M-3.32 -68.95Q-3.1 -67.2 -3.22 -65.35L-2.92 -65.35Q-2.8 -67.2 -2.82 -68.95Z" fill="#A36A4C" />
       {/* her ears, small and close to her head, just outside her face from eye to nose level */}
       <path d="M-7.4 -57.7Q-8.4 -57.9 -8.4 -56Q-8.4 -54.3 -7.4 -54.1Z" fill={FAITH_SKIN} />
       <path d="M-7.7 -57Q-8.1 -56.8 -8.05 -56Q-8 -55.2 -7.65 -54.9" stroke={FAITH_SK} strokeWidth=".32" fill="none" strokeLinecap="round" />
