@@ -766,3 +766,93 @@ html[data-staff-theme="dark"] .app .cz-skin-art i{ background: #123F22; box-shad
 .app .cz-skin.is-glass .cz-skin-art{ background-image: url(/assets/img/stock/produce-variety.webp) !important; background-size: cover; background-position: center; }
 .app .cz-skin.is-glass .cz-skin-art i{ background: rgba(255, 255, 255, .7); }
 html[data-staff-theme="dark"] .app .cz-skin.is-glass .cz-skin-art i{ background: rgba(18, 63, 34, .75); }
+
+/* ---------- Revision 11 (Gregg, 14 Nov 2026: "the photo and glass needs sliders for customization of the opacity") ----------
+   Photo and glass reads its strengths from variables that the Customize page's sliders write on <html>
+   (components/theme-toggle.tsx). The fallbacks are the look it had before the sliders. */
+html[data-staff-skin="glass"] .app{ --glass-photo: url(/assets/img/stock/produce-variety.webp); --glass-rgb: 255 246 241; --glass-shift: 0; }
+html[data-staff-theme="dark"][data-staff-skin="glass"] .app{ --glass-photo: url(/assets/img/stock/produce-dark.webp); --glass-rgb: 11 46 25; --glass-shift: .04; }
+html[data-staff-skin="glass"][data-glass-photo="variety"] .app{ --glass-photo: url(/assets/img/stock/produce-variety.webp); }
+html[data-staff-skin="glass"][data-glass-photo="market"] .app{ --glass-photo: url(/assets/img/stock/produce-market.webp); }
+html[data-staff-skin="glass"][data-glass-photo="dark"] .app{ --glass-photo: url(/assets/img/stock/produce-dark.webp); }
+html[data-staff-skin="glass"] .app .app-body::before{ inset: 0; filter: none;
+  background: linear-gradient(rgb(var(--glass-rgb) / calc(var(--glass-tint, .52) + var(--glass-shift))), rgb(var(--glass-rgb) / calc(var(--glass-tint2, .66) + var(--glass-shift)))), var(--glass-photo) center / cover no-repeat; }
+html[data-staff-skin="glass"] .app .panel, html[data-staff-skin="glass"] .app .kpi, html[data-staff-skin="glass"] .app .app-topbar, html[data-staff-skin="glass"] .app .chart-stats li,
+html[data-staff-skin="glass"] .app .cal-month, html[data-staff-skin="glass"] .app .cal-sum li, html[data-staff-skin="glass"] .app .cz-card{ -webkit-backdrop-filter: blur(var(--glass-blur, 16px)) saturate(1.25); backdrop-filter: blur(var(--glass-blur, 16px)) saturate(1.25); }
+html[data-staff-skin="glass"] .app .panel, html[data-staff-skin="glass"] .app .kpi:not([class*="is-"]), html[data-staff-skin="glass"] .app .app-topbar, html[data-staff-skin="glass"] .app .cz-card{ background: color-mix(in srgb, var(--card) var(--glass-card, 90%), transparent); }
+html[data-staff-skin="glass"] .app .app-main{ background: color-mix(in srgb, var(--page) var(--glass-sheet, 72%), transparent); }
+
+/* the settings panel: which photograph, then the sliders */
+.app .panel.cz-glass{ margin-top: 14px; padding: 18px 20px; display: grid; gap: 16px; }
+.app .cz-glass-head{ display: flex; flex-wrap: wrap; align-items: start; justify-content: space-between; gap: 10px 20px; }
+.app .cz-glass-head h3{ margin: 0 0 3px; font: 700 1.25rem/1.2 var(--display); color: var(--ink); }
+.app .cz-glass-head p{ margin: 0; font-size: .9375rem; color: var(--muted); }
+.app .cz-pics{ display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr)); }
+.app .cz-pic{ display: grid; gap: 4px; padding: 8px; border-radius: 14px; border: 1px solid var(--card-line, var(--line)); background: var(--card); color: var(--ink); text-align: left; cursor: pointer; transition: transform .2s ease; }
+.app .cz-pic:hover{ transform: translateY(-3px); }
+.app .cz-pic.is-on{ box-shadow: inset 0 0 0 3px var(--a-green); }
+.app .cz-pic b{ font: 700 .9375rem/1.2 var(--display); }
+.app .cz-pic small{ font: 600 .75rem/1.3 var(--ui); color: var(--muted); }
+.app .cz-pic-art{ height: 58px; border-radius: 9px; background: center / cover no-repeat; border: 1px solid rgba(32, 20, 26, .14); }
+.app .cz-pic.is-variety .cz-pic-art{ background-image: url(/assets/img/stock/produce-variety.webp); }
+.app .cz-pic.is-market .cz-pic-art{ background-image: url(/assets/img/stock/produce-market.webp); }
+.app .cz-pic.is-dark .cz-pic-art{ background-image: url(/assets/img/stock/produce-dark.webp); }
+.app .cz-pic.is-auto .cz-pic-art{ background-image: url(/assets/img/stock/produce-dark.webp), url(/assets/img/stock/produce-variety.webp); background-size: 50% 100%, 50% 100%; background-position: right center, left center; background-repeat: no-repeat; }
+.app .cz-ranges{ display: grid; gap: 14px 30px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.app .cz-range{ display: grid; gap: 4px; }
+.app .cz-range-top{ display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.app .cz-range-top b{ font: 700 .9375rem/1.3 var(--ui); color: var(--ink); }
+.app .cz-range-top output{ min-width: 3.4em; text-align: right; font: 800 .9375rem/1.3 var(--ui); font-variant-numeric: tabular-nums; color: var(--ink); }
+.app .cz-range input[type="range"]{ width: 100%; height: 32px; margin: 0; accent-color: var(--a-green); cursor: pointer; }
+.app .cz-range-ends{ display: flex; justify-content: space-between; gap: 10px; }
+.app .cz-range-ends small{ font: 600 .75rem/1.3 var(--ui); color: var(--muted); }
+
+/* ---------- Revision 12 (Gregg, 14 Nov 2026, iPad screenshot of the content calendar: nothing may overlap) ----------
+   1. The calendar's controls are two tidy rows: month stepping and "Add to the calendar", then the jumps and the
+      Month / Year switch. The count chips and the legend keep clear space above them (they had none).
+   2. The top bar stays put while the page scrolls; nothing shows in the gap above it any more.
+   3. The prototype notice above the console was hidden behind the page backdrop yet still took up room. It shows now.
+   4. The side menu's colour carries on below its box, so a browser toolbar that hides or shows never leaves a gap. */
+.app .cal-bar{ justify-content: space-between; gap: 12px 16px; }
+.app .cal-nav{ flex-wrap: wrap; gap: 8px 10px; min-width: 0; }
+.app .cal-title{ min-width: 13.5ch; }
+.app .cal-bar .cal-add{ flex: none; }
+.app .section-stack > .cal-tools{ margin-top: 14px; }
+.app .cal-tools{ display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.app .cal-tools .seg{ margin-left: auto; }
+.app .cal-jump{ white-space: nowrap; }
+.app .section-stack > .cal-sum{ margin-top: 16px; }
+.app .section-stack > .cal-key{ margin-top: 14px; }
+.app .cal-key .muted{ flex: 1 1 260px; min-width: 0; }
+@media (max-width: 560px) {
+  .app .cal-title{ min-width: 0; flex: 1 1 auto; }
+  .app .cal-nav{ flex: 1 1 100%; }
+  .app .cal-bar .cal-add{ flex: 1 1 100%; justify-content: center; }
+  .app .cal-tools .seg{ margin-left: 0; }
+}
+
+/* the top bar: on a solid page a ring of the page colour hides what scrolls past above and beside it */
+html:not([data-staff-skin="glass"]) .app .app-topbar{ box-shadow: 0 1px 2px rgba(32, 20, 26, .08), 0 14px 28px -18px rgba(32, 20, 26, .45), 0 -8px 0 14px var(--page); }
+html[data-staff-theme="dark"]:not([data-staff-skin="glass"]) .app .app-topbar{ box-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset, 0 16px 30px -18px rgba(0, 0, 0, .9), 0 -8px 0 14px var(--page); }
+/* over the photograph there is no colour to hide behind, so the bar rests against the top edge once the page moves */
+html[data-staff-skin="glass"] .app .app-topbar{ top: 0; }
+
+/* the prototype notice sits above the page backdrop */
+[data-css~="app"] > .concept-banner{ position: relative; z-index: 2; }
+
+@media (min-width: 910px) {
+  .app .app-sidebar{ box-shadow: 0 120px 0 0 #123F22; }
+  html[data-staff-theme="dark"] .app .app-sidebar{ box-shadow: 0 120px 0 0 #082313; }
+}
+/* a narrow top bar: the office name shortens instead of running over the buttons beside it */
+.app .app-topbar-title{ flex: 0 1 auto; overflow: hidden; }
+.app .app-topbar-title > *{ max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 560px) {
+  /* on a phone the two jumps sit side by side; their words stay for screen readers */
+  .app .cal-tools .cal-jump{ flex: 1 1 120px; }
+  .app .cal-tools .cal-jump > span{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .app .cal-tools .cal-jump select{ width: 100%; }
+  .app .cal-tools .seg{ flex: 1 1 100%; }
+}
+.app .app-topbar-title > *{ display: block; }
+@media (max-width: 480px) { .app .app-topbar-title{ display: none; } }

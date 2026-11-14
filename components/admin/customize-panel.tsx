@@ -1,7 +1,7 @@
 "use client";
 
 import { act } from "@/components/admin/bits";
-import { SKINS, useStaffSkin, useStaffTheme } from "@/components/theme-toggle";
+import { GLASS_DEFAULT, GLASS_PICS, GLASS_RANGE, SKINS, useStaffGlass, useStaffSkin, useStaffTheme } from "@/components/theme-toggle";
 import { personName } from "@/lib/admin/guard";
 import { todayIso } from "@/lib/admin/helpers";
 import { fmtDate } from "@/lib/format";
@@ -18,11 +18,21 @@ import type { SeasonId } from "@/lib/types";
 
 const EVERYDAY: [string, string][] = [["Raspberry", "#D92C66"], ["Leaf", "#1D6B35"], ["Sun", "#FFD21A"], ["Teal", "#2F918A"]];
 
+/* The sliders for Photo and glass. Each one moves a CSS variable (see components/theme-toggle.tsx). */
+const GLASS_KEYS = ["photo", "card", "blur", "sheet"] as const;
+const GLASS_SLIDERS: { key: (typeof GLASS_KEYS)[number]; name: string; unit: string; low: string; high: string }[] = [
+  { key: "photo", name: "Photo strength", unit: "%", low: "Faint", high: "Vivid" },
+  { key: "card", name: "Panel opacity", unit: "%", low: "See-through", high: "Solid" },
+  { key: "blur", name: "Frost", unit: "px", low: "Clear glass", high: "Heavy frost" },
+  { key: "sheet", name: "Sheet behind the page", unit: "%", low: "None", high: "Solid" },
+];
+
 export function CustomizePanel() {
   const d = useData();
   const s = useSession();
   const [theme, setTheme] = useStaffTheme();
   const [skin, setSkin] = useStaffSkin();
+  const [glass, setGlass] = useStaffGlass();
   const site = d.site;
   const wearing: SeasonId = site.season.mode === "off" ? "none" : site.season.id;
   const today = todayIso();
@@ -125,6 +135,44 @@ export function CustomizePanel() {
             </button>
           ))}
         </div>
+        {skin === "glass" ? (
+          <div className="panel cz-glass" role="group" aria-labelledby="cz-glass-h">
+            <div className="cz-glass-head">
+              <div>
+                <h3 id="cz-glass-h">Photo and glass settings</h3>
+                <p>Drag a slider and the console changes as you move it. Kept on this device.</p>
+              </div>
+              <button className="btn btn-outline btn-sm" type="button" onClick={() => setGlass(GLASS_DEFAULT)} disabled={GLASS_KEYS.every((k) => glass[k] === GLASS_DEFAULT[k]) && glass.pic === GLASS_DEFAULT.pic}>
+                Reset
+              </button>
+            </div>
+            <div className="cz-pics" role="group" aria-label="Photograph">
+              {GLASS_PICS.map((p) => (
+                <button key={p.id} type="button" className={"cz-pic is-" + p.id + (glass.pic === p.id ? " is-on" : "")} aria-pressed={glass.pic === p.id} onClick={() => setGlass({ ...glass, pic: p.id })}>
+                  <span className="cz-pic-art" aria-hidden="true" />
+                  <b>{p.name}</b>
+                  <small>{p.note}</small>
+                </button>
+              ))}
+            </div>
+            <div className="cz-ranges">
+              {GLASS_SLIDERS.map((sl) => (
+                <label key={sl.key} className="cz-range">
+                  <span className="cz-range-top">
+                    <b>{sl.name}</b>
+                    <output>{glass[sl.key] + sl.unit}</output>
+                  </span>
+                  <input type="range" min={GLASS_RANGE[sl.key][0]} max={GLASS_RANGE[sl.key][1]} step={1} value={glass[sl.key]} onChange={(e) => setGlass({ ...glass, [sl.key]: Number(e.target.value) })} />
+                  <span className="cz-range-ends" aria-hidden="true">
+                    <small>{sl.low}</small>
+                    <small>{sl.high}</small>
+                  </span>
+                </label>
+              ))}
+            </div>
+            <p className="small muted">A strong photo with see-through panels can make words harder to read. Reset puts the standard settings back.</p>
+          </div>
+        ) : null}
       </section>
 
       <section aria-labelledby="cz-versions">

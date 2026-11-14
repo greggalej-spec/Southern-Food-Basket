@@ -83,6 +83,13 @@ export function PlanPanel() {
             Today
           </button>
         </div>
+        <button className="btn btn-primary btn-sm cal-add" type="button" onClick={() => addOn(view === "month" && !today.startsWith(ym.y + "-" + pad(ym.m + 1)) ? iso(ym.y, ym.m, 1) : today)}>
+          Add to the calendar
+        </button>
+      </div>
+
+      {/* second row: jump to any year or month on the left, the Month / Year view on the right */}
+      <div className="cal-tools">
         <label className="cal-jump">
           <span>Year</span>
           <select value={ym.y} onChange={(e) => setYm({ ...ym, y: Number(e.target.value) })}>
@@ -101,11 +108,7 @@ export function PlanPanel() {
             </select>
           </label>
         ) : null}
-        <span className="grow" />
         <Seg label="View" value={view} onChange={setView} options={[{ id: "month", label: "Month" }, { id: "year", label: "Year" }]} />
-        <button className="btn btn-primary btn-sm" type="button" onClick={() => addOn(view === "month" && !today.startsWith(ym.y + "-" + pad(ym.m + 1)) ? iso(ym.y, ym.m, 1) : today)}>
-          Add to the calendar
-        </button>
       </div>
 
       <ul className="cal-sum" aria-label={"In " + label}>

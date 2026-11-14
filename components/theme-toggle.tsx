@@ -47,6 +47,84 @@ export function useStaffSkin(): [Skin, (k: Skin) => void] {
 }
 const listeners = new Set<() => void>();
 
+/* Photo and glass has its own controls (Gregg, 14 Nov 2026: "needs sliders for customization of the opacity and
+   such"). They are kept in this browser and written on <html> as CSS variables that styles/staff-theme.css reads:
+     photo   how strongly the photograph shows through the tint (per cent)
+     card    how solid the panels are (per cent)
+     blur    how much the panels frost what is behind them (px)
+     sheet   how solid the sheet behind the working column is (per cent)
+     pic     which photograph: "auto" follows light / dark */
+const GLASS_KEY = "sfb.staffGlass";
+export const GLASS_PICS = [
+  { id: "auto", name: "Automatic", note: "Follows light or dark" },
+  { id: "variety", name: "Mixed produce", note: "Bright" },
+  { id: "market", name: "Market stall", note: "Colourful" },
+  { id: "dark", name: "Dark produce", note: "Moody" },
+] as const;
+export type GlassPic = (typeof GLASS_PICS)[number]["id"];
+export type Glass = { photo: number; card: number; blur: number; sheet: number; pic: GlassPic };
+export const GLASS_DEFAULT: Glass = { photo: 45, card: 90, blur: 16, sheet: 72, pic: "auto" };
+export const GLASS_RANGE = { photo: [10, 90], card: [50, 100], blur: [0, 30], sheet: [0, 100] } as const;
+const GLASS_VARS = ["--glass-tint", "--glass-tint2", "--glass-card", "--glass-blur", "--glass-sheet"];
+
+function num(v: unknown, key: keyof typeof GLASS_RANGE): number {
+  const [lo, hi] = GLASS_RANGE[key];
+  return typeof v === "number" && Number.isFinite(v) ? Math.min(hi, Math.max(lo, Math.round(v))) : GLASS_DEFAULT[key];
+}
+let glassRaw: string | null | undefined;
+let glassVal: Glass = GLASS_DEFAULT;
+function readGlass(): Glass {
+  let raw: string | null = null;
+  try {
+    raw = localStorage.getItem(GLASS_KEY);
+  } catch {
+    raw = null;
+  }
+  if (raw === glassRaw) return glassVal; // the same object while nothing changed, as useSyncExternalStore needs
+  glassRaw = raw;
+  glassVal = GLASS_DEFAULT;
+  if (raw) {
+    try {
+      const o = JSON.parse(raw) as Partial<Glass>;
+      glassVal = { photo: num(o.photo, "photo"), card: num(o.card, "card"), blur: num(o.blur, "blur"), sheet: num(o.sheet, "sheet"), pic: GLASS_PICS.some((p) => p.id === o.pic) ? (o.pic as GlassPic) : "auto" };
+    } catch {
+      /* unreadable: the standard settings */
+    }
+  }
+  return glassVal;
+}
+function applyGlass(g: Glass) {
+  const root = document.documentElement;
+  const tint = (97 - g.photo) / 100;
+  root.style.setProperty("--glass-tint", tint.toFixed(2));
+  root.style.setProperty("--glass-tint2", Math.min(1, tint + 0.14).toFixed(2));
+  root.style.setProperty("--glass-card", g.card + "%");
+  root.style.setProperty("--glass-blur", g.blur + "px");
+  root.style.setProperty("--glass-sheet", g.sheet + "%");
+  if (g.pic === "auto") delete root.dataset.glassPhoto;
+  else root.dataset.glassPhoto = g.pic;
+}
+function clearGlass() {
+  const root = document.documentElement;
+  GLASS_VARS.forEach((v) => root.style.removeProperty(v));
+  delete root.dataset.glassPhoto;
+}
+function writeGlass(g: Glass) {
+  try {
+    localStorage.setItem(GLASS_KEY, JSON.stringify(g));
+  } catch {
+    /* private window: the settings last for this page only */
+    glassRaw = null;
+    glassVal = g;
+  }
+  applyGlass(g);
+  listeners.forEach((l) => l());
+}
+/** The Photo and glass settings and their setter, for the Customize page. */
+export function useStaffGlass(): [Glass, (g: Glass) => void] {
+  return [useSyncExternalStore(subscribe, readGlass, () => GLASS_DEFAULT), writeGlass];
+}
+
 function read(): Theme {
   try {
     return localStorage.getItem(KEY) === "dark" ? "dark" : "light";
@@ -88,6 +166,11 @@ export function ThemeToggle() {
       delete document.documentElement.dataset.staffSkin;
     };
   }, [theme, skin]);
+  const glass = useSyncExternalStore(subscribe, readGlass, () => GLASS_DEFAULT);
+  useEffect(() => {
+    applyGlass(glass);
+    return clearGlass;
+  }, [glass]);
   const dark = theme === "dark";
   return (
     <button type="button" className="theme-toggle" aria-pressed={dark} onClick={() => write(dark ? "light" : "dark")} title={dark ? "Switch to light mode" : "Switch to dark mode"}>
