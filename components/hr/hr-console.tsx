@@ -14,6 +14,7 @@ import { TABS, complianceRows, goToTab, isActive, useHrTab, type HrTab } from "@
 import { can } from "@/lib/access";
 import { byId, useData, useRequireRole } from "@/lib/store";
 import type { Seed } from "@/lib/types";
+import { HrFigure } from "@/components/admin/office-figure";
 
 // The HR console, ported from hr/index.html and assets/js/hr.js: stats, the hash tabs and the applicant drawer.
 // #updates is the Staff updates composer, shown to people with staff.updates. Role: hr. The headings, tabs and empty sections render on the server, as the static HTML did; the data
@@ -69,12 +70,14 @@ export function HrConsole() {
 
   return (
     <AppShell app="hr" active={tab === "updates" ? "hr-updates" : tab} title="HR console" css={["app", "careers", "admin", "ops"]}>
-      <div className="page-head">
+      {/* the HR banner carries Faith in a little store front, as the office and marketing banners carry their people */}
+      <div className="page-head sec-band has-figure">
         <div>
           <p className="eyebrow">HR console</p>
           <h1>Hiring and people</h1>
           <p className="muted">Applications, open jobs, the team at all five stores, and the documents and training that need you.</p>
         </div>
+        <HrFigure />
       </div>
 
       <div className="stats" id="hr-stats">

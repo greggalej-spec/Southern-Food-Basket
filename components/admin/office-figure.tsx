@@ -354,7 +354,7 @@ const curly = (pts: Pt[], bulge = 0.42) => {
 /** A corkscrew curl (Gregg's reference, 14 Nov 2026): a strand that loops round and round as it falls, following a curve
  *  from (ax, ay) through (cx, cy) to (bx, by). Drawn twice: dark brown, then a copper highlight a quarter turn on, so each
  *  loop catches the light like a real spiral curl. */
-const coil = (ax: number, ay: number, cx: number, cy: number, bx: number, by: number, turns: number, r: number, key: string) => {
+const coil = (ax: number, ay: number, cx: number, cy: number, bx: number, by: number, turns: number, r: number, key: string, line = CURL_LINE) => {
   const path = (shift: number) => {
     let d = "";
     const n = Math.ceil(turns * 14);
@@ -373,12 +373,12 @@ const coil = (ax: number, ay: number, cx: number, cy: number, bx: number, by: nu
   };
   return (
     <g key={key}>
-      <path d={path(0)} stroke={CURL_LINE} strokeWidth=".45" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity=".8" />
+      <path d={path(0)} stroke={line} strokeWidth=".45" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity=".8" />
     </g>
   );
 };
 type Coil = [number, number, number, number, number, number, number, number];
-const coils = (list: Coil[], k: string) => list.map(([ax, ay, cx, cy, bx, by, turns, r], i) => coil(ax, ay, cx, cy, bx, by, turns, r, k + i));
+const coils = (list: Coil[], k: string, line?: string) => list.map(([ax, ay, cx, cy, bx, by, turns, r], i) => coil(ax, ay, cx, cy, bx, by, turns, r, k + i, line));
 const flip = (list: Coil[]): Coil[] => list.map(([ax, ay, cx, cy, bx, by, turns, r]) => [-ax, ay, -cx, cy, -bx, by, turns, r]);
 // coils behind her, falling past her shoulders and flaring a little (left side; the right mirrors it)
 const BACK_COILS: Coil[] = [
@@ -487,6 +487,111 @@ export function MarketingFigure() {
       <StoreFront id="mk" left={-46} width={88} doorL={-28} doorR={28} />
       <Person x={-13.8} look={HIM} />
       <Person x={13.8} look={HER} alt />
+    </svg>
+  );
+}
+
+/* ---------------- HR: Faith ---------------- */
+
+// (Gregg, 14 Nov 2026: "This is Faith, she is for the HR console, she wants a side part with short curly hair ... the same
+// way you did the others, black shirt with logo and background"): warm brown skin sampled from her photo, a round full
+// face with a big forehead, dark curly hair a little past her shoulders with a side part, big black frames lifting a
+// little at the outer corners with silver at the hinges, arched brows, full lips, small gold hoops
+const FAITH_SKIN = "#AE6F50", FAITH_SK = "#8E5A40";
+const FAITH_HAIR = "#33241E", FAITH_LINE = "#170E0B";
+// (second pass, Gregg: "make her forehead bigger and match her head shape, and her hair reaches a little past her
+// shoulders") her head is taller with the hairline set well back, and the curls fall a little past her shoulders
+// the hair behind her head and shoulders
+const FAITH_BACK: Pt[] = [[-7, -46], [-9.4, -43.8], [-11.2, -44.4], [-11.8, -48], [-11.6, -52.6], [-11.2, -57], [-10.4, -60.6], [-8.8, -65.3], [-6.2, -67.9], [-3, -69.3], [0.6, -69.5], [4, -68.9], [6.8, -67.3], [9, -64.9], [10.6, -61.6], [11.4, -56.8], [11.8, -52.2], [12, -47.6], [11.6, -44.2], [9.8, -43.4], [7.4, -46]];
+const FAITH_TOP: Pt[] = [[-7.6, -57.6], [-8.2, -60.6], [-7.6, -65.1], [-5.8, -67.7], [-3.7, -68.8], [-3.05, -68.2], [-2.4, -68.95], [0.4, -69.1], [3.8, -68.5], [6.4, -66.9], [8, -64.1], [8.6, -60.8], [8.3, -57.2], [7.3, -58.4], [6.8, -61.6], [5.6, -63.3], [3.8, -64.7], [1.6, -65.3], [-1, -65.5], [-3, -65.3], [-4.8, -64.7], [-6.2, -63.3], [-7, -61.6], [-7.3, -59.2]];
+// curls framing either side of her face and falling over her shoulders (the side away from the part a little fuller)
+const FAITH_SIDE_L: Pt[] = [[-7.2, -61], [-8.8, -59.4], [-10, -56.4], [-10.5, -52.8], [-10.6, -49], [-10.4, -45.6], [-9.4, -43.4], [-8, -43.6], [-7.4, -45.8], [-7.1, -49.4], [-6.9, -53], [-7, -57]];
+const FAITH_SIDE_R: Pt[] = [[7.2, -61.4], [9, -59.8], [10.4, -56.8], [11, -53], [11.2, -49], [11, -45.4], [10, -43], [8.4, -43.2], [7.6, -45.6], [7.2, -49.4], [7, -53], [7.1, -57.2]];
+const FAITH_TOP_COILS: Coil[] = [
+  [-3, -68.9, -6.8, -68.7, -8.2, -60, 4, 0.5],
+  [-3.2, -67.7, -6, -67.3, -7.2, -61.4, 3, 0.45],
+  [-2.8, -69.1, 4.6, -69.9, 8.5, -59.6, 5, 0.55],
+  [-2.6, -67.9, 3.6, -68.3, 7.4, -60.8, 4, 0.5],
+  [-2.4, -66.7, 2.2, -66.5, 6, -61.8, 3, 0.45],
+];
+const FAITH_SIDE_COILS: Coil[] = [
+  [-8.2, -60, -10.4, -52, -9.8, -43.8, 7, 0.75], [-7.4, -57.6, -8.2, -50.4, -7.9, -44, 6, 0.65],
+  [8.4, -60.2, 10.8, -52, 10.4, -43.6, 7, 0.8], [7.6, -57.8, 8.8, -50.4, 8.4, -43.6, 6, 0.7], [9.6, -58.4, 11.4, -51, 11, -44.6, 6, 0.6],
+];
+const FAITH_BACK_COILS: Coil[] = [[-9.6, -60.6, -12, -53, -10.8, -44.6, 7, 0.75], [9.8, -60.6, 12.2, -53, 11, -44.4, 7, 0.75]];
+const FAITH: Look = {
+  skin: FAITH_SKIN,
+  sk: FAITH_SK,
+  wave: -1,
+  back: (
+    <>
+      <clipPath id="hr-clip-back">
+        <path d={curly(FAITH_BACK, EDGE)} />
+      </clipPath>
+      <path d={curly(FAITH_BACK, EDGE)} fill={FAITH_HAIR} stroke="#120C0A" strokeWidth=".3" strokeLinejoin="round" />
+      <g clipPath="url(#hr-clip-back)">{coils(FAITH_BACK_COILS, "fb", FAITH_LINE)}</g>
+    </>
+  ),
+  locks: (
+    <>
+      <clipPath id="hr-clip-side">
+        <path d={curly(FAITH_SIDE_L, EDGE) + curly(FAITH_SIDE_R, EDGE)} />
+      </clipPath>
+      <path d={curly(FAITH_SIDE_L, EDGE)} fill={FAITH_HAIR} stroke="#120C0A" strokeWidth=".3" strokeLinejoin="round" />
+      <path d={curly(FAITH_SIDE_R, EDGE)} fill={FAITH_HAIR} stroke="#120C0A" strokeWidth=".3" strokeLinejoin="round" />
+      <g clipPath="url(#hr-clip-side)">{coils(FAITH_SIDE_COILS, "fs", FAITH_LINE)}</g>
+    </>
+  ),
+  face: (
+    <>
+      {/* her face, measured from her photo: an egg shape, wide at the forehead and cheeks, tapering to a soft rounded chin */}
+      <path d="M0 -67.1C5.6 -67.1 7.6 -63.2 7.6 -58.4C7.6 -55 6.9 -52 5.1 -49.9C3.6 -48.4 1.9 -47.8 0 -47.8C-1.9 -47.8 -3.6 -48.4 -5.1 -49.9C-6.9 -52 -7.6 -55 -7.6 -58.4C-7.6 -63.2 -5.6 -67.1 0 -67.1Z" fill={FAITH_SKIN} />
+      <path d="M3.8 -65.4Q7.6 -63.2 7.6 -58.4C7.6 -55 6.9 -52 5.1 -49.9C3.6 -48.4 1.9 -47.8 0 -47.8Q4.4 -49.2 5.8 -53.2Q6.6 -56.4 6.2 -60.2Q5.6 -63.4 3.8 -65.4Z" fill={FAITH_SK} opacity=".22" />
+      {/* short curly hair with a side part */}
+      <clipPath id="hr-clip-top">
+        <path d={curly(FAITH_TOP, 0.4)} />
+      </clipPath>
+      <path d={curly(FAITH_TOP, 0.4)} fill={FAITH_HAIR} stroke="#120C0A" strokeWidth=".3" strokeLinejoin="round" />
+      <g clipPath="url(#hr-clip-top)">{coils(FAITH_TOP_COILS, "ft", FAITH_LINE)}</g>
+      {/* the side part: the hair divides here, a thin strip of scalp showing between the two sides, not outlined */}
+      <path d="M-3.32 -68.35Q-3.1 -66.9 -3.22 -65.35L-2.92 -65.35Q-2.8 -66.9 -2.82 -68.35Z" fill="#A36A4C" />
+      {/* her ears, small and close to her head, just outside her face from eye to nose level */}
+      <path d="M-7.4 -57.7Q-8.4 -57.9 -8.4 -56Q-8.4 -54.3 -7.4 -54.1Z" fill={FAITH_SKIN} />
+      <path d="M-7.7 -57Q-8.1 -56.8 -8.05 -56Q-8 -55.2 -7.65 -54.9" stroke={FAITH_SK} strokeWidth=".32" fill="none" strokeLinecap="round" />
+      <path d="M7.4 -57.7Q8.4 -57.9 8.4 -56Q8.4 -54.3 7.4 -54.1Z" fill={FAITH_SK} />
+      <path d="M7.7 -57Q8.1 -56.8 8.05 -56Q8 -55.2 7.65 -54.9" stroke="#73452F" strokeWidth=".32" fill="none" strokeLinecap="round" />
+      <g fill="none" stroke="#E2B547" strokeWidth=".42">
+        <circle cx="-7.75" cy="-53.4" r=".6" />
+        <circle cx="7.75" cy="-53.4" r=".6" />
+      </g>
+      <path d="M-5.2 -60.5Q-3.3 -61.6 -1.3 -60.8M1.3 -60.8Q3.3 -61.6 5.2 -60.5" stroke="#1E1512" strokeWidth=".75" fill="none" strokeLinecap="round" />
+      <Eyes />
+      {/* black frames traced from her photo: the top rim rising from the bridge to the outer corner (where the silver
+          hinge sits), the outer side running nearly straight down, a broad rounded bottom, a short inner side slanting in
+          to the bridge; bold, even rims */}
+      <g fill="#FFFFFF" fillOpacity=".1" stroke="#0D0B0D" strokeWidth=".72" strokeLinejoin="round">
+        <path d="M-.5 -57.9Q-1 -58.35 -2.2 -58.45L-6.4 -58.75Q-7 -58.8 -6.95 -58.25L-6.65 -56.4Q-6.3 -54.9 -4.6 -54.6Q-2.7 -54.35 -1.4 -54.8Q-.7 -55.2 -.62 -56.1Z" />
+        <path d="M0.5 -57.9Q1 -58.35 2.2 -58.45L6.4 -58.75Q7 -58.8 6.95 -58.25L6.65 -56.4Q6.3 -54.9 4.6 -54.6Q2.7 -54.35 1.4 -54.8Q0.7 -55.2 0.62 -56.1Z" />
+      </g>
+      <path d="M-.5 -57.9Q0 -58.25 .5 -57.9M-6.95 -58.5L-7.6 -58.1M6.95 -58.5L7.6 -58.1" stroke="#0D0B0D" strokeWidth=".55" fill="none" strokeLinecap="round" />
+      <rect x="-7.35" y="-59" width=".7" height=".55" rx=".15" fill="#D3D5DA" />
+      <rect x="6.65" y="-59" width=".7" height=".55" rx=".15" fill="#D3D5DA" />
+      <path d="M-1.1 -53.8Q0 -52.9 1.1 -53.8" stroke={FAITH_SK} strokeWidth=".8" fill="none" strokeLinecap="round" />
+      {/* full lips, the lower one glossy */}
+      <path d="M-2.2 -51.85Q-1.1 -52.55 0 -52.2Q1.1 -52.55 2.2 -51.85Q1.1 -51.65 0 -51.7Q-1.1 -51.65 -2.2 -51.85Z" fill="#8F5141" />
+      <path d="M-2 -51.8Q0 -51.6 2 -51.8Q1.5 -50.45 0 -50.35Q-1.5 -50.45 -2 -51.8Z" fill="#C97466" />
+      <ellipse cx=".3" cy="-50.95" rx=".75" ry=".2" fill="#EDA79B" opacity=".75" />
+      <circle cx="-4.4" cy="-53.4" r="1.5" fill="#C9645A" opacity=".18" />
+      <circle cx="4.4" cy="-53.4" r="1.5" fill="#C9645A" opacity=".18" />
+    </>
+  ),
+};
+
+export function HrFigure() {
+  return (
+    <svg className="sec-figure" viewBox="-50 -82 92 58" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">
+      <StoreFront id="hr" left={-50} width={92} doorL={-16.6} doorR={16.6} />
+      <Person x={0} look={FAITH} />
     </svg>
   );
 }
