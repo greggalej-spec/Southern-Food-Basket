@@ -1,5 +1,5 @@
 import { SELLOUTS, SPECIALS_BOOKS, SUPPLIERS, SUPPLIER_SHEETS } from "./seed-specials";
-import type { AuditEvent, BulkOrder, CommunityRequest, Employee, FeedbackTicket, Grant, MetricWeek, PlanItem, Platform, ResourceDoc, Seed, SitePage, SocialAccount, SocialPost, Task } from "./types";
+import type { AuditEvent, BulkOrder, CommunityRequest, Employee, FeedbackTicket, Grant, HrFile, MetricWeek, PlanItem, Platform, ResourceDoc, Seed, SitePage, SocialAccount, SocialPost, Task } from "./types";
 
 /* The "ops" part of the staff tier: what the administration, marketing and owner dashboards read. Everything here is
    DEMO (invented organisations, people, orders and figures) except the supplier specials, which come from the office
@@ -25,6 +25,11 @@ function person(id: string, name: string, role: string, dept: string, branchId: 
 
 const food = (expiry: string) => [{ docId: "photo-id", state: "verified" as const, expiry: "2029-05-15" }, { docId: "nis", state: "verified" as const }, { docId: "bir", state: "verified" as const }, { docId: "food-badge", state: "verified" as const, expiry }];
 
+/* HR's file on a few of them (DEMO): notes, ratings and status changes Faith has recorded. */
+const at = (day: string) => day + "T10:00:00-04:00";
+const HR = "emp-devon";
+const hrFile = (f: Partial<HrFile>): HrFile => ({ notes: [], ratings: [], changes: [], ...f });
+
 export const MORE_PEOPLE: Employee[] = [
   person("emp-nigel", "Nigel Sookram", "Purchasing Officer", "Head office", "ptown", "2018-08-13", 141),
   // The graphic designer, part of the marketing team: he makes the flyers and posts that go on the public site.
@@ -34,9 +39,33 @@ export const MORE_PEOPLE: Employee[] = [
   person("emp-cheryl", "Cheryl Thomas", "Customer Service Clerk", "Checkout", "ptown", "2023-07-10", 356),
   person("emp-kareem", "Kareem Hamid", "Wholesale Clerk", "Warehouse", "ptown", "2022-10-03", 301),
   person("emp-ravi", "Ravi Deonarine", "Store Manager", "Management", "sando", "2011-06-01", 31),
-  person("emp-shelly", "Shelly-Ann Pierre", "Cashier", "Checkout", "sando", "2024-03-18", 402),
-  person("emp-joel", "Joel Ramkissoon", "Butcher", "Perishables", "sando", "2019-09-09", 166, { compliance: food("2026-12-05") }),
-  person("emp-candice", "Candice Hosein", "Bakery Assistant", "Bakery", "sando", "2026-09-01", 495, { status: "probation", compliance: food("2027-08-20") }),
+  person("emp-shelly", "Shelly-Ann Pierre", "Cashier", "Checkout", "sando", "2024-03-18", 402, {
+    hrFile: hrFile({
+      notes: [{ id: "hn-sh1", at: at("2026-10-12"), by: HR, kind: "praise", text: "Customer wrote in to thank her for helping an elderly shopper to the car in the rain." }],
+      ratings: [
+        { id: "hr-sh1", at: at("2025-09-20"), by: HR, scores: { workEthic: 4, punctuality: 4, reliability: 4, teamwork: 4, customers: 5, attitude: 4 } },
+        { id: "hr-sh2", at: at("2026-09-22"), by: HR, scores: { workEthic: 5, punctuality: 4, reliability: 5, teamwork: 4, customers: 5, attitude: 5 }, comment: "Annual review. Ready to train new cashiers." },
+      ],
+    }),
+  }),
+  person("emp-joel", "Joel Ramkissoon", "Butcher", "Perishables", "sando", "2019-09-09", 166, {
+    compliance: food("2026-12-05"),
+    hrFile: hrFile({
+      notes: [
+        { id: "hn-jo1", at: at("2026-10-08"), by: HR, kind: "concern", text: "Late for the 6:00 am shift three times in two weeks. Spoke with him; his bus times changed." },
+        { id: "hn-jo2", at: at("2026-10-29"), by: HR, kind: "warning", text: "Verbal warning for lateness after a fourth late start. Agreed to move him to the 7:00 am start for a month." },
+      ],
+      ratings: [{ id: "hr-jo1", at: at("2026-09-15"), by: HR, scores: { workEthic: 5, punctuality: 2, reliability: 3, teamwork: 4, customers: 4, attitude: 4 }, comment: "Excellent cutter, customers ask for him. Time-keeping is the one thing to fix." }],
+    }),
+  }),
+  person("emp-candice", "Candice Hosein", "Bakery Assistant", "Bakery", "sando", "2026-09-01", 495, {
+    status: "probation",
+    compliance: food("2027-08-20"),
+    hrFile: hrFile({
+      notes: [{ id: "hn-ca1", at: at("2026-10-02"), by: HR, kind: "note", text: "One-month check-in. Settling in well; wants to learn the cake decorating." }],
+      ratings: [{ id: "hr-ca1", at: at("2026-10-02"), by: HR, scores: { workEthic: 4, punctuality: 5, teamwork: 4, attitude: 5 } }],
+    }),
+  }),
   person("emp-anand", "Anand Maharaj", "Store Manager", "Management", "couva", "2015-01-12", 87),
   person("emp-latoya", "Latoya George", "Cashier", "Checkout", "couva", "2026-08-24", 489, { status: "probation" }),
   person("emp-kiran", "Kiran Seepersad", "Produce Clerk", "Perishables", "couva", "2026-08-24", 490, { status: "probation", compliance: food("2027-07-30") }),
@@ -45,7 +74,13 @@ export const MORE_PEOPLE: Employee[] = [
   person("emp-rajesh", "Rajesh Boodoo", "Store Manager", "Management", "penal", "2013-03-04", 58),
   person("emp-tamika", "Tamika Noel", "Cashier", "Checkout", "penal", "2022-05-16", 288),
   person("emp-sasha", "Sasha Rampaul", "Produce Lead", "Perishables", "penal", "2017-11-06", 119, { compliance: food("2027-03-12") }),
-  person("emp-curtis", "Curtis James", "Stock Clerk", "Warehouse", "penal", "2025-01-20", 441, { status: "on-leave" }),
+  person("emp-curtis", "Curtis James", "Stock Clerk", "Warehouse", "penal", "2025-01-20", 441, {
+    status: "on-leave",
+    hrFile: hrFile({
+      changes: [{ id: "hs-cu1", at: at("2026-10-26"), by: HR, from: "active", to: "on-leave", reason: "Medical leave, six weeks. Doctor’s note on file. Back about 7 December." }],
+      ratings: [{ id: "hr-cu1", at: at("2026-01-22"), by: HR, scores: { workEthic: 4, punctuality: 4, reliability: 4, teamwork: 5, attitude: 4 }, comment: "First-year review." }],
+    }),
+  }),
   person("emp-michelle", "Michelle Forde", "Store Manager", "Management", "pfortin", "2016-07-18", 104),
   person("emp-darren", "Darren Lalla", "Cashier", "Checkout", "pfortin", "2023-02-06", 331),
   person("emp-nisha", "Nisha Jaggernauth", "Bakery Assistant", "Bakery", "pfortin", "2021-10-11", 252, { compliance: food("2026-10-31") }),

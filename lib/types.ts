@@ -243,11 +243,50 @@ export interface Employee {
   leaveRequests: LeaveRequest[];
   swapRequests: SwapRequest[];
   /** Where the person stands with HR. Absent means active. */
-  status?: "active" | "probation" | "on-leave";
+  status?: EmployeeStatus;
   shifts: Shift[];
   payslips: Payslip[];
   training: Training[];
   compliance: ComplianceDoc[];
+  /** HR's own file on the person: notes, ratings and every change of status. Only HR sees it. */
+  hrFile?: HrFile;
+}
+
+export type EmployeeStatus = "active" | "probation" | "on-leave" | "suspended" | "notice" | "left";
+export type HrRatingKey = "workEthic" | "punctuality" | "teamwork" | "customers" | "reliability" | "attitude";
+export type HrNoteKind = "note" | "praise" | "concern" | "warning";
+
+export interface HrNote {
+  id: string;
+  at: string;
+  /** user id of whoever wrote it */
+  by: string;
+  kind: HrNoteKind;
+  text: string;
+}
+
+/** One sitting: a score of 1 to 5 for any of the areas, and an optional comment. */
+export interface HrRating {
+  id: string;
+  at: string;
+  by: string;
+  scores: Partial<Record<HrRatingKey, number>>;
+  comment?: string;
+}
+
+export interface HrStatusChange {
+  id: string;
+  at: string;
+  by: string;
+  from: EmployeeStatus;
+  to: EmployeeStatus;
+  reason?: string;
+}
+
+export interface HrFile {
+  notes: HrNote[];
+  ratings: HrRating[];
+  changes: HrStatusChange[];
 }
 
 export interface Announcement {

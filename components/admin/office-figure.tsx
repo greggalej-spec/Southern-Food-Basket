@@ -433,7 +433,7 @@ const HER: Look = {
   skin: HER_SKIN,
   sk: HER_SK,
   wave: 1,
-  slim: true,
+  slim: 2,
   logoY: -38.4,
   logoX: -6.1,
   logoW: 5.8,
