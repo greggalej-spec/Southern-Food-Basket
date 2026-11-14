@@ -9,6 +9,42 @@ import { useEffect, useSyncExternalStore } from "react";
 
 const KEY = "sfb.staffTheme";
 type Theme = "light" | "dark";
+
+/* The console's background, chosen on the Customize page (Gregg, 14 Nov 2026). Each one is a page colour that the
+   cards stand out against, in light and in dark; "glass" is the produce photograph with frosted panels, which is no
+   longer the default. The colours themselves are in styles/staff-theme.css (html[data-staff-skin]). */
+const SKIN_KEY = "sfb.staffSkin";
+export const SKINS = [
+  { id: "classic", name: "Classic", note: "Warm page, white cards", light: "#F3E3D7", dark: "#06180D" },
+  { id: "sand", name: "Sand", note: "Tan page, white cards", light: "#E4D5BA", dark: "#211B10" },
+  { id: "sage", name: "Sage", note: "Soft green page", light: "#D1E2D3", dark: "#04130A" },
+  { id: "blush", name: "Blush", note: "Pink page", light: "#F5D3DD", dark: "#2B0F1C" },
+  { id: "sky", name: "Sky", note: "Blue page", light: "#C8DAEA", dark: "#0B1929" },
+  { id: "stone", name: "Stone", note: "Grey page", light: "#DCDCE2", dark: "#141519" },
+  { id: "glass", name: "Photo and glass", note: "Produce photo, frosted panels", light: "#FFF6F1", dark: "#0B2E19" },
+] as const;
+export type Skin = (typeof SKINS)[number]["id"];
+function readSkin(): Skin {
+  try {
+    const v = localStorage.getItem(SKIN_KEY);
+    return SKINS.some((k) => k.id === v) ? (v as Skin) : "classic";
+  } catch {
+    return "classic";
+  }
+}
+function writeSkin(k: Skin) {
+  try {
+    localStorage.setItem(SKIN_KEY, k);
+  } catch {
+    /* private window: the choice lasts for this page only */
+  }
+  document.documentElement.dataset.staffSkin = k;
+  listeners.forEach((l) => l());
+}
+/** The console background and its setter, for the Customize page. */
+export function useStaffSkin(): [Skin, (k: Skin) => void] {
+  return [useSyncExternalStore(subscribe, readSkin, () => "classic" as Skin), writeSkin];
+}
 const listeners = new Set<() => void>();
 
 function read(): Theme {
@@ -43,12 +79,15 @@ export function useStaffTheme(): [Theme, (t: Theme) => void] {
 
 export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, read, () => "light" as Theme);
+  const skin = useSyncExternalStore(subscribe, readSkin, () => "classic" as Skin);
   useEffect(() => {
     document.documentElement.dataset.staffTheme = theme;
+    document.documentElement.dataset.staffSkin = skin;
     return () => {
       delete document.documentElement.dataset.staffTheme;
+      delete document.documentElement.dataset.staffSkin;
     };
-  }, [theme]);
+  }, [theme, skin]);
   const dark = theme === "dark";
   return (
     <button type="button" className="theme-toggle" aria-pressed={dark} onClick={() => write(dark ? "light" : "dark")} title={dark ? "Switch to light mode" : "Switch to dark mode"}>

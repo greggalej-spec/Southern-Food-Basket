@@ -1,7 +1,7 @@
 "use client";
 
 import { act } from "@/components/admin/bits";
-import { useStaffTheme } from "@/components/theme-toggle";
+import { SKINS, useStaffSkin, useStaffTheme } from "@/components/theme-toggle";
 import { personName } from "@/lib/admin/guard";
 import { todayIso } from "@/lib/admin/helpers";
 import { fmtDate } from "@/lib/format";
@@ -12,7 +12,7 @@ import type { SeasonId } from "@/lib/types";
 /* Customize (Gregg, 14 Nov 2026): one clear page for how things look.
      1. The website's look: the everyday site and every seasonal look as a card. Preview opens the real site wearing
         it, without changing anything; "Use this look" puts it on for every visitor.
-     2. This console: light or dark.
+     2. This console: light or dark, and the background the cards sit on (solid page colours; photo-and-glass is one option).
      3. Versions: every change made here keeps the look it replaced, so an earlier version can be put back.
    The finer settings (dates, the greeting, the notice bar, the home page bands) stay in the Website studio. */
 
@@ -22,6 +22,7 @@ export function CustomizePanel() {
   const d = useData();
   const s = useSession();
   const [theme, setTheme] = useStaffTheme();
+  const [skin, setSkin] = useStaffSkin();
   const site = d.site;
   const wearing: SeasonId = site.season.mode === "off" ? "none" : site.season.id;
   const today = todayIso();
@@ -97,7 +98,7 @@ export function CustomizePanel() {
         <h2 className="cz-h" id="cz-console">
           2. This console
         </h2>
-        <p className="cz-sub">How the staff side looks on this device.</p>
+        <p className="cz-sub">How the staff side looks on this device: light or dark, and the background the cards sit on.</p>
         <div className="cz-themes">
           {(["light", "dark"] as const).map((t) => (
             <button key={t} type="button" className={"cz-theme is-" + t + (theme === t ? " is-on" : "")} aria-pressed={theme === t} onClick={() => setTheme(t)}>
@@ -108,6 +109,19 @@ export function CustomizePanel() {
               </span>
               <b>{t === "light" ? "Light" : "Dark"}</b>
               <small>{t === "light" ? "Cream page, white panels" : "Deep green page, gold accents"}</small>
+            </button>
+          ))}
+        </div>
+        <h3 className="cz-h3">Background</h3>
+        <div className="cz-skins" role="group" aria-label="Console background">
+          {SKINS.map((k) => (
+            <button key={k.id} type="button" className={"cz-skin" + (skin === k.id ? " is-on" : "") + (k.id === "glass" ? " is-glass" : "")} aria-pressed={skin === k.id} onClick={() => setSkin(k.id)}>
+              <span className="cz-skin-art" aria-hidden="true" style={{ background: theme === "dark" ? k.dark : k.light }}>
+                <i />
+                <i />
+              </span>
+              <b>{k.name}</b>
+              <small>{k.note}</small>
             </button>
           ))}
         </div>

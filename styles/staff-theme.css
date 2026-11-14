@@ -718,3 +718,51 @@ html[data-staff-theme="dark"] .app .app-body::before{ background: linear-gradien
 .app .app-main{ background: color-mix(in srgb, var(--page) 72%, transparent); border-radius: 26px; }
 @media (max-width: 760px) { .app .app-main{ border-radius: 0; } }
 .app .panel.cz-now{ padding: 16px 20px; }
+
+/* ---------- Revision 10 (Gregg, 14 Nov 2026: "your glassmorphism was poo ... add it as an option") ----------
+   The console's background is a choice now (components/theme-toggle.tsx, set on the Customize page):
+     classic, sand, sage, blush, sky, stone   one solid page colour that the cards stand out against, light and dark
+     glass                                    the produce photograph with frosted panels: an option, not the default
+   Everything photo-and-frost from revisions 7 to 9 is switched off unless the skin is "glass". */
+html:not([data-staff-skin="glass"]) .app .app-body::before{ inset: 0; filter: none; background: var(--page); }
+html:not([data-staff-skin="glass"]) .app .app-main{ background: transparent; }
+html:not([data-staff-skin="glass"]) .app .panel, html:not([data-staff-skin="glass"]) .app .kpi, html:not([data-staff-skin="glass"]) .app .app-topbar,
+html:not([data-staff-skin="glass"]) .app .chart-stats li, html:not([data-staff-skin="glass"]) .app .cal-month, html:not([data-staff-skin="glass"]) .app .cal-sum li, html:not([data-staff-skin="glass"]) .app .cz-card{ -webkit-backdrop-filter: none; backdrop-filter: none; }
+html:not([data-staff-skin="glass"]) .app .panel, html:not([data-staff-skin="glass"]) .app .kpi:not([class*="is-"]), html:not([data-staff-skin="glass"]) .app .app-topbar, html:not([data-staff-skin="glass"]) .app .cz-card{ background: var(--card); }
+html:not([data-staff-skin="glass"]) .app .cz-h, html:not([data-staff-skin="glass"]) .app .cz-sub, html:not([data-staff-skin="glass"]) .app .cal-title, html:not([data-staff-skin="glass"]) .app .cal-jump,
+html:not([data-staff-skin="glass"]) .app .cal-key .muted, html:not([data-staff-skin="glass"]) .app .admin-section > .small, html:not([data-staff-skin="glass"]) .app .section-stack > .small, html:not([data-staff-skin="glass"]) .app .section-stack > p{ text-shadow: none; }
+/* cards lift off the solid page: a firmer edge and a real shadow */
+html:not([data-staff-skin="glass"]) .app .panel, html:not([data-staff-skin="glass"]) .app .kpi, html:not([data-staff-skin="glass"]) .app .app-topbar{ box-shadow: 0 1px 2px rgba(32, 20, 26, .08), 0 14px 28px -18px rgba(32, 20, 26, .45); }
+html[data-staff-theme="dark"]:not([data-staff-skin="glass"]) .app .panel, html[data-staff-theme="dark"]:not([data-staff-skin="glass"]) .app .kpi, html[data-staff-theme="dark"]:not([data-staff-skin="glass"]) .app .app-topbar{ box-shadow: 0 1px 0 rgba(255, 255, 255, .06) inset, 0 16px 30px -18px rgba(0, 0, 0, .9); }
+
+/* the page colours: light first, then the dark of the same family */
+html[data-staff-skin="classic"] .app, html:not([data-staff-skin]) .app{ --page: #F3E3D7; --cream: #F3E3D7; }
+html[data-staff-skin="sand"] .app{ --page: #E4D5BA; --cream: #E4D5BA; }
+html[data-staff-skin="sage"] .app{ --page: #D1E2D3; --cream: #D1E2D3; }
+html[data-staff-skin="blush"] .app{ --page: #F5D3DD; --cream: #F5D3DD; }
+html[data-staff-skin="sky"] .app{ --page: #C8DAEA; --cream: #C8DAEA; }
+html[data-staff-skin="stone"] .app{ --page: #DCDCE2; --cream: #DCDCE2; }
+html[data-staff-theme="dark"][data-staff-skin="classic"] .app, html[data-staff-theme="dark"]:not([data-staff-skin]) .app{ --page: #06180D; --cream: #06180D; }
+html[data-staff-theme="dark"][data-staff-skin="sand"] .app{ --page: #211B10; --cream: #211B10; }
+html[data-staff-theme="dark"][data-staff-skin="sage"] .app{ --page: #04130A; --cream: #04130A; }
+html[data-staff-theme="dark"][data-staff-skin="blush"] .app{ --page: #2B0F1C; --cream: #2B0F1C; }
+html[data-staff-theme="dark"][data-staff-skin="sky"] .app{ --page: #0B1929; --cream: #0B1929; }
+html[data-staff-theme="dark"][data-staff-skin="stone"] .app{ --page: #141519; --cream: #141519; }
+/* on a coloured page the muted words go a shade darker (light) or lighter (dark) so they stay easy to read */
+html[data-staff-theme="light"]:not([data-staff-skin="glass"]) .app, html:not([data-staff-theme]):not([data-staff-skin="glass"]) .app{ --muted: #584550; }
+html[data-staff-theme="dark"]:not([data-staff-skin="glass"]) .app{ --muted: #C6D4C9; }
+
+/* the background picker on the Customize page */
+.app .cz-h3{ margin: 20px 0 10px; font: 800 .8125rem/1.2 var(--ui); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.app .cz-skins{ display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr)); }
+.app .cz-skin{ display: grid; gap: 5px; padding: 10px; border-radius: 16px; border: 1px solid var(--card-line, var(--line)); background: var(--card); color: var(--ink); text-align: left; cursor: pointer; transition: transform .2s ease; }
+.app .cz-skin:hover{ transform: translateY(-3px); }
+.app .cz-skin.is-on{ box-shadow: inset 0 0 0 3px var(--a-green); }
+.app .cz-skin b{ font: 700 1rem/1.2 var(--display); }
+.app .cz-skin small{ font: 600 .75rem/1.3 var(--ui); color: var(--muted); }
+.app .cz-skin-art{ display: grid; grid-template-columns: 1fr 1fr; gap: 6px; height: 64px; padding: 10px; border-radius: 10px; border: 1px solid rgba(32, 20, 26, .14); }
+.app .cz-skin-art i{ border-radius: 6px; background: #FFFFFF; box-shadow: 0 2px 5px rgba(32, 20, 26, .25); }
+html[data-staff-theme="dark"] .app .cz-skin-art i{ background: #123F22; box-shadow: 0 2px 5px rgba(0, 0, 0, .6); }
+.app .cz-skin.is-glass .cz-skin-art{ background-image: url(/assets/img/stock/produce-variety.webp) !important; background-size: cover; background-position: center; }
+.app .cz-skin.is-glass .cz-skin-art i{ background: rgba(255, 255, 255, .7); }
+html[data-staff-theme="dark"] .app .cz-skin.is-glass .cz-skin-art i{ background: rgba(18, 63, 34, .75); }
