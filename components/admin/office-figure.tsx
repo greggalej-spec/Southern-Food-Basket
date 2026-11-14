@@ -2,9 +2,9 @@
    people but with her features, keep it simple": so she is built exactly like the home page's crew in red
    (tools/grand-entrance/make-scene.js), the same body, arms, hands, head, eyes and shading, with only her own
    features changed:
-     her lighter, warm skin; a slightly fuller face; dark hair, centre-parted and pulled back, the tail behind;
+     her lighter, warm skin; a slightly fuller face; dark hair, centre-parted and worn out, falling past her shoulders;
      straight brows; a calm closed mouth with a fuller lower lip; small gold hoops; the black company polo with the
-     pink cornucopia logo instead of the red polo.
+     company logo (sfb-logo.svg) on the chest instead of the red polo.
    Motion is CSS (.of-* in styles/staff-theme.css): she waves a few times and rests, and blinks; still for anyone
    who asks for reduced motion. */
 
@@ -127,9 +127,8 @@ export function OfficeFigure() {
       </g>
 
       <g className="of-body">
-        {/* her tail of hair, behind */}
-        <path d="M3.6 -61.5Q11 -60 10.4 -52Q10 -46 7.4 -44.2Q8.4 -50 6.6 -55Q5.6 -58.6 3.6 -58.6Z" fill={HAIR} />
-        <circle cx="5.4" cy="-60.2" r="1.2" fill="#3A2C27" />
+        {/* her hair, worn out: the long fall behind her head and shoulders */}
+        <path d="M-8.8 -57.6Q-11.6 -49 -11.2 -40.2Q-9 -38.8 -6.8 -40.4H6.8Q9 -38.8 11.2 -40.2Q11.6 -49 8.8 -57.6Q8.2 -66.2 0 -66.2Q-8.2 -66.2 -8.8 -57.6Z" fill={HAIR} />
 
         {/* neck and black polo (shaded side, collar, placket, logo) — the crew's, seen from the waist up */}
         <rect x="-2.5" y="-50.6" width="5" height="4" rx="1.6" fill={SK} />
@@ -140,12 +139,8 @@ export function OfficeFigure() {
         <path d="M0 -44.2V-39.6" stroke={TRIM} strokeWidth=".8" />
         <circle cx="0" cy="-42.4" r=".55" fill="#0B0B0D" />
         <circle cx="0" cy="-40.4" r=".55" fill="#0B0B0D" />
-        <g transform="translate(-6 -42)">
-          <path d="M-1.3 -1.5Q-.3 -1.8 .7 -.8Q1 -.2 .6 .5Q.1 .9 -.5 .7Q-.1 .3 -.2 -.3Q-.5 -1 -1.3 -1.5Z" fill="#F29BB4" />
-          <circle cx=".7" cy=".5" r=".32" fill="#E3336F" />
-          <rect x="1.2" y="-1.1" width="2.2" height=".38" rx=".18" fill="#F4F1EC" />
-          <rect x="1.2" y="-.4" width="1.8" height=".38" rx=".18" fill="#F4F1EC" />
-        </g>
+        {/* the company logo on her chest, as on the real polo: the cornucopia and the name */}
+        <image href="/assets/img/sfb-logo.svg" x="-10.1" y="-39.7" width="9" height="4.1" preserveAspectRatio="xMidYMid meet" />
         <rect x="-7.2" y="-26.4" width="14.4" height="2" fill="#141418" />
         <rect x="-1.2" y="-26.6" width="2.4" height="2.4" rx=".4" fill="#C9A14A" />
 
@@ -187,6 +182,9 @@ export function OfficeFigure() {
           </g>
         </g>
 
+        {/* loose locks falling in front of her shoulders, either side of her face */}
+        <path d="M-7.2 -58.4Q-9.4 -52 -9.2 -45.6Q-9 -41.6 -7.6 -40.4Q-6.4 -40.4 -6 -41.8Q-6.6 -45 -6.4 -48.6Q-6 -53.2 -5.6 -56.2Z" fill={HAIR} />
+        <path d="M7.2 -58.4Q9.4 -52 9.2 -45.6Q9 -41.6 7.6 -40.4Q6.4 -40.4 6 -41.8Q6.6 -45 6.4 -48.6Q6 -53.2 5.6 -56.2Z" fill={HAIR} />
         {/* head: ears with gold hoops, a fuller face with its shaded side, centre-parted hair, brows, eyes, nose, lips */}
         <g>
           <ellipse cx="-7.2" cy="-55" rx="1.5" ry="2.1" fill={SKIN} />
