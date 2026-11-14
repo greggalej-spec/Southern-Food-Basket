@@ -1,5 +1,6 @@
 "use client";
 
+import { OfficeFigure } from "@/components/admin/office-figure";
 import { officeMeta } from "@/components/app-shell";
 import { Icon } from "@/components/icon";
 import { PERMISSIONS, activeGrant, type Permission } from "@/lib/access";
@@ -45,8 +46,10 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
   const sec = SECTION[id];
   const meta = officeMeta(id);
   const dept = meta?.group || "Office";
+  // the orange office banners carry the office's own waving figure in their right corner
+  const figure = dept === "Office" || dept.startsWith("Owner");
   return (
-    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-")}>
+    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (figure ? " has-figure" : "")}>
       <span className="sec-icon" aria-hidden="true">
         <Icon name={meta?.icon || "grid"} />
       </span>
@@ -58,6 +61,7 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
         <p>{sec.purpose}</p>
       </div>
       {children ? <div className="cluster">{children}</div> : null}
+      {figure ? <OfficeFigure /> : null}
     </header>
   );
 }

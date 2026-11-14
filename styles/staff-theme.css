@@ -856,3 +856,35 @@ html[data-staff-skin="glass"] .app .app-topbar{ top: 0; }
 }
 .app .app-topbar-title > *{ display: block; }
 @media (max-width: 480px) { .app .app-topbar-title{ display: none; } }
+
+/* ---------- Revision 13 (Gregg, 14 Nov 2026: calendar "buttons are overlapping still and looking weird") ----------
+   The calendar's controls are one card: month stepping and "Add to the calendar" on the first row, the jumps and the
+   Month / Year switch on the second, the counts under a thin rule. Inside the card nothing relies on page spacing. */
+.app .panel.cal-head{ display: grid; gap: 14px; padding: 16px 18px; }
+.app .cal-head > *{ margin: 0 !important; }
+.app .cal-head .cal-sum{ padding-top: 14px; border-top: 1px solid var(--card-line, var(--line)); }
+.app .cal-head .cal-sum li:first-child{ background: var(--row-b); }
+.app .cal-head .cal-title, .app .cal-head .cal-jump{ text-shadow: none; }
+.app .cal-head .cal-arrow{ background: var(--row-b); }
+@media (max-width: 560px) { .app .panel.cal-head{ padding: 14px; } }
+
+/* ---------- Revision 14 (Gregg, 14 Nov 2026): the office's own figure in the orange banner ----------
+   components/admin/office-figure.tsx, drawn like the home page's crew. She stands in the right corner where the grid
+   of panes was; the words keep clear of her. A short wave, a rest, a blink; still for reduced motion; hidden on narrow
+   screens where the banner has no room for her. */
+.app .sec-band.has-figure::after{ display: none; }
+.app .sec-band.has-figure{ padding-right: clamp(140px, 13vw, 170px); min-height: 176px; }
+.app .sec-figure{ position: absolute; right: clamp(8px, 1.6vw, 26px); bottom: 0; height: calc(100% - 6px); width: auto; pointer-events: none; overflow: visible; }
+.app .sec-figure{ max-height: 236px; }
+.app .of-sh{ animation: of-sh 6s ease-in-out infinite; }
+.app .of-el{ animation: of-el 6s ease-in-out infinite; }
+.app .of-wr{ animation: of-wr 6s ease-in-out infinite; }
+.app .of-eyes{ transform-box: fill-box; transform-origin: center; animation: of-blink 4.6s infinite; }
+.app .of-body{ animation: of-breathe 4.2s ease-in-out infinite; }
+@keyframes of-sh{ 0%, 100%{ transform: rotate(0deg); } 20%{ transform: rotate(-7deg); } 40%{ transform: rotate(0deg); } }
+@keyframes of-el{ 0%{ transform: rotate(-4deg); } 6%{ transform: rotate(-20deg); } 12%{ transform: rotate(16deg); } 18%{ transform: rotate(-20deg); } 24%{ transform: rotate(16deg); } 30%{ transform: rotate(-20deg); } 36%{ transform: rotate(14deg); } 44%, 100%{ transform: rotate(-4deg); } }
+@keyframes of-wr{ 0%{ transform: rotate(0deg); } 6%{ transform: rotate(-10deg); } 12%{ transform: rotate(10deg); } 18%{ transform: rotate(-10deg); } 24%{ transform: rotate(10deg); } 30%{ transform: rotate(-10deg); } 36%{ transform: rotate(8deg); } 44%, 100%{ transform: rotate(0deg); } }
+@keyframes of-blink{ 0%, 93%, 100%{ transform: scaleY(1); } 95%{ transform: scaleY(.12); } }
+@keyframes of-breathe{ 0%, 100%{ transform: translateY(0); } 50%{ transform: translateY(-.35px); } }
+@media (prefers-reduced-motion: reduce){ .app .of-sh, .app .of-el, .app .of-wr, .app .of-eyes, .app .of-body{ animation: none; } }
+@media (max-width: 700px){ .app .sec-figure{ display: none; } .app .sec-band.has-figure{ padding-right: 18px; min-height: 0; } .app .sec-band.has-figure::after{ display: block; } }

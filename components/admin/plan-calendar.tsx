@@ -70,6 +70,8 @@ export function PlanPanel() {
   return (
     <div className="section-stack">
       <Flow id="plan" />
+      {/* the controls sit together on one card, so they read as a toolbar and never float loose over the page */}
+      <section className="panel cal-head" aria-label="Calendar controls">
       <div className="cal-bar">
         <div className="cal-nav">
           <button className="cal-arrow" type="button" aria-label={view === "month" ? "Previous month" : "Previous year"} onClick={() => step(-1)}>
@@ -117,6 +119,7 @@ export function PlanPanel() {
         <li className="is-planned"><b>{count("planned")}</b> planned</li>
         <li className="is-idea"><b>{count("idea")}</b> {count("idea") === 1 ? "idea" : "ideas"}</li>
       </ul>
+      </section>
 
       {view === "month" ? (
         <section className="panel cal-panel" aria-label={"Calendar for " + label}>

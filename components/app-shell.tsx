@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
-import { ConceptBanner } from "@/components/concept-banner";
 import { Icon, type IconName } from "@/components/icon";
 import { ResetDemoButton } from "@/components/reset-demo-button";
 import { Scope, type CssName } from "@/components/scope";
@@ -237,7 +236,6 @@ export function AppShell({
 
   return (
     <Scope css={css} page={page}>
-      <ConceptBanner />
       <div
         className={open ? "app sidebar-open" : "app"}
         onClick={(e) => {

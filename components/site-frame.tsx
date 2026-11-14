@@ -1,15 +1,14 @@
-import { ConceptBanner } from "@/components/concept-banner";
 import { Scope, type CssName } from "@/components/scope";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader, type SiteNavId } from "@/components/site-header";
 
-/** A public page: the old <header data-sfb-header>, <main id="main">, <footer data-sfb-footer>, and the demo banner
- *  on pages that had data-banner. css names the stylesheets the page loaded. */
+/** A public page: the old <header data-sfb-header>, <main id="main">, <footer data-sfb-footer>. css names the
+ *  stylesheets the page loaded. The "Prototype" notice that some pages showed (banner) is off (Gregg, 14 Nov 2026:
+ *  "remove the prototype notice"); the prop is still accepted so those pages need no change. */
 export function SiteFrame({
   active,
   css = ["site"],
   page,
-  banner = false,
   children,
 }: {
   active?: SiteNavId;
@@ -20,7 +19,6 @@ export function SiteFrame({
 }) {
   return (
     <Scope css={css} page={page}>
-      {banner && <ConceptBanner />}
       <SiteHeader active={active} />
       <main id="main">{children}</main>
       <SiteFooter />
