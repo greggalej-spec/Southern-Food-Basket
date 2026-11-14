@@ -1,6 +1,6 @@
 "use client";
 
-import { OfficeFigure } from "@/components/admin/office-figure";
+import { MarketingFigure, OfficeFigure } from "@/components/admin/office-figure";
 import { officeMeta } from "@/components/app-shell";
 import { Icon } from "@/components/icon";
 import { PERMISSIONS, activeGrant, type Permission } from "@/lib/access";
@@ -46,10 +46,12 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
   const sec = SECTION[id];
   const meta = officeMeta(id);
   const dept = meta?.group || "Office";
-  // the orange office banners carry the office's own waving figure in their right corner
-  const figure = dept === "Office" || dept.startsWith("Owner");
+  // the orange office banners carry the office's own waving figure in their right corner, the yellow marketing banners
+  // the two people on the marketing team, both in a little store front (components/admin/office-figure.tsx)
+  const office = dept === "Office" || dept.startsWith("Owner");
+  const marketing = dept === "Marketing";
   return (
-    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (figure ? " has-figure" : "")}>
+    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing ? " has-pair" : "")}>
       <span className="sec-icon" aria-hidden="true">
         <Icon name={meta?.icon || "grid"} />
       </span>
@@ -61,7 +63,7 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
         <p>{sec.purpose}</p>
       </div>
       {children ? <div className="cluster">{children}</div> : null}
-      {figure ? <OfficeFigure /> : null}
+      {office ? <OfficeFigure /> : marketing ? <MarketingFigure /> : null}
     </header>
   );
 }

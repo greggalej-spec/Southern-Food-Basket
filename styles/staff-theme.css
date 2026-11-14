@@ -892,3 +892,9 @@ html[data-staff-skin="glass"] .app .app-topbar{ top: 0; }
    waist up (Gregg, 14 Nov 2026: "a little store front scene behind her ... just her upper body") */
 .app .sec-band.has-figure{ padding-right: clamp(240px, 24vw, 300px); }
 .app .sec-band.has-figure .sec-figure{ top: 0; right: 0; bottom: 0; height: 100%; max-height: none; width: auto; }
+/* the marketing banners carry two people side by side in the store front: a wider scene, and the second person waves
+   on their own beat */
+.app .sec-band.has-figure.has-pair{ padding-right: clamp(262px, 25vw, 300px); }
+.app .of-alt .of-sh, .app .of-alt .of-el, .app .of-alt .of-wr{ animation-delay: -2.6s; }
+.app .of-alt .of-eyes{ animation-delay: -1.7s; }
+@media (max-width: 700px){ .app .sec-band.has-figure.has-pair{ padding-right: 18px; } }
