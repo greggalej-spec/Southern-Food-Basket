@@ -37,20 +37,101 @@ const Sleeve = () => (
 
 export function OfficeFigure() {
   return (
-    <svg className="sec-figure" viewBox="-27 -78 46 80" aria-hidden="true" focusable="false">
-      {/* a soft round light behind her */}
-      <circle cx="-2" cy="-44" r="30" fill="#FFFFFF" opacity=".14" />
-      <circle cx="-2" cy="-50" r="18" fill="#FFFFFF" opacity=".12" />
-      <ellipse cx="0" cy="0" rx="11" ry="1.8" fill="#3B2A10" opacity=".22" />
+    <svg className="sec-figure" viewBox="-50 -82 92 58" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="of-gold" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#FBEBB4" />
+          <stop offset=".35" stopColor="#E9C460" />
+          <stop offset=".68" stopColor="#C99A35" />
+          <stop offset="1" stopColor="#F1D684" />
+        </linearGradient>
+        <linearGradient id="of-teal" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#C2ECE4" />
+          <stop offset=".42" stopColor="#5BBAAE" />
+          <stop offset=".75" stopColor="#2F918A" />
+          <stop offset="1" stopColor="#7FCFC3" />
+        </linearGradient>
+        <linearGradient id="of-glass" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#6FAFAA" />
+          <stop offset=".5" stopColor="#2F6F72" />
+          <stop offset="1" stopColor="#4E9692" />
+        </linearGradient>
+        <radialGradient id="of-warm" cx=".5" cy=".3" r=".8">
+          <stop offset="0" stopColor="#FFF8E4" />
+          <stop offset=".7" stopColor="#F7E2AE" />
+          <stop offset="1" stopColor="#E9C77E" />
+        </radialGradient>
+        <pattern id="of-stock" patternUnits="userSpaceOnUse" x="0" y="0" width="10.5" height="3.4">
+          <rect width="10.5" height="3.4" fill="#E8D3A2" />
+          <rect x=".3" y=".7" width="1.3" height="2.1" fill="#D3202D" />
+          <rect x="1.9" y=".4" width="1.5" height="2.4" fill="#F2C14E" />
+          <rect x="3.7" y="1" width="1" height="1.8" fill="#2A8A45" />
+          <rect x="5" y=".7" width="1.5" height="2.1" fill="#E3336F" />
+          <rect x="6.8" y=".4" width="1.3" height="2.4" fill="#F7F3EA" />
+          <rect x="8.4" y="1" width="1" height="1.8" fill="#3A86A8" />
+          <rect x="9.6" y=".7" width=".8" height="2.1" fill="#E07B2E" />
+        </pattern>
+        {/* the scene fades in from the banner on its left */}
+        <linearGradient id="of-fade" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+          <stop offset=".26" stopColor="#FFFFFF" stopOpacity="1" />
+        </linearGradient>
+        <mask id="of-scene" maskUnits="userSpaceOnUse" x="-50" y="-82" width="92" height="58">
+          <rect x="-50" y="-82" width="92" height="58" fill="url(#of-fade)" />
+        </mask>
+      </defs>
+
+      {/* the little store front, after the home page's entrance: gold and teal glass up top, the cream canopy with the
+          mark, shop windows either side, and the open doorway she stands in, warm light and stocked shelves behind her */}
+      <g mask="url(#of-scene)">
+        <rect x="-50" y="-82" width="92" height="58" fill="#F3ECDD" />
+        {[-50, -42, -34, -26, -18, -10, -2, 6, 14, 22, 30, 38].map((x, i) => (
+          <rect key={x} x={x} y="-82" width="8" height="7.4" fill={i % 3 === 1 ? "url(#of-teal)" : "url(#of-gold)"} stroke="#F7F3EA" strokeWidth=".8" />
+        ))}
+        <rect x="-50" y="-75" width="92" height="3.2" fill="#F5EFE2" />
+        <rect x="-50" y="-71.8" width="92" height=".9" fill="#CDBF9F" />
+        <image href="/assets/img/sfb-mark.svg" x="-1.8" y="-74.9" width="3.6" height="3" />
+
+        {/* inside the shop: warm light, ceiling lamps, shelves of stock */}
+        <rect x="-50" y="-70.9" width="92" height="47" fill="url(#of-warm)" />
+        {[-44, -30, -12, 6, 22, 34].map((x) => (
+          <rect key={x} x={x} y="-69.8" width="6" height=".8" rx=".4" fill="#FFFDF2" />
+        ))}
+        {[-64, -55, -46, -37, -28].map((y) => (
+          <g key={y}>
+            <rect x="-48" y={y} width="88" height="3.4" fill="url(#of-stock)" />
+            <rect x="-48" y={y + 3.4} width="88" height=".8" fill="#B8975F" />
+          </g>
+        ))}
+
+        {/* shop windows either side of the door, the glass tinted over the shelves, with cream mullions */}
+        <rect x="-50" y="-70.9" width="33.5" height="47" fill="url(#of-glass)" opacity=".58" />
+        <rect x="16.5" y="-70.9" width="25.5" height="47" fill="url(#of-glass)" opacity=".58" />
+        <g fill="#F7F3EA">
+          <rect x="-39.6" y="-70.9" width="1.2" height="47" />
+          <rect x="-28.6" y="-70.9" width="1.2" height="47" />
+          <rect x="28.4" y="-70.9" width="1.2" height="47" />
+          <rect x="-50" y="-47.4" width="33.5" height="1" />
+          <rect x="16.5" y="-47.4" width="25.5" height="1" />
+          {/* the door frame */}
+          <rect x="-17.4" y="-71.2" width="1.6" height="47.2" />
+          <rect x="15.8" y="-71.2" width="1.6" height="47.2" />
+        </g>
+        {/* the sliding doors, pushed open */}
+        <g>
+          <rect x="-23.8" y="-70.4" width="6.6" height="46.4" fill="url(#of-teal)" opacity=".5" />
+          <rect x="17.2" y="-70.4" width="6.6" height="46.4" fill="url(#of-teal)" opacity=".5" />
+          <rect x="-19.4" y="-52" width=".9" height="6" rx=".45" fill="#F7F3EA" />
+          <rect x="18.5" y="-52" width=".9" height="6" rx=".45" fill="#F7F3EA" />
+        </g>
+      </g>
+
       <g className="of-body">
         {/* her tail of hair, behind */}
         <path d="M3.6 -61.5Q11 -60 10.4 -52Q10 -46 7.4 -44.2Q8.4 -50 6.6 -55Q5.6 -58.6 3.6 -58.6Z" fill={HAIR} />
         <circle cx="5.4" cy="-60.2" r="1.2" fill="#3A2C27" />
 
-        {/* trousers, shoes, neck, black polo (shaded side, collar, placket, logo), belt — the crew's */}
-        <path d="M-6.4 -24.5H-.7L-1 -2.2H-5.8Z" fill="#2A2C3B" />
-        <path d="M.7 -24.5H6.4L5.8 -2.2H1Z" fill="#23252F" />
-        <path d="M-6.6 -2.6H-.6Q.2 -2.6 .2 -.8V0H-7.6Q-7.8 -1.8 -6.6 -2.6ZM.6 -2.6H6.6Q7.8 -1.8 7.6 0H-.2V-.8Q-.2 -2.6 .6 -2.6Z" fill="#141418" />
+        {/* neck and black polo (shaded side, collar, placket, logo) — the crew's, seen from the waist up */}
         <rect x="-2.5" y="-50.6" width="5" height="4" rx="1.6" fill={SK} />
         <path d="M-11 -25.2Q-12 -36 -10.2 -44.2Q-7.4 -47.6 -3.4 -47.8H3.4Q7.4 -47.6 10.2 -44.2Q12 -36 11 -25.2Z" fill={SHIRT} />
         <path d="M4.6 -47.5Q8.9 -46.4 10.2 -44.2Q12 -36 11 -25.2H7.2Q8.6 -34 7.5 -41Z" fill={SHIRT_D} opacity=".7" />

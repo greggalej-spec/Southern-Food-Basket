@@ -888,3 +888,7 @@ html[data-staff-skin="glass"] .app .app-topbar{ top: 0; }
 @keyframes of-breathe{ 0%, 100%{ transform: translateY(0); } 50%{ transform: translateY(-.35px); } }
 @media (prefers-reduced-motion: reduce){ .app .of-sh, .app .of-el, .app .of-wr, .app .of-eyes, .app .of-body{ animation: none; } }
 @media (max-width: 700px){ .app .sec-figure{ display: none; } .app .sec-band.has-figure{ padding-right: 18px; min-height: 0; } .app .sec-band.has-figure::after{ display: block; } }
+/* the figure now stands in a little store front: the scene fills the banner's right end, edge to edge, from the
+   waist up (Gregg, 14 Nov 2026: "a little store front scene behind her ... just her upper body") */
+.app .sec-band.has-figure{ padding-right: clamp(240px, 24vw, 300px); }
+.app .sec-band.has-figure .sec-figure{ top: 0; right: 0; bottom: 0; height: 100%; max-height: none; width: auto; }
