@@ -305,6 +305,8 @@ export interface Seed {
   audit: AuditEvent[];
   /** What the website studio controls: the season, the notice bar and which home bands show. Public. */
   site: SiteConfig;
+  /** Earlier versions of `site`, newest first: what each change on the Customize page replaced. */
+  siteVersions?: SiteVersion[];
   /* Operations (lib/seed-ops.ts, staff tier) */
   suppliers: Supplier[];
   specialsBooks: SpecialsBook[];
@@ -528,6 +530,15 @@ export interface StaffUpdate {
 /* ---------- Website studio (lib/ops/site.ts). Public: the pages read it to dress the site. ---------- */
 
 export type SeasonId = "none" | "christmas" | "divali" | "carnival" | "easter" | "newyear" | "valentine" | "mothers" | "fathers" | "independence" | "republic" | "eid";
+
+/** A look the website wore before it was changed, kept so it can be put back. */
+export interface SiteVersion {
+  id: string;
+  at: string;
+  by: string;
+  label: string;
+  site: SiteConfig;
+}
 
 export interface SiteConfig {
   season: {

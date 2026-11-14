@@ -1,6 +1,6 @@
 import { assertCan } from "@/lib/access";
-import { audit, update } from "@/lib/store";
-import type { SeasonId, Session, SiteConfig } from "@/lib/types";
+import { audit, nowIso, uid, update } from "@/lib/store";
+import type { SeasonId, Seed, Session, SiteConfig } from "@/lib/types";
 
 /* The website studio's settings: the seasonal look, the notice bar, which home bands show and which specials lead.
    They sit in the public part of the data because the public pages read them; the studio (site.customize) writes
@@ -137,6 +137,47 @@ export function saveSite(s: Session | null, next: SiteConfig, what: string) {
     assertCan(d, s, "site.customize");
     d.site = next;
     audit(d, s, "site.customize", "Website", what);
+  });
+}
+
+/** What the site is wearing, in words: "Everyday look", "Christmas, on now", "Christmas, 20 Nov to 2 Jan". */
+export function lookLabel(site: SiteConfig) {
+  const se = site.season;
+  if (se.id === "none" || se.mode === "off") return "Everyday look";
+  return SEASONS[se.id].name + (se.mode === "on" ? ", on now" : ", " + se.from + " to " + se.to);
+}
+
+/** Keeps the look being replaced as a version (the newest twenty are kept). */
+function keepVersion(d: Seed, s: Session | null) {
+  d.siteVersions = [{ id: uid("sv"), at: nowIso(), by: s?.userId || "", label: lookLabel(d.site), site: JSON.parse(JSON.stringify(d.site)) as SiteConfig }, ...(d.siteVersions || [])].slice(0, 20);
+}
+
+/** The Customize page's one button: put a look on now (or go back to the everyday site), keeping what it replaces. */
+export function applyLook(s: Session | null, id: SeasonId, today: string) {
+  update((d) => {
+    assertCan(d, s, "site.customize");
+    keepVersion(d, s);
+    if (id === "none") d.site = { ...d.site, season: { ...d.site.season, mode: "off" } };
+    else {
+      const y = Number(today.slice(0, 4)), k = SEASONS[id];
+      const from = y + "-" + k.from, to = (k.to < k.from ? y + 1 : y) + "-" + k.to;
+      d.site = { ...d.site, season: { id, mode: "on", from, to, lights: true, greeting: k.greeting } };
+    }
+    audit(d, s, "site.customize", "Website", id === "none" ? "Back to the everyday look" : "Put on the " + SEASONS[id].name + " look");
+  });
+}
+
+/** Puts an earlier version back; today's look becomes a version in its turn. */
+export function restoreSiteVersion(s: Session | null, versionId: string) {
+  update((d) => {
+    assertCan(d, s, "site.customize");
+    const v = (d.siteVersions || []).find((x) => x.id === versionId);
+    if (!v) throw new Error("That version is no longer kept.");
+    const back = JSON.parse(JSON.stringify(v.site)) as SiteConfig;
+    keepVersion(d, s);
+    d.siteVersions = (d.siteVersions || []).filter((x) => x.id !== versionId);
+    d.site = back;
+    audit(d, s, "site.customize", "Website", "Restored an earlier version: " + v.label);
   });
 }
 

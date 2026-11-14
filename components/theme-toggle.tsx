@@ -36,6 +36,11 @@ function write(t: Theme) {
   listeners.forEach((l) => l());
 }
 
+/** The staff theme and its setter, for the Customize page. The top bar's switch and this stay in step. */
+export function useStaffTheme(): [Theme, (t: Theme) => void] {
+  return [useSyncExternalStore(subscribe, read, () => "light" as Theme), write];
+}
+
 export function ThemeToggle() {
   const theme = useSyncExternalStore(subscribe, read, () => "light" as Theme);
   useEffect(() => {

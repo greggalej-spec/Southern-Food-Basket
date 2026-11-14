@@ -29,7 +29,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 21,
+  version: 22,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',

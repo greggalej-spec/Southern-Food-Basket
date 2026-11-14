@@ -71,6 +71,7 @@ const OFFICE: NavItem[] = [
   { id: "bulk", label: "Bulk orders", href: "/admin#bulk", icon: "boxes", perm: ["bulk.manage", "bulk.store"] },
   { id: "tasks", label: "Tasks and resources", href: "/admin#tasks", icon: "tasks" },
   { group: "Website" },
+  { id: "customize", label: "Customize", href: "/admin#customize", icon: "sun", perm: "site.customize" },
   { id: "studio", label: "Website studio", href: "/admin#studio", icon: "brush", perm: "site.customize" },
   { id: "events", label: "Events and flyers", href: "/admin#events", icon: "calendar", perm: "events.manage" },
   { id: "deals", label: "Specials", href: "/admin#deals", icon: "tag", perm: "specials.edit" },

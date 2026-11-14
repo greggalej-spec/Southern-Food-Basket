@@ -599,3 +599,122 @@ html[data-staff-theme="dark"] .app .panel, html[data-staff-theme="dark"] .app .k
 .app .kpi .spark-wrap{ min-width: 0; max-width: 100%; }
 .app .kpi .spark-scale{ gap: 0 6px; }
 .app .kpi .spark-scale small{ font-size: .625rem; }
+
+/* ---------- Revision 8 (Gregg, 13 Nov 2026: "the charts are too mediocre") ---------- */
+/* the trend chart: a bolder, curved line with a halo on the latest point, upright steps, notes for average and peak */
+.app .trend .t-line{ stroke-width: 3.2; }
+.chart-grid-v{ stroke-dasharray: 2 5; opacity: .7; }
+.chart-halo{ opacity: .22; transform-box: fill-box; transform-origin: center; }
+@media (prefers-reduced-motion: no-preference) { .chart-halo{ animation: chart-pulse 2.2s ease-out infinite; } }
+@keyframes chart-pulse { 0% { transform: scale(.5); opacity: .45; } 100% { transform: scale(1.5); opacity: 0; } }
+.chart-pt{ stroke-width: 2; }
+.chart-avg{ stroke-width: 1.5; stroke-dasharray: 6 5; opacity: .75; }
+.chart-note{ font: 800 11px/1 var(--ui); fill: var(--ink); paint-order: stroke; stroke: var(--card); stroke-width: 4px; stroke-linejoin: round; }
+.chart-end{ font: 800 12px/1 var(--ui); fill: var(--ink); font-variant-numeric: tabular-nums; }
+.chart-colval{ font: 800 11px/1 var(--ui); fill: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* two more readings under it: the share donut and the weekly stacked columns */
+.chart-extras{ display: grid; gap: 14px; margin-top: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .chart-extras{ grid-template-columns: minmax(0, .9fr) minmax(0, 1.4fr); } }
+.chart-extras figure{ margin: 0; padding: 14px 16px 12px; border-radius: 16px; border: 1px solid var(--card-line, var(--line)); background: var(--card); }
+.chart-extras figcaption{ margin: 0 0 10px; font: 800 .8125rem/1.2 var(--ui); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.donut-row{ display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
+.donut-row svg{ flex: none; width: 150px; height: 150px; }
+.donut-track{ fill: none; stroke: var(--row-b); stroke-width: 20; }
+.donut-arc{ fill: none; stroke-width: 20; transition: stroke-width .2s ease; }
+.donut-arc:hover{ stroke-width: 24; }
+.donut-total{ font: 800 24px/1 var(--ui); fill: var(--ink); font-variant-numeric: tabular-nums; }
+.donut-sub{ font: 700 9px/1 var(--ui); fill: var(--muted); letter-spacing: .1em; text-transform: uppercase; }
+.donut-row ul{ flex: 1 1 150px; list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.donut-row li{ display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2px 8px; font: 600 .9375rem/1.2 var(--ui); color: var(--ink); }
+.donut-row li b{ font: 800 1.0625rem/1 var(--ui); font-variant-numeric: tabular-nums; }
+.donut-row li small{ grid-column: 2 / -1; font: 600 .75rem/1.2 var(--ui); color: var(--muted); font-variant-numeric: tabular-nums; }
+.chart-cols svg{ display: block; width: 100%; height: auto; }
+.chart-col rect{ transition: opacity .18s ease; }
+.chart-cols svg:hover .chart-col rect{ opacity: .55; }
+.chart-cols svg .chart-col:hover rect{ opacity: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  .chart-col rect{ animation: col-grow .7s cubic-bezier(.22, 1, .36, 1) both; transform-box: fill-box; transform-origin: center bottom; }
+  .donut-arc{ animation: donut-in .9s cubic-bezier(.22, 1, .36, 1) both; }
+}
+@keyframes col-grow { from { transform: scaleY(0); } to { transform: none; } }
+@keyframes donut-in { from { stroke-dasharray: 0 400; } }
+
+/* bars: a taller, rounder bar on a track marked at every quarter of the scale */
+.hbars .hbar-track{ position: relative; height: 18px; border-radius: 999px; background: var(--row-b);
+  background-image: linear-gradient(90deg, transparent calc(25% - 1px), var(--card-line, var(--line)) calc(25% - 1px) 25%, transparent 25% calc(50% - 1px), var(--card-line, var(--line)) calc(50% - 1px) 50%, transparent 50% calc(75% - 1px), var(--card-line, var(--line)) calc(75% - 1px) 75%, transparent 75%); }
+.hbars .hbar-fill{ border-radius: 999px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, .35); }
+.hbars .hbar-scale{ background: none; background-image: none; border-radius: 0; }
+.hbars li:first-child .hbar-rank{ background: var(--a-sun); color: var(--a-sun-on); }
+.hbar-value{ font-weight: 800; font-variant-numeric: tabular-nums; }
+.pairbars .pair-bar{ height: 12px; border-radius: 0 999px 999px 0; }
+.pairbars .pair-then{ height: 7px; }
+
+/* small trend lines: a soft fill under the line */
+.spark-area{ opacity: .16; }
+.kpi.tone-pink .spark-area, .kpi[class*="pink"] .spark-area{ opacity: .28; }
+
+/* rings: a heavier, round-ended stroke */
+.gauge-fill{ stroke-linecap: round; }
+
+/* four figure cards across where there is room */
+.app .stats{ grid-template-columns: repeat(auto-fit, minmax(min(100%, 178px), 1fr)); }
+
+/* the produce photograph behind the console: painted on the console itself, under a tint that keeps text clear */
+.app::before{ content: none; }
+/* The console already keeps one fixed, full-screen layer behind everything (.app-body::before): the photograph goes
+   on it, slightly blurred, under the tint. */
+.app .app-body::before{ inset: 0; filter: none; background: linear-gradient(rgba(255, 246, 241, .52), rgba(255, 246, 241, .66)), url(/assets/img/stock/produce-variety.webp) center / cover no-repeat; }
+html[data-staff-theme="dark"] .app .app-body::before{ background: linear-gradient(rgba(11, 46, 25, .56), rgba(11, 46, 25, .70)), url(/assets/img/stock/produce-dark.webp) center / cover no-repeat; }
+
+/* a figure card with a trend line: the line runs the full width under the number */
+.app .kpi .kpi-visual:has(.spark-wrap){ grid-column: 1 / -1; grid-row: auto; width: 100%; margin-top: 8px; justify-self: stretch; }
+.app .kpi .kpi-visual:has(.spark-wrap) .spark{ height: 48px; }
+.app .kpi .spark-scale small{ font-size: .6875rem; }
+
+/* ---------- Revision 9 (Gregg, 14 Nov 2026): the Customize page ---------- */
+.app .cz-now{ display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; }
+.app .cz-eyebrow{ margin: 0 0 4px; font: 800 .75rem/1 var(--ui); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.app .cz-now h2{ margin: 0; font: 700 clamp(1.5rem, 1.2rem + 1vw, 2rem)/1.1 var(--display); color: var(--ink); }
+.app .cz-h{ margin: 6px 0 4px; font: 700 1.375rem/1.2 var(--display); color: var(--ink); }
+.app .cz-sub{ margin: 0 0 14px; max-width: 70ch; color: var(--muted); }
+.app .cz-grid{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); margin-bottom: 12px; }
+.app .cz-card{ display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; border-radius: 18px; border: 1px solid var(--card-line, var(--line)); background: color-mix(in srgb, var(--card) 92%, transparent); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); transition: transform .25s cubic-bezier(.22, 1, .36, 1), box-shadow .25s ease; }
+.app .cz-card:hover{ transform: translateY(-4px); box-shadow: 0 20px 34px -24px rgba(32, 20, 26, .65); }
+.app .cz-card.is-on{ box-shadow: inset 0 0 0 3px var(--a-green); }
+.app .cz-swatches{ display: grid; grid-template-columns: repeat(4, 1fr); height: 56px; }
+.app .cz-body{ padding: 14px 16px 6px; display: grid; gap: 8px; align-content: start; }
+.app .cz-body h3{ margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font: 700 1.25rem/1.15 var(--display); color: var(--ink); }
+.app .cz-badge{ padding: 3px 9px; border-radius: 999px; background: var(--a-green); color: var(--a-green-on); font: 800 .6875rem/1.2 var(--ui); letter-spacing: .06em; text-transform: uppercase; }
+.app .cz-body p{ margin: 0; font-size: .9375rem; line-height: 1.4; color: var(--muted); }
+.app .cz-colours{ list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font: 600 .75rem/1.3 var(--ui); color: var(--muted); }
+.app .cz-colours li{ display: inline-flex; align-items: center; gap: 5px; }
+.app .cz-colours i{ width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 0 0 1px var(--card-line, var(--line)); }
+.app .cz-acts{ display: flex; flex-wrap: wrap; gap: 8px; padding: 10px 16px 16px; }
+.app .cz-acts .btn{ flex: 1 1 auto; justify-content: center; text-align: center; }
+.app .cz-themes{ display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 280px)); }
+.app .cz-theme{ display: grid; gap: 6px; padding: 14px; border-radius: 18px; border: 1px solid var(--card-line, var(--line)); background: var(--card); color: var(--ink); text-align: left; cursor: pointer; transition: transform .2s ease; }
+.app .cz-theme:hover{ transform: translateY(-3px); }
+.app .cz-theme.is-on{ box-shadow: inset 0 0 0 3px var(--a-green); }
+.app .cz-theme b{ font: 700 1.125rem/1.2 var(--display); }
+.app .cz-theme small{ font: 600 .8125rem/1.3 var(--ui); color: var(--muted); }
+.app .cz-theme-art{ display: grid; grid-template-columns: 34px 1fr; grid-template-rows: 18px 1fr; gap: 6px; height: 92px; padding: 8px; border-radius: 12px; background: #FFF6F1; border: 1px solid rgba(32, 20, 26, .12); }
+.app .cz-theme-art i:nth-child(1){ grid-row: 1 / -1; border-radius: 6px; background: #123F22; }
+.app .cz-theme-art i:nth-child(2){ border-radius: 6px; background: #FFD21A; }
+.app .cz-theme-art i:nth-child(3){ border-radius: 6px; background: #FFFFFF; box-shadow: 0 0 0 1px rgba(32, 20, 26, .1); }
+.app .cz-theme.is-dark .cz-theme-art{ background: #0B2E19; border-color: rgba(255, 255, 255, .16); }
+.app .cz-theme.is-dark .cz-theme-art i:nth-child(1){ background: #06200F; }
+.app .cz-theme.is-dark .cz-theme-art i:nth-child(2){ background: #E9B949; }
+.app .cz-theme.is-dark .cz-theme-art i:nth-child(3){ background: #123F22; box-shadow: 0 0 0 1px rgba(255, 255, 255, .14); }
+.app .cz-versions{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.app .cz-versions li{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--card-line, var(--line)); background: var(--card); }
+.app .cz-versions .grow{ flex: 1 1 220px; min-width: 0; display: grid; gap: 3px; }
+.app .cz-versions .meta{ font-size: .875rem; color: var(--muted); }
+/* words that sit straight on the photograph get a soft plate under them, so they stay easy to read */
+.app .cz-h, .app .cz-sub, .app .cal-title, .app .cal-jump, .app .cal-key .muted, .app .admin-section > .small, .app .section-stack > .small, .app .section-stack > p{ text-shadow: 0 0 10px var(--page), 0 0 2px var(--page), 0 0 18px var(--page); }
+
+/* The photograph stays sharp and bright around the edges; behind the working column a light sheet of the page colour
+   keeps loose words (headings, hints) easy to read without blurring the picture. */
+.app .app-main{ background: color-mix(in srgb, var(--page) 72%, transparent); border-radius: 26px; }
+@media (max-width: 760px) { .app .app-main{ border-radius: 0; } }
+.app .panel.cz-now{ padding: 16px 20px; }

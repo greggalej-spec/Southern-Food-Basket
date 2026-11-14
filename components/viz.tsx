@@ -252,6 +252,7 @@ export function Spark({ points, color = "var(--green)", label, names }: { points
       <span className="spark-plot">
         <svg className="spark" viewBox="0 0 100 30" aria-hidden="true" preserveAspectRatio="none">
           <line className="spark-base" x1="2" x2="98" y1="29" y2="29" />
+          <polygon className="spark-area" points={d + " 98,29 2,29"} fill={color} />
           <polyline className="spark-line" points={d} fill="none" stroke={color} pathLength={1} />
         </svg>
         {at != null ? (

@@ -25,7 +25,8 @@ function niceMax(v: number) {
   if (v <= 0) return 10;
   const p = Math.pow(10, Math.floor(Math.log10(v)));
   const n = v / p;
-  return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+  // steps whose quarters are still round numbers, close enough together that a chart fills its height
+  return ([1, 1.2, 1.6, 2, 2.4, 3.2, 4, 6, 8, 10].find((t) => n <= t) || 10) * p;
 }
 
 export const compact = (n: number) => (n >= 1000000 ? (n / 1000000).toFixed(1).replace(/\.0$/, "") + "m" : n >= 10000 ? Math.round(n / 1000) + "k" : n >= 1000 ? (n / 1000).toFixed(1).replace(/\.0$/, "") + "k" : String(n));
@@ -224,7 +225,7 @@ export function Bars({ rows, color = "var(--green)" }: { rows: { label: string; 
               <span className="hbar-fill" style={{ width: Math.max(2, (r.value / max) * 100) + "%", background: color }} />
             </span>
             <span className="hbar-value num">
-              {r.value.toLocaleString("en-US")}
+              <CountUp value={r.value} />
               {total ? <small>{" " + Math.round((r.value / total) * 100) + "%"}</small> : null}
               {r.note ? <small>{" " + r.note}</small> : null}
             </span>
@@ -278,12 +279,108 @@ function ChartStats({ lines, labels, from = 0 }: { lines: Line[]; labels: string
   );
 }
 
+/** Two more readings of the same weeks, under a trend chart: who holds what share of the latest week (a donut,
+ *  with the total in the middle), and each week's total stacked by account, on its own scale with its own axis. */
+function TrendExtras({ lines, labels, from }: { lines: Line[]; labels: string[]; from: number }) {
+  const n = labels.length;
+  if (n < 1 || !lines.length) return null;
+  const total = lines.reduce((a, l) => a + (l.points[n - 1] ?? 0), 0);
+  const R = 52, C = 2 * Math.PI * R;
+  const arcs = lines.reduce<{ id: Platform; name: string; v: number; share: number; off: number }[]>((out, l) => {
+    const v = l.points[n - 1] ?? 0, off = out.reduce((a, b) => a + b.share, 0);
+    return [...out, { id: l.id, name: l.name, v, share: total ? v / total : 0, off }];
+  }, []);
+  const weeks = labels.slice(from).map((lab, k) => ({ lab, sum: lines.reduce((a, l) => a + (l.points[from + k] ?? 0), 0), parts: lines.map((l) => ({ id: l.id, v: l.points[from + k] ?? 0 })) }));
+  const top = niceMax(Math.max(1, ...weeks.map((w) => w.sum)));
+  const CW = 560, CH = 250, CM = { l: 52, r: 10, t: 24, b: 44 };
+  const bw = (CW - CM.l - CM.r) / weeks.length, colW = Math.min(46, bw * 0.62);
+  const cy = (v: number) => CM.t + (1 - v / top) * (CH - CM.t - CM.b);
+  const cols = weeks.map((w, k) => {
+    const below = (i: number) => w.parts.slice(0, i).reduce((a, p) => a + p.v, 0);
+    return { ...w, cx: CM.l + bw * k + bw / 2, segs: w.parts.map((p, i) => ({ id: p.id, y: cy(below(i) + p.v), h: cy(below(i)) - cy(below(i) + p.v) })) };
+  });
+  return (
+    <div className="chart-extras">
+      <figure className="chart-donut">
+        <figcaption>Share of this week</figcaption>
+        <div className="donut-row">
+          <svg viewBox="0 0 140 140" role="img" aria-label={"Share of the latest week: " + arcs.map((a) => a.name + " " + Math.round(a.share * 100) + " percent").join(", ")}>
+            <circle cx="70" cy="70" r={R} className="donut-track" />
+            {arcs.map((a) => (
+              <circle key={a.id} cx="70" cy="70" r={R} className="donut-arc" stroke={PLATFORM_COLOR[a.id]} strokeDasharray={Math.max(0, a.share * C - 2).toFixed(2) + " " + C.toFixed(2)} strokeDashoffset={(-a.off * C).toFixed(2)} transform="rotate(-90 70 70)" />
+            ))}
+            <text x="70" y="69" textAnchor="middle" className="donut-total">
+              {compact(total)}
+            </text>
+            <text x="70" y="85" textAnchor="middle" className="donut-sub">
+              this week
+            </text>
+          </svg>
+          <ul>
+            {arcs.map((a) => (
+              <li key={a.id}>
+                <span className="chart-key" style={{ background: PLATFORM_COLOR[a.id] }} />
+                <span>{a.name}</span>
+                <b>{Math.round(a.share * 100) + "%"}</b>
+                <small>{a.v.toLocaleString("en-US")}</small>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </figure>
+      <figure className="chart-cols">
+        <figcaption>Every week’s total, by account</figcaption>
+        <svg viewBox={"0 0 " + CW + " " + CH} role="img" aria-label={"Weekly totals from the week of " + weeks[0].lab + " to the week of " + weeks[weeks.length - 1].lab}>
+          {[0, 0.25, 0.5, 0.75, 1].map((t) => (
+            <g key={t}>
+              <line x1={CM.l} x2={CW - CM.r} y1={cy(top * t)} y2={cy(top * t)} className={t === 0 ? "chart-axis" : "chart-grid"} />
+              <text x={CM.l - 8} y={cy(top * t) + 4} textAnchor="end" className="chart-tick">
+                {compact(Math.round(top * t))}
+              </text>
+            </g>
+          ))}
+          {cols.map((w, k) => (
+            <g key={w.lab} className="chart-col">
+              {w.segs.map((sg) => (
+                <rect key={sg.id} x={w.cx - colW / 2} y={sg.y} width={colW} height={Math.max(0, sg.h - 1)} rx="3" fill={PLATFORM_COLOR[sg.id]} />
+              ))}
+              <text x={w.cx} y={cy(w.sum) - 6} textAnchor="middle" className="chart-colval">
+                {compact(w.sum)}
+              </text>
+              {cols.length <= 8 || k % 2 === (cols.length - 1) % 2 ? (
+                <text x={w.cx} y={CH - CM.b + 18} textAnchor="middle" className="chart-tick">
+                  {w.lab}
+                </text>
+              ) : null}
+            </g>
+          ))}
+          <text x={CM.l + (CW - CM.l - CM.r) / 2} y={CH - 6} textAnchor="middle" className="chart-axis-title">
+            Week starting
+          </text>
+        </svg>
+      </figure>
+    </div>
+  );
+}
+
 /* ---------- TrendChart: the same lines, with a time frame that zooms ----------
    Choose 4, 8 or 12 weeks and the plot slides and stretches to that window, with the scale settling as it goes, so
    the eye follows where the weeks went. Each account has a chip: click it to hide or show its line, point at it to
    bring that line forward. A soft fill under each line shows volume without a second axis. */
 
-const TW = 820, TH = 340, TM = { l: 66, r: 18, t: 16, b: 48 };
+const TW = 820, TH = 360, TM = { l: 66, r: 70, t: 30, b: 48 };
+
+/** A line through the points that bends gently instead of turning corners (a light Catmull-Rom curve). */
+function smooth(p: [number, number][]) {
+  const f = (v: number) => v.toFixed(1);
+  if (p.length < 3) return "M" + p.map((q) => f(q[0]) + "," + f(q[1])).join(" L");
+  let d = "M" + f(p[0][0]) + "," + f(p[0][1]);
+  for (let i = 0; i < p.length - 1; i++) {
+    const p0 = p[i - 1] || p[i], p1 = p[i], p2 = p[i + 1], p3 = p[i + 2] || p2, t = 0.16;
+    d += " C" + f(p1[0] + (p2[0] - p0[0]) * t) + "," + f(p1[1] + (p2[1] - p0[1]) * t) + " " + f(p2[0] - (p3[0] - p1[0]) * t) + "," + f(p2[1] - (p3[1] - p1[1]) * t) + " " + f(p2[0]) + "," + f(p2[1]);
+  }
+  return d;
+}
 
 export function TrendChart({ lines, labels, span, title, unit, expanded = false }: { lines: Line[]; labels: string[]; span: number; title: string; unit: string; expanded?: boolean }) {
   const n = labels.length;
@@ -324,6 +421,14 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
   const y = (v: number) => TM.t + (1 - Math.min(1.2, v / view.max)) * ph;
   const ticks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * view.max);
   const first = Math.ceil(view.start - 0.001);
+  // One line carries the notes (its average and its peak): the one being pointed at, else the biggest this week.
+  const focusLine = shown.find((l) => l.id === hot) || shown.slice().sort((a, b) => (b.points[n - 1] ?? 0) - (a.points[n - 1] ?? 0))[0];
+  const focusPts = focusLine ? focusLine.points.slice(targetStart) : [];
+  const focusPeak = focusPts.length ? Math.max(...focusPts) : 0;
+  const focus = focusLine ? { id: focusLine.id, name: focusLine.name, avg: Math.round(focusPts.reduce((a, b) => a + b, 0) / Math.max(1, focusPts.length)), peak: focusPeak, peakAt: targetStart + focusPts.indexOf(focusPeak) } : null;
+  // the latest figure written at the end of each line, nudged apart where two lines finish close together
+  const ends = shown.map((l) => ({ id: l.id, v: l.points[n - 1] ?? 0, y: y(l.points[n - 1] ?? 0) })).sort((a, b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 15) ends[i].y = ends[i - 1].y + 15;
 
   function onMove(e: React.PointerEvent) {
     const r = svg.current?.getBoundingClientRect();
@@ -399,14 +504,16 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
           <text transform="rotate(-90)" x={-(TM.t + ph / 2)} y={14} textAnchor="middle" className="chart-axis-title">
             {cap(unit)}
           </text>
+          {labels.map((lab, i) => (i >= first ? <line key={"v" + lab} x1={x(i)} x2={x(i)} y1={TM.t} y2={TH - TM.b} className="chart-grid chart-grid-v" /> : null))}
           <g clipPath="url(#trend-clip)">
             {shown.map((l) => {
-              const pts = l.points.map((v, i) => x(i).toFixed(1) + "," + y(v).toFixed(1));
+              const xy = l.points.map((v, i) => [x(i), y(v)] as [number, number]);
               const cls = hot ? (hot === l.id ? "is-hot" : "is-dim") : "";
               return (
                 <g key={l.id} className={cls}>
-                  <path className="t-area" d={"M" + pts.join(" L") + " L" + x(n - 1).toFixed(1) + "," + y(0) + " L" + x(0).toFixed(1) + "," + y(0) + " Z"} fill={"url(#trend-fill-" + l.id + ")"} />
-                  <polyline className="t-line" stroke={PLATFORM_COLOR[l.id]} points={pts.join(" ")} />
+                  <path className="t-area" d={smooth(xy) + " L" + x(n - 1).toFixed(1) + "," + y(0) + " L" + x(0).toFixed(1) + "," + y(0) + " Z"} fill={"url(#trend-fill-" + l.id + ")"} />
+                  <circle cx={x(n - 1)} cy={y(l.points[n - 1] ?? 0)} r="10" fill={PLATFORM_COLOR[l.id]} className="chart-halo" />
+                  <path className="t-line" fill="none" stroke={PLATFORM_COLOR[l.id]} d={smooth(xy)} />
                   {l.points.map((v, i) => (
                     <circle key={i} cx={x(i)} cy={y(v)} r="2.6" fill={PLATFORM_COLOR[l.id]} className="chart-pt" />
                   ))}
@@ -416,6 +523,30 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
             })}
             {at != null ? <line x1={x(at)} x2={x(at)} y1={TM.t} y2={TH - TM.b} className="chart-cross" /> : null}
           </g>
+          {focus ? (
+            <g className="chart-notes">
+              <line x1={TM.l} x2={TW - TM.r} y1={y(focus.avg)} y2={y(focus.avg)} className="chart-avg" stroke={PLATFORM_COLOR[focus.id]} />
+              <text x={TM.l + 8} y={y(focus.avg) - 6} className="chart-note">
+                {focus.name + " average " + compact(focus.avg)}
+              </text>
+              {focus.peakAt >= first ? (
+                <>
+                  <path d={"M" + x(focus.peakAt).toFixed(1) + "," + (y(focus.peak) - 7).toFixed(1) + " l-5,-8 h10 Z"} fill={PLATFORM_COLOR[focus.id]} />
+                  <text x={Math.min(x(focus.peakAt), TW - TM.r - 4)} y={Math.max(11, y(focus.peak) - 20)} textAnchor={focus.peakAt === n - 1 ? "end" : "middle"} className="chart-note">
+                    {"Peak " + compact(focus.peak)}
+                  </text>
+                </>
+              ) : null}
+            </g>
+          ) : null}
+          {ends.map((e) => (
+            <g key={e.id}>
+              <circle cx={TW - TM.r + 10} cy={e.y} r="3.5" fill={PLATFORM_COLOR[e.id]} />
+              <text x={TW - TM.r + 18} y={e.y + 4} className="chart-end">
+                {compact(e.v)}
+              </text>
+            </g>
+          ))}
         </svg>
         {at != null ? (
           <div className="chart-tip" style={{ left: (x(at) / TW) * 100 + "%" }} data-side={x(at) > TW / 2 ? "left" : "right"} role="status">
@@ -435,6 +566,7 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
         ) : null}
       </div>
       <ChartStats lines={shown} labels={labels} from={targetStart} />
+      <TrendExtras lines={shown} labels={labels} from={targetStart} />
       {expanded ? null : <p className="chart-hint">Move across the chart for each week, click a week to hold it, and click an account to hide or show its line.</p>}
       {big ? (
         <VizDialog title={title} onClose={() => setBig(false)}>

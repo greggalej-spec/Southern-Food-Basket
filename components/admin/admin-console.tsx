@@ -11,6 +11,7 @@ import { FeedbackPanel } from "@/components/admin/feedback-panel";
 import { RequestsPanel } from "@/components/admin/requests-panel";
 import { SelloutPanel } from "@/components/admin/sellout-panel";
 import { PlanPanel, SocialPanel } from "@/components/admin/social-panel";
+import { CustomizePanel } from "@/components/admin/customize-panel";
 import { StudioPanel } from "@/components/admin/studio-panel";
 import { SuppliersPanel } from "@/components/admin/suppliers-panel";
 import { TasksPanel } from "@/components/admin/tasks-panel";
@@ -109,6 +110,8 @@ export function AdminConsole() {
         return <BulkPanel />;
       case "tasks":
         return <TasksPanel />;
+      case "customize":
+        return <CustomizePanel />;
       case "studio":
         return <StudioPanel />;
       case "analytics":

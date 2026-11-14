@@ -19,6 +19,7 @@ export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
   requests: { title: "Partnerships and donations", purpose: "Every request from a school, charity, club or company in one list, from the day it arrives to the day it is done." },
   bulk: { title: "Bulk orders", purpose: "One order for all five stores: each store gives its number, the office places the order, and last time’s figures sit alongside." },
   tasks: { title: "Tasks and resources", purpose: "Work handed from one person to another, and the templates and checklists the office keeps to hand." },
+  customize: { title: "Customize", purpose: "Choose the look the website wears, set this console to light or dark, and go back to an earlier version." },
   studio: { title: "Website studio", purpose: "The seasonal look, the notice bar, and what the home page leads with. Preview first, then put it live." },
   analytics: { title: "Marketing figures", purpose: "How the website and the social accounts are doing, and which posts earned it." },
   social: { title: "Social accounts", purpose: "Which accounts feed the figures, and how each one is connected." },
