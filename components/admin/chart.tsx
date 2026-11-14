@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { VizDialog } from "@/components/viz";
+import { CountUp, VizDialog } from "@/components/viz";
 import type { Platform } from "@/lib/types";
 
 /* The console's one chart: lines over weeks, one per platform. Built by hand as SVG so it carries no library.
@@ -17,7 +17,9 @@ export const PLATFORM_COLOR: Record<Platform, string> = { instagram: "var(--pf-i
 
 export type Line = { id: Platform; name: string; points: number[] };
 
-const W = 760, H = 300, M = { l: 52, r: 104, t: 14, b: 30 };
+// Room on the left and underneath for the axis titles (what is counted, and what the steps along the bottom are).
+const W = 760, H = 320, M = { l: 66, r: 112, t: 14, b: 48 };
+const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 function niceMax(v: number) {
   if (v <= 0) return 10;
@@ -44,7 +46,7 @@ export function LineChart({ lines, labels, title, unit, expanded = false }: { li
 
   // End labels: keep them at least 16px apart, top to bottom, without leaving the plot.
   const ends = lines
-    .map((l) => ({ id: l.id, name: l.name, y: y(l.points[n - 1] ?? 0) }))
+    .map((l) => ({ id: l.id, name: l.name, v: l.points[n - 1] ?? 0, y: y(l.points[n - 1] ?? 0) }))
     .sort((a, b) => a.y - b.y);
   for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 16) ends[i].y = ends[i - 1].y + 16;
   const over = ends.length ? ends[ends.length - 1].y - (H - M.b) : 0;
@@ -121,21 +123,33 @@ export function LineChart({ lines, labels, title, unit, expanded = false }: { li
             ))}
             {labels.map((lab, i) =>
               n <= 6 || i % 2 === (n - 1) % 2 ? (
-                <text key={lab} x={x(i)} y={H - 8} textAnchor="middle" className="chart-tick">
+                <text key={lab} x={x(i)} y={H - M.b + 19} textAnchor="middle" className="chart-tick">
                   {lab}
                 </text>
               ) : null,
             )}
+            {labels.map((lab, i) => (
+              <line key={"step" + lab} x1={x(i)} x2={x(i)} y1={H - M.b} y2={H - M.b + 5} className="chart-axis" />
+            ))}
+            <text x={(M.l + W - M.r) / 2} y={H - 6} textAnchor="middle" className="chart-axis-title">
+              Week starting
+            </text>
+            <text transform="rotate(-90)" x={-(M.t + (H - M.t - M.b) / 2)} y={14} textAnchor="middle" className="chart-axis-title">
+              {cap(unit)}
+            </text>
             {at != null ? <line x1={x(at)} x2={x(at)} y1={M.t} y2={H - M.b} className="chart-cross" /> : null}
             {lines.map((l) => (
               <g key={l.id}>
                 <polyline fill="none" stroke={PLATFORM_COLOR[l.id]} strokeWidth="2" strokeLinejoin="round" strokeLinecap="round" points={l.points.map((v, i) => x(i) + "," + y(v)).join(" ")} />
+                {l.points.map((v, i) => (
+                  <circle key={i} cx={x(i)} cy={y(v)} r="2.6" fill={PLATFORM_COLOR[l.id]} className="chart-pt" />
+                ))}
                 <circle cx={x(at ?? n - 1)} cy={y(l.points[at ?? n - 1] ?? 0)} r="4.5" fill={PLATFORM_COLOR[l.id]} className="chart-dot" />
               </g>
             ))}
             {ends.map((e) => (
               <text key={e.id} x={W - M.r + 10} y={e.y + 4} className="chart-end">
-                {e.name}
+                {e.name + " " + compact(e.v)}
               </text>
             ))}
           </svg>
@@ -157,6 +171,7 @@ export function LineChart({ lines, labels, title, unit, expanded = false }: { li
           ) : null}
         </div>
       )}
+      <ChartStats lines={lines} labels={labels} />
       {table || expanded ? null : <p className="chart-hint">Move across the chart for each week. Click a week to hold it.</p>}
       {big ? (
         <VizDialog title={title} onClose={() => setBig(false)}>
@@ -175,7 +190,8 @@ export function Bars({ rows, color = "var(--green)" }: { rows: { label: string; 
   const [hot, setHot] = useState<number | null>(null);
   const [pin, setPin] = useState<number | null>(null);
   const on = hot ?? pin;
-  const max = Math.max(1, ...rows.map((r) => r.value));
+  // the scale ends on a round number, so the steps written under the bars are round too
+  const max = niceMax(Math.max(1, ...rows.map((r) => r.value)));
   const total = rows.reduce((n, r) => n + r.value, 0);
   const rank = (v: number) => rows.filter((r) => r.value > v).length + 1;
   return (
@@ -200,15 +216,61 @@ export function Bars({ rows, color = "var(--green)" }: { rows: { label: string; 
               flip();
             }}
           >
-            <span className="hbar-label">{r.label}</span>
+            <span className="hbar-label">
+              <i className="hbar-rank">{rank(r.value)}</i>
+              {r.label}
+            </span>
             <span className="hbar-track">
               <span className="hbar-fill" style={{ width: Math.max(2, (r.value / max) * 100) + "%", background: color }} />
             </span>
             <span className="hbar-value num">
               {r.value.toLocaleString("en-US")}
+              {total ? <small>{" " + Math.round((r.value / total) * 100) + "%"}</small> : null}
               {r.note ? <small>{" " + r.note}</small> : null}
             </span>
             {on === i ? <span className="row-detail">{"Number " + rank(r.value) + " of " + rows.length + " · " + (total ? Math.round((r.value / total) * 100) : 0) + "% of the total (" + total.toLocaleString("en-US") + ")"}</span> : null}
+          </li>
+        );
+      })}
+      <li className="hbar-axisrow" aria-hidden="true">
+        <span className="hbar-label" />
+        <span className="hbar-track hbar-scale">
+          {[0, 0.25, 0.5, 0.75, 1].map((t) => (
+            <i key={t}>{compact(Math.round(max * t))}</i>
+          ))}
+        </span>
+        <span className="hbar-value" />
+      </li>
+    </ul>
+  );
+}
+
+/** The counters under a line chart: for each line, the latest figure counting up, how it moved on the week before,
+ *  its peak and its average over the weeks shown. */
+function ChartStats({ lines, labels, from = 0 }: { lines: Line[]; labels: string[]; from?: number }) {
+  const n = labels.length;
+  if (n < 1 || !lines.length) return null;
+  return (
+    <ul className="chart-stats" aria-label="The figures behind each line">
+      {lines.map((l) => {
+        const pts = l.points.slice(from), last = l.points[n - 1] ?? 0, prev = l.points[n - 2];
+        const peak = Math.max(...pts), peakAt = from + pts.indexOf(peak);
+        const avg = Math.round(pts.reduce((a, b) => a + b, 0) / Math.max(1, pts.length));
+        const diff = prev == null ? null : last - prev;
+        const pct = diff != null && prev ? Math.round((Math.abs(diff) / prev) * 100) : null;
+        return (
+          <li key={l.id}>
+            <span className="cs-name">
+              <span className="chart-key" style={{ background: PLATFORM_COLOR[l.id] }} />
+              {l.name}
+            </span>
+            <b className="cs-now">
+              <CountUp value={last} />
+            </b>
+            <span className={"cs-delta " + (diff == null || diff === 0 ? "is-flat" : diff > 0 ? "is-up" : "is-down")}>
+              {diff == null ? "First week" : diff === 0 ? "No change on last week" : (diff > 0 ? "▲ " : "▼ ") + Math.abs(diff).toLocaleString("en-US") + (pct != null ? " (" + pct + "%)" : "") + " on last week"}
+            </span>
+            <span className="cs-more">{"Peak " + peak.toLocaleString("en-US") + ", week of " + labels[peakAt] + " · Average " + avg.toLocaleString("en-US")}</span>
           </li>
         );
       })}
@@ -221,7 +283,7 @@ export function Bars({ rows, color = "var(--green)" }: { rows: { label: string; 
    the eye follows where the weeks went. Each account has a chip: click it to hide or show its line, point at it to
    bring that line forward. A soft fill under each line shows volume without a second axis. */
 
-const TW = 820, TH = 320, TM = { l: 50, r: 18, t: 16, b: 30 };
+const TW = 820, TH = 340, TM = { l: 66, r: 18, t: 16, b: 48 };
 
 export function TrendChart({ lines, labels, span, title, unit, expanded = false }: { lines: Line[]; labels: string[]; span: number; title: string; unit: string; expanded?: boolean }) {
   const n = labels.length;
@@ -325,11 +387,18 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
           ))}
           {labels.map((lab, i) =>
             i >= first && (span <= 6 || (n - 1 - i) % 2 === 0) ? (
-              <text key={lab} x={x(i)} y={TH - 8} textAnchor="middle" className="chart-tick">
+              <text key={lab} x={x(i)} y={TH - TM.b + 19} textAnchor="middle" className="chart-tick">
                 {lab}
               </text>
             ) : null,
           )}
+          {labels.map((lab, i) => (i >= first ? <line key={"step" + lab} x1={x(i)} x2={x(i)} y1={TH - TM.b} y2={TH - TM.b + 5} className="chart-axis" /> : null))}
+          <text x={TM.l + pw / 2} y={TH - 6} textAnchor="middle" className="chart-axis-title">
+            Week starting
+          </text>
+          <text transform="rotate(-90)" x={-(TM.t + ph / 2)} y={14} textAnchor="middle" className="chart-axis-title">
+            {cap(unit)}
+          </text>
           <g clipPath="url(#trend-clip)">
             {shown.map((l) => {
               const pts = l.points.map((v, i) => x(i).toFixed(1) + "," + y(v).toFixed(1));
@@ -338,6 +407,9 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
                 <g key={l.id} className={cls}>
                   <path className="t-area" d={"M" + pts.join(" L") + " L" + x(n - 1).toFixed(1) + "," + y(0) + " L" + x(0).toFixed(1) + "," + y(0) + " Z"} fill={"url(#trend-fill-" + l.id + ")"} />
                   <polyline className="t-line" stroke={PLATFORM_COLOR[l.id]} points={pts.join(" ")} />
+                  {l.points.map((v, i) => (
+                    <circle key={i} cx={x(i)} cy={y(v)} r="2.6" fill={PLATFORM_COLOR[l.id]} className="chart-pt" />
+                  ))}
                   {at != null ? <circle cx={x(at)} cy={y(l.points[at] ?? 0)} r="5" fill={PLATFORM_COLOR[l.id]} className="chart-dot" /> : <circle cx={x(n - 1)} cy={y(l.points[n - 1] ?? 0)} r="4.5" fill={PLATFORM_COLOR[l.id]} className="chart-dot" />}
                 </g>
               );
@@ -362,6 +434,7 @@ export function TrendChart({ lines, labels, span, title, unit, expanded = false 
           </div>
         ) : null}
       </div>
+      <ChartStats lines={shown} labels={labels} from={targetStart} />
       {expanded ? null : <p className="chart-hint">Move across the chart for each week, click a week to hold it, and click an account to hide or show its line.</p>}
       {big ? (
         <VizDialog title={title} onClose={() => setBig(false)}>

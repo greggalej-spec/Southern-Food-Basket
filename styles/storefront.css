@@ -292,3 +292,15 @@ html:is(:not([data-season]), [data-season="none"]) .page-hero::after{
 .who-arch.has-photo img{ position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 12%; }
 @media (max-width: 520px) { .who-card.who-founder{ grid-template-columns: 1fr; } }
 .ge-root .story-memory .who-arch.has-photo{ width: 76px; position: relative; overflow: hidden; }
+
+/* ---------- produce photographs behind the public pages (13 Nov 2026) ----------
+   Stock photographs of fresh produce (Unsplash licence; SITE.md lists them). Each sits behind its section at low
+   strength, fading out toward the words, so the page has depth without costing any contrast. */
+.page-hero::before{ background: url(/assets/img/stock/produce-market.webp) right center / cover no-repeat; opacity: .34;
+  -webkit-mask-image: linear-gradient(90deg, transparent 34%, #000 100%); mask-image: linear-gradient(90deg, transparent 34%, #000 100%); }
+@media (max-width: 760px) { .page-hero::before{ opacity: .16; -webkit-mask-image: linear-gradient(180deg, transparent 20%, #000 100%); mask-image: linear-gradient(180deg, transparent 20%, #000 100%); } }
+.ge-root .band-aisles{ position: relative; isolation: isolate; }
+.ge-root .band-aisles::after{ content: ""; position: absolute; z-index: -1; inset: 0; pointer-events: none; background: linear-gradient(rgba(255, 253, 250, .90), rgba(255, 253, 250, .95)), url(/assets/img/stock/produce-variety.webp) center / cover no-repeat; }
+.ge-root .band-carousel{ position: relative; isolation: isolate; }
+.ge-root .band-carousel::before{ content: ""; position: absolute; z-index: -1; inset: 0; pointer-events: none; background: linear-gradient(rgba(251, 246, 236, .88), rgba(251, 246, 236, .96)), url(/assets/img/stock/produce-market.webp) center / cover no-repeat; }
+.sf-glassroom::before{ background: linear-gradient(rgba(251, 246, 236, .90), rgba(251, 246, 236, .95)), url(/assets/img/stock/produce-variety.webp) center / cover no-repeat; opacity: 1; -webkit-mask-image: none; mask-image: none; }

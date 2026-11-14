@@ -33,6 +33,7 @@ export const EVENTS: StoreEvent[] = [
 ];
 
 export const FLYERS: Flyer[] = [
+  { id: "fl-hiring-custodian", title: "We’re hiring: Custodian, Penal", img: SOCIAL + "hiring-custodian.webp", addedBy: "emp-addae", addedAt: "2026-11-11T13:24:00-04:00", from: "2026-11-11", to: "2026-11-18", featured: false, careers: true },
   { id: "fl-flash-1", title: "Flash Sale: duck, cheese, ice cream, margarine", img: SOCIAL + "flash-1.webp", addedBy: "emp-addae", addedAt: "2026-11-12T16:04:00-04:00", from: "2026-11-13", to: "2026-11-15", featured: true },
   { id: "fl-flash-2", title: "Flash Sale: Chubby, Aqua Pur, Pepsi, 7UP", img: SOCIAL + "flash-2.webp", addedBy: "emp-addae", addedAt: "2026-11-12T16:04:00-04:00", from: "2026-11-13", to: "2026-11-15", featured: true },
   { id: "fl-flash-3", title: "Flash Sale: Catelli pasta, ketchup, Cole Cold", img: SOCIAL + "flash-3.webp", addedBy: "emp-addae", addedAt: "2026-11-12T16:04:00-04:00", from: "2026-11-13", to: "2026-11-15", featured: true },

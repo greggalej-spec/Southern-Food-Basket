@@ -30,15 +30,15 @@ const subscribe = (cb: () => void) => {
 };
 function isClosed(id: string) {
   try {
-    return localStorage.getItem(KEY + id) === "closed";
+    return localStorage.getItem(KEY + id) !== "open";
   } catch {
     return false;
   }
 }
 function setClosed(id: string, closed: boolean) {
   try {
-    if (closed) localStorage.setItem(KEY + id, "closed");
-    else localStorage.removeItem(KEY + id);
+    if (closed) localStorage.removeItem(KEY + id);
+    else localStorage.setItem(KEY + id, "open");
   } catch {}
   listeners.forEach((l) => l());
 }
@@ -195,6 +195,9 @@ export function Ring({ value, of, label, tone = "green", size = 96, interactive 
   return (
     <figure className={"gauge gauge-" + tone + (on ? " is-hot" : "")} style={{ width: size }} aria-label={label + ": " + value + " of " + of + ", " + pct + " percent"} onPointerEnter={() => setHot(true)} onPointerLeave={() => setHot(false)} {...own}>
       <svg viewBox="0 0 100 100" aria-hidden="true">
+        {Array.from({ length: 10 }, (_, i) => (
+          <line key={i} x1="50" y1="1.5" x2="50" y2="5" transform={"rotate(" + i * 36 + " 50 50)"} className="gauge-tick" />
+        ))}
         <circle cx="50" cy="50" r={r} className="gauge-track" />
         <circle key={on ? "hot" : "rest"} cx="50" cy="50" r={r} className="gauge-fill" strokeDasharray={c} style={{ "--gap": c * (1 - share), "--full": c } as React.CSSProperties} transform="rotate(-90 50 50)" />
         <text x="50" y="48" textAnchor="middle" className="gauge-value">
@@ -203,6 +206,11 @@ export function Ring({ value, of, label, tone = "green", size = 96, interactive 
         <text x="50" y="64" textAnchor="middle" className="gauge-of">
           {on ? Math.max(0, of - value) + " to go" : "of " + of}
         </text>
+        {on ? null : (
+          <text x="50" y="76" textAnchor="middle" className="gauge-pct">
+            {pct + "%"}
+          </text>
+        )}
       </svg>
       <figcaption>{label}</figcaption>
     </figure>
@@ -241,17 +249,24 @@ export function Spark({ points, color = "var(--green)", label, names }: { points
         setAt(clamp((at ?? last) + (e.key === "ArrowLeft" ? -1 : 1)));
       }}
     >
-      <svg className="spark" viewBox="0 0 100 30" aria-hidden="true" preserveAspectRatio="none">
-        <polyline className="spark-line" points={d} fill="none" stroke={color} pathLength={1} />
-      </svg>
-      {at != null ? (
-        <>
-          <i className="spark-dot" style={{ left: x(at) + "%", top: (y(points[at]) / 30) * 100 + "%", background: color }} />
-          <b className="spark-tip" style={{ left: x(at) + "%" }} data-side={at > last / 2 ? "left" : "right"}>
-            {name(at) + ": " + points[at].toLocaleString("en-US")}
-          </b>
-        </>
-      ) : null}
+      <span className="spark-plot">
+        <svg className="spark" viewBox="0 0 100 30" aria-hidden="true" preserveAspectRatio="none">
+          <line className="spark-base" x1="2" x2="98" y1="29" y2="29" />
+          <polyline className="spark-line" points={d} fill="none" stroke={color} pathLength={1} />
+        </svg>
+        {at != null ? (
+          <>
+            <i className="spark-dot" style={{ left: x(at) + "%", top: (y(points[at]) / 30) * 100 + "%", background: color }} />
+            <b className="spark-tip" style={{ left: x(at) + "%" }} data-side={at > last / 2 ? "left" : "right"}>
+              {name(at) + ": " + points[at].toLocaleString("en-US")}
+            </b>
+          </>
+        ) : null}
+      </span>
+      <span className="spark-scale" aria-hidden="true">
+        <small>{"Low " + min.toLocaleString("en-US")}</small>
+        <small>{"High " + max.toLocaleString("en-US")}</small>
+      </span>
     </span>
   );
 }
@@ -293,11 +308,18 @@ export function Working({ steps, onDone, stepMs = 520 }: { steps: string[]; onDo
 
 /** Point at a row and the others step back while it spells out both figures and the difference; click (or Enter)
  *  keeps that row open. */
+/** The next round number up (1, 2, 2.5, 5 or 10 times a power of ten), so a scale's steps read cleanly. */
+function roundUp(v: number) {
+  const p = Math.pow(10, Math.floor(Math.log10(Math.max(1, v))));
+  const n = v / p;
+  return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * p;
+}
+
 export function PairBars({ rows, nowLabel, thenLabel }: { rows: { label: string; now: number; then: number | null }[]; nowLabel: string; thenLabel: string }) {
   const [hot, setHot] = useState<number | null>(null);
   const [pin, setPin] = useState<number | null>(null);
   const on = hot ?? pin;
-  const max = Math.max(1, ...rows.flatMap((r) => [r.now, r.then || 0]));
+  const max = roundUp(Math.max(1, ...rows.flatMap((r) => [r.now, r.then || 0])));
   const detail = (r: { now: number; then: number | null }) => {
     if (r.then == null) return nowLabel + ": " + r.now.toLocaleString("en-US") + ". Nothing to compare it with.";
     const diff = r.now - r.then;
@@ -319,11 +341,21 @@ export function PairBars({ rows, nowLabel, thenLabel }: { rows: { label: string;
               <span className="pair-value num">
                 {r.now.toLocaleString("en-US")}
                 {r.then != null ? <small>{" / " + r.then.toLocaleString("en-US")}</small> : null}
+                {r.then != null && r.then !== r.now ? <em className={r.now > r.then ? "is-up" : "is-down"}>{(r.now > r.then ? "▲ " : "▼ ") + Math.abs(r.now - r.then).toLocaleString("en-US")}</em> : null}
               </span>
               {on === i ? <span className="row-detail">{detail(r)}</span> : null}
             </li>
           );
         })}
+        <li className="pair-axisrow" aria-hidden="true">
+          <span className="pair-label" />
+          <span className="pair-tracks pair-scale">
+            {[0, 0.25, 0.5, 0.75, 1].map((t) => (
+              <i key={t}>{Math.round(max * t).toLocaleString("en-US")}</i>
+            ))}
+          </span>
+          <span className="pair-value" />
+        </li>
       </ul>
       <p className="pair-legend small muted">
         <span className="pair-key pair-now" /> {nowLabel}

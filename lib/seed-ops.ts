@@ -270,6 +270,23 @@ const PLAN: PlanItem[] = [
   { id: "pl-7", date: "2026-11-30", platforms: ["website"], title: "Weekly e-mail: Christmas shop", kind: "E-mail", status: "idea", owner: "emp-tricia" },
   { id: "pl-8", date: "2026-11-10", platforms: ["instagram", "facebook"], title: "Monday specials carousel", kind: "Carousel", status: "posted", owner: "emp-tricia" },
   { id: "pl-9", date: "2026-11-06", platforms: ["facebook"], title: "Divali opening hours", kind: "Video", status: "posted", owner: "emp-tricia" },
+  // Looking back and ahead, so the calendar has a history to page through. The dated posts from September to
+  // 13 November are the company's real posts (lib/seed-events.ts says where each came from); the rest are demo plans.
+  { id: "pl-10", date: "2026-09-17", platforms: ["instagram", "facebook"], title: "Escape on Wheels launch: win a BYD Song Pro", kind: "Photo", status: "posted", owner: "emp-addae" },
+  { id: "pl-12", date: "2026-10-07", platforms: ["instagram"], title: "Snack specials: 1 FOR posts", kind: "Carousel", status: "posted", owner: "emp-tricia" },
+  { id: "pl-13", date: "2026-10-26", platforms: ["instagram", "facebook"], title: "A closer look at the BYD Song Pro", kind: "Carousel", status: "posted", owner: "emp-addae" },
+  { id: "pl-14", date: "2026-11-07", platforms: ["instagram", "facebook", "tiktok"], title: "Colour Me Divali: Couva recap reel", kind: "Video", status: "posted", owner: "emp-tricia" },
+  { id: "pl-15", date: "2026-11-08", platforms: ["instagram", "facebook"], title: "Shubh Divali greeting", kind: "Photo", status: "posted", owner: "emp-addae" },
+  { id: "pl-16", date: "2026-11-11", platforms: ["instagram", "facebook"], title: "We are hiring: Custodian, Penal", kind: "Photo", status: "posted", owner: "emp-addae" },
+  { id: "pl-17", date: "2026-11-12", platforms: ["instagram", "facebook"], title: "Flash Sale flyers: 13 to 15 November", kind: "Carousel", status: "posted", owner: "emp-addae" },
+  { id: "pl-18", date: "2026-11-13", platforms: ["instagram", "facebook", "tiktok"], title: "Flash Savings reel", kind: "Video", status: "posted", owner: "emp-tricia" },
+  { id: "pl-19", date: "2026-12-04", platforms: ["instagram", "facebook"], title: "Christmas hampers: what is in each one", kind: "Carousel", status: "idea", owner: "emp-tricia" },
+  { id: "pl-20", date: "2026-12-11", platforms: ["instagram", "tiktok"], title: "Sorrel and ginger beer: a quick how-to", kind: "Video", status: "idea", owner: "emp-tricia" },
+  { id: "pl-21", date: "2026-12-18", platforms: ["website", "facebook"], title: "Christmas opening hours", kind: "Website", status: "planned", owner: "emp-tricia" },
+  { id: "pl-22", date: "2026-12-24", platforms: ["instagram", "facebook"], title: "Merry Christmas greeting", kind: "Photo", status: "planned", owner: "emp-addae" },
+  { id: "pl-23", date: "2027-01-01", platforms: ["instagram", "facebook"], title: "Happy New Year greeting", kind: "Photo", status: "idea", owner: "emp-addae" },
+  { id: "pl-24", date: "2027-01-25", platforms: ["website"], title: "Carnival look goes live on the website", kind: "Website", status: "idea", owner: "emp-tricia" },
+  { id: "pl-25", date: "2027-02-08", platforms: ["instagram", "facebook", "tiktok"], title: "Carnival Monday: store hours and a road-ready shop", kind: "Video", status: "idea", owner: "emp-tricia" },
 ];
 
 /* ---------- customer feedback (demo tickets: the people and the messages are made up) ---------- */

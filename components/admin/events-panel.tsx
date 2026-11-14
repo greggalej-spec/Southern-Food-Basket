@@ -98,7 +98,7 @@ export function EventsPanel() {
           {flyers.length ? (
             <ul className="flyer-grid">
               {flyers.map((f) => (
-                <li key={f.id} className={f.featured ? "is-on" : ""}>
+                <li key={f.id} className={f.featured || f.careers ? "is-on" : ""}>
                   <img src={f.img} alt="" loading="lazy" decoding="async" />
                   <div className="flyer-meta">
                     <strong>{f.title}</strong>
@@ -107,7 +107,11 @@ export function EventsPanel() {
                   <div className="flyer-acts">
                     <button type="button" className={"switch" + (f.featured ? " is-on" : "")} role="switch" aria-checked={f.featured} aria-label={"Feature " + f.title + " on the Specials page"} onClick={() => act(s, "flyers.edit", f.title, () => setFlyer(s, f.id, { featured: !f.featured }))}>
                       <i />
-                      <span>{f.featured ? "Featured" : "Hidden"}</span>
+                      <span>{f.featured ? "Specials" : "Not on Specials"}</span>
+                    </button>
+                    <button type="button" className={"switch" + (f.careers ? " is-on" : "")} role="switch" aria-checked={!!f.careers} aria-label={"Show " + f.title + " at the top of the Careers page"} onClick={() => act(s, "flyers.edit", f.title, () => setFlyer(s, f.id, { careers: !f.careers }))}>
+                      <i />
+                      <span>{f.careers ? "Careers" : "Not on Careers"}</span>
                     </button>
                     <button
                       type="button"

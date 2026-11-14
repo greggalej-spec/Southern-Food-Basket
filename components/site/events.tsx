@@ -172,12 +172,13 @@ export function EventsBoard() {
 
 /* ---------- the flyer wall: the designer's finished flyers, leading the Specials page ---------- */
 
-export function FlyerWall({ rail = false }: { rail?: boolean }) {
+export function FlyerWall({ rail = false, careers = false }: { rail?: boolean; careers?: boolean }) {
   const d = useData();
   const today = useToday();
   const [open, setOpen] = useState<Flyer | null>(null);
   const dlg = useRef<HTMLDialogElement>(null);
-  const list = (d.flyers || []).filter((f) => f.featured && (!today || !f.to || f.to >= today));
+  // the Specials page shows the featured flyers; the Careers page shows the job flyers
+  const list = (d.flyers || []).filter((f) => (careers ? f.careers : f.featured) && (!today || !f.to || f.to >= today));
   useEffect(() => {
     const el = dlg.current;
     if (open && el && !el.open) el.showModal();
@@ -186,7 +187,7 @@ export function FlyerWall({ rail = false }: { rail?: boolean }) {
   return (
     <section className="flyers" aria-labelledby="flyers-h">
       <div className="flyers-head">
-        <h2 id="flyers-h">This week’s flyers</h2>
+        <h2 id="flyers-h">{careers ? "Now hiring" : "This week’s flyers"}</h2>
         <p>Tap one to see it large.</p>
       </div>
       <ul className={rail ? "flyer-row is-rail" : "flyer-row"}>
@@ -196,7 +197,7 @@ export function FlyerWall({ rail = false }: { rail?: boolean }) {
               <Fit src={f.img} />
               <span>
                 <b>{f.title}</b>
-                <small>{f.to ? "Until " + dm(f.to) : "Running now"}</small>
+                <small>{f.to ? (careers ? "Apply by " : "Until ") + dm(f.to) : careers ? "Open now" : "Running now"}</small>
               </span>
             </button>
           </li>
@@ -224,3 +225,4 @@ export function FlyerWall({ rail = false }: { rail?: boolean }) {
     </section>
   );
 }
+

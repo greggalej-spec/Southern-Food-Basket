@@ -6,6 +6,7 @@ import { ConceptBanner } from "@/components/concept-banner";
 import { Icon, type IconName } from "@/components/icon";
 import { ResetDemoButton } from "@/components/reset-demo-button";
 import { Scope, type CssName } from "@/components/scope";
+import { CommandPalette } from "@/components/command-palette";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { activeGrant, can, isStaff, ROLE_NAME, type Permission } from "@/lib/access";
 import { DISCLAIMER, fmtDate, initials } from "@/lib/format";
@@ -309,6 +310,7 @@ export function AppShell({
               </span>
               <strong>{title}</strong>
             </div>
+            <CommandPalette items={sections.flatMap((sec) => sec.items.map((i) => ({ id: i.id, label: i.label, href: i.href, icon: i.icon, group: sec.group })))} />
             <ThemeToggle />
             <div className="app-user">
               <span className="app-avatar" aria-hidden="true">

@@ -69,13 +69,13 @@ export function addFlyers(s: Session | null, items: Pick<Flyer, "title" | "img">
   });
 }
 
-export function setFlyer(s: Session | null, id: string, patch: Partial<Pick<Flyer, "featured" | "title">>) {
+export function setFlyer(s: Session | null, id: string, patch: Partial<Pick<Flyer, "featured" | "title" | "careers">>) {
   update((d) => {
     assertCan(d, s, "events.manage");
     const f = byId(d.flyers, id);
     if (!f) return;
     Object.assign(f, patch);
-    audit(d, s, "flyers.edit", f.title, patch.featured == null ? "Renamed" : patch.featured ? "Featured on the Specials page" : "Taken off the Specials page");
+    audit(d, s, "flyers.edit", f.title, patch.careers != null ? (patch.careers ? "Put on the Careers page" : "Taken off the Careers page") : patch.featured == null ? "Renamed" : patch.featured ? "Featured on the Specials page" : "Taken off the Specials page");
   });
 }
 

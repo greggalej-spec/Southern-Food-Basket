@@ -722,6 +722,8 @@ export interface Flyer {
   to?: string;
   /** Featured flyers lead the public Specials page. */
   featured: boolean;
+  /** A job flyer: it leads the public Careers page, above the open roles, until its last day. */
+  careers?: boolean;
 }
 
 export type FeedbackKind = "compliment" | "suggestion" | "question" | "complaint";
