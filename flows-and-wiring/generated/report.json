@@ -1,0 +1,228 @@
+{
+  "generatedAt": "2026-11-16T16:00:01.772Z",
+  "counts": {
+    "files": 222,
+    "routes": 36,
+    "sections": 33,
+    "writes": 113,
+    "collections": 44,
+    "permissions": 38,
+    "hosts": 8,
+    "storageKeys": 14
+  },
+  "findings": [
+    {
+      "id": "unguarded-write:lib/hr/hr.ts#verifyDoc",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/hr/hr.ts:125",
+      "accepted": "OPEN G1. HR verifies an applicant's document with no hr.pipeline check. Add assertCan(hr.pipeline, the job's store) before the backend move."
+    },
+    {
+      "id": "unaudited-write:lib/hr/hr.ts#verifyDoc",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/hr/hr.ts:125",
+      "accepted": "OPEN G2. Document verified with no audit line. Audit hr.doc-verified (never the document itself)."
+    },
+    {
+      "id": "unguarded-write:lib/hr/hr.ts#flagDoc",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/hr/hr.ts:129",
+      "accepted": "OPEN G1. HR flags a document with no hr.pipeline check."
+    },
+    {
+      "id": "unaudited-write:lib/hr/hr.ts#flagDoc",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/hr/hr.ts:129",
+      "accepted": "OPEN G2. Document flagged with no audit line."
+    },
+    {
+      "id": "unguarded-write:lib/hr/hr.ts#scheduleInterview",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/hr/hr.ts:134",
+      "accepted": "OPEN G1. HR schedules an interview with no hr.pipeline check."
+    },
+    {
+      "id": "unaudited-write:lib/hr/hr.ts#scheduleInterview",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/hr/hr.ts:134",
+      "accepted": "OPEN G2. Interview scheduled with no audit line."
+    },
+    {
+      "id": "unguarded-write:lib/hr/hr.ts#setJobStatus",
+      "severity": "high",
+      "text": "Writes jobs with no permission check, and it is not listed as a public write.",
+      "where": "lib/hr/hr.ts:303",
+      "accepted": "OPEN G1. Opening and closing jobs checks nothing, though the hr.jobs permission exists for exactly this."
+    },
+    {
+      "id": "unaudited-write:lib/hr/hr.ts#setJobStatus",
+      "severity": "medium",
+      "text": "Changes jobs without writing an audit line.",
+      "where": "lib/hr/hr.ts:303",
+      "accepted": "OPEN G2. Job opened or closed with no audit line."
+    },
+    {
+      "id": "unaudited-write:lib/staff-updates.ts#markStaffUpdateRead",
+      "severity": "medium",
+      "text": "Changes staffUpdates without writing an audit line.",
+      "where": "lib/staff-updates.ts:217",
+      "accepted": "ACCEPTED. A read receipt; the row itself records who read it and when. No audit line needed."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#updateApplicant",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:320",
+      "accepted": "OPEN G3. Shared by HR and the applicant with no check. Split into an HR write (hr.pipeline) and an applicant self-service write (own application only)."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#updateApplicant",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/store.ts:320",
+      "accepted": "OPEN G2. Applicant record changed with no audit line."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#setStage",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:329",
+      "accepted": "OPEN G3. Used by the applicant's page (withdraw) with no ownership check; HR moves stages through moveStage, which is checked."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#setStage",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/store.ts:329",
+      "accepted": "OPEN G2. Stage changed with no audit line."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#setDocState",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:341",
+      "accepted": "OPEN G3. Shared by the applicant (upload) and HR (verify, flag) with no check. Split by who is acting."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#setDocState",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/store.ts:341",
+      "accepted": "OPEN G2. Document state changed with no audit line."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#addNote",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:352",
+      "accepted": "OPEN G1. HR's private note on an applicant with no hr.pipeline check."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#addNote",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/store.ts:352",
+      "accepted": "OPEN G2. Note added with no audit line (audit that a note was added, never its text)."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#addMessage",
+      "severity": "high",
+      "text": "Writes applicants with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:358",
+      "accepted": "OPEN G3. Messages between HR and the applicant with no check on either side."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#addMessage",
+      "severity": "medium",
+      "text": "Changes applicants without writing an audit line.",
+      "where": "lib/store.ts:358",
+      "accepted": "OPEN G2. Message sent with no audit line."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#updateEmployee",
+      "severity": "medium",
+      "text": "Changes data without writing an audit line.",
+      "where": "lib/store.ts:365",
+      "accepted": "OPEN G2. An employee edits their own profile with no audit line (bank and contact changes should be logged)."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#requestLeave",
+      "severity": "medium",
+      "text": "Changes employees without writing an audit line.",
+      "where": "lib/store.ts:372",
+      "accepted": "OPEN G2. Leave asked for with no audit line."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#setLeaveStatus",
+      "severity": "high",
+      "text": "Writes employees with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:384",
+      "accepted": "OPEN G1. HR approves or refuses leave with no hr.compliance check."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#setLeaveStatus",
+      "severity": "medium",
+      "text": "Changes employees without writing an audit line.",
+      "where": "lib/store.ts:384",
+      "accepted": "OPEN G2. Leave decided with no audit line."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#setTrainingDone",
+      "severity": "medium",
+      "text": "Changes employees without writing an audit line.",
+      "where": "lib/store.ts:398",
+      "accepted": "ACCEPTED for now. Training completion is recorded on the row with its date. Add an audit line if training becomes a compliance record."
+    },
+    {
+      "id": "unguarded-write:lib/store.ts#setEmployeeDoc",
+      "severity": "high",
+      "text": "Writes employees with no permission check, and it is not listed as a public write.",
+      "where": "lib/store.ts:409",
+      "accepted": "OPEN G3. Shared by the employee (upload) and HR (verify) with no check."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#setEmployeeDoc",
+      "severity": "medium",
+      "text": "Changes employees without writing an audit line.",
+      "where": "lib/store.ts:409",
+      "accepted": "OPEN G2. Staff document changed with no audit line."
+    },
+    {
+      "id": "unaudited-write:lib/store.ts#requestSwap",
+      "severity": "medium",
+      "text": "Changes employees without writing an audit line.",
+      "where": "lib/store.ts:422",
+      "accepted": "OPEN G2. Shift swap asked for with no audit line."
+    },
+    {
+      "id": "screen-writes-directly:components/careers/me-dashboard.tsx#MeView",
+      "severity": "medium",
+      "text": "A screen component calls update() itself instead of a lib write; the backend move has to find it.",
+      "where": "components/careers/me-dashboard.tsx#MeView",
+      "accepted": "OPEN G4. The applicant page writes to the store itself. Move it into a lib write so the backend move has one place to change."
+    },
+    {
+      "id": "screen-writes-directly:components/portal/login.tsx#PortalLogin",
+      "severity": "medium",
+      "text": "A screen component calls update() itself instead of a lib write; the backend move has to find it.",
+      "where": "components/portal/login.tsx#PortalLogin",
+      "accepted": "ACCEPTED. The demo sign-in writes its own audit line; the real sign-in is replaced wholesale (01-auth-and-access.md)."
+    },
+    {
+      "id": "perm-unassigned:codes.redeem",
+      "severity": "low",
+      "text": "Permission no role holds (only a grant's extra permissions could give it).",
+      "where": "lib/access.ts",
+      "accepted": "ACCEPTED. By design no role holds till access; the Managing Director gives it per person as an extra on their grant (Staff access > till access)."
+    }
+  ],
+  "newFindings": [],
+  "staleAcceptedFindings": [],
+  "drift": []
+}

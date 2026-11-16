@@ -1,0 +1,53 @@
+# The wiring check (flows-and-wiring/06-recurring-checks.md). On every push and pull request: types, lint, and the
+# wiring audit, which fails when a screen, write, permission, collection, outside host or storage key changes without
+# being reviewed, or when a new finding appears (a write with no permission check, no audit line, and the like).
+# Read-only: it never deploys, commits or pushes.
+name: wiring
+
+on:
+  push:
+    paths-ignore: ["**/*.md"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: wiring-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      # The check belongs to the Next.js app; branches without it (the static site) have nothing to check.
+      - name: Is this the app?
+        id: app
+        run: test -f flows-and-wiring/tools/wiring-audit.mjs && echo "yes=true" >> "$GITHUB_OUTPUT" || echo "yes=false" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@v4
+        if: steps.app.outputs.yes == 'true'
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install
+        if: steps.app.outputs.yes == 'true'
+        run: npm ci
+      - name: Types
+        if: steps.app.outputs.yes == 'true'
+        run: npx tsc --noEmit
+      - name: Lint
+        if: steps.app.outputs.yes == 'true'
+        run: npx eslint app components lib
+      - name: Wiring audit
+        if: steps.app.outputs.yes == 'true'
+        run: npm run --silent wiring:check
+      - name: Keep the report
+        if: always() && steps.app.outputs.yes == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: wiring-report
+          path: flows-and-wiring/generated/
+          retention-days: 30

@@ -1,0 +1,1561 @@
+{
+  "routes": [
+    "/",
+    "/about",
+    "/account",
+    "/account/sign-in",
+    "/account/verify",
+    "/admin",
+    "/careers",
+    "/careers/[id]",
+    "/careers/[id]/apply",
+    "/careers/me",
+    "/community",
+    "/departments",
+    "/events",
+    "/how-it-works",
+    "/hr",
+    "/locations",
+    "/newsletter/confirm",
+    "/newsletter/preferences",
+    "/newsletter/unsubscribe",
+    "/offers",
+    "/offers/[slug]",
+    "/outbox",
+    "/portal",
+    "/portal/bulk",
+    "/portal/docs",
+    "/portal/home",
+    "/portal/leave",
+    "/portal/pay",
+    "/portal/profile",
+    "/portal/schedule",
+    "/portal/till",
+    "/portal/updates",
+    "/restaurant",
+    "/specials",
+    "/tour",
+    "/wholesale"
+  ],
+  "sections": [
+    "/admin#access",
+    "/admin#analytics",
+    "/admin#audit",
+    "/admin#bulk",
+    "/admin#codes",
+    "/admin#customize",
+    "/admin#deals",
+    "/admin#events",
+    "/admin#feedback",
+    "/admin#list",
+    "/admin#newsletter",
+    "/admin#notices",
+    "/admin#overview",
+    "/admin#plan",
+    "/admin#posts",
+    "/admin#promos",
+    "/admin#publish",
+    "/admin#requests",
+    "/admin#sellout",
+    "/admin#social",
+    "/admin#staffnews",
+    "/admin#stores",
+    "/admin#studio",
+    "/admin#suppliers",
+    "/admin#tasks",
+    "/admin#today",
+    "/hr#compliance",
+    "/hr#log",
+    "/hr#people",
+    "/hr#pipeline",
+    "/hr#resources",
+    "/hr#roles",
+    "/hr#updates"
+  ],
+  "writes": {
+    "lib/account.ts#deleteAccount": {
+      "perms": [],
+      "audits": [
+        "account.delete"
+      ],
+      "collections": [
+        "audit",
+        "customers",
+        "entitlements"
+      ]
+    },
+    "lib/account.ts#finishLeaving": {
+      "perms": [],
+      "audits": [
+        "account.delete"
+      ],
+      "collections": [
+        "audit",
+        "customers",
+        "entitlements"
+      ]
+    },
+    "lib/account.ts#requestSignInLink": {
+      "perms": [],
+      "audits": [
+        "account.link"
+      ],
+      "collections": [
+        "audit",
+        "customers",
+        "outbox"
+      ]
+    },
+    "lib/account.ts#saveProfile": {
+      "perms": [],
+      "audits": [
+        "account.profile"
+      ],
+      "collections": [
+        "audit",
+        "customers"
+      ]
+    },
+    "lib/account.ts#verifyOnce": {
+      "perms": [],
+      "audits": [
+        "account.signin"
+      ],
+      "collections": [
+        "audit",
+        "customers"
+      ]
+    },
+    "lib/account.ts#verifySignInLink": {
+      "perms": [],
+      "audits": [
+        "account.signin"
+      ],
+      "collections": [
+        "audit",
+        "customers"
+      ]
+    },
+    "lib/admin/access-admin.ts#addGrant": {
+      "perms": [
+        "access.manage"
+      ],
+      "audits": [
+        "access.grant"
+      ],
+      "collections": [
+        "audit",
+        "employees",
+        "grants"
+      ]
+    },
+    "lib/admin/access-admin.ts#restoreGrant": {
+      "perms": [
+        "access.manage"
+      ],
+      "audits": [
+        "access.restore"
+      ],
+      "collections": [
+        "audit",
+        "grants"
+      ]
+    },
+    "lib/admin/access-admin.ts#revokeGrant": {
+      "perms": [
+        "access.manage"
+      ],
+      "audits": [
+        "access.revoke"
+      ],
+      "collections": [
+        "audit",
+        "grants"
+      ]
+    },
+    "lib/admin/access-admin.ts#setGrantExpiry": {
+      "perms": [
+        "access.manage"
+      ],
+      "audits": [
+        "access.expiry"
+      ],
+      "collections": [
+        "audit",
+        "grants"
+      ]
+    },
+    "lib/admin/access-admin.ts#setGrantStores": {
+      "perms": [
+        "access.manage"
+      ],
+      "audits": [
+        "access.scope"
+      ],
+      "collections": [
+        "audit",
+        "grants"
+      ]
+    },
+    "lib/admin/access-admin.ts#setTillAccess": {
+      "perms": [
+        "access.manage"
+      ],
+      "audits": [
+        "access.extra"
+      ],
+      "collections": [
+        "audit",
+        "grants"
+      ]
+    },
+    "lib/admin/campaign-admin.ts#saveCampaignScoped": {
+      "perms": [
+        "newsletter.compose"
+      ],
+      "audits": [
+        "newsletter.create",
+        "newsletter.edit"
+      ],
+      "collections": [
+        "audit",
+        "campaigns"
+      ]
+    },
+    "lib/admin/campaign-admin.ts#scheduleScoped": {
+      "perms": [
+        "newsletter.send"
+      ],
+      "audits": [
+        "newsletter.schedule",
+        "newsletter.unschedule"
+      ],
+      "collections": [
+        "audit",
+        "campaigns"
+      ]
+    },
+    "lib/admin/campaign-admin.ts#sendNowScoped": {
+      "perms": [
+        "newsletter.send"
+      ],
+      "audits": [
+        "newsletter.send"
+      ],
+      "collections": [
+        "audit",
+        "campaigns",
+        "outbox"
+      ]
+    },
+    "lib/admin/campaign-admin.ts#sendTestScoped": {
+      "perms": [
+        "newsletter.compose"
+      ],
+      "audits": [
+        "newsletter.test"
+      ],
+      "collections": [
+        "audit",
+        "campaigns",
+        "outbox"
+      ]
+    },
+    "lib/admin/publish.ts#exportSeed": {
+      "perms": [
+        "site.publish"
+      ],
+      "audits": [
+        "site.publish"
+      ],
+      "collections": [
+        "audit"
+      ]
+    },
+    "lib/admin/writes.ts#postNotice": {
+      "perms": [
+        "notices.post"
+      ],
+      "audits": [
+        "notices.post"
+      ],
+      "collections": [
+        "announcements",
+        "audit"
+      ]
+    },
+    "lib/admin/writes.ts#removeDeal": {
+      "perms": [
+        "specials.edit"
+      ],
+      "audits": [
+        "specials.remove"
+      ],
+      "collections": [
+        "audit",
+        "specials"
+      ]
+    },
+    "lib/admin/writes.ts#removeNotice": {
+      "perms": [
+        "notices.post"
+      ],
+      "audits": [
+        "notices.remove"
+      ],
+      "collections": [
+        "announcements",
+        "audit"
+      ]
+    },
+    "lib/admin/writes.ts#saveDeal": {
+      "perms": [
+        "specials.edit"
+      ],
+      "audits": [
+        "specials.add",
+        "specials.edit"
+      ],
+      "collections": [
+        "audit",
+        "specials"
+      ]
+    },
+    "lib/admin/writes.ts#saveStore": {
+      "perms": [
+        "stores.edit"
+      ],
+      "audits": [
+        "stores.edit"
+      ],
+      "collections": [
+        "audit",
+        "branches"
+      ]
+    },
+    "lib/hr/hr.ts#acceptOffer": {
+      "perms": [],
+      "audits": [
+        "careers.offer-accepted"
+      ],
+      "collections": [
+        "applicants",
+        "audit"
+      ]
+    },
+    "lib/hr/hr.ts#declineOffer": {
+      "perms": [],
+      "audits": [
+        "careers.offer-declined"
+      ],
+      "collections": [
+        "applicants",
+        "audit"
+      ]
+    },
+    "lib/hr/hr.ts#flagDoc": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/hr/hr.ts#markNotSelected": {
+      "perms": [
+        "hr.pipeline"
+      ],
+      "audits": [
+        "hr.decision"
+      ],
+      "collections": [
+        "applicants",
+        "audit",
+        "outbox"
+      ]
+    },
+    "lib/hr/hr.ts#moveStage": {
+      "perms": [
+        "hr.pipeline"
+      ],
+      "audits": [
+        "hr.decision-withdrawn"
+      ],
+      "collections": [
+        "applicants",
+        "audit"
+      ]
+    },
+    "lib/hr/hr.ts#openOutcome": {
+      "perms": [],
+      "audits": [
+        "careers.update-opened"
+      ],
+      "collections": [
+        "applicants",
+        "audit"
+      ]
+    },
+    "lib/hr/hr.ts#scheduleInterview": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/hr/hr.ts#sendOffer": {
+      "perms": [
+        "hr.pipeline"
+      ],
+      "audits": [
+        "hr.decision"
+      ],
+      "collections": [
+        "applicants",
+        "audit",
+        "outbox"
+      ]
+    },
+    "lib/hr/hr.ts#setJobStatus": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "jobs"
+      ]
+    },
+    "lib/hr/hr.ts#verifyDoc": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/hr/people.ts#addPerson": {
+      "perms": [
+        "hr.people"
+      ],
+      "audits": [
+        "hr.person"
+      ],
+      "collections": [
+        "audit",
+        "employees",
+        "grants"
+      ]
+    },
+    "lib/hr/people.ts#addPersonNote": {
+      "perms": [
+        "hr.people"
+      ],
+      "audits": [
+        "hr.person"
+      ],
+      "collections": [
+        "audit",
+        "employees"
+      ]
+    },
+    "lib/hr/people.ts#addPersonRating": {
+      "perms": [
+        "hr.people"
+      ],
+      "audits": [
+        "hr.person"
+      ],
+      "collections": [
+        "audit",
+        "employees"
+      ]
+    },
+    "lib/hr/people.ts#setPersonStatus": {
+      "perms": [
+        "hr.people"
+      ],
+      "audits": [
+        "hr.person"
+      ],
+      "collections": [
+        "audit",
+        "employees"
+      ]
+    },
+    "lib/newsletter.ts#confirmSubscription": {
+      "perms": [],
+      "audits": [
+        "newsletter.confirm"
+      ],
+      "collections": [
+        "audit",
+        "consents",
+        "subscribers"
+      ]
+    },
+    "lib/newsletter.ts#exportSubscribersCsv": {
+      "perms": [
+        "subscribers.export"
+      ],
+      "audits": [
+        "subscribers.export"
+      ],
+      "collections": [
+        "audit"
+      ]
+    },
+    "lib/newsletter.ts#saveCampaign": {
+      "perms": [
+        "newsletter.compose"
+      ],
+      "audits": [
+        "newsletter.create",
+        "newsletter.edit"
+      ],
+      "collections": [
+        "audit",
+        "campaigns"
+      ]
+    },
+    "lib/newsletter.ts#scheduleCampaign": {
+      "perms": [
+        "newsletter.send"
+      ],
+      "audits": [
+        "newsletter.schedule",
+        "newsletter.unschedule"
+      ],
+      "collections": [
+        "audit",
+        "campaigns"
+      ]
+    },
+    "lib/newsletter.ts#sendDue": {
+      "perms": [],
+      "audits": [
+        "newsletter.send"
+      ],
+      "collections": [
+        "audit",
+        "campaigns",
+        "outbox"
+      ]
+    },
+    "lib/newsletter.ts#sendNow": {
+      "perms": [
+        "newsletter.send"
+      ],
+      "audits": [
+        "newsletter.send"
+      ],
+      "collections": [
+        "audit",
+        "campaigns",
+        "outbox"
+      ]
+    },
+    "lib/newsletter.ts#sendTest": {
+      "perms": [
+        "newsletter.compose"
+      ],
+      "audits": [
+        "newsletter.test"
+      ],
+      "collections": [
+        "audit",
+        "campaigns",
+        "outbox"
+      ]
+    },
+    "lib/newsletter.ts#subscribe": {
+      "perms": [],
+      "audits": [
+        "newsletter.signup"
+      ],
+      "collections": [
+        "audit",
+        "consents",
+        "outbox",
+        "subscribers"
+      ]
+    },
+    "lib/newsletter.ts#unsubscribe": {
+      "perms": [],
+      "audits": [
+        "newsletter.unsubscribe"
+      ],
+      "collections": [
+        "audit",
+        "consents",
+        "subscribers"
+      ]
+    },
+    "lib/newsletter.ts#updatePreferences": {
+      "perms": [],
+      "audits": [
+        "newsletter.preferences"
+      ],
+      "collections": [
+        "audit",
+        "consents",
+        "subscribers"
+      ]
+    },
+    "lib/ops/deals.ts#endDeal": {
+      "perms": [
+        "specials.edit"
+      ],
+      "audits": [
+        "specials.end"
+      ],
+      "collections": [
+        "audit",
+        "specials"
+      ]
+    },
+    "lib/ops/deals.ts#rerunDeal": {
+      "perms": [
+        "specials.edit"
+      ],
+      "audits": [
+        "specials.rerun"
+      ],
+      "collections": [
+        "audit",
+        "specials"
+      ]
+    },
+    "lib/ops/events.ts#addFlyers": {
+      "perms": [
+        "events.manage"
+      ],
+      "audits": [
+        "flyers.add"
+      ],
+      "collections": [
+        "audit",
+        "flyers"
+      ]
+    },
+    "lib/ops/events.ts#removeEvent": {
+      "perms": [
+        "events.manage"
+      ],
+      "audits": [
+        "events.remove"
+      ],
+      "collections": [
+        "audit",
+        "events"
+      ]
+    },
+    "lib/ops/events.ts#removeFlyer": {
+      "perms": [
+        "events.manage"
+      ],
+      "audits": [
+        "flyers.remove"
+      ],
+      "collections": [
+        "audit",
+        "flyers"
+      ]
+    },
+    "lib/ops/events.ts#saveEvent": {
+      "perms": [
+        "events.manage"
+      ],
+      "audits": [
+        "events.add",
+        "events.edit"
+      ],
+      "collections": [
+        "audit",
+        "events"
+      ]
+    },
+    "lib/ops/events.ts#setFlyer": {
+      "perms": [
+        "events.manage"
+      ],
+      "audits": [
+        "flyers.edit"
+      ],
+      "collections": [
+        "audit",
+        "flyers"
+      ]
+    },
+    "lib/ops/feedback.ts#addFeedbackMessage": {
+      "perms": [
+        "feedback.handle"
+      ],
+      "audits": [
+        "feedback.message"
+      ],
+      "collections": [
+        "audit",
+        "feedback",
+        "outbox"
+      ]
+    },
+    "lib/ops/feedback.ts#assignFeedback": {
+      "perms": [
+        "feedback.handle"
+      ],
+      "audits": [
+        "feedback.assign"
+      ],
+      "collections": [
+        "audit",
+        "feedback"
+      ]
+    },
+    "lib/ops/feedback.ts#setFeedbackStatus": {
+      "perms": [
+        "feedback.handle"
+      ],
+      "audits": [
+        "feedback.status"
+      ],
+      "collections": [
+        "audit",
+        "feedback"
+      ]
+    },
+    "lib/ops/feedback.ts#submitFeedback": {
+      "perms": [],
+      "audits": [
+        "feedback.submit"
+      ],
+      "collections": [
+        "audit",
+        "feedback",
+        "outbox"
+      ]
+    },
+    "lib/ops/office.ts#addBulkOrder": {
+      "perms": [
+        "bulk.manage"
+      ],
+      "audits": [
+        "bulk.open"
+      ],
+      "collections": [
+        "audit",
+        "bulkOrders"
+      ]
+    },
+    "lib/ops/office.ts#addTask": {
+      "perms": [
+        "tasks.assign"
+      ],
+      "audits": [
+        "tasks.assign"
+      ],
+      "collections": [
+        "audit",
+        "tasks"
+      ]
+    },
+    "lib/ops/office.ts#advanceBulk": {
+      "perms": [
+        "bulk.manage"
+      ],
+      "audits": [
+        "\"bulk.\" + (next.to === \"ordered\" ? \"order\" : next.to)"
+      ],
+      "collections": [
+        "audit",
+        "bulkOrders"
+      ]
+    },
+    "lib/ops/office.ts#saveResource": {
+      "perms": [
+        "hr.people",
+        "resources.edit"
+      ],
+      "audits": [
+        "resources.save"
+      ],
+      "collections": [
+        "audit",
+        "resources"
+      ]
+    },
+    "lib/ops/office.ts#setBulkQty": {
+      "perms": [
+        "bulk.manage",
+        "bulk.store"
+      ],
+      "audits": [
+        "bulk.qty"
+      ],
+      "collections": [
+        "audit",
+        "bulkOrders"
+      ]
+    },
+    "lib/ops/office.ts#setTaskDone": {
+      "perms": [
+        "portal.self",
+        "tasks.assign"
+      ],
+      "audits": [
+        "tasks.done",
+        "tasks.reopen"
+      ],
+      "collections": [
+        "audit",
+        "tasks"
+      ]
+    },
+    "lib/ops/requests.ts#addRequestMessage": {
+      "perms": [
+        "requests.log"
+      ],
+      "audits": [
+        "requests.message"
+      ],
+      "collections": [
+        "audit",
+        "outbox",
+        "requests"
+      ]
+    },
+    "lib/ops/requests.ts#assignRequest": {
+      "perms": [
+        "requests.log"
+      ],
+      "audits": [
+        "requests.assign"
+      ],
+      "collections": [
+        "audit",
+        "requests"
+      ]
+    },
+    "lib/ops/requests.ts#decideRequest": {
+      "perms": [
+        "requests.decide"
+      ],
+      "audits": [
+        "requests.decide"
+      ],
+      "collections": [
+        "audit",
+        "requests"
+      ]
+    },
+    "lib/ops/requests.ts#logRequest": {
+      "perms": [
+        "requests.log"
+      ],
+      "audits": [
+        "requests.log"
+      ],
+      "collections": [
+        "audit",
+        "requests"
+      ]
+    },
+    "lib/ops/requests.ts#moveRequest": {
+      "perms": [
+        "requests.log"
+      ],
+      "audits": [
+        "requests.move"
+      ],
+      "collections": [
+        "audit",
+        "requests"
+      ]
+    },
+    "lib/ops/requests.ts#submitRequest": {
+      "perms": [],
+      "audits": [
+        "requests.submit"
+      ],
+      "collections": [
+        "audit",
+        "outbox",
+        "requests"
+      ]
+    },
+    "lib/ops/site.ts#applyLook": {
+      "perms": [
+        "site.customize"
+      ],
+      "audits": [
+        "site.customize"
+      ],
+      "collections": [
+        "audit",
+        "site",
+        "siteVersions"
+      ]
+    },
+    "lib/ops/site.ts#restoreSiteVersion": {
+      "perms": [
+        "site.customize"
+      ],
+      "audits": [
+        "site.customize"
+      ],
+      "collections": [
+        "audit",
+        "site",
+        "siteVersions"
+      ]
+    },
+    "lib/ops/site.ts#saveSite": {
+      "perms": [
+        "site.customize"
+      ],
+      "audits": [
+        "site.customize"
+      ],
+      "collections": [
+        "audit",
+        "site"
+      ]
+    },
+    "lib/ops/social.ts#removePlanItem": {
+      "perms": [
+        "plan.edit"
+      ],
+      "audits": [
+        "plan.remove"
+      ],
+      "collections": [
+        "audit",
+        "plan"
+      ]
+    },
+    "lib/ops/social.ts#savePlanItem": {
+      "perms": [
+        "plan.edit"
+      ],
+      "audits": [
+        "plan.save"
+      ],
+      "collections": [
+        "audit",
+        "plan"
+      ]
+    },
+    "lib/ops/social.ts#setConnected": {
+      "perms": [
+        "social.connect"
+      ],
+      "audits": [
+        "social.connect",
+        "social.disconnect"
+      ],
+      "collections": [
+        "audit",
+        "socialAccounts"
+      ]
+    },
+    "lib/ops/specials.ts#addBook": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.book"
+      ],
+      "collections": [
+        "audit",
+        "specialsBooks"
+      ]
+    },
+    "lib/ops/specials.ts#addSupplier": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.company"
+      ],
+      "collections": [
+        "audit",
+        "suppliers"
+      ]
+    },
+    "lib/ops/specials.ts#importSheets": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.import"
+      ],
+      "collections": [
+        "audit",
+        "supplierSheets",
+        "suppliers"
+      ]
+    },
+    "lib/ops/specials.ts#markSelloutSent": {
+      "perms": [
+        "sellout.log"
+      ],
+      "audits": [
+        "sellout.send"
+      ],
+      "collections": [
+        "audit",
+        "sellouts"
+      ]
+    },
+    "lib/ops/specials.ts#removeLine": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.remove"
+      ],
+      "collections": [
+        "audit",
+        "supplierSheets"
+      ]
+    },
+    "lib/ops/specials.ts#saveLine": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.add",
+        "suppliers.edit"
+      ],
+      "collections": [
+        "audit",
+        "supplierSheets"
+      ]
+    },
+    "lib/ops/specials.ts#saveSellout": {
+      "perms": [
+        "sellout.log"
+      ],
+      "audits": [
+        "sellout.compile"
+      ],
+      "collections": [
+        "audit",
+        "sellouts"
+      ]
+    },
+    "lib/ops/specials.ts#setBookStatus": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.book"
+      ],
+      "collections": [
+        "audit",
+        "specialsBooks"
+      ]
+    },
+    "lib/ops/specials.ts#setCasePrice": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.edit"
+      ],
+      "collections": [
+        "audit",
+        "supplierSheets"
+      ]
+    },
+    "lib/ops/specials.ts#setSheetChecked": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.check"
+      ],
+      "collections": [
+        "audit",
+        "supplierSheets"
+      ]
+    },
+    "lib/ops/specials.ts#toggleKey": {
+      "perms": [
+        "suppliers.edit"
+      ],
+      "audits": [
+        "suppliers.key"
+      ],
+      "collections": [
+        "audit",
+        "supplierSheets"
+      ]
+    },
+    "lib/promo.ts#archivePromo": {
+      "perms": [
+        "promos.approve",
+        "promos.draft"
+      ],
+      "audits": [
+        "promo.archive"
+      ],
+      "collections": [
+        "audit",
+        "promotions"
+      ]
+    },
+    "lib/promo.ts#claimCode": {
+      "perms": [],
+      "audits": [
+        "code.claim"
+      ],
+      "collections": [
+        "audit",
+        "customers",
+        "entitlements",
+        "outbox"
+      ]
+    },
+    "lib/promo.ts#decidePromo": {
+      "perms": [
+        "promos.approve"
+      ],
+      "audits": [
+        "promo.approve",
+        "promo.reject"
+      ],
+      "collections": [
+        "audit",
+        "promotions"
+      ]
+    },
+    "lib/promo.ts#endPromo": {
+      "perms": [
+        "promos.approve"
+      ],
+      "audits": [
+        "promo.end"
+      ],
+      "collections": [
+        "audit",
+        "promotions"
+      ]
+    },
+    "lib/promo.ts#redeemCode": {
+      "perms": [
+        "codes.redeem"
+      ],
+      "audits": [
+        "code.redeem"
+      ],
+      "collections": [
+        "audit",
+        "entitlements",
+        "redemptions"
+      ]
+    },
+    "lib/promo.ts#savePromo": {
+      "perms": [
+        "promos.draft"
+      ],
+      "audits": [
+        "promo.create",
+        "promo.edit"
+      ],
+      "collections": [
+        "audit",
+        "promotions"
+      ]
+    },
+    "lib/promo.ts#submitPromo": {
+      "perms": [
+        "promos.draft"
+      ],
+      "audits": [
+        "promo.submit"
+      ],
+      "collections": [
+        "audit",
+        "promotions"
+      ]
+    },
+    "lib/staff-updates.ts#acknowledgeStaffUpdate": {
+      "perms": [
+        "portal.self"
+      ],
+      "audits": [
+        "staffnews.ack"
+      ],
+      "collections": [
+        "audit",
+        "staffUpdates"
+      ]
+    },
+    "lib/staff-updates.ts#markStaffUpdateRead": {
+      "perms": [
+        "portal.self"
+      ],
+      "audits": [],
+      "collections": [
+        "staffUpdates"
+      ]
+    },
+    "lib/staff-updates.ts#remindStaffUpdate": {
+      "perms": [
+        "staff.updates"
+      ],
+      "audits": [
+        "staffnews.remind"
+      ],
+      "collections": [
+        "audit",
+        "outbox"
+      ]
+    },
+    "lib/staff-updates.ts#saveStaffUpdate": {
+      "perms": [
+        "staff.updates"
+      ],
+      "audits": [
+        "staffnews.create",
+        "staffnews.edit"
+      ],
+      "collections": [
+        "audit",
+        "staffUpdates"
+      ]
+    },
+    "lib/staff-updates.ts#scheduleStaffUpdate": {
+      "perms": [
+        "staff.updates"
+      ],
+      "audits": [
+        "staffnews.schedule",
+        "staffnews.unschedule"
+      ],
+      "collections": [
+        "audit",
+        "staffUpdates"
+      ]
+    },
+    "lib/staff-updates.ts#sendDueStaffUpdates": {
+      "perms": [],
+      "audits": [
+        "staffnews.send"
+      ],
+      "collections": [
+        "audit",
+        "outbox",
+        "staffUpdates"
+      ]
+    },
+    "lib/staff-updates.ts#sendStaffTest": {
+      "perms": [
+        "staff.updates"
+      ],
+      "audits": [
+        "staffnews.test"
+      ],
+      "collections": [
+        "audit",
+        "outbox",
+        "staffUpdates"
+      ]
+    },
+    "lib/staff-updates.ts#sendStaffUpdateNow": {
+      "perms": [
+        "staff.updates"
+      ],
+      "audits": [
+        "staffnews.send"
+      ],
+      "collections": [
+        "audit",
+        "outbox",
+        "staffUpdates"
+      ]
+    },
+    "lib/store.ts#addApplicant": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/store.ts#addMessage": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/store.ts#addNote": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/store.ts#requestLeave": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "employees"
+      ]
+    },
+    "lib/store.ts#requestSwap": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "employees"
+      ]
+    },
+    "lib/store.ts#setDocState": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/store.ts#setEmployeeDoc": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "employees"
+      ]
+    },
+    "lib/store.ts#setLeaveStatus": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "employees"
+      ]
+    },
+    "lib/store.ts#setStage": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/store.ts#setTrainingDone": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "employees"
+      ]
+    },
+    "lib/store.ts#updateApplicant": {
+      "perms": [],
+      "audits": [],
+      "collections": [
+        "applicants"
+      ]
+    },
+    "lib/store.ts#updateEmployee": {
+      "perms": [],
+      "audits": [],
+      "collections": []
+    }
+  },
+  "collections": [
+    "announcements",
+    "applicants",
+    "audit",
+    "branches",
+    "bulkOrders",
+    "campaigns",
+    "consents",
+    "content",
+    "customers",
+    "departments",
+    "employees",
+    "entitlements",
+    "events",
+    "feedback",
+    "flyers",
+    "grants",
+    "jobDepts",
+    "jobs",
+    "kycDocs",
+    "outbox",
+    "plan",
+    "policies",
+    "promotions",
+    "redemptions",
+    "requests",
+    "resources",
+    "sellouts",
+    "settings",
+    "site",
+    "sitePages",
+    "siteVersions",
+    "socialAccounts",
+    "socialPosts",
+    "socialWeeks",
+    "specials",
+    "specialsBooks",
+    "staffUpdates",
+    "stages",
+    "storeServices",
+    "subscribers",
+    "supplierSheets",
+    "suppliers",
+    "tasks",
+    "wholesale"
+  ],
+  "permissions": [
+    "access.manage",
+    "analytics.view",
+    "audit.view",
+    "bulk.manage",
+    "bulk.store",
+    "codes.redeem",
+    "codes.view",
+    "events.manage",
+    "feedback.handle",
+    "hr.compliance",
+    "hr.jobs",
+    "hr.people",
+    "hr.pipeline",
+    "newsletter.compose",
+    "newsletter.send",
+    "newsletter.view",
+    "notices.post",
+    "office.desk",
+    "overview.view",
+    "plan.edit",
+    "portal.self",
+    "posts.make",
+    "promos.approve",
+    "promos.draft",
+    "requests.decide",
+    "requests.log",
+    "resources.edit",
+    "sellout.log",
+    "site.customize",
+    "site.publish",
+    "social.connect",
+    "specials.edit",
+    "staff.updates",
+    "stores.edit",
+    "subscribers.export",
+    "suppliers.edit",
+    "suppliers.view",
+    "tasks.assign"
+  ],
+  "roles": {
+    "customer": [],
+    "applicant": [],
+    "employee": [
+      "portal.self"
+    ],
+    "hr": [
+      "hr.compliance",
+      "hr.jobs",
+      "hr.people",
+      "hr.pipeline",
+      "portal.self",
+      "staff.updates"
+    ],
+    "admin": [
+      "bulk.manage",
+      "bulk.store",
+      "codes.view",
+      "events.manage",
+      "feedback.handle",
+      "notices.post",
+      "office.desk",
+      "portal.self",
+      "posts.make",
+      "requests.log",
+      "resources.edit",
+      "sellout.log",
+      "site.publish",
+      "specials.edit",
+      "staff.updates",
+      "stores.edit",
+      "suppliers.edit",
+      "suppliers.view",
+      "tasks.assign"
+    ],
+    "purchasing": [
+      "portal.self",
+      "suppliers.view"
+    ],
+    "marketing": [
+      "analytics.view",
+      "codes.view",
+      "events.manage",
+      "newsletter.compose",
+      "newsletter.send",
+      "newsletter.view",
+      "office.desk",
+      "plan.edit",
+      "portal.self",
+      "posts.make",
+      "promos.draft",
+      "site.customize",
+      "social.connect",
+      "specials.edit",
+      "suppliers.view"
+    ],
+    "owner": [
+      "access.manage",
+      "analytics.view",
+      "audit.view",
+      "bulk.manage",
+      "bulk.store",
+      "codes.view",
+      "events.manage",
+      "feedback.handle",
+      "newsletter.compose",
+      "newsletter.send",
+      "newsletter.view",
+      "notices.post",
+      "office.desk",
+      "overview.view",
+      "plan.edit",
+      "portal.self",
+      "posts.make",
+      "promos.approve",
+      "promos.draft",
+      "requests.decide",
+      "requests.log",
+      "resources.edit",
+      "sellout.log",
+      "site.customize",
+      "site.publish",
+      "social.connect",
+      "specials.edit",
+      "staff.updates",
+      "stores.edit",
+      "subscribers.export",
+      "suppliers.edit",
+      "suppliers.view",
+      "tasks.assign"
+    ]
+  },
+  "hosts": [
+    "sfb.invalid",
+    "whatsapp.com",
+    "www.facebook.com",
+    "www.google.com",
+    "www.instagram.com",
+    "www.openstreetmap.org",
+    "www.tiktok.com",
+    "www.w3.org"
+  ],
+  "storage": [
+    "localStorage:<draftKey(jobId)>",
+    "localStorage:sfb-data-v1",
+    "localStorage:sfb-flow-*",
+    "localStorage:sfb-session-v1",
+    "localStorage:sfb.navClosed",
+    "localStorage:sfb.staffGlass",
+    "localStorage:sfb.staffSkin",
+    "localStorage:sfb.staffTheme",
+    "sessionStorage:sfb-banner-dismissed",
+    "sessionStorage:sfb-outbox-to",
+    "sessionStorage:sfb-signin-times",
+    "sessionStorage:sfb-signup-times",
+    "sessionStorage:sfb-till-branch",
+    "sessionStorage:sfb-tour-v1"
+  ]
+}

@@ -10,7 +10,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "scene": "node tools/grand-entrance/build.js"
+    "scene": "node tools/grand-entrance/build.js",
+    "wiring": "node flows-and-wiring/tools/wiring-audit.mjs",
+    "wiring:check": "node flows-and-wiring/tools/wiring-audit.mjs --check",
+    "wiring:accept": "node flows-and-wiring/tools/wiring-audit.mjs --update"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
