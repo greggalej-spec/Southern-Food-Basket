@@ -55,6 +55,7 @@
     "/admin#posts",
     "/admin#promos",
     "/admin#publish",
+    "/admin#radio",
     "/admin#requests",
     "/admin#sellout",
     "/admin#social",
@@ -806,6 +807,106 @@
         "tasks"
       ]
     },
+    "lib/ops/radio.ts#endSlot": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.slot.end"
+      ],
+      "collections": [
+        "audit",
+        "radioSlots"
+      ]
+    },
+    "lib/ops/radio.ts#markSent": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.script.sent"
+      ],
+      "collections": [
+        "audit",
+        "radioScripts"
+      ]
+    },
+    "lib/ops/radio.ts#removeLog": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.unlog"
+      ],
+      "collections": [
+        "audit",
+        "radioLogs"
+      ]
+    },
+    "lib/ops/radio.ts#removeScript": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.script.remove"
+      ],
+      "collections": [
+        "audit",
+        "radioLogs",
+        "radioScripts"
+      ]
+    },
+    "lib/ops/radio.ts#saveLog": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.log"
+      ],
+      "collections": [
+        "audit",
+        "radioLogs"
+      ]
+    },
+    "lib/ops/radio.ts#saveScript": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.script.add",
+        "radio.script.edit"
+      ],
+      "collections": [
+        "audit",
+        "radioScripts"
+      ]
+    },
+    "lib/ops/radio.ts#saveSlot": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.slot.add",
+        "radio.slot.edit"
+      ],
+      "collections": [
+        "audit",
+        "radioSlots"
+      ]
+    },
+    "lib/ops/radio.ts#saveStation": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.station.add",
+        "radio.station.edit"
+      ],
+      "collections": [
+        "audit",
+        "radioStations"
+      ]
+    },
     "lib/ops/requests.ts#addRequestMessage": {
       "perms": [
         "requests.log"
@@ -1378,6 +1479,10 @@
     "plan",
     "policies",
     "promotions",
+    "radioLogs",
+    "radioScripts",
+    "radioSlots",
+    "radioStations",
     "redemptions",
     "requests",
     "resources",
@@ -1425,6 +1530,7 @@
     "posts.make",
     "promos.approve",
     "promos.draft",
+    "radio.manage",
     "requests.decide",
     "requests.log",
     "resources.edit",
@@ -1491,6 +1597,7 @@
       "portal.self",
       "posts.make",
       "promos.draft",
+      "radio.manage",
       "site.customize",
       "social.connect",
       "specials.edit",
@@ -1516,6 +1623,7 @@
       "posts.make",
       "promos.approve",
       "promos.draft",
+      "radio.manage",
       "requests.decide",
       "requests.log",
       "resources.edit",

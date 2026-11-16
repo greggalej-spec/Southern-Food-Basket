@@ -29,7 +29,7 @@ const PUBLIC_PROMOTIONS: Promotion[] = [
    - DEMO: every person, job, document, hour, phone number and e-mail is invented for the prototype.
    Bump `version` when the seed changes so stale localStorage copies are replaced. */
 export const SEED: Seed = {
-  version: 26,
+  version: 27,
   settings: {
     currency: 'TTD',
     brand: 'Southern Food Basket',
@@ -252,6 +252,7 @@ export const SEED: Seed = {
   /* Operations: filled by the staff tier (lib/seed-ops.ts), never shipped to public pages. */
   suppliers: [], specialsBooks: [], supplierSheets: [], sellouts: [], requests: [], bulkOrders: [], tasks: [], resources: [],
   socialAccounts: [], socialPosts: [], socialWeeks: [], sitePages: [], plan: [], feedback: [],
+  radioStations: [], radioSlots: [], radioScripts: [], radioLogs: [],
   events: EVENTS, flyers: FLYERS,
 
   content: {

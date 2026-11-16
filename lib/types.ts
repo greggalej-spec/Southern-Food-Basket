@@ -360,6 +360,12 @@ export interface Seed {
   socialWeeks: MetricWeek[];
   sitePages: SitePage[];
   plan: PlanItem[];
+  /** The radio diary (lib/ops/radio.ts): the stations, the regular segments on each, the scripts and hype sent to them,
+   *  and one log line per segment per day. Staff tier. */
+  radioStations: RadioStation[];
+  radioSlots: RadioSlot[];
+  radioScripts: RadioScript[];
+  radioLogs: RadioLog[];
   /** What shoppers send with the Feedback button. A ticket made on a public page lives here; the seeded ones join with the staff tier. */
   feedback: FeedbackTicket[];
   /** What is on, for the public Events page, and the designer's flyers that lead the Specials page. Public. */
@@ -910,5 +916,93 @@ export interface PlanItem {
   kind: "Video" | "Photo" | "Carousel" | "E-mail" | "Website";
   status: "idea" | "planned" | "posted";
   owner: string;
+  note?: string;
+}
+
+/* The radio diary (lib/ops/radio.ts) */
+
+/** A radio station the company works with. */
+export interface RadioStation {
+  id: string;
+  name: string;
+  /** "98.1 FM" */
+  frequency: string;
+  /** The producer or host the team deals with, and how to reach them. */
+  contact: string;
+  phone?: string;
+  email?: string;
+  note?: string;
+}
+
+/** What happens on air: someone phones in, the host interviews someone, the host reads our script, or a recorded ad plays. */
+export type RadioKind = "call" | "interview" | "read" | "ad";
+
+/** A regular segment: the same station, kind and time on set days of the week. */
+export interface RadioSlot {
+  id: string;
+  stationId: string;
+  kind: RadioKind;
+  title: string;
+  /** The show and host, as the station names them. */
+  show?: string;
+  /** Days of the week it runs, 0 = Sunday. */
+  days: number[];
+  /** "07:40", Trinidad time. */
+  time: string;
+  /** Minutes on air. */
+  minutes: number;
+  /** Who goes on air or makes the call. */
+  person: string;
+  /** First and last day it runs ("YYYY-MM-DD"); no last day means it runs until it is stopped. */
+  from: string;
+  to?: string;
+}
+
+/** What happened to one segment on one day. */
+export type RadioOutcome = "done" | "missed" | "dropped" | "off";
+
+/** One line in the radio log: a regular segment on one day, or something extra that was not on the schedule. */
+export interface RadioLog {
+  id: string;
+  /** null for something extra (a surprise interview, a prize call the station asked for). */
+  slotId: string | null;
+  stationId: string;
+  kind: RadioKind;
+  /** "YYYY-MM-DD", Trinidad. */
+  day: string;
+  outcome: RadioOutcome;
+  /** When it went on air, "07:43" Trinidad time; only when it was had. */
+  at?: string;
+  /** Who was on air or made the call. */
+  person?: string;
+  /** The script or talking points used. */
+  scriptId?: string;
+  /** For an extra, what it was. */
+  title?: string;
+  note?: string;
+  loggedBy: string;
+  loggedAt: string;
+}
+
+export type ScriptKind = "read" | "points" | "hype" | "ad";
+
+/** Words for the radio: a script the host reads, talking points for a call or interview, a hype pack (prizes, specials,
+ *  store news to talk up), or an ad brief. Each has a day by which the station must have it. */
+export interface RadioScript {
+  id: string;
+  kind: ScriptKind;
+  title: string;
+  /** Empty: for every station. */
+  stationIds: string[];
+  body: string;
+  /** The station must have it by this day. */
+  sendBy: string;
+  /** The days it is meant for on air. */
+  airFrom: string;
+  airTo: string;
+  status: "draft" | "ready" | "sent";
+  owner: string;
+  sentAt?: string;
+  sentBy?: string;
   note?: string;
 }

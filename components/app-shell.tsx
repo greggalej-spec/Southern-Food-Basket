@@ -81,6 +81,7 @@ const OFFICE: NavItem[] = [
   { id: "analytics", label: "Marketing figures", href: "/admin#analytics", icon: "chart", perm: "analytics.view" },
   { id: "social", label: "Social accounts", href: "/admin#social", icon: "link", perm: ["social.connect", "analytics.view"] },
   { id: "plan", label: "Content calendar", href: "/admin#plan", icon: "calendar", perm: "plan.edit" },
+  { id: "radio", label: "Radio", href: "/admin#radio", icon: "radio", perm: "radio.manage" },
   { id: "promos", label: "Promotions", href: "/admin#promos", icon: "basket", perm: ["promos.draft", "promos.approve"] },
   { id: "codes", label: "Codes and redemptions", href: "/admin#codes", icon: "tag", perm: "codes.view" },
   { id: "newsletter", label: "Newsletter", href: "/admin#newsletter", icon: "file", perm: "newsletter.view" },

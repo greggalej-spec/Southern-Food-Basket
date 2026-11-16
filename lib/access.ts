@@ -43,6 +43,7 @@ export const PERMISSIONS = {
   "analytics.view": "See the marketing figures",
   "social.connect": "Connect and disconnect social accounts",
   "plan.edit": "Plan posts on the content calendar",
+  "radio.manage": "Keep the radio diary: stations, segments, scripts sent to them, and the daily log and reports",
   "site.customize": "Change the website's season, notice bar and home page",
   "overview.view": "See the owner's overview of every department",
   "office.desk": "See Today, and the office's tasks and resources",
@@ -68,11 +69,11 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
   purchasing: ["portal.self", "suppliers.view"],
   marketing: [
     "portal.self", "posts.make", "promos.draft", "codes.view", "newsletter.view", "newsletter.compose", "newsletter.send",
-    "analytics.view", "social.connect", "plan.edit", "site.customize", "suppliers.view", "events.manage", "specials.edit", "office.desk",
+    "analytics.view", "social.connect", "plan.edit", "radio.manage", "site.customize", "suppliers.view", "events.manage", "specials.edit", "office.desk",
   ],
   owner: [
     "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "requests.decide", "bulk.manage", "bulk.store", "tasks.assign",
-    "resources.edit", "analytics.view", "social.connect", "plan.edit", "site.customize", "overview.view", "feedback.handle", "events.manage",
+    "resources.edit", "analytics.view", "social.connect", "plan.edit", "radio.manage", "site.customize", "overview.view", "feedback.handle", "events.manage",
     "portal.self",
     "specials.edit",
     "posts.make",

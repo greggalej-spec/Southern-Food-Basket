@@ -1,6 +1,7 @@
 import "./mailing";
 import "./members";
 import { MORE_GRANTS, MORE_PEOPLE, OPS_AUDIT, OPS_TIER } from "./seed-ops";
+import { RADIO_TIER } from "./seed-radio";
 import { STAFF_TIER } from "./seed-staff";
 import { STAFF_UPDATES } from "./seed-staff-updates";
 import { registerTier } from "./store";
@@ -12,6 +13,7 @@ import { registerTier } from "./store";
 registerTier("staff", {
   ...STAFF_TIER,
   ...OPS_TIER,
+  ...RADIO_TIER,
   staffUpdates: STAFF_UPDATES,
   employees: [...(STAFF_TIER.employees || []), ...MORE_PEOPLE],
   grants: [...(STAFF_TIER.grants || []), ...MORE_GRANTS],
