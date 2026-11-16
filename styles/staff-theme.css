@@ -898,3 +898,14 @@ html[data-staff-skin="glass"] .app .app-topbar{ top: 0; }
 .app .of-alt .of-sh, .app .of-alt .of-el, .app .of-alt .of-wr{ animation-delay: -2.6s; }
 .app .of-alt .of-eyes{ animation-delay: -1.7s; }
 @media (max-width: 700px){ .app .sec-band.has-figure.has-pair{ padding-right: 18px; } }
+
+/* ---------- revision 15: smoothness (Gregg, 16 Nov 2026: staff profiles "taking a while", "be sure everything runs clear")
+   Building a profile takes a few milliseconds; the wait was the screen. The figures in the banners repainted the whole
+   picture every frame (a half-pixel "breathe" that never stopped), and kept waving while a drawer slid over them. Now
+   the figure sits on its own layer, stays still apart from the wave and the blink, and pauses entirely while a drawer
+   or dialog is open; the drawer is its own layer too, and its contents no longer fade in one after another. */
+.app .of-body{ animation: none; }
+.app .sec-figure{ will-change: transform; contain: paint; }
+html:has([data-slot="sheet-overlay"]) .app .sec-figure *, html:has([data-slot="dialog-content"]) .app .sec-figure *{ animation-play-state: paused; }
+[data-css~="app"] [data-slot="sheet-content"]{ will-change: transform; contain: layout paint; }
+[data-css~="app"] [data-slot="sheet-overlay"]{ will-change: opacity; }

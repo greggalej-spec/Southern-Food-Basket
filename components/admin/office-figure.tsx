@@ -105,8 +105,8 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         )}
         {suit ? (
           <>
-            {/* the jacket's shoulders, filled out to the arms so it has no notch where the sleeves join */}
-            <path d={"M-3.6 -47.9Q" + -(sx + 0.6) + " -47.6 " + -(sx + 2.4) + " -44.6L" + -(sx + 1.6) + " -41H" + (sx + 1.6) + "L" + (sx + 2.4) + " -44.6Q" + (sx + 0.6) + " -47.6 3.6 -47.9Z"} fill={shirt} />
+            {/* the jacket's shoulders, filled out to the arms but no further, so nothing sticks out past the sleeves */}
+            <path d={"M-3.6 -47.9Q" + -(sx + 0.2) + " -47.8 " + -(sx + 1.7) + " -44.6L" + -sx + " -42.6L-5 -44ZM3.6 -47.9Q" + (sx + 0.2) + " -47.8 " + (sx + 1.7) + " -44.6L" + sx + " -42.6L5 -44Z"} fill={shirt} />
             {/* the jacket over a white shirt: its collar points, the tie and the lapels */}
             <path d="M-4.2 -47.8L0 -33.8L4.2 -47.8Z" fill="#F3F0EB" />
             <path d="M-3 -47.9L0 -46L3 -47.9Z" fill={sk} />
@@ -181,7 +181,7 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
                 </g>
               </g>
             </g>
-            <Sleeve fill={shirt} trim={trim} shirtSleeve={blouse} />
+            {suit ? null : <Sleeve fill={shirt} trim={trim} shirtSleeve={blouse} />}
           </g>
         </g>
 
@@ -203,15 +203,15 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
                   </g>
                 </g>
               </g>
-              <Sleeve fill={shirt} trim={trim} shirtSleeve={blouse} />
+              {suit ? null : <Sleeve fill={shirt} trim={trim} shirtSleeve={blouse} />}
             </g>
           </g>
         </g>
 
         {suit ? (
           <>
-            <ellipse cx={-sx} cy="-44.5" rx="2.7" ry="2.5" fill={shirt} />
-            <ellipse cx={sx} cy="-44.5" rx="2.7" ry="2.5" fill={shirt} />
+            <ellipse cx={-sx} cy="-44.6" rx="1.85" ry="2.1" fill={shirt} />
+            <ellipse cx={sx} cy="-44.6" rx="1.85" ry="2.1" fill={shirt} />
             <path d="M-4.2 -47.8L-6 -45.4L-4.4 -44.6L0 -33.8L4.4 -44.6L6 -45.4L4.2 -47.8" stroke="#34323C" strokeWidth=".32" fill="none" strokeLinejoin="round" />
           </>
         ) : null}
@@ -450,7 +450,7 @@ const MELLISA: Look = {
   ),
 };
 
-// her brother, also a Managing Director (Gregg, 16 Nov 2026, from his photo; second pass: lighter skin, no flower,
+// Jameel Mohammed, her brother and the other Managing Director (Gregg, 16 Nov 2026, from his photo; second pass: lighter skin, no flower,
 // slimmer, hair and beard redone, hair then set snug on his head): warm light-brown skin, dark hair swept back, a short
 // beard along the jaw with clear cheeks, strong brows and a big smile; a black suit buttoned once, white shirt, red tie.
 const BRO_SKIN = "#CC9375", BRO_SK = "#AF785C", BRO_HAIR = "#2A1D17", BRO_BEARD = "#2E2019";

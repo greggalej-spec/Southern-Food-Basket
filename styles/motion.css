@@ -62,7 +62,7 @@
 
   /* ---------- 3, 6, 7: staging and arcs for what opens ---------- */
   [data-slot="sheet-content"]{ transition-timing-function: var(--ease-out) !important; }
-  [data-slot="sheet-content"] .drawer-body > *{ animation: mo-rise 360ms var(--ease-out) both; animation-delay: 80ms; }
+  /* a drawer's contents arrive with the drawer itself; staggering them in made records feel slow to open */
   [data-slot="dialog-content"]{ animation: mo-dialog 300ms var(--spring) both; }
   details[open] > summary ~ *{ animation: mo-rise 260ms var(--ease-out) both; }
   .tabs button, .seg .btn{ transition: transform var(--t-hover) var(--spring), background-color var(--t-hover) var(--ease-out), color var(--t-hover) var(--ease-out), box-shadow var(--t-hover) var(--ease-out); }

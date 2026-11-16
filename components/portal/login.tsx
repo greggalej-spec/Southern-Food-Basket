@@ -28,6 +28,7 @@ type Account = { key: string; role: Exclude<Role, "customer">; user: string; ico
 
 const ACCOUNTS: Account[] = [
   { key: "owner", role: "owner", user: "emp-vishala", icon: "grid", who: "Mellisa · Managing Director", can: "The overview of every department, approvals, staff access and the activity log." },
+  { key: "owner2", role: "owner", user: "emp-jameel", icon: "grid", who: "Jameel Mohammed · Managing Director", can: "The same as Mellisa: every department, approvals, staff access and the activity log." },
   { key: "admin", role: "admin", user: "emp-ria", icon: "book", who: "Alexia · Executive Assistant", can: "Supplier specials, sell-out reports, requests, customer feedback, bulk orders, tasks." },
   { key: "marketing", role: "marketing", user: "emp-tricia", icon: "chart", who: "Isabel · Marketing Team Lead", can: "Marketing figures, social accounts, the calendar, offers, events, the website studio." },
   { key: "designer", role: "marketing", user: "emp-addae", icon: "brush", who: "Addae · Graphic Designer", can: "Flyers and posts for the public site, events, the content calendar." },
@@ -38,7 +39,7 @@ const ACCOUNTS: Account[] = [
   { key: "applicant", role: "applicant", user: "app-aaliyah", icon: "file", who: "Aaliyah Persad · applying for Checkout Associate", can: "Her own application and documents." },
 ];
 
-const TITLE: Record<string, string> = { owner: "Managing Director’s console", admin: "Administration", marketing: "Marketing", designer: "Marketing · design", hr: "HR", purchasing: "Purchasing", manager: "Store manager", employee: "Employee", applicant: "Applicant" };
+const TITLE: Record<string, string> = { owner: "Managing Director’s console", owner2: "Managing Director’s console", admin: "Administration", marketing: "Marketing", designer: "Marketing · design", hr: "HR", purchasing: "Purchasing", manager: "Store manager", employee: "Employee", applicant: "Applicant" };
 const DEMO_CODE = "482615";
 const userFor = (role: Role) => ACCOUNTS.find((c) => c.role === role)?.user ?? null;
 

@@ -39,6 +39,7 @@ const GRANTS: Grant[] = [
   { id: 'g-ria', userId: 'emp-ria', role: 'admin', branchIds: null, grantedBy: 'emp-vishala', grantedAt: '2022-02-01T08:00:00-04:00' },
   { id: 'g-tricia', userId: 'emp-tricia', role: 'marketing', branchIds: null, grantedBy: 'emp-vishala', grantedAt: '2024-06-03T08:00:00-04:00' },
   { id: 'g-vishala', userId: 'emp-vishala', role: 'owner', branchIds: null, grantedBy: 'emp-vishala', grantedAt: '2024-01-02T08:00:00-04:00' },
+  { id: 'g-jameel', userId: 'emp-jameel', role: 'owner', branchIds: null, grantedBy: 'emp-vishala', grantedAt: '2024-01-02T08:00:00-04:00' },
   { id: 'g-ria-hr', userId: 'emp-ria', role: 'hr', branchIds: null, grantedBy: 'emp-vishala', grantedAt: '2025-06-01T08:00:00-04:00', revokedAt: '2025-07-31T17:00:00-04:00', revokedBy: 'emp-vishala' },
 ];
 
@@ -272,7 +273,7 @@ export const STAFF_TIER: Tier = {
       shifts: [{ date: '2026-10-29', start: '08:00', end: '16:30', role: 'Head office' }, { date: '2026-10-30', start: '08:00', end: '16:30', role: 'Head office' }],
       payslips: [], training: [{ id: 'tr-cust', name: 'Customer care refresher 2026', done: true, completedAt: '2026-09-02', minutes: 25 }],
       compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2029-08-31' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
-    { id: 'emp-vishala', name: 'Mellisa', role: 'Director', dept: 'Head office', branchId: 'ptown', startDate: '2012-01-09', employeeNo: 'SFB-0004',
+    { id: 'emp-vishala', name: 'Mellisa', role: 'Managing Director', dept: 'Head office', branchId: 'ptown', startDate: '2012-01-09', employeeNo: 'SFB-0004',
       email: 'mellisa@sfb.example', phone: '(868) 000-0113', address: 'Demo Road, Princes Town',
       emergency: { name: 'On file', relation: 'Next of kin', phone: '(868) 000-0114' },
       bank: { bank: 'Demo Bank', masked: '•••• 0925' },
@@ -281,6 +282,16 @@ export const STAFF_TIER: Tier = {
       shifts: [{ date: '2026-10-29', start: '07:30', end: '16:00', role: 'Head office' }, { date: '2026-10-30', start: '07:30', end: '16:00', role: 'Head office' }],
       payslips: [], training: [],
       compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2028-03-31' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
+    // Mellisa's brother, the other Managing Director (Gregg, 16 Nov 2026). Contact details are demo stand-ins.
+    { id: 'emp-jameel', name: 'Jameel Mohammed', role: 'Managing Director', dept: 'Head office', branchId: 'ptown', startDate: '2014-06-02', employeeNo: 'SFB-0003',
+      email: 'jameel@sfb.example', phone: '(868) 000-0115', address: 'Demo Road, Princes Town',
+      emergency: { name: 'On file', relation: 'Next of kin', phone: '(868) 000-0116' },
+      bank: { bank: 'Demo Bank', masked: '•••• 3071' },
+      leave: { annualEntitled: 20, annualUsed: 5, sickEntitled: 14, sickUsed: 0, casualEntitled: 3, casualUsed: 0 },
+      leaveRequests: [], swapRequests: [],
+      shifts: [{ date: '2026-10-29', start: '07:30', end: '16:00', role: 'Head office' }, { date: '2026-10-30', start: '07:30', end: '16:00', role: 'Head office' }],
+      payslips: [], training: [],
+      compliance: [{ docId: 'photo-id', state: 'verified', expiry: '2029-06-30' }, { docId: 'nis', state: 'verified' }, { docId: 'bir', state: 'verified' }] },
     { id: 'emp-andre', name: 'Andre Charles', role: 'Warehouse Attendant', dept: 'Warehouse', branchId: 'ptown', startDate: '2026-09-15', employeeNo: 'SFB-0498',
       email: 'andre.charles@sfb.example', phone: '(868) 000-0107', address: 'Demo Trace, Moruga',
       emergency: { name: 'Patricia Charles', relation: 'Mother', phone: '(868) 000-0108' },
