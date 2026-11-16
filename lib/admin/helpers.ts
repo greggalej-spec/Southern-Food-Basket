@@ -17,7 +17,7 @@ export type AdminTab = (typeof TABS)[number];
 
 /** What a section needs: any one of the list will do. Today needs nothing; it shows what the session may see. */
 export const TAB_PERMS: Record<AdminTab, Permission[]> = {
-  today: [],
+  today: ["office.desk"],
   overview: ["overview.view"],
   suppliers: ["suppliers.view", "suppliers.edit"],
   sellout: ["sellout.log"],
@@ -25,7 +25,7 @@ export const TAB_PERMS: Record<AdminTab, Permission[]> = {
   feedback: ["feedback.handle"],
   events: ["events.manage"],
   bulk: ["bulk.manage", "bulk.store"],
-  tasks: [],
+  tasks: ["office.desk"],
   studio: ["site.customize"],
   customize: ["site.customize"],
   analytics: ["analytics.view"],

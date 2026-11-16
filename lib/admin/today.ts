@@ -344,7 +344,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
   return out;
 }
 
-const ROLE_WORD: Record<string, string> = { employee: "employee", hr: "HR", admin: "administration", purchasing: "purchasing", marketing: "marketing", owner: "Managing Director" };
+const ROLE_WORD: Record<string, string> = { employee: "employee", hr: "HR", admin: "administration", purchasing: "Point of Sale", marketing: "marketing", owner: "Managing Director" };
 const roleWord = (r: string) => ROLE_WORD[r] || r;
 
 /** What Today watches for this person, for its empty state. */

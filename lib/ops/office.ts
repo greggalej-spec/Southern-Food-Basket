@@ -84,7 +84,7 @@ export function advanceBulk(s: Session | null, orderId: string) {
 
 /* ---------- tasks ---------- */
 
-export const AREA_LABEL: Record<Area, string> = { admin: "Administration", marketing: "Marketing", hr: "HR", website: "Website", owner: "Director’s office" };
+export const AREA_LABEL: Record<Area, string> = { admin: "Administration", marketing: "Marketing", hr: "HR", website: "Website", owner: "Managing Directors" };
 
 export type TaskForm = Pick<Task, "title" | "detail" | "area" | "assignedTo" | "due">;
 

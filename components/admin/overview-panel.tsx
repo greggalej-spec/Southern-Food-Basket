@@ -14,6 +14,7 @@ import { SEASONS, activeSeason, seasonState } from "@/lib/ops/site";
 import { PLATFORM, change, compare, series, topPosts, weeks } from "@/lib/ops/social";
 import { selloutState, sheetGaps, sheetsIn } from "@/lib/ops/specials";
 import { promoState } from "@/lib/promo";
+import { grantLive } from "@/lib/access";
 import { fmtDate } from "@/lib/format";
 import { currentEmployee, useData, useSession } from "@/lib/store";
 import type { Seed } from "@/lib/types";
@@ -74,6 +75,9 @@ export function OverviewPanel() {
   const d = useData();
   const s = useSession();
   const me = currentEmployee(d, s);
+  // the Managing Directors share this console, so it greets every one with live access, not only whoever signed in
+  const directors = s?.role === "owner" ? (d.grants || []).filter((g) => g.role === "owner" && grantLive(g)).map((g) => d.employees.find((e) => e.id === g.userId)?.name.split(" ")[0]).filter((n): n is string => !!n) : [];
+  const who = directors.length > 1 ? directors.slice(0, -1).join(", ") + " and " + directors[directors.length - 1] : me ? me.name.split(" ")[0] : "";
   const [now] = useState(() => Date.now());
   const [span, setSpan] = useState<"4" | "8" | "12">("12");
   const need = decisions(d, now);
@@ -113,7 +117,7 @@ export function OverviewPanel() {
       <section className="hero" aria-labelledby="ov-hero-h" data-tour="overview-hero">
         <div>
           <p className="hero-date">{new Date(now).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", timeZone: "America/Port_of_Spain" })}</p>
-          <h2 id="ov-hero-h">{greeting(now) + (me ? ", " + me.name.split(" ")[0] : "")}</h2>
+          <h2 id="ov-hero-h">{greeting(now) + (who ? ", " + who : "")}</h2>
           <p className="hero-line">{need.length ? plural(need.length, "decision is", "decisions are") + " waiting for you. Everything else is moving." : "Nothing is waiting for you. Everything is moving."}</p>
           <div className="hero-chips">
             <a className="hero-chip" href="#requests">

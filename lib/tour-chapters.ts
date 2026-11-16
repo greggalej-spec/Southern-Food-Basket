@@ -43,7 +43,7 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "approve",
     title: "An offer, drafted and approved",
     summary: "Marketing drafts an offer; someone else approves it. Nobody approves their own.",
-    cast: "Isabel, marketing · Mellisa, the Managing Director",
+    cast: "Isabel, marketing · Mellisa and Jameel, the Managing Directors",
     steps: [
       {
         path: "/admin#today",
@@ -70,7 +70,7 @@ const SITE_CHAPTERS: TourChapter[] = [
         target: "promo-approve",
         title: "A second pair of eyes",
         body: [
-          "Isabel’s Christmas offer is waiting. Mellisa approves it, or sends it back with a note Isabel will see.",
+          "Isabel’s Christmas offer is waiting. Mellisa or Jameel approves it, or sends it back with a note Isabel will see.",
           "Whoever wrote an offer can never approve it, and both moves go in the audit log.",
         ],
         try: "Approve the Christmas shop offer, or send it back with a note.",
@@ -81,7 +81,7 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "newsletter",
     title: "The weekly e-mail",
     summary: "A newsletter built from the specials, sent only to people who confirmed.",
-    cast: "Isabel, marketing · Mellisa, the Managing Director",
+    cast: "Isabel, marketing · Mellisa and Jameel, the Managing Directors",
     steps: [
       {
         path: "/admin#newsletter",
@@ -125,7 +125,7 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "staffnews",
     title: "Staff updates, the internal newsletter",
     summary: "News for staff by store and team, with a record of who has read it.",
-    cast: "Mellisa, the Managing Director · Marsha, store admin for Princes Town",
+    cast: "Mellisa and Jameel, the Managing Directors · Marsha, store admin for Princes Town",
     steps: [
       {
         path: "/admin?update=su-till-codes#staffnews",
@@ -256,7 +256,7 @@ const SITE_CHAPTERS: TourChapter[] = [
     id: "access",
     title: "Who can see what",
     summary: "Access by person, store and end date; revoking it; the audit log.",
-    cast: "Mellisa, the Managing Director",
+    cast: "Mellisa and Jameel, the Managing Directors",
     steps: [
       {
         path: "/admin#access",

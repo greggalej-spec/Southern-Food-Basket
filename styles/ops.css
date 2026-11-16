@@ -435,6 +435,10 @@
 :where([data-css~="ops"]) .demo-hint{ margin: var(--s3) 0 0; padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--warn-bg); color: var(--warn); font-size: 0.9375rem; max-width: none; }
 :where([data-css~="ops"]) .signin-links{ display: flex; justify-content: space-between; gap: var(--s3); margin-top: var(--s3); font-size: 0.9375rem; }
 :where([data-css~="ops"]) .people-pick{ display: grid; gap: var(--s3); grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+:where([data-css~="ops"]) .people-pick .team-card{ cursor: default; display: flex; flex-direction: column; gap: 4px; }
+:where([data-css~="ops"]) .people-pick .team-card:hover{ transform: none; }
+:where([data-css~="ops"]) .team-people{ display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+:where([data-css~="ops"]) .team-people .btn{ min-height: 40px; }
 :where([data-css~="ops"]) .people-pick .role-card[aria-pressed="true"]{ border-color: var(--green); box-shadow: 0 0 0 3px rgba(29,107,53,.14); }
 :where([data-css~="ops"]) .signin-ok{ display: grid; justify-items: center; gap: var(--s3); text-align: center; padding: var(--s5) 0; }
 :where([data-css~="ops"]) .signin-ok .tick{ display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; background: var(--green); color: #fff; }

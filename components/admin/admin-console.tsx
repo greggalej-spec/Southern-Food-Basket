@@ -89,6 +89,11 @@ export function AdminConsole() {
 
   const perms = TAB_PERMS[tab];
   const allowed = !!s && (!perms.length || perms.some((p) => can(d, s, p)));
+  // Today is the console's front door; a role without it (Point of Sale) goes to the first section it may open
+  const firstOpen = s ? TABS.find((t) => TAB_PERMS[t].length && TAB_PERMS[t].some((p) => can(d, s, p))) : undefined;
+  useEffect(() => {
+    if (s && tab === "today" && !allowed && firstOpen) goToTab(firstOpen);
+  }, [s, tab, allowed, firstOpen]);
 
   function content() {
     switch (tab) {

@@ -38,7 +38,7 @@ export const FLOWS: FlowDef[] = [
       { icon: "book", label: "Open a book", who: "Administration", text: "One book for each round: Divali, Christmas, or a plain month. Old books are kept, so nothing is ever overwritten to save space." },
       { icon: "upload", label: "Bring it in", who: "Administration", text: "Upload the whole Excel workbook, one company’s file, or paste the text of a WhatsApp message or e-mail." },
       { icon: "search", label: "System reads it", who: "The system", text: "Items, counts, specials and dates are filled into the six columns the office already uses. Each company gets its own sheet." },
-      { icon: "wallet", label: "Add case price", who: "Administration or Purchasing", text: "The one cell companies leave off. Type it in and the unit cost and the margin at the special appear by themselves." },
+      { icon: "wallet", label: "Add case price", who: "Administration", text: "The one cell companies leave off. Type it in and the unit cost and the margin at the special appear by themselves." },
       { icon: "star", label: "Star key lines", who: "Administration", text: "Starred lines gather on the key specials sheet. Nobody copies them across by hand." },
       { icon: "check", label: "Mark checked", who: "Administration", text: "A person confirms every sheet. Marketing then draws on the checked list for posts and the website." },
     ],
@@ -72,7 +72,7 @@ export const FLOWS: FlowDef[] = [
       { icon: "file", label: "Reply goes out", who: "Administration", text: "The reply is written on the card and e-mailed. Notes between staff stay on the same thread, marked as internal." },
       { icon: "check", label: "Handed over", who: "The store", text: "Marked done when the goods leave or the event is held. The year’s total gives adds up by itself." },
     ],
-    tryIt: "open the cricket league’s card under “With the director”. Signed in as the administration you can add a note; signed in as Mellisa you can approve it.",
+    tryIt: "open the cricket league’s card under “With the directors”. Signed in as the administration you can add a note; signed in as Mellisa or Jameel you can approve it.",
   },
   {
     id: "events",

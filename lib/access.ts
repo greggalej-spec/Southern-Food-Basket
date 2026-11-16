@@ -45,6 +45,7 @@ export const PERMISSIONS = {
   "plan.edit": "Plan posts on the content calendar",
   "site.customize": "Change the website's season, notice bar and home page",
   "overview.view": "See the owner's overview of every department",
+  "office.desk": "See Today, and the office's tasks and resources",
 } as const;
 
 export type Permission = keyof typeof PERMISSIONS;
@@ -60,13 +61,14 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
   admin: [
     "portal.self", "specials.edit", "posts.make", "stores.edit", "notices.post", "staff.updates", "site.publish", "codes.view",
     "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "bulk.manage", "bulk.store", "tasks.assign", "resources.edit",
-    "feedback.handle", "events.manage",
+    "feedback.handle", "events.manage", "office.desk",
   ],
-  // Purchasing checks the supplier specials and can correct them. Nothing else in the office is theirs.
-  purchasing: ["portal.self", "suppliers.view", "suppliers.edit", "bulk.store"],
+  // Point of Sale (the "purchasing" role) sees the supplier specials and nothing else in the office, and may not change
+  // them (Gregg, 16 Nov 2026: "they cannot be allowed to edit anything, only view").
+  purchasing: ["portal.self", "suppliers.view"],
   marketing: [
     "portal.self", "posts.make", "promos.draft", "codes.view", "newsletter.view", "newsletter.compose", "newsletter.send",
-    "analytics.view", "social.connect", "plan.edit", "site.customize", "suppliers.view", "events.manage", "specials.edit",
+    "analytics.view", "social.connect", "plan.edit", "site.customize", "suppliers.view", "events.manage", "specials.edit", "office.desk",
   ],
   owner: [
     "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "requests.decide", "bulk.manage", "bulk.store", "tasks.assign",
@@ -87,6 +89,7 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
     "subscribers.export",
     "access.manage",
     "audit.view",
+    "office.desk",
   ],
 };
 
@@ -98,7 +101,7 @@ export const ROLE_NAME: Record<Role, string> = {
   employee: "Employee",
   hr: "HR",
   admin: "Administration",
-  purchasing: "Purchasing",
+  purchasing: "Point of Sale",
   marketing: "Marketing",
   owner: "Managing Director",
 };

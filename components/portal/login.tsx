@@ -8,7 +8,7 @@ import { Icon, type IconName } from "@/components/icon";
 import { SiteFrame } from "@/components/site-frame";
 import { toast } from "@/components/ui/sonner";
 import { Flow, Working } from "@/components/viz";
-import { activeGrant, isStaff } from "@/lib/access";
+import { activeGrant, grantLive, isStaff } from "@/lib/access";
 import { destinationFor, finishSignOut, queryParam, roleParam, signOutPending } from "@/lib/portal/login";
 import "@/lib/private";
 import { audit, byId, currentApplicant, currentEmployee, login, logout, update, useData, useHydrated, useSession } from "@/lib/store";
@@ -33,15 +33,44 @@ const ACCOUNTS: Account[] = [
   { key: "marketing", role: "marketing", user: "emp-tricia", icon: "chart", who: "Isabel · Marketing Team Lead", can: "Marketing figures, social accounts, the calendar, offers, events, the website studio." },
   { key: "designer", role: "marketing", user: "emp-addae", icon: "brush", who: "Addae · Graphic Designer", can: "Flyers and posts for the public site, events, the content calendar." },
   { key: "hr", role: "hr", user: "emp-devon", icon: "users", who: "Faith · HR Manager", can: "Applications, jobs, the team at all five stores, HR resources." },
-  { key: "purchasing", role: "purchasing", user: "emp-nigel", icon: "tag", who: "Nigel Sookram · Purchasing Officer", can: "Supplier specials only: check them and correct them." },
-  { key: "manager", role: "employee", user: "emp-ravi", icon: "store", who: "Ravi Deonarine · Store Manager, San Fernando", can: "His own portal, and his store’s numbers for bulk orders." },
+  { key: "purchasing", role: "purchasing", user: "emp-sadia", icon: "tag", who: "Sadia · Point of Sale", can: "The supplier specials, to view only. They cannot change anything." },
   { key: "employee", role: "employee", user: "emp-keisha", icon: "user", who: "Keisha Ramlogan · Checkout Supervisor, San Fernando", can: "Her shifts, leave and pay, and checking members’ codes at her till." },
   { key: "applicant", role: "applicant", user: "app-aaliyah", icon: "file", who: "Aaliyah Persad · applying for Checkout Associate", can: "Her own application and documents." },
 ];
 
-const TITLE: Record<string, string> = { owner: "Managing Director’s console", owner2: "Managing Director’s console", admin: "Administration", marketing: "Marketing", designer: "Marketing · design", hr: "HR", purchasing: "Purchasing", manager: "Store manager", employee: "Employee", applicant: "Applicant" };
+const TITLE: Record<string, string> = { owner: "Managing Director’s console", owner2: "Managing Director’s console", admin: "Administration", marketing: "Marketing", designer: "Marketing · design", hr: "HR", purchasing: "Point of Sale", employee: "Employee", applicant: "Applicant" };
 const DEMO_CODE = "482615";
 const userFor = (role: Role) => ACCOUNTS.find((c) => c.role === role)?.user ?? null;
+
+/** The Point of Sale team: one card, every person on it (Gregg, 16 Nov 2026). */
+const POS_TEAM = ["emp-sadia", "emp-akili", "emp-patricia", "emp-josann", "emp-adrianna", "emp-requelle"];
+
+/** A department card with its people as buttons: tap a name to sign in as that person. */
+function TeamCard({ c, people, pick, live }: { c: Account; people: string[]; pick: (a: Account) => void; live: (a: Account) => boolean }) {
+  const d = useData();
+  return (
+    <div className="role-card team-card" data-role={c.role} data-tour={"role-" + c.key}>
+      <span data-icon={c.icon} aria-hidden="true">
+        <Icon name={c.icon} />
+      </span>
+      <strong>{TITLE[c.key]}</strong>
+      <span className="can">{c.can}</span>
+      <span className="team-people" role="group" aria-label={TITLE[c.key] + ": choose a person"}>
+        {people.map((id) => {
+          const e = byId(d.employees, id);
+          if (!e) return null;
+          const a: Account = { ...c, user: id, who: e.name + " · " + TITLE[c.key] };
+          const ok = live(a);
+          return (
+            <button key={id} type="button" className="btn btn-ghost btn-sm" data-user={id} disabled={!ok} title={ok ? "Sign in as " + e.name : "Access revoked"} onClick={() => pick(a)}>
+              {e.name}
+            </button>
+          );
+        })}
+      </span>
+    </div>
+  );
+}
 
 type Step = "account" | "checking" | "code" | "verifying" | "done";
 
@@ -85,10 +114,21 @@ export function PortalLogin() {
     setTimeout(() => router.push(destinationFor(a.role, queryParam("next"))), 450);
   }
 
+  /** Anyone on staff with live access, by work e-mail, not only the people on the cards (the Point of Sale team, for
+   *  one). Their office role wins over the plain employee grant everyone has. */
+  function staffByEmail(typed: string): Account | null {
+    const e = (d.employees || []).find((x) => (x.email || "").toLowerCase() === typed);
+    if (!e) return null;
+    const order: Account["role"][] = ["owner", "hr", "admin", "marketing", "purchasing", "employee"];
+    const g = (d.grants || []).filter((x) => x.userId === e.id && grantLive(x)).sort((a, b) => order.indexOf(a.role) - order.indexOf(b.role))[0];
+    if (!g) return null;
+    return { key: g.role, role: g.role, user: e.id, icon: "user", who: e.name + " · " + e.role, can: "" };
+  }
+
   function submitAccount(e: React.FormEvent) {
     e.preventDefault();
     const typed = email.trim().toLowerCase();
-    const acc = (picked && emailOf(picked).toLowerCase() === typed ? picked : null) || ACCOUNTS.find((a) => emailOf(a).toLowerCase() === typed) || null;
+    const acc = (picked && emailOf(picked).toLowerCase() === typed ? picked : null) || ACCOUNTS.find((a) => emailOf(a).toLowerCase() === typed) || staffByEmail(typed);
     if (!acc) return setError("No demo account uses that e-mail address. Choose a person from the list to fill it in.");
     if (!password) return setError("Enter a password. In this prototype any password is accepted.");
     if (!live(acc)) return setError("This account’s access has been revoked. The Managing Director can restore it.");
@@ -256,6 +296,7 @@ export function PortalLogin() {
               <div className="people-pick role-cards">
                 {ACCOUNTS.map((c) => {
                   const ok = live(c);
+                  if (c.key === "purchasing") return <TeamCard key={c.key} c={c} people={POS_TEAM} pick={quick} live={live} />;
                   return (
                     <button key={c.key} className="role-card" type="button" data-role={c.role} data-user={c.user} data-tour={"role-" + c.key} disabled={!ok} aria-pressed={picked?.key === c.key} onClick={() => quick(c)}>
                       <span data-icon={c.icon} aria-hidden="true">
@@ -278,7 +319,7 @@ export function PortalLogin() {
           <div className="card login-about" style={{ marginTop: 24 }}>
             <h2>How access works</h2>
             <ul>
-              <li>Each person gets only what their job needs. Marketing never sees applicants; HR never sees the mailing list; purchasing sees the supplier specials and nothing else.</li>
+              <li>Each person gets only what their job needs. Marketing never sees applicants; HR never sees the mailing list; Point of Sale sees the supplier specials and nothing else.</li>
               <li>Access can be limited to one store and given an end date, and the Managing Director can revoke it at once.</li>
               <li>Whoever drafts an offer cannot approve it. Every approval, export, decision and sign-in is written to the activity log.</li>
             </ul>

@@ -21,7 +21,7 @@ export const KINDS = Object.keys(KIND) as RequestKind[];
 export const STAGES: { id: RequestStatus; label: string; tone: Tone; explain: string }[] = [
   { id: "new", label: "New", tone: "info", explain: "Just in. Nobody has picked it up yet." },
   { id: "reviewing", label: "Being looked at", tone: "plain", explain: "The office is getting details or checking with a store." },
-  { id: "with-owner", label: "With the director", tone: "warn", explain: "Waiting for a yes or a no." },
+  { id: "with-owner", label: "With the directors", tone: "warn", explain: "Waiting for a yes or a no." },
   { id: "approved", label: "Approved", tone: "ok", explain: "Agreed. Still to be handed over or held." },
   { id: "declined", label: "Declined", tone: "bad", explain: "Answered with a no." },
   { id: "done", label: "Done", tone: "plain", explain: "Handed over, held or finished." },
@@ -89,7 +89,7 @@ export function moveRequest(s: Session | null, id: string, to: "reviewing" | "wi
     r.status = to;
     if (to === "done") r.doneAt = nowIso();
     if (!r.owner && s?.userId) r.owner = s.userId;
-    r.messages.push({ at: nowIso(), by: s?.userId || "", kind: "internal", text: to === "with-owner" ? "Sent to the director for a decision." : to === "done" ? "Marked done." : to === "reviewing" ? "Picked up." : "Moved back to new." });
+    r.messages.push({ at: nowIso(), by: s?.userId || "", kind: "internal", text: to === "with-owner" ? "Sent to the directors for a decision." : to === "done" ? "Marked done." : to === "reviewing" ? "Picked up." : "Moved back to new." });
     audit(d, s, "requests.move", title(r), "Moved to " + stage(to).label.toLowerCase());
   });
 }

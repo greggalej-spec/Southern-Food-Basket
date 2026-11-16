@@ -24,7 +24,7 @@ const TONE: Record<string, "neutral" | "warn" | "ok" | "bad" | "info"> = { info:
 const COLUMNS: { id: string; label: string; statuses: RequestStatus[] }[] = [
   { id: "new", label: "New", statuses: ["new"] },
   { id: "reviewing", label: "Being looked at", statuses: ["reviewing"] },
-  { id: "with-owner", label: "With the director", statuses: ["with-owner"] },
+  { id: "with-owner", label: "With the directors", statuses: ["with-owner"] },
   { id: "approved", label: "Approved, to hand over", statuses: ["approved"] },
   { id: "closed", label: "Closed", statuses: ["done", "declined"] },
 ];
@@ -77,7 +77,7 @@ export function RequestsPanel({ item }: { item: string | null }) {
 
       <div className="stats">
         <Stat icon="bell" label="New" value={counts.new} tone={counts.new ? "warn" : undefined} />
-        <Stat icon="user" label="With the director" value={counts.withOwner} tone={counts.withOwner ? "warn" : undefined} />
+        <Stat icon="user" label="With the directors" value={counts.withOwner} tone={counts.withOwner ? "warn" : undefined} />
         <Stat icon="gift" tone="pink" label="To hand over" value={counts.approved} />
         <Stat icon="star" label="Agreed this year" value={counts.agreedThisYear} ring={{ value: counts.agreedThisYear, of: counts.agreedThisYear + counts.declined }} sub={dollars(counts.valueThisYear) + " given"} />
       </div>
@@ -264,8 +264,8 @@ function RequestDetail({ r }: { r: CommunityRequest }) {
           </button>
         ) : null}
         {canLog && (r.status === "new" || r.status === "reviewing") ? (
-          <button className="btn btn-primary btn-sm" type="button" onClick={() => act(s, "requests.move", r.ref, () => moveRequest(s, r.id, "with-owner"), "Sent to the director.")}>
-            Send to the director
+          <button className="btn btn-primary btn-sm" type="button" onClick={() => act(s, "requests.move", r.ref, () => moveRequest(s, r.id, "with-owner"), "Sent to the directors.")}>
+            Send to the directors
           </button>
         ) : null}
         {canDecide && r.status !== "done" && r.status !== "approved" && r.status !== "declined" && !deciding ? (
@@ -283,7 +283,7 @@ function RequestDetail({ r }: { r: CommunityRequest }) {
             Mark as done
           </button>
         ) : null}
-        {!canDecide && r.status === "with-owner" ? <p className="muted small">Only the director’s office can approve or decline.</p> : null}
+        {!canDecide && r.status === "with-owner" ? <p className="muted small">Only the Managing Directors, Mellisa and Jameel, can approve or decline.</p> : null}
       </div>
 
       {deciding ? (

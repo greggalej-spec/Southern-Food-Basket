@@ -31,7 +31,14 @@ const HR = "emp-devon";
 const hrFile = (f: Partial<HrFile>): HrFile => ({ notes: [], ratings: [], changes: [], ...f });
 
 export const MORE_PEOPLE: Employee[] = [
-  person("emp-nigel", "Nigel Sookram", "Purchasing Officer", "Head office", "ptown", "2018-08-13", 141),
+  // The Point of Sale team (Gregg, 16 Nov 2026): they check and correct the supplier specials. First names as given;
+  // job titles, start dates and numbers are demo stand-ins.
+  person("emp-sadia", "Sadia", "Point of Sale", "Head office", "ptown", "2019-03-04", 171),
+  person("emp-akili", "Akili", "Point of Sale", "Head office", "ptown", "2021-06-14", 263),
+  person("emp-patricia", "Patricia", "Point of Sale", "Head office", "ptown", "2017-09-11", 123),
+  person("emp-josann", "Josann", "Point of Sale", "Head office", "ptown", "2022-01-17", 284),
+  person("emp-adrianna", "Adrianna", "Point of Sale", "Head office", "ptown", "2023-04-03", 342),
+  person("emp-requelle", "Requelle", "Point of Sale", "Head office", "ptown", "2024-08-19", 415),
   // The graphic designer, part of the marketing team: he makes the flyers and posts that go on the public site.
   person("emp-addae", "Addae", "Graphic Designer", "Head office", "sando", "2025-02-03", 388),
   person("emp-vanessa", "Vanessa Ali", "Accounts Clerk", "Head office", "ptown", "2020-02-03", 198),
@@ -90,15 +97,25 @@ export const MORE_PEOPLE: Employee[] = [
 const since = (userId: string, branchId: string, at: string): Grant => ({ id: "g-" + userId.slice(4), userId, role: "employee", branchIds: [branchId], grantedBy: "emp-devon", grantedAt: at + "T08:00:00-04:00" });
 
 export const MORE_GRANTS: Grant[] = [
-  { id: "g-nigel-purchasing", userId: "emp-nigel", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2026-11-02T08:00:00-04:00" },
+  { id: "g-sadia-pos", userId: "emp-sadia", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2019-03-04T08:00:00-04:00" },
+  { id: "g-akili-pos", userId: "emp-akili", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2021-06-14T08:00:00-04:00" },
+  { id: "g-patricia-pos", userId: "emp-patricia", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2017-09-11T08:00:00-04:00" },
+  { id: "g-josann-pos", userId: "emp-josann", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2022-01-17T08:00:00-04:00" },
+  { id: "g-adrianna-pos", userId: "emp-adrianna", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2023-04-03T08:00:00-04:00" },
+  { id: "g-requelle-pos", userId: "emp-requelle", role: "purchasing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2024-08-19T08:00:00-04:00" },
   { id: "g-addae-marketing", userId: "emp-addae", role: "marketing", branchIds: null, grantedBy: "emp-vishala", grantedAt: "2025-02-03T08:00:00-04:00" },
   // Store managers give their own store's numbers for a bulk order, and nothing else in the office.
   ...(["emp-sunil:ptown", "emp-ravi:sando", "emp-anand:couva", "emp-rajesh:penal", "emp-michelle:pfortin"] as const).map((x): Grant => {
     const [userId, branchId] = x.split(":");
     return { id: "g-" + userId.slice(4), userId, role: "employee", branchIds: [branchId], extra: ["bulk.store"], grantedBy: "emp-vishala", grantedAt: "2024-01-08T08:00:00-04:00" };
   }),
-  ...MORE_PEOPLE.filter((p) => p.role !== "Store Manager" && p.id !== "emp-nigel" && p.id !== "emp-addae").map((p) => since(p.id, p.branchId, p.startDate)),
-  since("emp-nigel", "ptown", "2018-08-13"),
+  ...MORE_PEOPLE.filter((p) => p.role !== "Store Manager" && p.role !== "Point of Sale" && p.id !== "emp-addae").map((p) => since(p.id, p.branchId, p.startDate)),
+  since("emp-sadia", "ptown", "2019-03-04"),
+  since("emp-akili", "ptown", "2021-06-14"),
+  since("emp-patricia", "ptown", "2017-09-11"),
+  since("emp-josann", "ptown", "2022-01-17"),
+  since("emp-adrianna", "ptown", "2023-04-03"),
+  since("emp-requelle", "ptown", "2024-08-19"),
   since("emp-addae", "sando", "2025-02-03"),
 ];
 
@@ -194,7 +211,7 @@ const BULK: BulkOrder[] = [
 const TASKS: Task[] = [
   { id: "tk-1", title: "Enter case prices on the Carib Christmas sheet", detail: "Four lines came in by WhatsApp without case prices.", area: "admin", assignedTo: "emp-ria", assignedBy: "emp-vishala", due: "2026-11-13", status: "open", createdAt: "2026-11-10T14:30:00-04:00" },
   { id: "tk-2", title: "Send the Nestle sell-out report for Divali", detail: "Compiled on 12 November; the rep asked for it by Friday.", area: "admin", assignedTo: "emp-ria", assignedBy: "emp-vishala", due: "2026-11-13", status: "open", createdAt: "2026-11-12T08:45:00-04:00" },
-  { id: "tk-3", title: "Get turkey numbers from Penal and Point Fortin", detail: "Both stores have not given a quantity. The order closes on 18 November.", area: "admin", assignedTo: "emp-nigel", assignedBy: "emp-vishala", due: "2026-11-16", status: "open", createdAt: "2026-11-10T09:30:00-04:00" },
+  { id: "tk-3", title: "Get turkey numbers from Penal and Point Fortin", detail: "Both stores have not given a quantity. The order closes on 18 November.", area: "admin", assignedTo: "emp-ria", assignedBy: "emp-vishala", due: "2026-11-16", status: "open", createdAt: "2026-11-10T09:30:00-04:00" },
   { id: "tk-4", title: "Christmas theme: check it on a phone before it goes live", detail: "Set to start on 20 November in the website studio.", area: "website", assignedTo: "emp-tricia", assignedBy: "emp-vishala", due: "2026-11-18", status: "open", createdAt: "2026-11-09T10:00:00-04:00" },
   { id: "tk-5", title: "Reply to Caribbean Bottlers about floor space", detail: "Request RQ-0145. Penal and Point Fortin can take a half display.", area: "marketing", assignedTo: "emp-tricia", assignedBy: "emp-ria", due: "2026-11-14", status: "open", createdAt: "2026-11-07T09:30:00-04:00" },
   { id: "tk-6", title: "Renew food badges expiring this month", detail: "Three badges expire before 5 December. See People.", area: "hr", assignedTo: "emp-devon", assignedBy: "emp-vishala", due: "2026-11-20", status: "open", createdAt: "2026-11-05T09:00:00-04:00" },
@@ -339,7 +356,7 @@ const FEEDBACK: FeedbackTicket[] = [
     ] },
   { id: "fb-0227", ref: "FB-0227", kind: "suggestion", branchId: "sando", name: "", contact: "", wantsReply: false, receivedAt: "2026-11-10T19:30:00-04:00", status: "in-progress", assignedTo: "emp-ria",
     message: "Please stock gluten-free flour and pasta. I drive to San Fernando for them now.",
-    messages: [{ at: "2026-11-11T09:10:00-04:00", by: "emp-ria", kind: "internal", text: "Passed to Nigel in purchasing to price two brands." }] },
+    messages: [{ at: "2026-11-11T09:10:00-04:00", by: "emp-ria", kind: "internal", text: "Asked Sadia in Point of Sale to check two brands at the till." }] },
   { id: "fb-0226", ref: "FB-0226", kind: "compliment", branchId: "couva", name: "Deborah", contact: "deborah.j@example.com", wantsReply: false, receivedAt: "2026-11-09T11:48:00-04:00", status: "resolved", assignedTo: "emp-ria", resolvedAt: "2026-11-09T15:00:00-04:00", resolution: "Shared with the store manager and read out at the morning meeting.",
     message: "The young man packing at till 3 carried my bags to the car in the rain without being asked. Please thank him.",
     messages: [{ at: "2026-11-09T15:00:00-04:00", by: "emp-ria", kind: "internal", text: "Resolved. Shared with the store manager and read out at the morning meeting." }] },
@@ -357,7 +374,7 @@ const AUDIT: AuditEvent[] = [
   { id: "au-o2", at: "2026-11-10T14:05:00-04:00", actor: "emp-ria", role: "admin", action: "suppliers.import", target: "Carib, Christmas 2026", detail: "Read 4 lines from a PDF sent by WhatsApp", ok: true },
   { id: "au-o3", at: "2026-11-08T16:20:00-04:00", actor: "emp-vishala", role: "owner", action: "requests.decide", target: "RQ-0146 Hope Centre Children’s Home", detail: "Approved: 30 hampers", ok: true },
   { id: "au-o4", at: "2026-11-07T10:10:00-04:00", actor: "emp-vishala", role: "owner", action: "bulk.order", target: "Danish butter cookies, Christmas 2026", detail: "Ordered 153 cases", ok: true },
-  { id: "au-o5", at: "2026-11-02T08:00:00-04:00", actor: "emp-vishala", role: "owner", action: "access.grant", target: "Nigel Sookram", detail: "Purchasing, every store", ok: true },
+  { id: "au-o5", at: "2026-11-02T08:00:00-04:00", actor: "emp-vishala", role: "owner", action: "access.grant", target: "Sadia", detail: "Point of Sale, every store", ok: true },
 ];
 
 export const OPS_TIER: Partial<Seed> = {

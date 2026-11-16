@@ -7,7 +7,7 @@ import type { TourChapter } from "./tour";
 
 const mellisa = { role: "owner" as const, userId: "emp-vishala" };
 const ria = { role: "admin" as const, userId: "emp-ria" };
-const nigel = { role: "purchasing" as const, userId: "emp-nigel" };
+const sadia = { role: "purchasing" as const, userId: "emp-sadia" };
 const tricia = { role: "marketing" as const, userId: "emp-tricia" };
 const devon = { role: "hr" as const, userId: "emp-devon" };
 const ravi = { role: "employee" as const, userId: "emp-ravi" };
@@ -17,7 +17,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "owner",
     title: "The Managing Director’s morning",
     summary: "Every department on one page, with the decisions only the owner can make at the top.",
-    cast: "Mellisa, the director",
+    cast: "Mellisa and Jameel, the Managing Directors",
     steps: [
       {
         path: "/admin#overview",
@@ -25,7 +25,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
         target: "overview-decisions",
         title: "Decisions first",
         body: [
-          "Mellisa signs in and lands here. Whatever is waiting on her alone sits at the top: a sponsorship request, an offer to approve, a bulk order ready to place.",
+          "Mellisa or Jameel signs in and lands here. Whatever is waiting on the directors alone sits at the top: a sponsorship request, an offer to approve, a bulk order ready to place.",
           "Each line opens the thing itself. Nothing has to be found in a chat.",
         ],
         try: "Press “Decide” on the cricket league’s request.",
@@ -60,7 +60,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "specials",
     title: "Supplier specials, without the retyping",
     summary: "The office’s Excel workbook as a system: companies’ specials read in, case prices added, key lines starred.",
-    cast: "Alexia, administration · Nigel, purchasing",
+    cast: "Alexia, administration · Sadia, Point of Sale",
     steps: [
       {
         path: "/admin#suppliers",
@@ -94,12 +94,12 @@ export const OPS_CHAPTERS: TourChapter[] = [
       },
       {
         path: "/admin#suppliers",
-        as: nigel,
+        as: sadia,
         target: "section-suppliers",
-        title: "Purchasing sees this, and only this",
+        title: "Point of Sale sees this, and only this",
         body: [
-          "Nigel in purchasing has access to the supplier specials so he can check and correct them.",
-          "Look at his menu: requests, marketing and staff files are not there. Access follows the job.",
+          "Sadia in Point of Sale can see the supplier specials and nothing else, and cannot change them.",
+          "Look at the menu: requests, marketing and staff files are not there. Access follows the job.",
         ],
       },
       {
@@ -119,7 +119,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "requests",
     title: "A request, from a school to a yes",
     summary: "Donations, sponsorships, partnerships and promotions in one pipeline, with the conversation on the card.",
-    cast: "A school principal · Alexia, administration · Mellisa, the director",
+    cast: "A school principal · Alexia, administration · Mellisa and Jameel, the Managing Directors",
     steps: [
       {
         path: "/community",
@@ -139,7 +139,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
         title: "One pipeline for all of them",
         body: [
           "Letters, WhatsApp messages and visits are logged into the same list, so nothing sits in one person’s phone.",
-          "Each card moves left to right: new, being looked at, with the director, approved, closed.",
+          "Each card moves left to right: new, being looked at, with the directors, approved, closed.",
         ],
         try: "Open a card and add a note for staff. It stays on the card’s thread.",
       },
@@ -147,9 +147,9 @@ export const OPS_CHAPTERS: TourChapter[] = [
         path: "/admin#requests/rq-0147",
         as: mellisa,
         target: "request-actions",
-        title: "The director says yes or no on the card",
+        title: "The directors say yes or no on the card",
         body: [
-          "Mellisa sees what was asked, the office’s notes and the letter, and decides here.",
+          "Mellisa or Jameel sees what was asked, the office’s notes and the letter, and decides here.",
           "Only her office has the Approve and Decline buttons. The decision is recorded with her name and the time.",
         ],
         try: "Approve it, with what the store will give.",
@@ -160,7 +160,7 @@ export const OPS_CHAPTERS: TourChapter[] = [
     id: "bulk",
     title: "One bulk order, five stores",
     summary: "Each store gives its number, the office places one order, and last time’s figures sit alongside.",
-    cast: "Mellisa, the director · Ravi, store manager at San Fernando",
+    cast: "Mellisa and Jameel, the Managing Directors · Ravi, store manager at San Fernando",
     steps: [
       {
         path: "/admin#bulk",

@@ -60,7 +60,7 @@ const MY_PORTAL: NavItem[] = [
 /** The office console, one list for store admin, marketing and the Managing Director; each sees only what its access
  *  allows. The ids are the console's sections (components/admin/admin-console.tsx). */
 const OFFICE: NavItem[] = [
-  { id: "today", label: "Today", href: "/admin#today", icon: "home" },
+  { id: "today", label: "Today", href: "/admin#today", icon: "home", perm: "office.desk" },
   { id: "overview", label: "Overview", href: "/admin#overview", icon: "grid", perm: "overview.view" },
   { group: "Administration" },
   { id: "suppliers", label: "Supplier specials", href: "/admin#suppliers", icon: "book", perm: ["suppliers.view", "suppliers.edit"] },
@@ -68,7 +68,7 @@ const OFFICE: NavItem[] = [
   { id: "requests", label: "Partnerships and donations", href: "/admin#requests", icon: "gift", perm: ["requests.log", "requests.decide"] },
   { id: "feedback", label: "Customer feedback", href: "/admin#feedback", icon: "phone", perm: "feedback.handle" },
   { id: "bulk", label: "Bulk orders", href: "/admin#bulk", icon: "boxes", perm: ["bulk.manage", "bulk.store"] },
-  { id: "tasks", label: "Tasks and resources", href: "/admin#tasks", icon: "tasks" },
+  { id: "tasks", label: "Tasks and resources", href: "/admin#tasks", icon: "tasks", perm: "office.desk" },
   { group: "Website" },
   { id: "customize", label: "Customize", href: "/admin#customize", icon: "sun", perm: "site.customize" },
   { id: "studio", label: "Website studio", href: "/admin#studio", icon: "brush", perm: "site.customize" },
