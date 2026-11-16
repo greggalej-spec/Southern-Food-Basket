@@ -48,7 +48,9 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
   const dept = meta?.group || "Office";
   // the orange office banners carry the office's own waving figure in their right corner, the yellow marketing banners
   // the two people on the marketing team, both in a little store front (components/admin/office-figure.tsx)
-  const office = dept === "Office" || dept.startsWith("Managing");
+  // Alexia's figure is the administration office's, so the Managing Director's console leaves it off (Gregg, 16 Nov 2026)
+  const s = useSession();
+  const office = s?.role !== "owner" && (dept === "Office" || dept.startsWith("Managing"));
   const marketing = dept === "Marketing";
   return (
     <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing ? " has-pair" : "")}>
