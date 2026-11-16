@@ -807,16 +807,28 @@
         "tasks"
       ]
     },
-    "lib/ops/radio.ts#endSlot": {
+    "lib/ops/radio.ts#clearLog": {
       "perms": [
         "radio.manage"
       ],
       "audits": [
-        "radio.slot.end"
+        "radio.unlog"
       ],
       "collections": [
         "audit",
-        "radioSlots"
+        "radioSpots"
+      ]
+    },
+    "lib/ops/radio.ts#logSpot": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.log"
+      ],
+      "collections": [
+        "audit",
+        "radioSpots"
       ]
     },
     "lib/ops/radio.ts#markSent": {
@@ -831,18 +843,6 @@
         "radioScripts"
       ]
     },
-    "lib/ops/radio.ts#removeLog": {
-      "perms": [
-        "radio.manage"
-      ],
-      "audits": [
-        "radio.unlog"
-      ],
-      "collections": [
-        "audit",
-        "radioLogs"
-      ]
-    },
     "lib/ops/radio.ts#removeScript": {
       "perms": [
         "radio.manage"
@@ -852,20 +852,33 @@
       ],
       "collections": [
         "audit",
-        "radioLogs",
-        "radioScripts"
+        "radioScripts",
+        "radioSpots"
       ]
     },
-    "lib/ops/radio.ts#saveLog": {
+    "lib/ops/radio.ts#removeSheet": {
       "perms": [
         "radio.manage"
       ],
       "audits": [
-        "radio.log"
+        "radio.sheet.remove"
       ],
       "collections": [
         "audit",
-        "radioLogs"
+        "radioSheets",
+        "radioSpots"
+      ]
+    },
+    "lib/ops/radio.ts#removeSpot": {
+      "perms": [
+        "radio.manage"
+      ],
+      "audits": [
+        "radio.spot.remove"
+      ],
+      "collections": [
+        "audit",
+        "radioSpots"
       ]
     },
     "lib/ops/radio.ts#saveScript": {
@@ -881,30 +894,32 @@
         "radioScripts"
       ]
     },
-    "lib/ops/radio.ts#saveSlot": {
+    "lib/ops/radio.ts#saveSheet": {
       "perms": [
         "radio.manage"
       ],
       "audits": [
-        "radio.slot.add",
-        "radio.slot.edit"
+        "radio.sheet.add",
+        "radio.sheet.edit"
       ],
       "collections": [
         "audit",
-        "radioSlots"
+        "radioSheets",
+        "radioSpots",
+        "radioStations"
       ]
     },
-    "lib/ops/radio.ts#saveStation": {
+    "lib/ops/radio.ts#saveSpot": {
       "perms": [
         "radio.manage"
       ],
       "audits": [
-        "radio.station.add",
-        "radio.station.edit"
+        "radio.spot.add",
+        "radio.spot.edit"
       ],
       "collections": [
         "audit",
-        "radioStations"
+        "radioSpots"
       ]
     },
     "lib/ops/requests.ts#addRequestMessage": {
@@ -1479,9 +1494,9 @@
     "plan",
     "policies",
     "promotions",
-    "radioLogs",
     "radioScripts",
-    "radioSlots",
+    "radioSheets",
+    "radioSpots",
     "radioStations",
     "redemptions",
     "requests",

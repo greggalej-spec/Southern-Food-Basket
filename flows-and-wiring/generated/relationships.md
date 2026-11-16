@@ -58,14 +58,12 @@ Every field that points at a row in another collection, read from the types in `
 | `socialAccounts` | `connectedBy` | employees (a staff user id) |  |
 | `socialPosts` | `branchId` | branches |  |
 | `plan` | `owner` | a person's name stored as text (should become a staff or applicant id) |  |
-| `radioSlots` | `stationId` | ? (station) |  |
+| `radioSheets` | `stationId` | ? (station) |  |
+| `radioSpots` | `sheetId` | supplierSheets |  |
+| `radioSpots` | `stationId` | ? (station) |  |
 | `radioScripts` | `stationIds` | ? (station) | yes |
 | `radioScripts` | `owner` | a person's name stored as text (should become a staff or applicant id) |  |
 | `radioScripts` | `sentBy` | employees (a staff user id) |  |
-| `radioLogs` | `slotId` | ? (slot) |  |
-| `radioLogs` | `stationId` | ? (station) |  |
-| `radioLogs` | `scriptId` | ? (script) |  |
-| `radioLogs` | `loggedBy` | employees (a staff user id) |  |
 | `feedback` | `branchId` | branches |  |
 | `feedback` | `assignedTo` | employees (a staff user id) |  |
 | `feedback` | `messages.by` | employees (a staff user id) |  |
@@ -75,7 +73,7 @@ Every field that points at a row in another collection, read from the types in `
 
 | Collection | Referenced by |
 |---|---|
-| `employees` | `employees.hrFile.notes.by`, `employees.hrFile.ratings.by`, `employees.hrFile.changes.by`, `promotions.createdBy`, `promotions.approvedBy`, `grants.userId`, `grants.grantedBy`, `grants.revokedBy`, `redemptions.by`, `campaigns.createdBy`, `staffUpdates.recipientIds`, `staffUpdates.createdBy`, `staffUpdates.sentBy`, `audit.actor`, `siteVersions.by`, `supplierSheets.checkedBy`, `requests.decidedBy`, `requests.messages.by`, `bulkOrders.createdBy`, `bulkOrders.log.by`, `tasks.assignedTo`, `tasks.assignedBy`, `socialAccounts.connectedBy`, `radioScripts.sentBy`, `radioLogs.loggedBy`, `feedback.assignedTo`, `feedback.messages.by` |
+| `employees` | `employees.hrFile.notes.by`, `employees.hrFile.ratings.by`, `employees.hrFile.changes.by`, `promotions.createdBy`, `promotions.approvedBy`, `grants.userId`, `grants.grantedBy`, `grants.revokedBy`, `redemptions.by`, `campaigns.createdBy`, `staffUpdates.recipientIds`, `staffUpdates.createdBy`, `staffUpdates.sentBy`, `audit.actor`, `siteVersions.by`, `supplierSheets.checkedBy`, `requests.decidedBy`, `requests.messages.by`, `bulkOrders.createdBy`, `bulkOrders.log.by`, `tasks.assignedTo`, `tasks.assignedBy`, `socialAccounts.connectedBy`, `radioScripts.sentBy`, `feedback.assignedTo`, `feedback.messages.by` |
 | `branches` | `jobs.branchId`, `employees.branchId`, `announcements.branchId`, `promotions.branchIds`, `grants.branchIds`, `customers.preferredBranch`, `redemptions.branchId`, `subscribers.branches`, `requests.branchId`, `socialPosts.branchId`, `feedback.branchId`, `events.branchIds` |
 | `promotions` | `entitlements.promoId`, `campaigns.promoId` |
 | `specialsBooks` | `supplierSheets.bookId`, `sellouts.bookId` |
@@ -88,3 +86,4 @@ Every field that points at a row in another collection, read from the types in `
 | `specials` | `campaigns.specialIds` |
 | `campaigns` | `outbox.campaignId` |
 | `staffUpdates` | `outbox.staffUpdateId` |
+| `supplierSheets` | `radioSpots.sheetId` |

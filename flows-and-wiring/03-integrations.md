@@ -24,6 +24,7 @@ simulated in the browser.
 | Rostering and payroll | seed data (`shifts`, `payslips`) with no screen that creates it | `/portal/schedule`, `/portal/pay` | Import from whatever the company uses, or add HR entry screens | Decision D3 |
 | Point of sale | the till check page `/portal/till` | `redeemCode()` | Keep the web till check first; a POS integration later if the company's system allows it | Later |
 | Inbound messages | requests and feedback come only through the forms or are typed in | `logRequest()` | Optional: an inbound e-mail address or WhatsApp Business that creates requests | Optional |
+| Reading the radio sheets | tesseract.js in the browser (`lib/ops/radio-scan.ts`); the picture stays on the device; the reader's engine and English word list (about 5 MB) load from cdn.jsdelivr.net the first time | `/admin#radio` (Monthly schedules, Scan a sheet) | Keep in the browser. For production, serve the engine and word list from the site itself (copy them into `public/`) so nothing loads from a third-party host; every scan is checked by a person before it is saved | Working |
 
 ## 2. Every message the system sends
 

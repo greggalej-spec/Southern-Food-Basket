@@ -360,12 +360,12 @@ export interface Seed {
   socialWeeks: MetricWeek[];
   sitePages: SitePage[];
   plan: PlanItem[];
-  /** The radio diary (lib/ops/radio.ts): the stations, the regular segments on each, the scripts and hype sent to them,
-   *  and one log line per segment per day. Staff tier. */
+  /** The radio diary (lib/ops/radio.ts): the stations, every booked segment from their monthly sheets with what
+   *  happened to it, and the scripts and hype sent to them. Staff tier. */
   radioStations: RadioStation[];
-  radioSlots: RadioSlot[];
+  radioSheets: RadioSheet[];
+  radioSpots: RadioSpot[];
   radioScripts: RadioScript[];
-  radioLogs: RadioLog[];
   /** What shoppers send with the Feedback button. A ticket made on a public page lives here; the seeded ones join with the staff tier. */
   feedback: FeedbackTicket[];
   /** What is on, for the public Events page, and the designer's flyers that lead the Specials page. Public. */
@@ -921,67 +921,66 @@ export interface PlanItem {
 
 /* The radio diary (lib/ops/radio.ts) */
 
-/** A radio station the company works with. */
+/** A radio station the company books segments with. */
 export interface RadioStation {
   id: string;
+  /** As the station's sheet names it: "95 The Ultimate 1 FM". */
   name: string;
-  /** "98.1 FM" */
-  frequency: string;
-  /** The producer or host the team deals with, and how to reach them. */
-  contact: string;
+  contact?: string;
   phone?: string;
   email?: string;
   note?: string;
 }
 
-/** What happens on air: someone phones in, the host interviews someone, the host reads our script, or a recorded ad plays. */
-export type RadioKind = "call" | "interview" | "read" | "ad";
+/** The segments the stations book: an interview, the office hype on weekdays, the weekend hype on Saturdays. */
+export type RadioKind = "interview" | "office" | "weekend" | "other";
 
-/** A regular segment: the same station, kind and time on set days of the week. */
-export interface RadioSlot {
+/** What happened: it was had, nobody called, or it was not had for another reason. */
+export type RadioOutcome = "done" | "nocall" | "missed";
+
+/** A station's schedule for one month, as its sheet gives it: scanned from a picture, or made by hand. Its segments are
+ *  the RadioSpots with its id. One per station per month. */
+export interface RadioSheet {
   id: string;
   stationId: string;
-  kind: RadioKind;
-  title: string;
-  /** The show and host, as the station names them. */
-  show?: string;
-  /** Days of the week it runs, 0 = Sunday. */
-  days: number[];
-  /** "07:40", Trinidad time. */
-  time: string;
-  /** Minutes on air. */
-  minutes: number;
-  /** Who goes on air or makes the call. */
-  person: string;
-  /** First and last day it runs ("YYYY-MM-DD"); no last day means it runs until it is stopped. */
-  from: string;
-  to?: string;
+  /** "2026-11" */
+  month: string;
+  /** The station's work order number, "79948". */
+  wo?: string;
+  source: "scan" | "manual";
+  addedBy: string;
+  addedAt: string;
+  editedBy?: string;
+  editedAt?: string;
 }
 
-/** What happened to one segment on one day. */
-export type RadioOutcome = "done" | "missed" | "dropped" | "off";
-
-/** One line in the radio log: a regular segment on one day, or something extra that was not on the schedule. */
-export interface RadioLog {
+/** One booked segment: a station, a kind, a day and a time, from the station's monthly sheet (or added by hand). */
+export interface RadioSpot {
   id: string;
-  /** null for something extra (a surprise interview, a prize call the station asked for). */
-  slotId: string | null;
+  /** The month's sheet it came from; none for something extra. */
+  sheetId?: string;
   stationId: string;
+  /** The station's work order number from the sheet, "79948". */
+  wo?: string;
   kind: RadioKind;
-  /** "YYYY-MM-DD", Trinidad. */
+  /** "YYYY-MM-DD" and "16:05", Trinidad. */
   day: string;
-  outcome: RadioOutcome;
-  /** When it went on air, "07:43" Trinidad time; only when it was had. */
-  at?: string;
-  /** Who was on air or made the call. */
-  person?: string;
-  /** The script or talking points used. */
-  scriptId?: string;
+  time: string;
+  /** Not on the station's sheet: something extra the station asked for. */
+  extra?: boolean;
   /** For an extra, what it was. */
   title?: string;
-  note?: string;
-  loggedBy: string;
-  loggedAt: string;
+  result?: {
+    outcome: RadioOutcome;
+    /** When it went on air, "16:07"; only when it was had. */
+    at?: string;
+    /** Who was on air. */
+    person?: string;
+    scriptId?: string;
+    note?: string;
+    by: string;
+    loggedAt: string;
+  };
 }
 
 export type ScriptKind = "read" | "points" | "hype" | "ad";

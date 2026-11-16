@@ -25,7 +25,7 @@ export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
   analytics: { title: "Marketing figures", purpose: "How the website and the social accounts are doing, and which posts earned it." },
   social: { title: "Social accounts", purpose: "Which accounts feed the figures, and how each one is connected." },
   plan: { title: "Content calendar", purpose: "What is going out, where and when, so posts, e-mails and website changes line up." },
-  radio: { title: "Radio", purpose: "Every call-in, interview, read and ad: had or missed, the scripts to send, and the reports." },
+  radio: { title: "Radio", purpose: "The stations’ schedules for the month, a tick for every segment, and the reports." },
   deals: { title: "Specials", purpose: "The deals on the public Specials page and the home page, newest first." },
   posts: { title: "Post maker", purpose: "Turn a deal into a 1080 × 1350 pixel picture for Instagram, with the logo and the price seal." },
   stores: { title: "Stores and hours", purpose: "Each store’s opening hours and phone number, as the site header and the Store locations page show them." },

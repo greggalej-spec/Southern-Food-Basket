@@ -69,14 +69,15 @@ Every function in `lib/` that changes data. Each one is a future server endpoint
 | `saveResource` | `lib/ops/office.ts:122` | `hr.people` `resources.edit` |  | `resources.save` | audit, resources | grants | /admin /hr /admin#tasks /hr#resources |
 | `setBulkQty` | `lib/ops/office.ts:53` | `bulk.manage` `bulk.store` |  | `bulk.qty` | audit, bulkOrders | branches, grants | /admin /portal/bulk /admin#bulk |
 | `setTaskDone` | `lib/ops/office.ts:100` | `portal.self` `tasks.assign` |  | `tasks.done` `tasks.reopen` | audit, tasks | grants | /admin /admin#tasks |
-| `endSlot` | `lib/ops/radio.ts:288` | `radio.manage` |  | `radio.slot.end` | audit, radioSlots | grants | /admin /admin#radio |
-| `markSent` | `lib/ops/radio.ts:232` | `radio.manage` |  | `radio.script.sent` | audit, radioScripts | grants, radioStations | /admin /admin#radio |
-| `removeLog` | `lib/ops/radio.ts:196` | `radio.manage` |  | `radio.unlog` | audit, radioLogs | grants, radioSlots | /admin /admin#radio |
-| `removeScript` | `lib/ops/radio.ts:242` | `radio.manage` |  | `radio.script.remove` | audit, radioLogs, radioScripts | grants | /admin /admin#radio |
-| `saveLog` | `lib/ops/radio.ts:177` | `radio.manage` |  | `radio.log` | audit, radioLogs | grants, radioSlots, radioStations | /admin /admin#radio |
-| `saveScript` | `lib/ops/radio.ts:208` | `radio.manage` |  | `radio.script.add` `radio.script.edit` | audit, radioScripts | grants | /admin /admin#radio |
-| `saveSlot` | `lib/ops/radio.ts:270` | `radio.manage` |  | `radio.slot.add` `radio.slot.edit` | audit, radioSlots | grants, radioStations | /admin /admin#radio |
-| `saveStation` | `lib/ops/radio.ts:255` | `radio.manage` |  | `radio.station.add` `radio.station.edit` | audit, radioStations | grants | /admin /admin#radio |
+| `clearLog` | `lib/ops/radio.ts:406` | `radio.manage` |  | `radio.unlog` | audit, radioSpots | grants, radioStations | /admin /admin#radio |
+| `logSpot` | `lib/ops/radio.ts:386` | `radio.manage` |  | `radio.log` | audit, radioSpots | grants, radioStations | /admin /admin#radio |
+| `markSent` | `lib/ops/radio.ts:439` | `radio.manage` |  | `radio.script.sent` | audit, radioScripts | grants, radioStations | /admin /admin#radio |
+| `removeScript` | `lib/ops/radio.ts:449` | `radio.manage` |  | `radio.script.remove` | audit, radioScripts, radioSpots | grants | /admin /admin#radio |
+| `removeSheet` | `lib/ops/radio.ts:335` | `radio.manage` |  | `radio.sheet.remove` | audit, radioSheets, radioSpots | grants, radioStations | /admin /admin#radio |
+| `removeSpot` | `lib/ops/radio.ts:373` | `radio.manage` |  | `radio.spot.remove` | audit, radioSpots | grants, radioStations | /admin /admin#radio |
+| `saveScript` | `lib/ops/radio.ts:418` | `radio.manage` |  | `radio.script.add` `radio.script.edit` | audit, radioScripts | grants | /admin /admin#radio |
+| `saveSheet` | `lib/ops/radio.ts:274` | `radio.manage` |  | `radio.sheet.add` `radio.sheet.edit` | audit, radioSheets, radioSpots, radioStations | grants | /admin /admin#radio |
+| `saveSpot` | `lib/ops/radio.ts:352` | `radio.manage` |  | `radio.spot.add` `radio.spot.edit` | audit, radioSpots | grants, radioStations | /admin /admin#radio |
 | `addRequestMessage` | `lib/ops/requests.ts:116` | `requests.log` |  | `requests.message` | audit, outbox, requests | grants | /admin /admin#requests |
 | `assignRequest` | `lib/ops/requests.ts:126` | `requests.log` |  | `requests.assign` | audit, requests | employees, grants | /admin /admin#requests |
 | `decideRequest` | `lib/ops/requests.ts:97` | `requests.decide` |  | `requests.decide` | audit, requests | grants | /admin /admin#requests |

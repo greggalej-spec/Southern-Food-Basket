@@ -501,6 +501,18 @@ html[data-staff-theme="dark"] .sec-band.dept-office, html[data-staff-theme="dark
 .app .cal-month-foot{ font: 600 .875rem/1.3 var(--ui); color: var(--muted); }
 .app .cal-key{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0; }
 .app .cal-key .cal-chip{ display: inline-flex; padding: 4px 10px; }
+/* the radio calendar's chips (components/admin/radio-panel.tsx): status colours, with an icon on each */
+.app .cal-chip.radio-chip{ background: var(--row-b); color: var(--ink); gap: 4px; padding: 2px 6px; }
+.app .cal-chip.radio-chip .icon{ flex: none; width: 12px; height: 12px; }
+.app .cal-chip.radio-chip.is-done{ background: var(--ok-bg); color: var(--ok); }
+.app .cal-chip.radio-chip.is-nocall, .app .cal-chip.radio-chip.is-missed{ background: var(--bad-bg); color: var(--bad); }
+.app .cal-chip.radio-chip.is-unlogged{ background: var(--warn-bg); color: var(--warn); }
+.app .radio-cell-st{ font: 800 .6875rem/1.2 var(--ui); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.app .cal-key .cal-chip.radio-chip{ display: inline-flex; padding: 4px 10px; }
+.app .cal-sum .radio-sum-bad{ background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+.app .radio-count.is-bad{ background: var(--bad-bg); color: var(--bad); }
+.app .radio-count.is-loose{ background: var(--warn-bg); color: var(--warn); }
+
 
 .cal-daylist{ display: grid; gap: 16px; }
 .cal-daylist ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
@@ -909,3 +921,127 @@ html[data-staff-skin="glass"] .app .app-topbar{ top: 0; }
 html:has([data-slot="sheet-overlay"]) .app .sec-figure *, html:has([data-slot="dialog-content"]) .app .sec-figure *{ animation-play-state: paused; }
 [data-css~="app"] [data-slot="sheet-content"]{ will-change: transform; contain: layout paint; }
 [data-css~="app"] [data-slot="sheet-overlay"]{ will-change: opacity; }
+
+/* ---------- Radio (components/admin/radio-panel.tsx, radio-log.tsx, radio-sheets.tsx) ---------- */
+.radio-views{ display: flex; }
+.app .icon.flip{ transform: scaleX(-1); }
+
+/* the three steps */
+.radio-guide{ list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+.radio-guide button{ width: 100%; height: 100%; display: flex; gap: 12px; align-items: flex-start; padding: 12px 14px; border: 1px solid var(--card-line, var(--line)); border-radius: 14px; background: var(--card); color: var(--ink); text-align: left; font: inherit; cursor: pointer; }
+.radio-guide button:hover{ background: var(--row-b); }
+.radio-guide b{ flex: none; display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: var(--a-sun); color: var(--a-sun-on); font: 800 1rem/1 var(--ui); }
+.radio-guide .is-todo b{ background: var(--a-pink); color: var(--a-pink-on); }
+.radio-guide .is-done b{ background: var(--a-green); color: var(--a-green-on); }
+.radio-guide span{ display: grid; gap: 2px; font-size: 0.9375rem; color: var(--muted); }
+.radio-guide strong{ color: var(--ink); font-size: 1rem; }
+
+/* rows: one segment, one script */
+.radio-rows{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.radio-row{ --k: var(--line-strong); display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 16px; padding: 12px 14px; border: 1px solid var(--card-line, var(--line)); border-left: 6px solid var(--k); border-radius: 14px; background: var(--card); }
+.radio-row.is-done, .radio-row.script-sent{ --k: var(--a-green, #1D6B35); }
+.radio-row.is-nocall, .radio-row.is-missed, .radio-row.script-overdue{ --k: #B42318; }
+.radio-row.is-unlogged, .radio-row.script-today{ --k: #C27A0E; }
+.radio-row.script-soon{ --k: #2F5DA8; }
+.radio-row .grow{ flex: 1 1 240px; min-width: 0; display: grid; gap: 4px; }
+.radio-row .meta{ color: var(--muted); font-size: 0.9375rem; }
+.radio-time{ flex: 0 0 80px; display: grid; gap: 2px; color: var(--muted); font-size: 0.8125rem; }
+.radio-time b{ color: var(--ink); font-size: 1.0625rem; font-variant-numeric: tabular-nums; }
+.radio-said{ font-size: 0.9375rem; color: var(--ink); }
+.radio-said em{ color: var(--muted); font-style: normal; }
+.radio-body{ white-space: pre-line; font-size: 0.9375rem; color: var(--ink); padding: 8px 10px; border-radius: 10px; background: var(--row-b); max-height: 9.5em; overflow: auto; }
+.radio-acts{ --gap: 8px; align-self: center; }
+.radio-acts .btn .icon{ width: 16px; height: 16px; }
+.app .badge .icon{ width: 14px; height: 14px; margin-right: 4px; vertical-align: -2px; }
+
+/* the calendar */
+/* the monthly schedules, laid out like the stations' sheets */
+.radio-sheets{ display: grid; gap: 14px; }
+.radio-sheet{ padding: 14px 16px; border: 1px solid var(--card-line, var(--line)); border-radius: 16px; background: var(--card); display: grid; gap: 12px; }
+.radio-sheet header{ display: flex; gap: 12px; align-items: flex-start; }
+.radio-sheet header .grow{ flex: 1; min-width: 0; }
+.radio-sheet h3{ margin: 0; font: 800 1.125rem/1.25 var(--ui); color: var(--ink); }
+.radio-sheet .meta{ margin: 2px 0 0; color: var(--muted); font-size: 0.875rem; }
+.radio-counts{ margin: 4px 0 0; font-size: 0.875rem; font-weight: 700; color: var(--ink); }
+.radio-kind h4{ margin: 0 0 6px; font: 800 0.8125rem/1.2 var(--ui); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.radio-line{ display: grid; grid-template-columns: 76px minmax(0, 1fr); gap: 8px; align-items: start; padding: 4px 0; }
+.radio-line > b{ padding-top: 10px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.radio-dates{ display: flex; flex-wrap: wrap; gap: 6px; }
+.radio-date{ display: grid; justify-items: center; gap: 1px; min-width: 48px; min-height: 44px; padding: 4px 6px; border: 1px solid var(--card-line, var(--line)); border-radius: 10px; background: var(--row-b); color: var(--ink); font: 600 0.6875rem/1.1 var(--ui); cursor: pointer; }
+.radio-date b{ font-size: 0.9375rem; }
+.radio-date .icon{ width: 12px; height: 12px; }
+.radio-date.is-done{ background: var(--ok-bg); color: var(--ok); border-color: transparent; }
+.radio-date.is-nocall, .radio-date.is-missed{ background: var(--bad-bg); color: var(--bad); border-color: transparent; }
+.radio-date.is-unlogged{ background: var(--warn-bg); color: var(--warn); border-color: transparent; }
+.radio-date:disabled{ cursor: default; opacity: .75; }
+.radio-note{ display: flex; gap: 8px; align-items: flex-start; margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: var(--warn-bg); color: var(--warn); font-size: 0.9375rem; font-weight: 600; }
+.radio-note.is-ok{ background: var(--ok-bg); color: var(--ok); }
+.radio-note .icon{ flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.radio-empty{ padding: 18px; border: 2px dashed var(--line-strong); border-radius: 16px; }
+.radio-empty p{ margin: 0; display: grid; gap: 4px; color: var(--muted); }
+.radio-empty strong{ color: var(--ink); font-size: 1.0625rem; }
+
+/* making a schedule: a time, and its dates on a little month */
+.radio-draft{ display: grid; gap: 12px; }
+.radio-draft-card{ display: grid; gap: 10px; padding: 12px; border: 1px solid var(--card-line, var(--line)); border-radius: 14px; background: var(--card); }
+.radio-draft-card h3{ margin: 0; font: 800 1rem/1.3 var(--ui); color: var(--ink); }
+.radio-dline{ display: grid; gap: 8px; margin: 0; padding: 10px; border: 1px solid var(--card-line, var(--line)); border-radius: 12px; background: var(--page); }
+.radio-dline-head{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.radio-dline-head select, .radio-dline-head input{ width: auto; min-height: 40px; }
+.radio-dline-head .muted{ flex: 1; font-size: 0.875rem; }
+.radio-mini{ display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; max-width: 360px; }
+.radio-mini-w{ text-align: center; font: 800 0.6875rem/1.6 var(--ui); color: var(--muted); text-transform: uppercase; }
+.radio-mini button{ min-height: 38px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--card); color: var(--ink); font: 700 0.875rem/1 var(--ui); font-variant-numeric: tabular-nums; cursor: pointer; }
+.radio-mini button.is-weekend{ background: var(--row-b); }
+.radio-mini button[aria-pressed="true"]{ background: var(--a-green); border-color: var(--a-green); color: var(--a-green-on); }
+.radio-warn{ list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.radio-warn li{ display: flex; gap: 8px; align-items: flex-start; padding: 8px 10px; border-radius: 10px; background: var(--warn-bg); color: var(--warn); font-size: 0.875rem; font-weight: 600; }
+.radio-warn .icon{ flex: none; width: 16px; height: 16px; }
+
+/* scanning */
+.radio-steps{ margin: 0; padding-left: 20px; display: grid; gap: 4px; color: var(--ink); }
+.radio-drop{ display: grid; justify-items: center; gap: 6px; padding: 22px 16px; border: 2px dashed var(--line-strong); border-radius: 16px; background: var(--card); color: var(--ink); font: inherit; text-align: center; cursor: pointer; }
+.radio-drop:hover{ background: var(--row-b); }
+.radio-drop .icon{ width: 32px; height: 32px; }
+.radio-drop span{ font-size: 0.875rem; color: var(--muted); }
+.radio-pic{ display: block; width: 100%; max-height: 420px; object-fit: contain; border-radius: 12px; border: 1px solid var(--card-line, var(--line)); background: #fff; }
+.radio-picbox{ display: grid; gap: 8px; }
+.radio-picbox summary{ cursor: pointer; font-weight: 700; color: var(--ink); }
+.radio-picbox textarea{ width: 100%; font-family: ui-monospace, monospace; font-size: 0.8125rem; }
+.radio-progress{ height: 10px; border-radius: 999px; background: var(--row-b); overflow: hidden; }
+.radio-progress span{ display: block; height: 100%; background: var(--a-green); transition: width .3s ease; }
+
+/* reports */
+.radio-filters{ display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; margin-bottom: 16px; }
+.radio-inline{ display: inline-flex; align-items: center; gap: 6px; font-weight: 600; }
+.radio-inline input[type="date"], .radio-filters select{ width: auto; min-height: 40px; }
+.radio-totals{ display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin: 0 0 16px; }
+.radio-totals > div{ padding: 10px 12px; border: 1px solid var(--card-line, var(--line)); border-radius: 12px; background: var(--card); }
+.radio-totals dt{ font-size: 0.875rem; color: var(--muted); }
+.radio-totals dd{ margin: 2px 0 0; font: 800 1.5rem/1.2 var(--ui); color: var(--ink); font-variant-numeric: tabular-nums; }
+.radio-totals small{ margin-left: 8px; font-size: 0.9375rem; font-weight: 700; color: var(--muted); }
+.radio-totals .is-done{ background: var(--ok-bg); } .radio-totals .is-done dd{ color: var(--ok); }
+.radio-totals .is-missed{ background: var(--bad-bg); } .radio-totals .is-missed dd{ color: var(--bad); }
+.radio-totals .is-unlogged{ background: var(--warn-bg); } .radio-totals .is-unlogged dd{ color: var(--warn); }
+.radio-missed{ margin-bottom: 18px; padding: 12px 14px; border-radius: 14px; border: 1px solid var(--card-line, var(--line)); background: var(--card); }
+.radio-missed h3{ margin: 0 0 8px; font: 800 1rem/1.3 var(--ui); color: var(--ink); }
+.radio-missed ul, .radio-days ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.radio-missed li, .radio-days li{ display: grid; grid-template-columns: 96px minmax(0, 1fr) auto; gap: 4px 12px; align-items: center; padding: 6px 0; }
+.radio-days li{ grid-template-columns: 72px minmax(0, 1fr) auto; }
+.radio-days{ display: grid; gap: 14px; }
+.radio-days h3{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 12px; margin: 0 0 6px; padding-bottom: 6px; border-bottom: 1px solid var(--line); font: 800 1rem/1.3 var(--ui); color: var(--ink); }
+.radio-days h3 span{ font-weight: 600; font-size: 0.875rem; color: var(--muted); }
+.radio-rt{ font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); font-size: 0.9375rem; }
+.radio-rw{ display: grid; min-width: 0; }
+.radio-rw span{ font-size: 0.875rem; color: var(--muted); }
+.radio-ro{ display: grid; justify-items: end; }
+
+@media (max-width: 600px){
+  .radio-guide{ grid-template-columns: 1fr; }
+  .radio-missed li, .radio-days li{ grid-template-columns: 1fr; }
+  .radio-ro{ justify-items: start; }
+  .radio-time{ flex-basis: 100%; display: flex; gap: 8px; align-items: baseline; }
+  .radio-line{ grid-template-columns: 1fr; }
+  .radio-line > b{ padding-top: 0; }
+  .radio-acts{ align-self: stretch; }
+}
