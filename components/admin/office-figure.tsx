@@ -105,8 +105,9 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         )}
         {suit ? (
           <>
-            {/* the jacket's shoulders, filled out to the arms but no further, so nothing sticks out past the sleeves */}
-            <path d={"M-3.6 -47.9Q" + -(sx + 0.2) + " -47.8 " + -(sx + 1.7) + " -44.6L" + -sx + " -42.6L-5 -44ZM3.6 -47.9Q" + (sx + 0.2) + " -47.8 " + (sx + 1.7) + " -44.6L" + sx + " -42.6L5 -44Z"} fill={shirt} />
+            {/* the jacket's padded shoulders: a firm line from the collar out to the top of each sleeve, squared off
+                where the sleeve meets it, so the jacket and both sleeves read as one piece */}
+            <path d={"M-3.6 -47.9Q" + -(sx + 1.2) + " -47.7 " + -(sx + 1.9) + " -45.6Q" + -(sx + 2.2) + " -44 " + -(sx + 1.6) + " -42.4L" + -(sx - 1.2) + " -40.8L-5 -44ZM3.6 -47.9Q" + (sx + 1.2) + " -47.7 " + (sx + 1.9) + " -45.6Q" + (sx + 2.2) + " -44 " + (sx + 1.6) + " -42.4L" + (sx - 1.2) + " -40.8L5 -44Z"} fill={shirt} />
             {/* the jacket over a white shirt: its collar points, the tie and the lapels */}
             <path d="M-4.2 -47.8L0 -33.8L4.2 -47.8Z" fill="#F3F0EB" />
             <path d="M-3 -47.9L0 -46L3 -47.9Z" fill={sk} />
@@ -171,7 +172,7 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         {/* the arm at rest */}
         <g transform={"translate(" + rest * sx + " -44.6)"}>
           <g transform={"rotate(" + -rest * 10 + ")"}>
-            <path d="M0 5L0 9.5" stroke={arm} strokeWidth="3.6" strokeLinecap="round" />
+            <path d={suit ? "M0 0L0 9.5" : "M0 5L0 9.5"} stroke={arm} strokeWidth={suit ? 3.9 : 3.6} strokeLinecap="round" />
             <g transform="translate(0 9.5)">
               <g transform={"rotate(" + rest * 8 + ")"}>
                 <path d={suit ? "M0 0L0 7.4" : "M0 0L0 8.6"} stroke={arm} strokeWidth="3.3" strokeLinecap="round" />
@@ -189,7 +190,7 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         <g transform={"translate(" + wave * sx + " -44.6)"}>
           <g transform={"rotate(" + -wave * 140 + ")"}>
             <g className="of-sh">
-              <path d="M0 5L0 9.5" stroke={arm} strokeWidth="3.6" strokeLinecap="round" />
+              <path d={suit ? "M0 0L0 9.5" : "M0 5L0 9.5"} stroke={arm} strokeWidth={suit ? 3.9 : 3.6} strokeLinecap="round" />
               <g transform="translate(0 9.5)">
                 <g transform={"rotate(" + -wave * 46 + ")"}>
                   <g className="of-el">
@@ -210,8 +211,6 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
 
         {suit ? (
           <>
-            <ellipse cx={-sx} cy="-44.6" rx="1.85" ry="2.1" fill={shirt} />
-            <ellipse cx={sx} cy="-44.6" rx="1.85" ry="2.1" fill={shirt} />
             <path d="M-4.2 -47.8L-6 -45.4L-4.4 -44.6L0 -33.8L4.4 -44.6L6 -45.4L4.2 -47.8" stroke="#34323C" strokeWidth=".32" fill="none" strokeLinejoin="round" />
           </>
         ) : null}
