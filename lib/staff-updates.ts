@@ -8,7 +8,7 @@ import type { Employee, Seed, Session, StaffUpdate } from "./types";
    shoppers' newsletter never reaches staff through this.
 
    Access rules the screens rely on:
-   - writing and sending needs "staff.updates" (HR, store admin, the owner's office);
+   - writing and sending needs "staff.updates" (HR, store admin, the Managing Director);
    - a sender whose access covers some stores can only pick those stores, and only sees updates aimed inside them;
    - a person sees an update only if they were on it when it was sent, and only they can mark it read or confirmed. */
 

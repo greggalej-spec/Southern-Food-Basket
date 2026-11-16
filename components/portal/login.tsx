@@ -20,13 +20,14 @@ import type { Role } from "@/lib/types";
    staff account works only while that person's access is live (lib/access.ts), so revoking access in the owner's
    office shuts the account out here.
 
-   Picking a demo account fills the form in. "?as=<role>" still signs straight in, for the guided tour and for
-   links in the guide. */
+   For now (Gregg, 16 Nov 2026) tapping a demo account signs straight in as that person, with no password or phone
+   code, so switching between accounts is one tap. Typing a demo e-mail into the form still walks all three steps.
+   A revoked account's card stays disabled. "?as=<role>" also signs straight in, for the guided tour and the guide. */
 
 type Account = { key: string; role: Exclude<Role, "customer">; user: string; icon: IconName; who: string; can: string };
 
 const ACCOUNTS: Account[] = [
-  { key: "owner", role: "owner", user: "emp-vishala", icon: "grid", who: "Mellisa · Director", can: "The overview of every department, approvals, staff access and the activity log." },
+  { key: "owner", role: "owner", user: "emp-vishala", icon: "grid", who: "Mellisa · Managing Director", can: "The overview of every department, approvals, staff access and the activity log." },
   { key: "admin", role: "admin", user: "emp-ria", icon: "book", who: "Alexia · Executive Assistant", can: "Supplier specials, sell-out reports, requests, customer feedback, bulk orders, tasks." },
   { key: "marketing", role: "marketing", user: "emp-tricia", icon: "chart", who: "Isabel · Marketing Team Lead", can: "Marketing figures, social accounts, the calendar, offers, events, the website studio." },
   { key: "designer", role: "marketing", user: "emp-addae", icon: "brush", who: "Addae · Graphic Designer", can: "Flyers and posts for the public site, events, the content calendar." },
@@ -37,7 +38,7 @@ const ACCOUNTS: Account[] = [
   { key: "applicant", role: "applicant", user: "app-aaliyah", icon: "file", who: "Aaliyah Persad · applying for Checkout Associate", can: "Her own application and documents." },
 ];
 
-const TITLE: Record<string, string> = { owner: "Owner’s office", admin: "Administration", marketing: "Marketing", designer: "Marketing · design", hr: "HR", purchasing: "Purchasing", manager: "Store manager", employee: "Employee", applicant: "Applicant" };
+const TITLE: Record<string, string> = { owner: "Managing Director’s console", admin: "Administration", marketing: "Marketing", designer: "Marketing · design", hr: "HR", purchasing: "Purchasing", manager: "Store manager", employee: "Employee", applicant: "Applicant" };
 const DEMO_CODE = "482615";
 const userFor = (role: Role) => ACCOUNTS.find((c) => c.role === role)?.user ?? null;
 
@@ -71,14 +72,16 @@ export function PortalLogin() {
   const live = (a: Account) => !hydrated || !isStaff(a.role) || !!activeGrant(d, { role: a.role, userId: a.user });
   const phoneOf = (a: Account) => ((a.role === "applicant" ? byId(d.applicants, a.user)?.phone : byId(d.employees, a.user)?.phone) || "").slice(-4) || "0000";
 
-  function pick(a: Account) {
+  /** One tap: straight into that person's dashboard, skipping the password and the phone code. */
+  function quick(a: Account) {
+    if (!live(a)) return;
     setPicked(a);
-    setEmail(emailOf(a));
-    setPassword("demo-password");
     setError("");
-    setStep("account");
-    setCode("");
-    document.getElementById("si-password")?.focus();
+    setStep("done");
+    setLeaving(true);
+    const sess = login(a.role, a.user);
+    if (isStaff(a.role)) update((dd) => audit(dd, sess, "auth.signin", a.who.split(" · ")[0], "Demo account picked on the sign-in page"));
+    setTimeout(() => router.push(destinationFor(a.role, queryParam("next"))), 450);
   }
 
   function submitAccount(e: React.FormEvent) {
@@ -87,7 +90,7 @@ export function PortalLogin() {
     const acc = (picked && emailOf(picked).toLowerCase() === typed ? picked : null) || ACCOUNTS.find((a) => emailOf(a).toLowerCase() === typed) || null;
     if (!acc) return setError("No demo account uses that e-mail address. Choose a person from the list to fill it in.");
     if (!password) return setError("Enter a password. In this prototype any password is accepted.");
-    if (!live(acc)) return setError("This account’s access has been revoked. The owner’s office can restore it.");
+    if (!live(acc)) return setError("This account’s access has been revoked. The Managing Director can restore it.");
     setPicked(acc);
     setError("");
     setStep("checking");
@@ -119,7 +122,7 @@ export function PortalLogin() {
         <div className="container">
           <p className="eyebrow">Staff portal</p>
           <h1>Sign in</h1>
-          <p className="lede">Everyone signs in as themselves and lands on their own dashboard. Choose a person on the right to see theirs.</p>
+          <p className="lede">Everyone signs in as themselves and lands on their own dashboard. Tap a person under Demo accounts to go straight to theirs.</p>
           <div id="session-note">
             {note ? (
               <div className="alert alert-info session-alert">
@@ -183,7 +186,7 @@ export function PortalLogin() {
                   </p>
                   {help ? <p className="demo-hint">In the real system this sends a reset link to your work e-mail, and HR can reset it for you in person. Five wrong tries lock the account for fifteen minutes.</p> : null}
                   <p className="demo-hint">
-                    <strong>Prototype.</strong> No password is checked. Choose a person from the list and theirs is filled in for you.
+                    <strong>Prototype.</strong> No password is checked. Tap a demo account to sign straight in, or type its e-mail here to see the full sign-in with the phone code.
                   </p>
                 </form>
               ) : null}
@@ -253,13 +256,13 @@ export function PortalLogin() {
                 {ACCOUNTS.map((c) => {
                   const ok = live(c);
                   return (
-                    <button key={c.key} className="role-card" type="button" data-role={c.role} data-user={c.user} data-tour={"role-" + c.key} disabled={!ok} aria-pressed={picked?.key === c.key} onClick={() => pick(c)}>
+                    <button key={c.key} className="role-card" type="button" data-role={c.role} data-user={c.user} data-tour={"role-" + c.key} disabled={!ok} aria-pressed={picked?.key === c.key} onClick={() => quick(c)}>
                       <span data-icon={c.icon} aria-hidden="true">
                         <Icon name={c.icon} />
                       </span>
                       <strong>{TITLE[c.key]}</strong>
                       <span className="who">{c.who}</span>
-                      <span className="can">{ok ? c.can : "Access revoked. The owner’s office can restore it."}</span>
+                      <span className="can">{ok ? c.can : "Access revoked. The Managing Director can restore it."}</span>
                     </button>
                   );
                 })}
@@ -275,7 +278,7 @@ export function PortalLogin() {
             <h2>How access works</h2>
             <ul>
               <li>Each person gets only what their job needs. Marketing never sees applicants; HR never sees the mailing list; purchasing sees the supplier specials and nothing else.</li>
-              <li>Access can be limited to one store and given an end date, and the owner’s office can revoke it at once.</li>
+              <li>Access can be limited to one store and given an end date, and the Managing Director can revoke it at once.</li>
               <li>Whoever drafts an offer cannot approve it. Every approval, export, decision and sign-in is written to the activity log.</li>
             </ul>
             <p className="muted small">

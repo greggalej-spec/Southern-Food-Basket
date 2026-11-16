@@ -100,7 +100,7 @@ export const ROLE_NAME: Record<Role, string> = {
   admin: "Administration",
   purchasing: "Purchasing",
   marketing: "Marketing",
-  owner: "Owner's office",
+  owner: "Managing Director",
 };
 
 export const isStaff = (r: Role | null | undefined): r is StaffRole => !!r && (STAFF_ROLES as Role[]).includes(r);
@@ -144,7 +144,7 @@ export function scopeOf(d: Seed, s: Session | null): string[] | null {
 
 export class AccessError extends Error {
   constructor(public perm: Permission) {
-    super("You do not have access to this. Ask the owner's office: " + PERMISSIONS[perm].toLowerCase() + ".");
+    super("You do not have access to this. Ask the Managing Director: " + PERMISSIONS[perm].toLowerCase() + ".");
     this.name = "AccessError";
   }
 }

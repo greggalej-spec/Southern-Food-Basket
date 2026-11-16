@@ -32,7 +32,7 @@ import { can } from "@/lib/access";
 import { TABS, TAB_PERMS, goToTab, itemOf, tabOf, type AdminTab } from "@/lib/admin/helpers";
 import { useData, useRequireRole } from "@/lib/store";
 
-// The office console: one page for administration, purchasing, marketing and the owner's office. The sidebar (AppShell) is the
+// The office console: one page for administration, purchasing, marketing and the Managing Director. The sidebar (AppShell) is the
 // navigation; the URL hash picks the section (#today, #promos, ... see TABS), and "#promos/<id>" opens one item in
 // it. Only the current section renders. Each one checks access itself: a hidden menu item is not access control, so
 // a hash for a section this session cannot use shows what is missing, never the content.
@@ -148,7 +148,7 @@ export function AdminConsole() {
   }
 
   return (
-    <AppShell app="admin" active={tab} title="Office console" css={["app", "admin", "ops"]}>
+    <AppShell app="admin" active={tab} title={s?.role === "owner" ? "Managing Director’s console" : "Office console"} css={["app", "admin", "ops"]}>
       <section id={"sec-" + tab} className="admin-section" tabIndex={-1} aria-labelledby={"sec-" + tab + "-h"}>
         <SectionHead id={tab} />
         {!s ? null : allowed ? content() : <NoAccess id={tab} perms={perms} />}

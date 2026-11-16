@@ -16,7 +16,7 @@ export type FlowStage = {
 export type FlowDef = {
   id: string;
   /** The department it belongs to, for /how-it-works. */
-  dept: "Administration" | "Marketing" | "Website" | "HR" | "Owner’s office" | "Everyone";
+  dept: "Administration" | "Marketing" | "Website" | "HR" | "Managing Director" | "Everyone";
   title: string;
   /** One line for the department map. */
   summary: string;
@@ -68,7 +68,7 @@ export const FLOWS: FlowDef[] = [
     stages: [
       { icon: "gift", label: "They ask", who: "A school, charity, club or company", text: "Through the form on the public site, or by letter, WhatsApp or a visit that the office logs. Every request gets a reference." },
       { icon: "search", label: "Office picks it up", who: "Administration", text: "The office gets what is missing and checks with the store it concerns." },
-      { icon: "user", label: "Director decides", who: "Owner’s office", text: "Approve or decline on the card, with what is being given and a note. No chat thread to scroll back through." },
+      { icon: "user", label: "Director decides", who: "Managing Director", text: "Approve or decline on the card, with what is being given and a note. No chat thread to scroll back through." },
       { icon: "file", label: "Reply goes out", who: "Administration", text: "The reply is written on the card and e-mailed. Notes between staff stay on the same thread, marked as internal." },
       { icon: "check", label: "Handed over", who: "The store", text: "Marked done when the goods leave or the event is held. The year’s total gives adds up by itself." },
     ],
@@ -110,9 +110,9 @@ export const FLOWS: FlowDef[] = [
     summary: "Turkeys, butter cookies, oil: each store gives a number, one order is placed, the record stays.",
     href: "/admin#bulk",
     stages: [
-      { icon: "boxes", label: "Open the order", who: "Owner’s office or Administration", text: "The item, the company, the unit and its cost, and the day the stores must answer by." },
+      { icon: "boxes", label: "Open the order", who: "Managing Director or Administration", text: "The item, the company, the unit and its cost, and the day the stores must answer by." },
       { icon: "store", label: "Stores answer", who: "Each store manager", text: "Each manager types their store’s number. Last time’s figure sits beside it, so nobody orders blind." },
-      { icon: "truck", label: "Order placed", who: "Owner’s office", text: "The total and the cost add up as the numbers come in. Place it once the stores have answered." },
+      { icon: "truck", label: "Order placed", who: "Managing Director", text: "The total and the cost add up as the numbers come in. Place it once the stores have answered." },
       { icon: "check", label: "Received", who: "Administration", text: "Marked received when the stock reaches the warehouse." },
       { icon: "swap", label: "Shared out", who: "Administration", text: "Marked shared when it leaves for the stores. This order becomes “last time” for next year." },
     ],
@@ -125,7 +125,7 @@ export const FLOWS: FlowDef[] = [
     summary: "Who, what and by when, plus the letters and checklists the office reuses.",
     href: "/admin#tasks",
     stages: [
-      { icon: "tasks", label: "Hand it out", who: "Owner’s office or Administration", text: "Give a task to a person with a date." },
+      { icon: "tasks", label: "Hand it out", who: "Managing Director or Administration", text: "Give a task to a person with a date." },
       { icon: "bell", label: "It reaches them", who: "The system", text: "It shows on their Today page until it is done, and turns red when it is late." },
       { icon: "check", label: "Ticked off", who: "Whoever it was given to", text: "They tick it off. Whoever handed it out sees it done." },
       { icon: "book", label: "Reuse the text", who: "Everyone in the office", text: "Reply letters and checklists are kept as resources: open, copy, or change for everyone." },
@@ -217,14 +217,14 @@ export const FLOWS: FlowDef[] = [
   },
   {
     id: "overview",
-    dept: "Owner’s office",
+    dept: "Managing Director",
     title: "What reaches the owner",
     summary: "Every department on one page, with the decisions only the owner can make at the top.",
     href: "/admin#overview",
     stages: [
       { icon: "grid", label: "Departments work", who: "Administration, Marketing, HR", text: "Each department works in its own area and sees only what its job needs." },
       { icon: "bell", label: "Decisions surface", who: "The system", text: "A request to approve, an offer to sign off, an order ready to place: they rise to the top of the owner’s page." },
-      { icon: "check", label: "Owner decides", who: "Owner’s office", text: "One click from the overview to the card, and the decision is recorded with who made it and when." },
+      { icon: "check", label: "Director decides", who: "Managing Director", text: "One click from the overview to the card, and the decision is recorded with who made it and when." },
       { icon: "clock", label: "Everything logged", who: "The system", text: "Every change by every person is in the activity log, with refused attempts beside it." },
     ],
   },
@@ -238,10 +238,10 @@ export const FLOWS: FlowDef[] = [
       { icon: "user", label: "Work e-mail", who: "Each member of staff", text: "Everyone has their own sign-in. Nobody shares one." },
       { icon: "lock", label: "Password", who: "Each member of staff", text: "Checked by the sign-in service, never stored by the website itself." },
       { icon: "phone", label: "Code on the phone", who: "The system", text: "A six-digit code confirms it is really them, each time on a new device." },
-      { icon: "shield", label: "Their own access", who: "Owner’s office", text: "They land on their own dashboard. Access is given by job, limited to stores, and can be ended at once." },
+      { icon: "shield", label: "Their own access", who: "Managing Director", text: "They land on their own dashboard. Access is given by job, limited to stores, and can be ended at once." },
     ],
   },
 ];
 
 export const flow = (id: string) => FLOWS.find((f) => f.id === id);
-export const DEPTS = ["Administration", "Marketing", "Website", "HR", "Owner’s office", "Everyone"] as const;
+export const DEPTS = ["Administration", "Marketing", "Website", "HR", "Managing Director", "Everyone"] as const;

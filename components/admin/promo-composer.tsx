@@ -106,7 +106,7 @@ export function PromoComposer({ editId, seq, onSaved, onNew }: { editId: string 
       const ok = await confirm({
         title: "Send " + cur.title + " back to draft?",
         body:
-          "It is approved and " + PROMO_STATE[state || "scheduled"].label.toLowerCase() + ". Saving a change takes it off the Offers page, and codes shoppers already hold stop working at the till, until the owner’s office approves it again.",
+          "It is approved and " + PROMO_STATE[state || "scheduled"].label.toLowerCase() + ". Saving a change takes it off the Offers page, and codes shoppers already hold stop working at the till, until the Managing Director approves it again.",
         okLabel: send ? "Save and send for approval" : "Save as a draft",
       });
       if (!ok) return;
@@ -120,7 +120,7 @@ export function PromoComposer({ editId, seq, onSaved, onNew }: { editId: string 
       toast(r.message, "bad");
       return;
     }
-    toast(send ? "Sent for approval. It shows on the owner’s office Today page." : "Saved as a draft. Shoppers see nothing until it is approved and its start time comes.", "ok");
+    toast(send ? "Sent for approval. It shows on the Managing Director’s Today page." : "Saved as a draft. Shoppers see nothing until it is approved and its start time comes.", "ok");
     onSaved(r.value);
   }
 
@@ -175,7 +175,7 @@ export function PromoComposer({ editId, seq, onSaved, onNew }: { editId: string 
           ) : cur && cur.status === "rejected" && cur.reviewNote ? (
             <div className="alert alert-bad">
               <p>
-                <strong>The owner’s office sent it back: </strong>
+                <strong>The Managing Director sent it back: </strong>
                 {cur.reviewNote}
               </p>
             </div>
@@ -343,7 +343,7 @@ export function PromoComposer({ editId, seq, onSaved, onNew }: { editId: string 
               Save and send for approval
             </button>
           </div>
-          <p className="hint">Someone in the owner’s office approves it. The person who drafted an offer cannot approve it.</p>
+          <p className="hint">The Managing Director approves it. The person who drafted an offer cannot approve it.</p>
         </form>
         <div className="composer-preview">
           <OfferPreview d={d} v={v} />

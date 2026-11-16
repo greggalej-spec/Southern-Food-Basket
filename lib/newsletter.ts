@@ -249,7 +249,7 @@ export function sendDue(now = Date.now()) {
   return due.length;
 }
 
-/** CSV of the list with full addresses: owner's office only, and logged. */
+/** CSV of the list with full addresses: Managing Director only, and logged. */
 export function exportSubscribersCsv(s: Session | null) {
   let csv = "";
   update((d) => {

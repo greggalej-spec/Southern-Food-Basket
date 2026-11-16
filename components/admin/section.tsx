@@ -48,7 +48,7 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
   const dept = meta?.group || "Office";
   // the orange office banners carry the office's own waving figure in their right corner, the yellow marketing banners
   // the two people on the marketing team, both in a little store front (components/admin/office-figure.tsx)
-  const office = dept === "Office" || dept.startsWith("Owner");
+  const office = dept === "Office" || dept.startsWith("Managing");
   const marketing = dept === "Marketing";
   return (
     <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing ? " has-pair" : "")}>
@@ -83,7 +83,7 @@ export function NoAccess({ id, perms }: { id: AdminTab; perms: Permission[] }) {
           {"It needs permission to " + needs.join(", or to ") + "."}
           {g ? " Your access is " + grantLine(d, g) + "." : ""}
         </p>
-        <p>Ask the owner’s office if you need it.</p>
+        <p>Ask the Managing Director if you need it.</p>
       </div>
     </div>
   );

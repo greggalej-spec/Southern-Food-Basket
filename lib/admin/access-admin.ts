@@ -4,9 +4,9 @@ import type { Grant, Seed, Session } from "@/lib/types";
 import { personName, storeNames } from "./guard";
 import { dayTT } from "./tt";
 
-/* The owner's office's writes on staff access (PRD 4.1, 12.1 ADM-010, 13.2). Each one checks access.manage inside
-   update() and writes one audit line. The lockout guard: nobody changes or revokes their own owner's office grant,
-   and the last live owner's office grant cannot be revoked, limited or time-limited, so the shop can never be left
+/* The Managing Director's writes on staff access (PRD 4.1, 12.1 ADM-010, 13.2). Each one checks access.manage inside
+   update() and writes one audit line. The lockout guard: nobody changes or revokes their own Managing Director grant,
+   and the last live Managing Director grant cannot be revoked, limited or time-limited, so the shop can never be left
    with nobody able to give access. A revoked or expired grant signs nobody in from their next click, in every
    open tab (sessionValid in lib/access.ts). */
 
@@ -42,9 +42,9 @@ function liveOwners(d: Seed, except?: string) {
  *  control; the writes throw it. */
 export function lockoutBlock(d: Seed, s: Session | null, g: Grant, change: "revoke" | "limit") {
   if (g.role !== "owner") return null;
-  if (g.userId === s?.userId) return "This is your own owner's office access. Another owner has to change it, so nobody locks themselves out.";
-  if (change === "revoke" && grantLive(g) && !liveOwners(d, g.id).length) return "This is the only live owner's office access. Give someone else owner's office access first.";
-  if (change === "limit" && !liveOwners(d, g.id).length) return "This is the only live owner's office access, so it keeps every store and no end date.";
+  if (g.userId === s?.userId) return "This is your own Managing Director access. Another director has to change it, so nobody locks themselves out.";
+  if (change === "revoke" && grantLive(g) && !liveOwners(d, g.id).length) return "This is the only live Managing Director access. Give someone else Managing Director access first.";
+  if (change === "limit" && !liveOwners(d, g.id).length) return "This is the only live Managing Director access, so it keeps every store and no end date.";
   return null;
 }
 

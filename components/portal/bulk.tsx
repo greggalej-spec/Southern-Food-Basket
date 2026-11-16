@@ -26,7 +26,7 @@ export function PortalBulk() {
           </>
         ) : (
           <div className="empty">
-            <p>Bulk orders are for store managers and the office. Ask the owner’s office if you need them.</p>
+            <p>Bulk orders are for store managers and the office. Ask the Managing Director if you need them.</p>
           </div>
         )
       }

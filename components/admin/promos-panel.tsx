@@ -136,13 +136,13 @@ function PromoDetail({ p, onEdit, onDone }: { p: Promotion; onEdit: (id: string)
   const canEdit = canDraft && mine && state !== "archived";
   const canSend = canDraft && mine && (state === "draft" || state === "rejected");
   const canEnd = canApprove && mine && (state === "live" || state === "full");
-  // Archiving an approved offer that has not ended takes it off the site: that is the owner's office's call.
+  // Archiving an approved offer that has not ended takes it off the site: that is the Managing Director's call.
   const canArchive = canDraft && mine && (["draft", "rejected", "ended"].includes(state) || (canApprove && ["scheduled", "full"].includes(state)));
 
   function send() {
     const r = attempt(s, "promo.submit", p.title, () => submitPromo(s, p.id));
     if (!r.ok) return toast(r.message, "bad");
-    toast("Sent for approval. It shows on the owner’s office Today page.", "ok");
+    toast("Sent for approval. It shows on the Managing Director’s Today page.", "ok");
   }
   async function end() {
     const ok = await confirm({

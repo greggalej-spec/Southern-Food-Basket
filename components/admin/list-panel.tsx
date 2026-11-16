@@ -14,7 +14,7 @@ import { byId, useData, useSession } from "@/lib/store";
 import type { ConsentEvent, Seed, Subscriber, SubscriberStatus } from "@/lib/types";
 
 // The mailing list (newsletter.view). Addresses show masked (r•••@example.com) unless the session can export the
-// list (subscribers.export, the owner's office); the CSV export is that permission too, and it is logged.
+// list (subscribers.export, the Managing Director); the CSV export is that permission too, and it is logged.
 // "#list/<id>" opens one subscriber's consent history.
 
 const STATUSES: SubscriberStatus[] = ["active", "pending", "unsubscribed", "suppressed"];
@@ -180,7 +180,7 @@ export function ListPanel({ item }: { item: string | null }) {
           <p className="hint">
             {full
               ? "You see full addresses because your access includes exporting the list."
-              : "Addresses are masked. Seeing them in full, and exporting the list, is for the owner’s office."}
+              : "Addresses are masked. Seeing them in full, and exporting the list, is for the Managing Director."}
             {" Only confirmed subscribers are ever sent the newsletter."}
           </p>
         </div>

@@ -18,7 +18,7 @@ export default function TourPage() {
           <h1>See it as each person does</h1>
           <div className="tour-intro">
             <p className="lede">
-              The tour opens each part of the site as the person who would use it: a shopper, a cashier, marketing, HR, an applicant and the owner’s office. It signs you in and out as it goes.
+              The tour opens each part of the site as the person who would use it: a shopper, a cashier, marketing, HR, an applicant and the Managing Director. It signs you in and out as it goes.
             </p>
             <p className="muted">
               Each step rings one thing on the page and says what it is for. The page stays yours to use: try things, then press Next. Hide the card at any time; the tour keeps your place in this tab.

@@ -166,7 +166,7 @@ function StorePanel({ b, editable, onSaved }: { b: Branch; editable: boolean; on
                 <dt>{sunLabel}</dt>
                 <dd>{sun || "Not recorded"}</dd>
               </dl>
-              <p className="hint">This store is outside your access, so you can read it but not change it. Ask the owner’s office if you look after it.</p>
+              <p className="hint">This store is outside your access, so you can read it but not change it. Ask the Managing Director if you look after it.</p>
             </div>
           )}
         </div>

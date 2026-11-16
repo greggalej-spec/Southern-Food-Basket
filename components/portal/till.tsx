@@ -125,7 +125,7 @@ function TillDesk({ s, d }: { s: Session; d: Seed }) {
       r = await redeemCode(s, branch, code);
     } catch (err) {
       if (!(err instanceof AccessError)) throw err;
-      r = { ok: false, reason: "no-access", message: "You cannot record codes at this store. Ask the owner's office for till access." };
+      r = { ok: false, reason: "no-access", message: "You cannot record codes at this store. Ask the Managing Director for till access." };
     }
     setBusy(false);
     setResult(r);

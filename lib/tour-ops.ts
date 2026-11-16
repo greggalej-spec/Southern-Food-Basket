@@ -15,7 +15,7 @@ const ravi = { role: "employee" as const, userId: "emp-ravi" };
 export const OPS_CHAPTERS: TourChapter[] = [
   {
     id: "owner",
-    title: "The owner’s morning",
+    title: "The Managing Director’s morning",
     summary: "Every department on one page, with the decisions only the owner can make at the top.",
     cast: "Mellisa, the director",
     steps: [

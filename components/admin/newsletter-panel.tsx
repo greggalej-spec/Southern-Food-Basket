@@ -404,7 +404,7 @@ function Composer({ c, seq }: { c: Campaign | null; seq: number }) {
               </div>
             </div>
           ) : (
-            <p className="hint">Scheduling and sending need newsletter sending access. Save it and ask the owner’s office, or someone who can send, to schedule it.</p>
+            <p className="hint">Scheduling and sending need newsletter sending access. Save it and ask the Managing Director, or someone who can send, to schedule it.</p>
           )}
         </form>
         <div className="composer-preview">
@@ -485,7 +485,7 @@ export function NewsletterPanel({ item }: { item: string | null }) {
       ) : canCompose ? (
         <Composer c={c} seq={seq} />
       ) : (
-        <p className="scope-note">Open a newsletter to read it. Writing them needs newsletter writing access; ask the owner’s office.</p>
+        <p className="scope-note">Open a newsletter to read it. Writing them needs newsletter writing access; ask the Managing Director.</p>
       )}
     </div>
   );

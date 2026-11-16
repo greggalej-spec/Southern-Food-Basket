@@ -57,7 +57,7 @@ const MY_PORTAL: NavItem[] = [
   { id: "profile", label: "Profile", href: "/portal/profile", icon: "user" },
 ];
 
-/** The office console, one list for store admin, marketing and the owner's office; each sees only what its access
+/** The office console, one list for store admin, marketing and the Managing Director; each sees only what its access
  *  allows. The ids are the console's sections (components/admin/admin-console.tsx). */
 const OFFICE: NavItem[] = [
   { id: "today", label: "Today", href: "/admin#today", icon: "home" },
@@ -88,7 +88,7 @@ const OFFICE: NavItem[] = [
   { group: "Staff" },
   { id: "staffnews", label: "Staff updates", href: "/admin#staffnews", icon: "file", perm: "staff.updates" },
   { id: "notices", label: "Staff notices", href: "/admin#notices", icon: "bell", perm: "notices.post" },
-  { group: "Owner’s office" },
+  { group: "Managing Director’s console" },
   { id: "access", label: "Staff access", href: "/admin#access", icon: "shield", perm: "access.manage" },
   { id: "audit", label: "Audit log", href: "/admin#audit", icon: "clock", perm: "audit.view" },
   { group: "My portal" },

@@ -25,9 +25,9 @@ import { dayTT, endOfTtDay, ttDay } from "@/lib/admin/tt";
 import { byId, load, useData, useSession } from "@/lib/store";
 import type { Grant, Seed } from "@/lib/types";
 
-// Staff access (access.manage, the owner's office). Grants are grouped by person. Every write is a helper in
+// Staff access (access.manage, the Managing Director). Grants are grouped by person. Every write is a helper in
 // lib/admin/access-admin.ts that checks access inside update() and keeps the lockout guard: nobody changes their own
-// owner's office access, and the last live one cannot be revoked or limited. "#access/<userId>" scrolls to a person.
+// Managing Director access, and the last live one cannot be revoked or limited. "#access/<userId>" scrolls to a person.
 
 const TILL: Permission = "codes.redeem";
 const hasTill = (g: Grant) => (g.extra || []).includes(TILL);
@@ -393,7 +393,7 @@ export function AccessPanel({ item }: { item: string | null }) {
       <div className="alert alert-info">
         <p>
           A change takes effect on that person’s next click, in every tab they have open: revoked or expired access signs them out of that role. Nothing here deletes a grant; a revoked one stays on record and can be
-          restored. Nobody can change their own owner’s office access, and the last live owner’s office access cannot be revoked or limited.
+          restored. Nobody can change their own Managing Director access, and the last live Managing Director access cannot be revoked or limited.
         </p>
       </div>
 

@@ -267,7 +267,7 @@ html[data-staff-theme="dark"] .hero .gauge-track{ stroke: rgba(255, 255, 255, .2
 .app .sec-band.dept-website{ --band: #D92C66; }
 .app .sec-band.dept-marketing{ --band: #FFD21A; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .12); }
 .app .sec-band.dept-staff{ --band: #123F22; }
-.app .sec-band.dept-office, .app .sec-band.dept-owner-s-office, .app .sec-band.dept-my-portal{ --band: #20141A; }
+.app .sec-band.dept-office, .app .sec-band.dept-managing-director-s-console, .app .sec-band.dept-my-portal{ --band: #20141A; }
 .app .section-head.sec-band .btn-primary, .app .page-head .btn-primary{ background: var(--band-on); color: var(--band); border-color: transparent; }
 .app .section-head.sec-band .btn-primary:hover, .app .page-head .btn-primary:hover{ background: var(--band-on); color: var(--band); transform: translateY(-2px); }
 .app .section-head.sec-band .btn-outline, .app .section-head.sec-band .btn-ghost, .app .page-head .btn-outline, .app .page-head .btn-ghost{ background: transparent; color: inherit; border-color: currentColor; }
@@ -280,7 +280,7 @@ html[data-staff-theme="dark"] .hero .gauge-track{ stroke: rgba(255, 255, 255, .2
 @media (max-width: 640px){ .app .section-head.sec-band, .app .page-head{ padding: 18px; border-radius: 18px; } .app .sec-icon{ width: 48px; height: 48px; border-radius: 14px; } .app .sec-icon .icon{ width: 24px; height: 24px; } }
 html[data-staff-theme="dark"] .sec-band.dept-marketing{ --band: #E9B949; }
 html[data-staff-theme="dark"] .sec-band.dept-staff{ --band: #2A5C3B; }
-html[data-staff-theme="dark"] .sec-band.dept-office, html[data-staff-theme="dark"] .sec-band.dept-owner-s-office, html[data-staff-theme="dark"] .sec-band.dept-my-portal{ --band: #F7F2E6; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .12); }
+html[data-staff-theme="dark"] .sec-band.dept-office, html[data-staff-theme="dark"] .sec-band.dept-managing-director-s-console, html[data-staff-theme="dark"] .sec-band.dept-my-portal{ --band: #F7F2E6; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .12); }
 
 /* ---------- panels: a tinted head with a marker, so each block is easy to find ---------- */
 .app .panel-head{ background: var(--wash); border-bottom: 1px solid var(--card-line); }
@@ -425,8 +425,8 @@ html[data-staff-theme="dark"] .switch.is-on i::after{ background: #20141A; }
    He asked for orange here by name, after turning down orange cards earlier: the rule against orange stays for cards
    and panels; this one banner is the exception. The wheel drawing is replaced by a quiet grid of shop-front panes
    that fades in from the right, and a single sheen crosses the banner when a section opens. */
-.app .sec-band.dept-office, .app .sec-band.dept-owner-s-office, .app .sec-band.dept-my-portal{ --band: #F47B20; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .12); }
-html[data-staff-theme="dark"] .sec-band.dept-office, html[data-staff-theme="dark"] .sec-band.dept-owner-s-office, html[data-staff-theme="dark"] .sec-band.dept-my-portal{ --band: #F28C28; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .14); }
+.app .sec-band.dept-office, .app .sec-band.dept-managing-director-s-console, .app .sec-band.dept-my-portal{ --band: #F47B20; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .12); }
+html[data-staff-theme="dark"] .sec-band.dept-office, html[data-staff-theme="dark"] .sec-band.dept-managing-director-s-console, html[data-staff-theme="dark"] .sec-band.dept-my-portal{ --band: #F28C28; --band-on: #20141A; --band-tile: rgba(32, 20, 26, .14); }
 .app .section-head.sec-band::after, .app .page-head::after{ right: 0; top: 0; bottom: 0; width: min(48%, 440px); height: auto; opacity: .13;
   background: repeating-linear-gradient(90deg, var(--band-on) 0 2px, transparent 2px 46px), repeating-linear-gradient(0deg, var(--band-on) 0 2px, transparent 2px 46px);
   -webkit-mask: linear-gradient(90deg, transparent, #000 80%); mask: linear-gradient(90deg, transparent, #000 80%); }

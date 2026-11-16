@@ -96,7 +96,7 @@ export function TodayPanel() {
         <p className="your-access">
           <strong>Your access</strong>
           {(me ? me.name + ": " : "") + grantLine(d, g) + ((g.extra || []).includes("codes.redeem") ? ", with till access" : "") + "."}
-          {g.expires ? " After that date the console signs you out; ask the owner’s office to extend it." : ""}
+          {g.expires ? " After that date the console signs you out; ask the Managing Director to extend it." : ""}
         </p>
       ) : null}
     </div>

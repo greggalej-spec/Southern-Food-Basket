@@ -46,7 +46,7 @@ export function inScope(d: Seed, s: Session | null, ids: string[] | string | nul
 /** Throws when the thing reaches stores outside the session's grant. Call inside update(), after assertCan. */
 export function assertInScope(d: Seed, s: Session | null, ids: string[] | string | null, what: string) {
   if (inScope(d, s, ids)) return;
-  throw new Error(scopeNote(d, s) + " " + what + " Ask the owner's office to widen your access.");
+  throw new Error(scopeNote(d, s) + " " + what + " Ask the Managing Director to widen your access.");
 }
 
 /** The employee's name behind a user id, or a plain stand-in that never shows the id itself. */

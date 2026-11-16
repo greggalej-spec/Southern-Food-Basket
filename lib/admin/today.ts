@@ -62,7 +62,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
             key: "own-review-" + p.id,
             area: "Offers",
             tone: "info",
-            text: quoted(p.title) + " is waiting for approval" + when + ". You drafted it, so someone else in the owner's office approves it.",
+            text: quoted(p.title) + " is waiting for approval" + when + ". You drafted it, so another director approves it.",
             link: { label: "See it", tab: "promos", item: p.id },
           });
         }
@@ -77,7 +77,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
             key: "rejected-" + p.id,
             area: "Offers",
             tone: "bad",
-            text: "The owner's office sent " + quoted(p.title) + " back to you. Change it and send it again.",
+            text: "The Managing Director sent " + quoted(p.title) + " back to you. Change it and send it again.",
             quote: p.reviewNote,
             link: { label: "Edit it", tab: "promos", item: p.id },
           });
@@ -94,7 +94,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
             key: "review-" + p.id,
             area: "Offers",
             tone: "info",
-            text: quoted(p.title) + " is with the owner's office for approval" + (p.submittedAt ? ", sent " + dayTT(p.submittedAt) : "") + ".",
+            text: quoted(p.title) + " is with the Managing Director for approval" + (p.submittedAt ? ", sent " + dayTT(p.submittedAt) : "") + ".",
             link: { label: "See it", tab: "promos", item: p.id },
           });
         }
@@ -344,7 +344,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
   return out;
 }
 
-const ROLE_WORD: Record<string, string> = { employee: "employee", hr: "HR", admin: "administration", purchasing: "purchasing", marketing: "marketing", owner: "owner's office" };
+const ROLE_WORD: Record<string, string> = { employee: "employee", hr: "HR", admin: "administration", purchasing: "purchasing", marketing: "marketing", owner: "Managing Director" };
 const roleWord = (r: string) => ROLE_WORD[r] || r;
 
 /** What Today watches for this person, for its empty state. */

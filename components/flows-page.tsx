@@ -13,7 +13,7 @@ const INTRO: Record<(typeof DEPTS)[number], string> = {
   Marketing: "The social accounts, the website’s figures and the plan for what goes out next.",
   Website: "Changes the team can make to the public site without a developer.",
   HR: "From the job advert to the first day, and the whole team’s files after that.",
-  "Owner’s office": "Everything above, on one page, with the decisions only the owner can make at the top.",
+  "Managing Director": "Everything above, on one page, with the decisions only the owner can make at the top.",
   Everyone: "How people get in, and why each sees only their own part.",
 };
 

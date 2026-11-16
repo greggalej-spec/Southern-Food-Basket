@@ -188,7 +188,7 @@ export function lockedUntil(d: Seed, staffId: string, now = Date.now()): string 
 export async function redeemCode(s: Session | null, branchId: string, raw: string): Promise<RedeemResult> {
   const d0 = load();
   if (!can(d0, s, "codes.redeem", { branchId })) {
-    return { ok: false, reason: "no-access", message: "You cannot record codes at this store. Ask the owner's office for till access." };
+    return { ok: false, reason: "no-access", message: "You cannot record codes at this store. Ask the Managing Director for till access." };
   }
   const staffId = s!.userId!;
   const norm = normalizeCode(raw);
@@ -303,7 +303,7 @@ export function submitPromo(s: Session | null, id: string) {
 
 /** Why this person may not approve this promotion, or null when they may. */
 export function approveBlock(d: Seed, s: Session | null, p: Promotion) {
-  if (!can(d, s, "promos.approve")) return "Only the owner's office approves promotions.";
+  if (!can(d, s, "promos.approve")) return "Only the Managing Director approves promotions.";
   if (p.createdBy === s?.userId) return "You drafted this one. Someone else has to approve it.";
   if (p.status !== "review") return "Only promotions waiting for approval can be approved.";
   if (!inScope(d, s, p.branchIds)) return scopeNote(d, s) + " This offer runs at other stores too, so someone with every store approves it.";
@@ -327,7 +327,7 @@ export function decidePromo(s: Session | null, id: string, approve: boolean, not
   });
 }
 
-/** Ends a running promotion now (owner's office). Claimed codes stop working at the till. One that has not started
+/** Ends a running promotion now (Managing Director). Claimed codes stop working at the till. One that has not started
  *  yet is archived instead: ending it would leave an end date before its start. */
 export function endPromo(s: Session | null, id: string) {
   update((d) => {
@@ -345,7 +345,7 @@ export function endPromo(s: Session | null, id: string) {
 }
 
 /** Archives a promotion. Drafts, ones sent back and ended ones are the drafter's to tidy away; an approved one that
- *  has not ended comes off the site, so only the owner's office may archive it, and a live one is ended first. */
+ *  has not ended comes off the site, so only the Managing Director may archive it, and a live one is ended first. */
 export function archivePromo(s: Session | null, id: string) {
   update((d) => {
     assertCan(d, s, "promos.draft");
@@ -354,7 +354,7 @@ export function archivePromo(s: Session | null, id: string) {
     const state = promoState(d, p);
     if (state === "archived") return;
     if (state === "live") throw new Error("This offer is live. End it first; then it can be archived.");
-    if (state === "review") throw new Error("This offer is waiting for approval. Ask the owner's office to send it back first.");
+    if (state === "review") throw new Error("This offer is waiting for approval. Ask the Managing Director to send it back first.");
     if (state === "scheduled" || state === "full") assertCan(d, s, "promos.approve");
     assertInScope(d, s, p.branchIds, "This offer runs at other stores too.");
     p.status = "archived";
