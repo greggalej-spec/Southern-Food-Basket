@@ -1,6 +1,6 @@
 "use client";
 
-import { MarketingFigure, OfficeFigure } from "@/components/admin/office-figure";
+import { DirectorFigure, MarketingFigure, OfficeFigure } from "@/components/admin/office-figure";
 import { officeMeta } from "@/components/app-shell";
 import { Icon } from "@/components/icon";
 import { PERMISSIONS, activeGrant, type Permission } from "@/lib/access";
@@ -48,12 +48,14 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
   const dept = meta?.group || "Office";
   // the orange office banners carry the office's own waving figure in their right corner, the yellow marketing banners
   // the two people on the marketing team, both in a little store front (components/admin/office-figure.tsx)
-  // Alexia's figure is the administration office's, so the Managing Director's console leaves it off (Gregg, 16 Nov 2026)
+  // Alexia's figure is the administration office's; in the Managing Director's console the orange banners carry
+  // Mellisa instead (Gregg, 16 Nov 2026)
   const s = useSession();
-  const office = s?.role !== "owner" && (dept === "Office" || dept.startsWith("Managing"));
+  const office = dept === "Office" || dept.startsWith("Managing");
+  const director = s?.role === "owner";
   const marketing = dept === "Marketing";
   return (
-    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing ? " has-pair" : "")}>
+    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing || (office && director) ? " has-pair" : "")}>
       <span className="sec-icon" aria-hidden="true">
         <Icon name={meta?.icon || "grid"} />
       </span>
@@ -65,7 +67,7 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
         <p>{sec.purpose}</p>
       </div>
       {children ? <div className="cluster">{children}</div> : null}
-      {office ? <OfficeFigure /> : marketing ? <MarketingFigure /> : null}
+      {office ? director ? <DirectorFigure /> : <OfficeFigure /> : marketing ? <MarketingFigure /> : null}
     </header>
   );
 }

@@ -30,12 +30,21 @@ const Hand = ({ side, skin, sk }: { side: 1 | -1; skin: string; sk: string }) =>
 );
 
 /** The crew's short sleeve, in the black polo. */
-const Sleeve = () => (
-  <>
-    <path d="M-3 -1.2Q-3.6 3.4 -3.3 5.8L3.3 5.8Q3.6 3.4 3 -1.2Q0 -2.8 -3 -1.2Z" fill={SHIRT} />
-    <path d="M-3.3 5.8H3.3" stroke={TRIM} strokeWidth="1" />
-  </>
-);
+const Sleeve = ({ fill = SHIRT, trim = TRIM, shirtSleeve }: { fill?: string; trim?: string; shirtSleeve?: boolean }) =>
+  shirtSleeve ? (
+    // a flutter sleeve: it flares a little and ends in a softly waved hem
+    <>
+      <path d="M-3.1 -1.3Q-4.5 2.4 -4.4 5.3Q-3.3 6.4 -2.2 5.8Q-1.1 6.6 0 5.9Q1.1 6.6 2.2 5.8Q3.3 6.4 4.4 5.3Q4.5 2.4 3.1 -1.3Q0 -2.9 -3.1 -1.3Z" fill={fill} stroke={trim} strokeWidth=".22" strokeLinejoin="round" />
+      <path d="M-1.6 .4Q-2.3 3.2 -2.2 5.6M1.6 .4Q2.3 3.2 2.2 5.6" stroke={trim} strokeWidth=".2" fill="none" strokeLinecap="round" opacity=".8" />
+    </>
+  ) : (
+    <>
+      <path d="M-3 -1.2Q-3.6 3.4 -3.3 5.8L3.3 5.8Q3.6 3.4 3 -1.2Q0 -2.8 -3 -1.2Z" fill={fill} />
+      <path d="M-3.3 5.8H3.3" stroke={trim} strokeWidth="1" />
+    </>
+  );
+
+const BLOUSE = "#FBFAF6", BLOUSE_D = "#E2DDD3", BLOUSE_EDGE = "#CFC8BB";
 
 type Look = {
   skin: string;
@@ -58,11 +67,19 @@ type Look = {
   logoW?: number;
   /** a slimmer build: narrower shoulders, a waist, the arms set in to match (2 is slimmer still) */
   slim?: boolean | 2;
+  /** a white open-collar blouse instead of the company polo: no logo, buttons or belt */
+  blouse?: boolean;
+  /** draw the head narrower than the crew's (1 is theirs): an oval face */
+  headW?: number;
+  /** a suit jacket worn open over a white shirt and tie, with long sleeves to the wrist */
+  suit?: { jacket: string; tie: string; flower?: boolean };
 };
 
 /** One person, waist-up: the crew's neck, black polo, arms (one resting, one waving) and head, with their own look. */
 function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
-  const { skin, sk, wave, slim } = look;
+  const { skin, sk, wave, slim, blouse, suit } = look;
+  const shirt = suit ? suit.jacket : blouse ? BLOUSE : SHIRT, shade = suit ? suit.jacket : blouse ? BLOUSE_D : SHIRT_D, trim = suit ? suit.jacket : blouse ? BLOUSE_EDGE : TRIM;
+  const arm = suit ? suit.jacket : skin; // a suit's sleeves run to the wrist
   const rest = -wave as 1 | -1;
   const sx = slim === 2 ? 7.4 : slim ? 8.1 : 8.8; // where the arms join the shoulders
   return (
@@ -72,44 +89,99 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         <rect x="-2.5" y="-50.6" width="5" height="4" rx="1.6" fill={sk} />
         {slim === 2 ? (
           <>
-            <path d="M-8 -25.2Q-7.3 -30.6 -7.6 -35.6Q-8.6 -40.8 -8.6 -44.2Q-6.6 -47.6 -3.3 -47.8H3.3Q6.6 -47.6 8.6 -44.2Q8.6 -40.8 7.6 -35.6Q7.3 -30.6 8 -25.2Z" fill={SHIRT} />
-            <path d="M4.2 -47.5Q7.6 -46.4 8.6 -44.2Q8.6 -40.8 7.6 -35.6Q7.3 -30.6 8 -25.2H5.8Q6.4 -32 6.1 -38Q6.1 -42 4.2 -47.5Z" fill={SHIRT_D} opacity=".7" />
+            <path d="M-8 -25.2Q-7.3 -30.6 -7.6 -35.6Q-8.6 -40.8 -8.6 -44.2Q-6.6 -47.6 -3.3 -47.8H3.3Q6.6 -47.6 8.6 -44.2Q8.6 -40.8 7.6 -35.6Q7.3 -30.6 8 -25.2Z" fill={shirt} />
+            <path d="M4.2 -47.5Q7.6 -46.4 8.6 -44.2Q8.6 -40.8 7.6 -35.6Q7.3 -30.6 8 -25.2H5.8Q6.4 -32 6.1 -38Q6.1 -42 4.2 -47.5Z" fill={shade} opacity=".7" />
           </>
         ) : slim ? (
           <>
-            <path d="M-9 -25.2Q-8.2 -31 -8.6 -36Q-9.6 -41 -9.4 -44.2Q-7 -47.6 -3.4 -47.8H3.4Q7 -47.6 9.4 -44.2Q9.6 -41 8.6 -36Q8.2 -31 9 -25.2Z" fill={SHIRT} />
-            <path d="M4.4 -47.5Q8.2 -46.4 9.4 -44.2Q9.6 -41 8.6 -36Q8.2 -31 9 -25.2H6.4Q7.2 -32 6.9 -38Q6.9 -42 4.4 -47.5Z" fill={SHIRT_D} opacity=".7" />
+            <path d="M-9 -25.2Q-8.2 -31 -8.6 -36Q-9.6 -41 -9.4 -44.2Q-7 -47.6 -3.4 -47.8H3.4Q7 -47.6 9.4 -44.2Q9.6 -41 8.6 -36Q8.2 -31 9 -25.2Z" fill={shirt} />
+            <path d="M4.4 -47.5Q8.2 -46.4 9.4 -44.2Q9.6 -41 8.6 -36Q8.2 -31 9 -25.2H6.4Q7.2 -32 6.9 -38Q6.9 -42 4.4 -47.5Z" fill={shade} opacity=".7" />
           </>
         ) : (
           <>
-            <path d="M-11 -25.2Q-12 -36 -10.2 -44.2Q-7.4 -47.6 -3.4 -47.8H3.4Q7.4 -47.6 10.2 -44.2Q12 -36 11 -25.2Z" fill={SHIRT} />
-            <path d="M4.6 -47.5Q8.9 -46.4 10.2 -44.2Q12 -36 11 -25.2H7.2Q8.6 -34 7.5 -41Z" fill={SHIRT_D} opacity=".7" />
+            <path d="M-11 -25.2Q-12 -36 -10.2 -44.2Q-7.4 -47.6 -3.4 -47.8H3.4Q7.4 -47.6 10.2 -44.2Q12 -36 11 -25.2Z" fill={shirt} />
+            <path d="M4.6 -47.5Q8.9 -46.4 10.2 -44.2Q12 -36 11 -25.2H7.2Q8.6 -34 7.5 -41Z" fill={shade} opacity=".7" />
           </>
         )}
-        <path d="M-3.2 -47.8L0 -44.2L3.2 -47.8Z" fill={sk} />
-        <path d="M-3.8 -48.1L0 -46.4L-1.2 -43.4L-4.9 -46.3ZM3.8 -48.1L0 -46.4L1.2 -43.4L4.9 -46.3Z" fill="#2E2E36" />
-        <path d="M0 -44.2V-39.6" stroke={TRIM} strokeWidth=".8" />
-        <circle cx="0" cy="-42.4" r=".55" fill="#0B0B0D" />
-        <circle cx="0" cy="-40.4" r=".55" fill="#0B0B0D" />
-        {/* the company logo on the chest, as on the real polo: the cornucopia and the name */}
-        <image href="/assets/img/sfb-logo.svg" x={look.logoX ?? -10.1} y={look.logoY ?? -39.7} width={look.logoW ?? 9} height={((look.logoW ?? 9) * 4.1) / 9} preserveAspectRatio="xMidYMid meet" />
-        <rect x="-7.2" y="-26.4" width="14.4" height="2" fill="#141418" />
-        <rect x="-1.2" y="-26.6" width="2.4" height="2.4" rx=".4" fill="#C9A14A" />
+        {suit ? (
+          <>
+            {/* the jacket's shoulders, filled out to the arms so it has no notch where the sleeves join */}
+            <path d={"M-3.6 -47.9Q" + -(sx + 0.6) + " -47.6 " + -(sx + 2.4) + " -44.6L" + -(sx + 1.6) + " -41H" + (sx + 1.6) + "L" + (sx + 2.4) + " -44.6Q" + (sx + 0.6) + " -47.6 3.6 -47.9Z"} fill={shirt} />
+            {/* the jacket over a white shirt: its collar points, the tie and the lapels */}
+            <path d="M-4.2 -47.8L0 -33.8L4.2 -47.8Z" fill="#F3F0EB" />
+            <path d="M-3 -47.9L0 -46L3 -47.9Z" fill={sk} />
+            <path d="M-3.3 -48.1L-.1 -45.6L-1.7 -44.3L-3.9 -46.4Z" fill="#FBFAF7" stroke="#CFCAC2" strokeWidth=".22" strokeLinejoin="round" />
+            <path d="M3.3 -48.1L.1 -45.6L1.7 -44.3L3.9 -46.4Z" fill="#FBFAF7" stroke="#CFCAC2" strokeWidth=".22" strokeLinejoin="round" />
+            <path d="M-.85 -45.7H.85L.55 -44.2H-.55Z" fill={suit.tie} />
+            <path d="M-.55 -44.2L-1.15 -36.6L0 -35.2L1.15 -36.6L.55 -44.2Z" fill={suit.tie} />
+            <path d="M.2 -44L.6 -37" stroke="#FFFFFF" strokeWidth=".25" opacity=".22" strokeLinecap="round" />
+            <path d="M-4.2 -47.8L-6 -45.4L-4.4 -44.6L0 -33.8L4.4 -44.6L6 -45.4L4.2 -47.8" stroke="#34323C" strokeWidth=".32" fill="none" strokeLinejoin="round" />
+            <circle cx="0" cy="-32.4" r=".5" fill="#121116" stroke="#3A3842" strokeWidth=".18" />
+            {suit.flower ? (
+              <g transform="translate(5.6 -42.4)">
+                <path d="M-.3 .6L-1.1 1.8M.3 .6L1 1.6" stroke="#4E7E4A" strokeWidth=".35" strokeLinecap="round" />
+                <circle cx="-.55" cy="-.2" r=".65" fill="#FAF8F2" stroke="#D3CEC4" strokeWidth=".14" />
+                <circle cx=".55" cy="-.2" r=".65" fill="#FAF8F2" stroke="#D3CEC4" strokeWidth=".14" />
+                <circle cx="0" cy="-.75" r=".65" fill="#FAF8F2" stroke="#D3CEC4" strokeWidth=".14" />
+                <circle cx="0" cy=".3" r=".65" fill="#FAF8F2" stroke="#D3CEC4" strokeWidth=".14" />
+                <circle cx="0" cy="-.2" r=".35" fill="#EDE6D6" />
+              </g>
+            ) : null}
+            <path d="M-6 -29.8H-3.4M3.4 -29.8H6" stroke="#34323C" strokeWidth=".3" strokeLinecap="round" />
+          </>
+        ) : blouse ? (
+          <>
+            {/* a wrap blouse: the right side crosses over the left in a soft diagonal, with a few drape folds
+                gathering toward the waist, and a slim gold belt */}
+            <path d="M-3.3 -47.8L0 -40.4L3.3 -47.8Z" fill={skin} />
+            <path d="M-3.3 -47.8L-.4 -41.2" stroke={BLOUSE_EDGE} strokeWidth=".3" strokeLinecap="round" />
+            <path d="M3.4 -47.9Q1.6 -43.6 -.8 -39.8Q-3.6 -35.6 -6.4 -32.6" stroke={BLOUSE_D} strokeWidth=".9" fill="none" strokeLinecap="round" opacity=".55" />
+            <path d="M3.3 -47.8Q1.4 -43.4 -1 -39.6Q-3.8 -35.4 -6.6 -32.4" stroke={BLOUSE_EDGE} strokeWidth=".32" fill="none" strokeLinecap="round" />
+            <path d="M4.6 -41.6Q1.6 -37.4 -3.2 -33M5.8 -38.6Q3 -35.2 -.6 -32.6M-5.4 -40.8Q-5.2 -37 -4.8 -34.4" stroke={BLOUSE_D} strokeWidth=".3" fill="none" strokeLinecap="round" />
+            {/* tucked into tan high-waisted trousers: a front crease, a slant pocket each side, the right side in shade */}
+            <path d="M-7.5 -32Q-7.7 -28.4 -8.4 -24H8.4Q7.7 -28.4 7.5 -32Q0 -31.4 -7.5 -32Z" fill="#C9A47A" />
+            <path d="M4.6 -31.7Q6.2 -28 6.2 -24H8.4Q7.7 -28.4 7.5 -32Q6 -31.8 4.6 -31.7Z" fill="#A9845C" opacity=".6" />
+            <path d="M-3.6 -30.6V-24M3.6 -30.6V-24" stroke="#B08A60" strokeWidth=".28" />
+            <path d="M-6.9 -30.6Q-5.8 -29.4 -5.4 -27.4M6.9 -30.6Q5.8 -29.4 5.4 -27.4" stroke="#A47E55" strokeWidth=".28" fill="none" strokeLinecap="round" />
+            <path d="M0 -30.6V-27.2" stroke="#A47E55" strokeWidth=".25" />
+            {/* the blouse puffs softly over the waistband */}
+            <path d="M-7.6 -33.4Q-5.6 -32.2 -3.6 -33.1Q-1.8 -32.3 0 -33Q1.8 -32.3 3.6 -33.1Q5.6 -32.2 7.6 -33.4" stroke={BLOUSE_D} strokeWidth=".3" fill="none" strokeLinecap="round" />
+            {/* a cognac leather belt with a gold buckle */}
+            <path d="M-7.55 -33.2Q0 -32.5 7.55 -33.2L7.5 -31.8Q0 -31.1 -7.5 -31.8Z" fill="#7A4626" />
+            <path d="M-7.55 -33.2Q0 -32.5 7.55 -33.2" stroke="#9A6038" strokeWidth=".2" fill="none" />
+            <rect x="3.6" y="-33" width=".6" height="1.6" rx=".15" fill="#6A3B1F" />
+            <rect x="-1.05" y="-33.35" width="2.1" height="2" rx=".4" fill="none" stroke="#E2C27A" strokeWidth=".42" />
+            <path d="M0 -33V-31.7" stroke="#E2C27A" strokeWidth=".28" strokeLinecap="round" />
+          </>
+        ) : (
+          <>
+            <path d="M-3.2 -47.8L0 -44.2L3.2 -47.8Z" fill={sk} />
+            <path d="M-3.8 -48.1L0 -46.4L-1.2 -43.4L-4.9 -46.3ZM3.8 -48.1L0 -46.4L1.2 -43.4L4.9 -46.3Z" fill="#2E2E36" />
+            <path d="M0 -44.2V-39.6" stroke={TRIM} strokeWidth=".8" />
+            <circle cx="0" cy="-42.4" r=".55" fill="#0B0B0D" />
+            <circle cx="0" cy="-40.4" r=".55" fill="#0B0B0D" />
+            {/* the company logo on the chest, as on the real polo: the cornucopia and the name */}
+            <image href="/assets/img/sfb-logo.svg" x={look.logoX ?? -10.1} y={look.logoY ?? -39.7} width={look.logoW ?? 9} height={((look.logoW ?? 9) * 4.1) / 9} preserveAspectRatio="xMidYMid meet" />
+            <rect x="-7.2" y="-26.4" width="14.4" height="2" fill="#141418" />
+            <rect x="-1.2" y="-26.6" width="2.4" height="2.4" rx=".4" fill="#C9A14A" />
+          </>
+        )}
         {look.overShirt}
 
         {/* the arm at rest */}
         <g transform={"translate(" + rest * sx + " -44.6)"}>
           <g transform={"rotate(" + -rest * 10 + ")"}>
-            <path d="M0 5L0 9.5" stroke={skin} strokeWidth="3.6" strokeLinecap="round" />
+            <path d="M0 5L0 9.5" stroke={arm} strokeWidth="3.6" strokeLinecap="round" />
             <g transform="translate(0 9.5)">
               <g transform={"rotate(" + rest * 8 + ")"}>
-                <path d="M0 0L0 8.6" stroke={skin} strokeWidth="3.3" strokeLinecap="round" />
+                <path d={suit ? "M0 0L0 7.4" : "M0 0L0 8.6"} stroke={arm} strokeWidth="3.3" strokeLinecap="round" />
+                {suit ? <path d="M0 7.2L0 8.6" stroke="#F3F0EB" strokeWidth="3" /> : null}
                 <g transform="translate(0 8.6)">
                   <Hand side={rest} skin={skin} sk={sk} />
                 </g>
               </g>
             </g>
-            <Sleeve />
+            <Sleeve fill={shirt} trim={trim} shirtSleeve={blouse} />
           </g>
         </g>
 
@@ -117,11 +189,12 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
         <g transform={"translate(" + wave * sx + " -44.6)"}>
           <g transform={"rotate(" + -wave * 140 + ")"}>
             <g className="of-sh">
-              <path d="M0 5L0 9.5" stroke={skin} strokeWidth="3.6" strokeLinecap="round" />
+              <path d="M0 5L0 9.5" stroke={arm} strokeWidth="3.6" strokeLinecap="round" />
               <g transform="translate(0 9.5)">
                 <g transform={"rotate(" + -wave * 46 + ")"}>
                   <g className="of-el">
-                    <path d="M0 0L0 8.6" stroke={skin} strokeWidth="3.3" strokeLinecap="round" />
+                    <path d={suit ? "M0 0L0 7.4" : "M0 0L0 8.6"} stroke={arm} strokeWidth="3.3" strokeLinecap="round" />
+                    {suit ? <path d="M0 7.2L0 8.6" stroke="#F3F0EB" strokeWidth="3" /> : null}
                     <g transform="translate(0 8.6)">
                       <g className="of-wr">
                         <Hand side={wave} skin={skin} sk={sk} />
@@ -130,14 +203,21 @@ function Person({ x, look, alt }: { x: number; look: Look; alt?: boolean }) {
                   </g>
                 </g>
               </g>
-              <Sleeve />
+              <Sleeve fill={shirt} trim={trim} shirtSleeve={blouse} />
             </g>
           </g>
         </g>
 
+        {suit ? (
+          <>
+            <ellipse cx={-sx} cy="-44.5" rx="2.7" ry="2.5" fill={shirt} />
+            <ellipse cx={sx} cy="-44.5" rx="2.7" ry="2.5" fill={shirt} />
+            <path d="M-4.2 -47.8L-6 -45.4L-4.4 -44.6L0 -33.8L4.4 -44.6L6 -45.4L4.2 -47.8" stroke="#34323C" strokeWidth=".32" fill="none" strokeLinejoin="round" />
+          </>
+        ) : null}
         {look.locks}
         {/* head: ears, the face with its shaded side, then their own features */}
-        <g>
+        <g transform={look.headW ? "translate(0 -55.4) scale(" + look.headW + " 1) translate(0 55.4)" : undefined}>
           <ellipse cx="-7.2" cy="-55" rx="1.5" ry="2.1" fill={skin} />
           <ellipse cx="7.2" cy="-55" rx="1.5" ry="2.1" fill={sk} />
           {look.ears}
@@ -294,6 +374,125 @@ export function OfficeFigure() {
     <svg className="sec-figure" viewBox="-50 -82 92 58" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">
       <StoreFront id="of" left={-50} width={92} doorL={-16.6} doorR={16.6} />
       <Person x={0} look={OFFICE} />
+    </svg>
+  );
+}
+
+/* ---------------- the Managing Director: Mellisa ---------------- */
+
+// From a photo Gregg supplied (16 Nov 2026: "make her look really pretty ... a white shirt and look slim, she doesn't
+// need to be in uniform"): fair warm skin sampled from the photo, long straight hair parted in the centre, near-black at
+// the roots and warming to auburn at the ends, falling over both shoulders; softly arched brows, winged liner, a mauve-pink
+// lip, small stud earrings and a fine chain at the neck; a white open-collar blouse on the slimmest build.
+const MEL_SKIN = "#E4B79B", MEL_SK = "#C99476";
+const MEL_ROOT = "#24160F", MEL_END = "#7A3E24", MEL_LIGHT = "#A2603A";
+const MEL_HAIR = "url(#md-hair)";
+
+const MelEyes = () => (
+  <g className="of-eyes">
+    <ellipse cx="-2.5" cy="-56.3" rx="1" ry="1.05" fill="#24161A" />
+    <ellipse cx="2.5" cy="-56.3" rx="1" ry="1.05" fill="#24161A" />
+    <circle cx="-2.15" cy="-56.7" r=".33" fill="#FFFFFF" />
+    <circle cx="2.85" cy="-56.7" r=".33" fill="#FFFFFF" />
+    {/* a fine lash line along the upper lid with a small flick at the outer corner */}
+    <path d="M-1.5 -56.9Q-2.5 -57.65 -3.5 -56.95Q-3.75 -57.1 -3.95 -57.35M1.5 -56.9Q2.5 -57.65 3.5 -56.95Q3.75 -57.1 3.95 -57.35" stroke="#140C0E" strokeWidth=".3" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+  </g>
+);
+
+const MELLISA: Look = {
+  skin: MEL_SKIN,
+  sk: MEL_SK,
+  wave: -1,
+  slim: 2,
+  blouse: true,
+  headW: 0.88,
+  // the long fall of hair behind her head and shoulders, down to her chest
+  back: <path d="M-8.7 -57.4Q-10.6 -48.6 -10.7 -39.4Q-10.6 -34.8 -9.2 -33.2Q-6.6 -32.6 -6.2 -35H6.2Q6.6 -32.6 9.2 -33.2Q10.6 -34.8 10.7 -39.4Q10.6 -48.6 8.7 -57.4Q8.1 -66.6 0 -66.6Q-8.1 -66.6 -8.7 -57.4Z" fill={MEL_HAIR} />,
+  // a fine chain resting in the open neck
+  overShirt: (
+    <>
+      <path d="M-3 -47.4Q0 -43.4 3 -47.4" stroke="#E6E8EC" strokeWidth=".32" fill="none" />
+      <path d="M0 -44.4L.45 -43.75L0 -43.1L-.45 -43.75Z" fill="#F2F3F6" stroke="#BFC4CC" strokeWidth=".14" />
+    </>
+  ),
+  // the hair falling in front of both shoulders, with a few lighter strands
+  locks: (
+    <>
+      <path d="M-7.3 -59.2Q-9.7 -52.4 -9.7 -45.4Q-9.8 -39.4 -8.9 -35Q-7.9 -33.2 -6.7 -34.6Q-6 -38.4 -6 -42.8Q-6 -48 -5.6 -52.6Q-5.4 -56.2 -5.9 -58.2Z" fill={MEL_HAIR} />
+      <path d="M7.3 -59.2Q9.7 -52.4 9.7 -45.4Q9.8 -39.4 8.9 -35Q7.9 -33.2 6.7 -34.6Q6 -38.4 6 -42.8Q6 -48 5.6 -52.6Q5.4 -56.2 5.9 -58.2Z" fill={MEL_HAIR} />
+      <path d="M-7.6 -54Q-8.4 -46 -7.8 -37.6M7.6 -54Q8.4 -46 7.8 -37.6" stroke={MEL_LIGHT} strokeWidth=".35" fill="none" strokeLinecap="round" opacity=".7" />
+    </>
+  ),
+  ears: (
+    <g fill="#F4F3EE" stroke="#BFC4CC" strokeWidth=".18">
+      <circle cx="-7.45" cy="-53.5" r=".3" />
+      <circle cx="7.45" cy="-53.5" r=".3" />
+    </g>
+  ),
+  face: (
+    <>
+      {/* centre part: the hair sweeps down either side of her forehead */}
+      <path d="M-7.8 -54.2Q-8.9 -65.6 0 -65.6Q8.9 -65.6 7.8 -54.2Q7.3 -59.6 4.6 -61.5Q2.2 -62.6 0.3 -61.6Q0 -62.4 -0.3 -61.6Q-2.2 -62.6 -4.6 -61.5Q-7.3 -59.6 -7.8 -54.2Z" fill={MEL_HAIR} />
+      <path d="M0 -65.4V-62" stroke="#C2917A" strokeWidth=".4" strokeLinecap="round" />
+      <path d="M-1.6 -64.6Q-5 -63.6 -6.6 -59.4M1.6 -64.6Q5 -63.6 6.6 -59.4" stroke="#4A2A1C" strokeWidth=".3" fill="none" strokeLinecap="round" opacity=".7" />
+      {/* softly arched brows */}
+      <path d="M-4.5 -58.9Q-3.4 -60.3 -1.3 -59.6M1.3 -59.6Q3.4 -60.3 4.5 -58.9" stroke="#3A2620" strokeWidth=".8" fill="none" strokeLinecap="round" />
+      <MelEyes />
+      <path d="M-.9 -53.8Q0 -53.1 .9 -53.8" stroke={MEL_SK} strokeWidth=".7" fill="none" strokeLinecap="round" />
+      {/* mauve-pink lips, closed in a soft smile */}
+      <path d="M-2.2 -51.3Q-1 -52 0 -51.5Q1 -52 2.2 -51.3Q1.2 -50.9 0 -50.9Q-1.2 -50.9 -2.2 -51.3Z" fill="#AE5470" />
+      <path d="M-2.1 -51.2Q0 -50.8 2.1 -51.2Q1.4 -49.7 0 -49.6Q-1.4 -49.7 -2.1 -51.2Z" fill="#C26A82" />
+      <path d="M-2.3 -51.25Q0 -50.9 2.3 -51.25" stroke="#7C3149" strokeWidth=".32" fill="none" strokeLinecap="round" />
+      <path d="M-.7 -50.3Q0 -50.1 .7 -50.3" stroke="#E7A7B6" strokeWidth=".25" fill="none" strokeLinecap="round" opacity=".8" />
+      <circle cx="-4.5" cy="-53.4" r="1.4" fill="#E8828A" opacity=".15" />
+      <circle cx="4.5" cy="-53.4" r="1.4" fill="#E8828A" opacity=".15" />
+    </>
+  ),
+};
+
+// her brother, also a Managing Director (Gregg, 16 Nov 2026, from his photo; second pass: lighter skin, no flower,
+// slimmer, hair and beard redone, hair then set snug on his head): warm light-brown skin, dark hair swept back, a short
+// beard along the jaw with clear cheeks, strong brows and a big smile; a black suit buttoned once, white shirt, red tie.
+const BRO_SKIN = "#CC9375", BRO_SK = "#AF785C", BRO_HAIR = "#2A1D17", BRO_BEARD = "#2E2019";
+const BROTHER: Look = {
+  skin: BRO_SKIN,
+  sk: BRO_SK,
+  wave: 1,
+  slim: true,
+  suit: { jacket: "#1D1B21", tie: "#B0212C" },
+  face: (
+    <>
+      {/* hair sitting snug on his head: some height on top, close at the sides and running down into his sideburns,
+          the temples set slightly back, the strands swept back */}
+      <path d="M-7.45 -55.3Q-8 -58 -8.1 -60.6Q-8.4 -65 -5.2 -66.9Q-2.4 -68.2 .6 -68Q4.6 -67.8 7 -65.8Q8.4 -63.8 8.1 -60.6Q8 -58 7.45 -55.3L6.6 -55.5Q6.7 -57.6 6.5 -59Q6 -60.6 4.6 -61Q2.4 -61.8 0 -61.6Q-2.4 -61.8 -4.6 -61Q-6 -60.6 -6.5 -59Q-6.7 -57.6 -6.6 -55.5Z" fill={BRO_HAIR} />
+      <path d="M-4.4 -63.4Q-1.6 -66.4 2.4 -66.8M-6.4 -61.6Q-3.8 -64.6 .4 -65.2M2.6 -64.4Q5.4 -64.6 7 -62.6" stroke="#45332A" strokeWidth=".32" fill="none" strokeLinecap="round" opacity=".75" />
+      {/* a beard kept short along the jaw and chin, the cheeks clear above it, and a thin moustache */}
+      <path d="M-7.3 -55.4Q-7.3 -50.2 -4.6 -47.5Q-2.4 -46.3 0 -46.3Q2.4 -46.3 4.6 -47.5Q7.3 -50.2 7.3 -55.4Q6.8 -53.6 5.9 -51.9Q4.8 -50.4 3.4 -50.1Q1.8 -49.8 0 -49.8Q-1.8 -49.8 -3.4 -50.1Q-4.8 -50.4 -5.9 -51.9Q-6.8 -53.6 -7.3 -55.4Z" fill={BRO_BEARD} />
+      <path d="M-2.9 -52.6Q0 -53.2 2.9 -52.6" stroke={BRO_BEARD} strokeWidth=".6" fill="none" strokeLinecap="round" />
+      <path d="M-3.1 -52.4Q-3.6 -51.4 -3.3 -50.6M3.1 -52.4Q3.6 -51.4 3.3 -50.6" stroke={BRO_BEARD} strokeWidth=".5" fill="none" strokeLinecap="round" />
+      <path d="M-4.5 -59.3Q-2.8 -60.4 -1.1 -59.7M1.1 -59.7Q2.8 -60.4 4.5 -59.3" stroke={BRO_HAIR} strokeWidth="1.1" fill="none" strokeLinecap="round" />
+      <Eyes />
+      <path d="M-1.2 -54Q0 -53.1 1.2 -54" stroke={BRO_SK} strokeWidth=".85" fill="none" strokeLinecap="round" />
+      {/* a big smile with his teeth */}
+      <path d="M-3 -51.9Q0 -48.3 3 -51.9Q0 -51.2 -3 -51.9Z" fill="#3A1214" />
+      <path d="M-2.6 -51.7Q0 -51.1 2.6 -51.7L2.2 -50.9Q0 -50.4 -2.2 -50.9Z" fill="#FFF8EE" />
+    </>
+  ),
+};
+
+export function DirectorFigure() {
+  return (
+    <svg className="sec-figure is-pair" viewBox="-46 -82 88 58" preserveAspectRatio="xMaxYMax meet" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="md-hair" gradientUnits="userSpaceOnUse" x1="0" y1="-66" x2="0" y2="-33">
+          <stop offset="0" stopColor={MEL_ROOT} />
+          <stop offset=".45" stopColor="#3A2016" />
+          <stop offset="1" stopColor={MEL_END} />
+        </linearGradient>
+      </defs>
+      <StoreFront id="md" left={-46} width={88} doorL={-28} doorR={28} />
+      <Person x={-13.8} look={MELLISA} />
+      <Person x={13.8} look={BROTHER} alt />
     </svg>
   );
 }
