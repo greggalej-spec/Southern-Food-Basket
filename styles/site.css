@@ -248,13 +248,13 @@
 :where([data-css~="site"]) .dl-h2{ font: 800 1.5rem/1.25 var(--ui); margin: 0 0 var(--s5); }
 :where([data-css~="site"]) .dl-same{ margin: 0 0 var(--s4); }
 :where([data-css~="site"]) .dl-pay{ margin-top: var(--s4); }
-:where([data-css~="site"]) .dl-track{ padding: var(--s6) var(--s5); display: grid; gap: var(--s4); }
+:where([data-css~="site"]) .dl-track{ padding: var(--s6) var(--s5); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s4); }
 :where([data-css~="site"]) .dl-track h2{ font: 800 1.5rem/1.25 var(--ui); margin: 0; }
 :where([data-css~="site"]) .dl-track > .muted{ margin: 0; }
 :where([data-css~="site"]) .dl-track-find{ display: grid; gap: var(--s3) var(--s4); align-items: end; }
 :where([data-css~="site"]) .dl-track-find .field{ margin: 0; }
 @media (min-width: 760px) { :where([data-css~="site"]) .dl-track-find{ grid-template-columns: 1fr 1.4fr auto; } }
-:where([data-css~="site"]) .dl-order{ display: grid; gap: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
+:where([data-css~="site"]) .dl-order{ display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s4); padding-top: var(--s4); border-top: 1px solid var(--line); }
 :where([data-css~="site"]) .dl-order-head h3{ font: 800 1.25rem/1.3 var(--ui); margin: 2px 0 4px; }
 :where([data-css~="site"]) .dl-order-head p{ margin: 0; }
 :where([data-css~="site"]) .dl-steps-track{ list-style: none; margin: 0; padding: 0; display: grid; gap: var(--s2); }
@@ -266,8 +266,8 @@
 :where([data-css~="site"]) .dl-steps-track .icon{ width: 14px; height: 14px; stroke-width: 3; }
 :where([data-css~="site"]) .dl-say{ margin: 0; padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--wash); }
 :where([data-css~="site"]) .dl-ok{ margin: 0; padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--green-wash); color: var(--ink); font-weight: 600; }
-:where([data-css~="site"]) .dl-quote-box{ display: grid; gap: var(--s4); }
-:where([data-css~="site"]) .dl-answer{ display: grid; gap: var(--s2); padding: var(--s4); border: 1px solid var(--line); border-radius: var(--r); background: var(--flour); }
+:where([data-css~="site"]) .dl-quote-box{ display: grid; gap: var(--s4); grid-template-columns: minmax(0, 1fr); }
+:where([data-css~="site"]) .dl-answer{ display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s2); padding: var(--s4); border: 1px solid var(--line); border-radius: var(--r); background: var(--flour); }
 :where([data-css~="site"]) .dl-answer h4{ font: 800 1.0625rem/1.3 var(--ui); margin: 0; }
 :where([data-css~="site"]) .dl-answer .field{ margin-bottom: var(--s2); }
 :where([data-css~="site"]) .dl-order-actions{ gap: var(--s2); }
@@ -279,3 +279,4 @@
 :where([data-css~="site"]) .dl-term[open] summary::after{ content: "–"; }
 :where([data-css~="site"]) .dl-term summary:focus-visible{ outline: 3px solid var(--green); outline-offset: 2px; border-radius: var(--r-sm); }
 :where([data-css~="site"]) .dl-term p{ margin: 0; padding: 0 var(--s4) var(--s4); color: var(--muted); }
+:where([data-css~="site"]) .dl-answer .form-row > *, :where([data-css~="site"]) .dl-track-find > *{ min-width: 0; }

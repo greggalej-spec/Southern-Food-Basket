@@ -627,12 +627,25 @@
 .dl-doc-sums{ margin: 0 0 0 auto; display: grid; gap: 4px; min-width: min(320px, 100%); }
 .dl-doc-sums div{ display: flex; justify-content: space-between; gap: 24px; }
 .dl-doc-sums dt{ color: #444; }
-.dl-doc-sums dd{ margin: 0; font-variant-numeric: tabular-nums; }
+.dl-doc-sums dd{ margin: 0; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .dl-doc-total{ padding-top: 6px; border-top: 2px solid #1b1b1b; font-weight: 800; font-size: 1.0625rem; }
 .dl-doc-total dt{ color: #1b1b1b !important; }
 .dl-doc-small{ font-size: 0.8125rem; color: #444 !important; }
 .dl-doc-sign{ display: grid; gap: 14px; padding-top: 8px; }
 .dl-doc-demo{ font-size: 0.75rem; color: #666 !important; }
+/* Narrow screens (a phone, the staff drawer): the document keeps to its box and each line stacks under its labels. */
+.dl-doc{ container-type: inline-size; min-width: 0; grid-template-columns: minmax(0, 1fr); }
+.dl-doc-head > div, .dl-doc-parties p{ min-width: 0; overflow-wrap: anywhere; }
+@container (max-width: 560px) {
+  .dl-doc h2{ text-align: left; }
+  .dl-doc-lines thead{ position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .dl-doc-lines tr{ display: flex; flex-wrap: wrap; gap: 2px 14px; padding: 10px 0; border-bottom: 1px solid #e3dcd9; }
+  .dl-doc-lines td{ padding: 0; border: 0; }
+  .dl-doc-lines td:first-child{ flex: 1 0 100%; font-weight: 700; }
+  .dl-doc-lines tr.is-off td:first-child{ font-weight: 400; }
+  .dl-doc-lines td[data-label]::before{ content: attr(data-label) ": "; color: #555; font-size: 0.8125rem; font-weight: 400; }
+  .dl-doc-lines td.num{ text-align: left; }
+}
 .dl-print{ display: none; }
 @media print {
   body:has(> .dl-print) > :not(.dl-print){ display: none !important; }

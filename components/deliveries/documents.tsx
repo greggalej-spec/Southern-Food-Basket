@@ -128,20 +128,20 @@ export function DeliveryDoc({ o, kind }: { o: DeliveryOrder; kind: DocKind }) {
             if (kind === "pick")
               return (
                 <tr key={l.id}>
-                  <td>{l.qty + (u ? " " + u : "")}</td>
+                  <td data-label="Qty">{l.qty + (u ? " " + u : "")}</td>
                   <td>{what}</td>
-                  <td>____</td>
-                  <td>☐</td>
-                  <td>☐</td>
+                  <td data-label="Found">____</td>
+                  <td data-label="Picked">☐</td>
+                  <td data-label="Checked">☐</td>
                 </tr>
               );
             if (kind === "note")
               return (
                 <tr key={l.id}>
                   <td>{what}</td>
-                  <td className="num">{l.qty + (u ? " " + u : "")}</td>
-                  <td className="num">{suppliedOf(l) + (suppliedOf(l) < l.qty ? " (short)" : "")}</td>
-                  <td>☐</td>
+                  <td className="num" data-label="Ordered">{l.qty + (u ? " " + u : "")}</td>
+                  <td className="num" data-label="Supplied">{suppliedOf(l) + (suppliedOf(l) < l.qty ? " (short)" : "")}</td>
+                  <td data-label="Received">☐</td>
                 </tr>
               );
             if (l.price == null)
@@ -159,10 +159,10 @@ export function DeliveryDoc({ o, kind }: { o: DeliveryOrder; kind: DocKind }) {
                   {what}
                   {kind === "invoice" && q < l.qty ? <span className="dl-doc-small"> ({l.qty} ordered, {q} supplied)</span> : null}
                 </td>
-                <td className="num">{q + (unitLabel(l.unit, q) ? " " + unitLabel(l.unit, q) : "")}</td>
-                <td className="num">{money(l.price)}</td>
-                <td className="num">{VAT[l.vat || "S"].short}</td>
-                <td className="num">{money(l.price * q)}</td>
+                <td className="num" data-label="Qty">{q + (unitLabel(l.unit, q) ? " " + unitLabel(l.unit, q) : "")}</td>
+                <td className="num" data-label="Each excl. VAT">{money(l.price)}</td>
+                <td className="num" data-label="VAT">{VAT[l.vat || "S"].short}</td>
+                <td className="num" data-label="Amount">{money(l.price * q)}</td>
               </tr>
             );
           })}
