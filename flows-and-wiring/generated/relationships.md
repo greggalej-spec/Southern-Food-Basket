@@ -55,6 +55,7 @@ Every field that points at a row in another collection, read from the types in `
 | `bulkOrders` | `log.by` | employees (a staff user id) |  |
 | `tasks` | `assignedTo` | employees (a staff user id) |  |
 | `tasks` | `assignedBy` | employees (a staff user id) |  |
+| `incidents` | `branchId` | branches |  |
 | `socialAccounts` | `connectedBy` | employees (a staff user id) |  |
 | `socialPosts` | `branchId` | branches |  |
 | `plan` | `owner` | a person's name stored as text (should become a staff or applicant id) |  |
@@ -74,7 +75,7 @@ Every field that points at a row in another collection, read from the types in `
 | Collection | Referenced by |
 |---|---|
 | `employees` | `employees.hrFile.notes.by`, `employees.hrFile.ratings.by`, `employees.hrFile.changes.by`, `promotions.createdBy`, `promotions.approvedBy`, `grants.userId`, `grants.grantedBy`, `grants.revokedBy`, `redemptions.by`, `campaigns.createdBy`, `staffUpdates.recipientIds`, `staffUpdates.createdBy`, `staffUpdates.sentBy`, `audit.actor`, `siteVersions.by`, `supplierSheets.checkedBy`, `requests.decidedBy`, `requests.messages.by`, `bulkOrders.createdBy`, `bulkOrders.log.by`, `tasks.assignedTo`, `tasks.assignedBy`, `socialAccounts.connectedBy`, `radioScripts.sentBy`, `feedback.assignedTo`, `feedback.messages.by` |
-| `branches` | `jobs.branchId`, `employees.branchId`, `announcements.branchId`, `promotions.branchIds`, `grants.branchIds`, `customers.preferredBranch`, `redemptions.branchId`, `subscribers.branches`, `requests.branchId`, `socialPosts.branchId`, `feedback.branchId`, `events.branchIds` |
+| `branches` | `jobs.branchId`, `employees.branchId`, `announcements.branchId`, `promotions.branchIds`, `grants.branchIds`, `customers.preferredBranch`, `redemptions.branchId`, `subscribers.branches`, `requests.branchId`, `incidents.branchId`, `socialPosts.branchId`, `feedback.branchId`, `events.branchIds` |
 | `promotions` | `entitlements.promoId`, `campaigns.promoId` |
 | `specialsBooks` | `supplierSheets.bookId`, `sellouts.bookId` |
 | `suppliers` | `supplierSheets.supplierId`, `sellouts.supplierId` |

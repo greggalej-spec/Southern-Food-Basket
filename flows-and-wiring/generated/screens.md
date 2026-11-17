@@ -91,7 +91,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/about`
 
-- Source: `app/(sfb)/about/page.tsx`; components: `AboutPage`, `AboutValues`, `StoreMap`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/about/page.tsx`; components: `AboutPage`, `AboutValues`, `StoreMap`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -100,7 +100,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/account`
 
-- Source: `app/(sfb)/account/page.tsx`; components: `MyOffersPage`, `AccountPage`, `AccountBody`, `Button`, `Icon`, `Profile`, `Input`, `Label`, `Field`, `CodeTicket`, `CodePattern`, `Badge`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/account/page.tsx`; components: `MyOffersPage`, `AccountPage`, `AccountBody`, `Button`, `Icon`, `Profile`, `Input`, `Label`, `Field`, `CodeTicket`, `CodePattern`, `Badge`, `PublicSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: `customer`
 - Reads: `branches`, `settings`
 - Changes:
@@ -110,7 +110,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/account/sign-in`
 
-- Source: `app/(sfb)/account/sign-in/page.tsx`; components: `ShopperSignInPage`, `SignInForm`, `Button`, `FieldHint`, `FieldError`, `Input`, `Label`, `Field`, `Icon`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/account/sign-in/page.tsx`; components: `ShopperSignInPage`, `SignInForm`, `Button`, `FieldHint`, `FieldError`, `Input`, `Label`, `Field`, `Icon`, `FormSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -121,7 +121,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/account/verify`
 
-- Source: `app/(sfb)/account/verify/page.tsx`; components: `VerifyPage`, `Verify`, `VerifyFrame`, `VerifyWaiting`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/account/verify/page.tsx`; components: `VerifyPage`, `Verify`, `VerifyFrame`, `VerifyWaiting`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -131,7 +131,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/admin`
 
-- Source: `app/(sfb)/admin/page.tsx`; components: `AdminPage`, `AdminConsole`, `NoAccess`, `Icon`, `SectionHead`, `MarketingFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `OfficeFigure`, `DirectorFigure`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`, `AuditPanel`, `Badge`, `AccessPanel`, `GrantEditor`, `StorePicker`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Matrix`, `AddGrant`, `GrantBadge`, `ListPanel`, `History`, `StatusBadge`, `NewsletterPanel`, `Composer`, `EmailPreview`, `Audience`, `Err`, `CampaignBadge`, `SentView`, `CodesPanel`, `StateBadge`, `PromosPanel`, `PromoDetail`, `PromoComposer`, `OfferPreview`, `Err`, `Approvals`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `PublishPanel`, `ChangeRow`, `NoticesPanel`, `StoresPanel`, `StorePanel`, `HoursField`, `PostMaker`, `DealsPanel`, `BulkDeals`, `Working`, `VizDialog`, `DealDrawer`, `DealForm`, `ErrorText`, `PreviewCard`, `PriceSeal`, `Seg`, `RadioPanel`, `ScriptsView`, `ScriptEditor`, `ReportView`, `StateBadge`, `SchedulesView`, `ManualFlow`, `DraftEditor`, `MiniMonth`, `MonthPick`, `ScanFlow`, `LogSheet`, `LogForm`, `CalendarView`, `ExtraSheet`, `ExtraForm`, `SpotRow`, `Stat`, `Spark`, `Ring`, `CountUp`, `PlanPanel`, `PlanFormView`, `Flow`, `SocialPanel`, `AnalyticsPanel`, `Bars`, `TrendChart`, `TrendExtras`, `ChartStats`, `Change`, `StudioPanel`, `CustomizePanel`, `TasksPanel`, `TaskFormView`, `ResourceList`, `ResourceFormView`, `BulkPanel`, `BulkFormView`, `OrderCard`, `PairBars`, `QtyCell`, `RequestsPanel`, `LogForm`, `RequestDetail`, `Card`, `FeedbackPanel`, `Ticket`, `EventsPanel`, `EventEditor`, `SelloutPanel`, `SelloutForm`, `SuppliersPanel`, `CompanyDrawer`, `BookDrawer`, `LineDrawer`, `LineForm`, `ImportSheet`, `LinesTable`, `Margin`, `UnitCost`, `SheetTable`, `CaseCell`, `OverviewPanel`, `Fig`, `Tile`, `TodayPanel`
+- Source: `app/(sfb)/admin/page.tsx`; components: `AdminPage`, `AdminConsole`, `NoAccess`, `Icon`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `SectionHead`, `MarketingFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `OfficeFigure`, `DirectorFigure`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`, `AuditPanel`, `Badge`, `AccessPanel`, `GrantEditor`, `StorePicker`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Matrix`, `AddGrant`, `GrantBadge`, `ListPanel`, `History`, `StatusBadge`, `NewsletterPanel`, `Composer`, `EmailPreview`, `Audience`, `Err`, `CampaignBadge`, `SentView`, `CodesPanel`, `StateBadge`, `PromosPanel`, `PromoDetail`, `PromoComposer`, `OfferPreview`, `Err`, `Approvals`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `PublishPanel`, `ChangeRow`, `NoticesPanel`, `StoresPanel`, `StorePanel`, `HoursField`, `PostMaker`, `DealsPanel`, `BulkDeals`, `Working`, `VizDialog`, `DealDrawer`, `DealForm`, `ErrorText`, `PreviewCard`, `PriceSeal`, `Seg`, `RadioPanel`, `ScriptsView`, `ScriptEditor`, `ReportView`, `StateBadge`, `SchedulesView`, `ManualFlow`, `DraftEditor`, `MiniMonth`, `MonthPick`, `ScanFlow`, `LogSheet`, `LogForm`, `CalendarView`, `ExtraSheet`, `ExtraForm`, `SpotRow`, `Stat`, `Spark`, `Ring`, `CountUp`, `PlanPanel`, `PlanFormView`, `Flow`, `SocialPanel`, `AnalyticsPanel`, `Bars`, `TrendChart`, `TrendExtras`, `ShareDonut`, `ChartStats`, `Change`, `StudioPanel`, `CustomizePanel`, `TasksPanel`, `TaskFormView`, `ResourceList`, `ResourceFormView`, `BulkPanel`, `BulkFormView`, `OrderCard`, `PairBars`, `QtyCell`, `RequestsPanel`, `LogForm`, `RequestDetail`, `Card`, `FeedbackPanel`, `Ticket`, `EventsPanel`, `EventEditor`, `SelloutPanel`, `SelloutForm`, `SuppliersPanel`, `CompanyDrawer`, `BookDrawer`, `LineDrawer`, `LineForm`, `ImportSheet`, `LinesTable`, `Margin`, `UnitCost`, `SheetTable`, `CaseCell`, `OverviewPanel`, `Fig`, `Tile`, `TodayPanel`
 - Who can open it: `admin`, `purchasing`, `marketing`, `owner`; parts shown only with `<p>`, `analytics.view`, `bulk.manage`, `bulk.store`, `newsletter.compose`, `newsletter.send`, `notices.post`, `promos.approve`, `promos.draft`, `requests.decide`, `requests.log`, `resources.edit`, `social.connect`, `staff.updates`, `stores.edit`, `subscribers.export`, `suppliers.edit`, `tasks.assign`
 - Reads: `announcements`, `applicants`, `audit`, `branches`, `bulkOrders`, `campaigns`, `consents`, `customers`, `employees`, `feedback`, `flyers`, `grants`, `jobs`, `plan`, `promotions`, `radioScripts`, `radioSpots`, `radioStations`, `redemptions`, `requests`, `resources`, `settings`, `site`, `sitePages`, `siteVersions`, `socialAccounts`, `socialWeeks`, `specials`, `specialsBooks`, `subscribers`, `supplierSheets`, `suppliers`
 - Changes:
@@ -218,7 +218,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/careers/[id]/apply`
 
-- Source: `app/(sfb)/careers/[id]/apply/page.tsx`; components: `ApplyPage`, `ApplyFromParams`, `ApplyView`, `ApplyCard`, `ReviewKv`, `Icon`, `UploadButton`, `AddedBadge`, `Badge`, `FileMeta`, `Thumb`, `ErrorText`, `Field`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/careers/[id]/apply/page.tsx`; components: `ApplyPage`, `ApplyFromParams`, `ApplyView`, `ApplyCard`, `ReviewKv`, `Icon`, `UploadButton`, `AddedBadge`, `Badge`, `FileMeta`, `Thumb`, `ErrorText`, `Field`, `FormSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `jobs`, `settings`
 - Changes:
@@ -229,7 +229,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/careers/[id]`
 
-- Source: `app/(sfb)/careers/[id]/page.tsx`; components: `JobPage`, `JobFromParams`, `JobDetail`, `MetaItem`, `Icon`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/careers/[id]/page.tsx`; components: `JobPage`, `JobFromParams`, `JobDetail`, `MetaItem`, `Icon`, `JobSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `jobs`, `kycDocs`, `settings`
 - Changes:
@@ -238,7 +238,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/careers/me`
 
-- Source: `app/(sfb)/careers/me/page.tsx`; components: `MyApplicationPage`, `MeDashboard`, `MeView`, `UploadButton`, `Icon`, `FileMeta`, `Thumb`, `OutcomeCard`, `OpenedLetter`, `Act`, `Contact`, `Letter`, `Flap`, `SealedLetter`, `Badge`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/careers/me/page.tsx`; components: `MyApplicationPage`, `MeDashboard`, `MeView`, `UploadButton`, `Icon`, `FileMeta`, `Thumb`, `OutcomeCard`, `OpenedLetter`, `Act`, `Contact`, `Letter`, `Flap`, `SealedLetter`, `Badge`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `applicant`; parts shown only with `<p>`
 - Reads: `branches`, `customers`, `jobs`
 - Changes:
@@ -254,7 +254,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/careers`
 
-- Source: `app/(sfb)/careers/page.tsx`; components: `CareersPage`, `WhyCards`, `RolesBoard`, `Icon`, `MetaItem`, `FlyerWall`, `Fit`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/careers/page.tsx`; components: `CareersPage`, `WhyCards`, `RolesBoard`, `Icon`, `MetaItem`, `FlyerWall`, `Fit`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `content`, `flyers`, `jobDepts`, `settings`
 - Changes:
@@ -263,7 +263,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/community`
 
-- Source: `app/(sfb)/community/page.tsx`; components: `CommunityPage`, `CommunityForm`, `Icon`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/community/page.tsx`; components: `CommunityPage`, `CommunityForm`, `Icon`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -273,7 +273,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/departments`
 
-- Source: `app/(sfb)/departments/page.tsx`; components: `DepartmentsPage`, `DeptSections`, `Icon`, `Pic`, `DeptJumps`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/departments/page.tsx`; components: `DepartmentsPage`, `DeptSections`, `Icon`, `Pic`, `DeptJumps`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `departments`, `settings`
 - Changes:
@@ -282,7 +282,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/events`
 
-- Source: `app/(sfb)/events/page.tsx`; components: `EventsPage`, `EventsBoard`, `EventCard`, `Fit`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/events/page.tsx`; components: `EventsPage`, `EventsBoard`, `EventCard`, `Fit`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -291,7 +291,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/how-it-works`
 
-- Source: `app/(sfb)/how-it-works/page.tsx`; components: `HowItWorksPage`, `FlowsPage`, `Flow`, `Icon`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/how-it-works/page.tsx`; components: `HowItWorksPage`, `FlowsPage`, `Flow`, `Icon`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -301,7 +301,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/hr`
 
-- Source: `app/(sfb)/hr/page.tsx`; components: `HrPage`, `HrConsole`, `ApplicantDrawer`, `DrawerBody`, `Button`, `SheetFooter`, `Timeline`, `Composer`, `Entries`, `Documents`, `DocBadge`, `Badge`, `FileMeta`, `Icon`, `Details`, `DecisionForm`, `OpenedLetter`, `Act`, `Contact`, `Letter`, `Flap`, `SealedLetter`, `InterviewForm`, `SheetBody`, `DecisionStatus`, `HrStageBadge`, `SheetTitle`, `SheetHeader`, `SheetContent`, `SheetPortal`, `Sheet`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `CompliancePanels`, `EmptyRow`, `Who`, `HrResources`, `ResourceList`, `ResourceFormView`, `SideSheet`, `PeoplePanel`, `PersonFormView`, `PersonDetail`, `FileHistory`, `NoteForm`, `Seg`, `RatingBlock`, `Stars`, `StatusForm`, `Bars`, `CountUp`, `Stat`, `VizDialog`, `Spark`, `Ring`, `Flow`, `HiringLog`, `RolesTable`, `PipelineBoard`, `BoardCard`, `HrStats`, `HrFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/hr/page.tsx`; components: `HrPage`, `HrConsole`, `ApplicantDrawer`, `DrawerBody`, `Button`, `SheetFooter`, `Timeline`, `Composer`, `Entries`, `Documents`, `DocBadge`, `Badge`, `FileMeta`, `Icon`, `Details`, `DecisionForm`, `OpenedLetter`, `Act`, `Contact`, `Letter`, `Flap`, `SealedLetter`, `InterviewForm`, `SheetBody`, `DecisionStatus`, `HrStageBadge`, `SheetTitle`, `SheetHeader`, `SheetContent`, `SheetPortal`, `Sheet`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `CompliancePanels`, `SkelRows`, `Row`, `Skel`, `SkelGroup`, `EmptyRow`, `Who`, `HrResources`, `ResourceList`, `ResourceFormView`, `SideSheet`, `AppSkeleton`, `SkelPanel`, `SkelTiles`, `PeoplePanel`, `PersonFormView`, `PersonDetail`, `FileHistory`, `NoteForm`, `Seg`, `RatingBlock`, `Stars`, `StatusForm`, `Bars`, `CountUp`, `Stat`, `VizDialog`, `Spark`, `Ring`, `Flow`, `HiringLog`, `RolesTable`, `SkelTableRows`, `PipelineBoard`, `BoardSkeleton`, `BoardCard`, `HrStats`, `HrFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `hr`; parts shown only with `<p>`, `hr.people`, `notices.post`, `staff.updates`
 - Reads: `applicants`, `branches`, `customers`, `employees`, `jobDepts`, `jobs`, `kycDocs`, `policies`, `resources`, `stages`
 - Changes:
@@ -333,7 +333,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/locations`
 
-- Source: `app/(sfb)/locations/page.tsx`; components: `LocationsPage`, `LocationsList`, `Icon`, `StoreServices`, `StoreMap`, `NearMe`, `BranchJumps`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/locations/page.tsx`; components: `LocationsPage`, `LocationsList`, `Icon`, `StoreServices`, `StoreMap`, `NearMe`, `BranchJumps`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -342,7 +342,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/newsletter/confirm`
 
-- Source: `app/(sfb)/newsletter/confirm/page.tsx`; components: `NewsletterConfirmPage`, `NewsletterConfirm`, `Icon`, `Frame`, `Suppressed`, `BadLink`, `NewsletterWaiting`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/newsletter/confirm/page.tsx`; components: `NewsletterConfirmPage`, `NewsletterConfirm`, `Icon`, `Frame`, `Suppressed`, `BadLink`, `NewsletterWaiting`, `FormSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -352,7 +352,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/newsletter/preferences`
 
-- Source: `app/(sfb)/newsletter/preferences/page.tsx`; components: `NewsletterPreferencesPage`, `NewsletterPreferences`, `Preferences`, `Button`, `Icon`, `Frame`, `Resubscribe`, `Suppressed`, `BadLink`, `NewsletterWaiting`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/newsletter/preferences/page.tsx`; components: `NewsletterPreferencesPage`, `NewsletterPreferences`, `Preferences`, `Button`, `Icon`, `Frame`, `Resubscribe`, `Suppressed`, `BadLink`, `NewsletterWaiting`, `FormSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -363,7 +363,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/newsletter/unsubscribe`
 
-- Source: `app/(sfb)/newsletter/unsubscribe/page.tsx`; components: `NewsletterUnsubscribePage`, `NewsletterUnsubscribe`, `Frame`, `Suppressed`, `BadLink`, `NewsletterWaiting`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/newsletter/unsubscribe/page.tsx`; components: `NewsletterUnsubscribePage`, `NewsletterUnsubscribe`, `Frame`, `Suppressed`, `BadLink`, `NewsletterWaiting`, `FormSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -373,7 +373,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/offers/[slug]`
 
-- Source: `app/(sfb)/offers/[slug]/page.tsx`; components: `OfferPage`, `OfferFromParams`, `OfferDetail`, `ClaimPanel`, `Button`, `CodeTicket`, `CodePattern`, `Badge`, `Icon`, `StateBadge`, `OfferNotFound`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/offers/[slug]/page.tsx`; components: `OfferPage`, `OfferFromParams`, `OfferDetail`, `ClaimPanel`, `Button`, `CodeTicket`, `CodePattern`, `Badge`, `Icon`, `StateBadge`, `OfferNotFound`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -383,7 +383,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/offers`
 
-- Source: `app/(sfb)/offers/page.tsx`; components: `OffersPage`, `OffersList`, `Icon`, `StateBadge`, `Badge`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/offers/page.tsx`; components: `OffersPage`, `OffersList`, `Icon`, `StateBadge`, `Badge`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -392,7 +392,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/outbox`
 
-- Source: `app/(sfb)/outbox/page.tsx`; components: `OutboxPage`, `Outbox`, `OutboxInner`, `MailItem`, `Badge`, `Icon`, `OutboxWaiting`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/outbox/page.tsx`; components: `OutboxPage`, `Outbox`, `OutboxInner`, `MailItem`, `Badge`, `Icon`, `OutboxWaiting`, `FormSkeleton`, `Lines`, `Skel`, `SkelGroup`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `outbox`, `settings`
 - Changes:
@@ -402,7 +402,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/bulk`
 
-- Source: `app/(sfb)/portal/bulk/page.tsx`; components: `PortalBulkPage`, `PortalBulk`, `BulkPanel`, `BulkFormView`, `SideSheet`, `Icon`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `OrderCard`, `PairBars`, `QtyCell`, `Badge`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `Flow`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/bulk/page.tsx`; components: `PortalBulkPage`, `PortalBulk`, `BulkPanel`, `BulkFormView`, `SideSheet`, `Icon`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `OrderCard`, `PairBars`, `QtyCell`, `Badge`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `Flow`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`, `bulk.manage`, `bulk.store`
 - Reads: `branches`, `bulkOrders`, `customers`
 - Changes:
@@ -415,7 +415,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/docs`
 
-- Source: `app/(sfb)/portal/docs/page.tsx`; components: `PortalDocsPage`, `PortalDocs`, `DocsBody`, `UploadControl`, `Icon`, `DocBadge`, `Badge`, `EmptyRow`, `TrainingRow`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/docs/page.tsx`; components: `PortalDocsPage`, `PortalDocs`, `DocsBody`, `UploadControl`, `Icon`, `DocBadge`, `Badge`, `EmptyRow`, `TrainingRow`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `branches`, `customers`, `kycDocs`, `policies`
 - Changes:
@@ -427,7 +427,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/home`
 
-- Source: `app/(sfb)/portal/home/page.tsx`; components: `PortalHomePage`, `PortalHome`, `HomeBody`, `EmptyRow`, `Badge`, `Stat`, `Icon`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/home/page.tsx`; components: `PortalHomePage`, `PortalHome`, `HomeBody`, `EmptyRow`, `Badge`, `Stat`, `Counted`, `CountUp`, `Icon`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `announcements`, `branches`, `customers`
 - Changes: nothing
@@ -436,7 +436,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/leave`
 
-- Source: `app/(sfb)/portal/leave/page.tsx`; components: `PortalLeavePage`, `PortalLeave`, `LeaveBody`, `StatusBadge`, `Badge`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `Icon`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/leave/page.tsx`; components: `PortalLeavePage`, `PortalLeave`, `LeaveBody`, `StatusBadge`, `Badge`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `Icon`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `branches`, `customers`
 - Changes:
@@ -446,7 +446,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal`
 
-- Source: `app/(sfb)/portal/page.tsx`; components: `PortalLoginPage`, `PortalLogin`, `Flow`, `Icon`, `TeamCard`, `Working`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/portal/page.tsx`; components: `PortalLoginPage`, `PortalLogin`, `Flow`, `Icon`, `TeamCard`, `Working`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `applicants`, `branches`, `customers`, `employees`, `grants`, `settings`
 - Changes:
@@ -457,7 +457,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/pay`
 
-- Source: `app/(sfb)/portal/pay/page.tsx`; components: `PortalPayPage`, `PortalPay`, `PayBody`, `Icon`, `MoneyTable`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/pay/page.tsx`; components: `PortalPayPage`, `PortalPay`, `PayBody`, `Icon`, `MoneyTable`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `branches`, `customers`
 - Changes: nothing
@@ -466,7 +466,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/profile`
 
-- Source: `app/(sfb)/portal/profile/page.tsx`; components: `PortalProfilePage`, `PortalProfile`, `ProfileBody`, `EmptyRow`, `DocBadge`, `Badge`, `EmergencyForm`, `Kv`, `Icon`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/profile/page.tsx`; components: `PortalProfilePage`, `PortalProfile`, `ProfileBody`, `EmptyRow`, `DocBadge`, `Badge`, `EmergencyForm`, `Kv`, `Icon`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `branches`, `customers`
 - Changes:
@@ -476,7 +476,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/schedule`
 
-- Source: `app/(sfb)/portal/schedule/page.tsx`; components: `PortalSchedulePage`, `PortalSchedule`, `ScheduleBody`, `StatusBadge`, `Badge`, `EmptyRow`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `Icon`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/schedule/page.tsx`; components: `PortalSchedulePage`, `PortalSchedule`, `ScheduleBody`, `StatusBadge`, `Badge`, `EmptyRow`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `Icon`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `branches`, `customers`
 - Changes:
@@ -486,7 +486,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/till`
 
-- Source: `app/(sfb)/portal/till/page.tsx`; components: `PortalTillPage`, `PortalTill`, `NoTillAccess`, `TillDesk`, `Verdict`, `Icon`, `AppShell`, `ThemeToggle`, `CommandPalette`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/till/page.tsx`; components: `PortalTillPage`, `PortalTill`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `NoTillAccess`, `TillDesk`, `Verdict`, `Icon`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<TILL_ROLES>`; parts shown only with `<p>`, `codes.redeem`
 - Reads: `branches`, `customers`, `redemptions`
 - Changes:
@@ -496,7 +496,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/updates`
 
-- Source: `app/(sfb)/portal/updates/page.tsx`; components: `PortalUpdatesPage`, `PortalUpdates`, `UpdatesBody`, `Update`, `State`, `Badge`, `PortalPage`, `AppShell`, `ThemeToggle`, `CommandPalette`, `Icon`, `ResetDemoButton`, `Scope`
+- Source: `app/(sfb)/portal/updates/page.tsx`; components: `PortalUpdatesPage`, `PortalUpdates`, `UpdatesBody`, `Update`, `State`, `Badge`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `Icon`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`
 - Reads: `branches`, `customers`, `employees`
 - Changes:
@@ -508,7 +508,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/restaurant`
 
-- Source: `app/(sfb)/restaurant/page.tsx`; components: `RestaurantPage`, `BakeryShelf`, `RestaurantPlaces`, `StoreToday`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/restaurant/page.tsx`; components: `RestaurantPage`, `BakeryShelf`, `RestaurantPlaces`, `StoreToday`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`, `specials`
 - Changes:
@@ -517,7 +517,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/specials`
 
-- Source: `app/(sfb)/specials/page.tsx`; components: `SpecialsPage`, `SpecialsExtras`, `NewsletterSignup`, `Icon`, `SpecialsBoard`, `DealsBoard`, `DealCard`, `PriceSeal`, `SpecialsFallback`, `FlyerWall`, `Fit`, `DealsNote`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/specials/page.tsx`; components: `SpecialsPage`, `SpecialsExtras`, `NewsletterSignup`, `Icon`, `SpecialsBoard`, `DealsBoard`, `DealCard`, `PriceSeal`, `SpecialsFallback`, `FlyerWall`, `Fit`, `DealsNote`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `departments`, `flyers`, `settings`, `specials`
 - Changes:
@@ -526,7 +526,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/tour`
 
-- Source: `app/(sfb)/tour/page.tsx`; components: `TourPage`, `TourPicker`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/tour/page.tsx`; components: `TourPage`, `TourPicker`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `Icon`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -535,7 +535,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/wholesale`
 
-- Source: `app/(sfb)/wholesale/page.tsx`; components: `WholesalePage`, `EnquiryForm`, `Icon`, `WholesaleSourced`, `FactItem`, `CustomerTypes`, `WholesaleLines`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/wholesale/page.tsx`; components: `WholesalePage`, `EnquiryForm`, `Icon`, `WholesaleSourced`, `FactItem`, `CustomerTypes`, `WholesaleLines`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
@@ -569,7 +569,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/admin#overview`
 
-- Source: `components/admin/admin-console.tsx`; components: `OverviewPanel`, `TrendChart`, `VizDialog`, `TrendExtras`, `ChartStats`, `CountUp`, `Seg`, `Stat`, `Spark`, `Ring`, `Icon`, `Change`, `Fig`, `Tile`
+- Source: `components/admin/admin-console.tsx`; components: `OverviewPanel`, `TrendChart`, `VizDialog`, `TrendExtras`, `ShareDonut`, `ChartStats`, `CountUp`, `Seg`, `Stat`, `Spark`, `Ring`, `Icon`, `Change`, `Fig`, `Tile`
 - Who can open it: office staff with `overview.view`
 - Reads: `applicants`, `audit`, `branches`, `bulkOrders`, `employees`, `grants`, `jobs`, `promotions`, `requests`, `site`, `socialWeeks`, `specials`, `specialsBooks`, `subscribers`, `supplierSheets`
 - Changes: nothing
@@ -697,7 +697,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/admin#analytics`
 
-- Source: `components/admin/admin-console.tsx`; components: `AnalyticsPanel`, `Bars`, `CountUp`, `Icon`, `TrendChart`, `VizDialog`, `TrendExtras`, `ChartStats`, `Change`, `Stat`, `Spark`, `Ring`, `Seg`, `Flow`
+- Source: `components/admin/admin-console.tsx`; components: `AnalyticsPanel`, `Bars`, `CountUp`, `Icon`, `TrendChart`, `VizDialog`, `TrendExtras`, `ShareDonut`, `ChartStats`, `Change`, `Stat`, `Spark`, `Ring`, `Seg`, `Flow`
 - Who can open it: office staff with `analytics.view`
 - Reads: `promotions`, `sitePages`, `socialAccounts`, `socialWeeks`
 - Changes: nothing
@@ -868,7 +868,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/hr#pipeline`
 
-- Source: `components/hr/hr-console.tsx`; components: `PipelineBoard`, `BoardCard`, `Flow`, `Icon`
+- Source: `components/hr/hr-console.tsx`; components: `PipelineBoard`, `BoardSkeleton`, `Skel`, `BoardCard`, `Flow`, `Icon`
 - Who can open it: HR (`hr` role)
 - Reads: `applicants`, `jobs`
 - Changes: nothing
@@ -876,7 +876,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/hr#roles`
 
-- Source: `components/hr/hr-console.tsx`; components: `RolesTable`, `Button`, `Badge`
+- Source: `components/hr/hr-console.tsx`; components: `RolesTable`, `SkelTableRows`, `Row`, `Skel`, `Button`, `Badge`
 - Who can open it: HR (`hr` role)
 - Reads: `jobs`
 - Changes:
@@ -884,14 +884,14 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/hr#log`
 
-- Source: `components/hr/hr-console.tsx`; components: `HiringLog`, `Badge`
+- Source: `components/hr/hr-console.tsx`; components: `HiringLog`, `Badge`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`
 - Who can open it: HR (`hr` role)
 - Reads: `applicants`, `jobs`
 - Changes: nothing
 
 ### `/hr#people`
 
-- Source: `components/hr/hr-console.tsx`; components: `PeoplePanel`, `PersonFormView`, `PersonDetail`, `FileHistory`, `Badge`, `NoteForm`, `Seg`, `RatingBlock`, `Stars`, `StatusForm`, `SideSheet`, `Icon`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Bars`, `CountUp`, `Stat`, `VizDialog`, `Spark`, `Ring`, `Flow`
+- Source: `components/hr/hr-console.tsx`; components: `PeoplePanel`, `PersonFormView`, `PersonDetail`, `FileHistory`, `Badge`, `NoteForm`, `Seg`, `RatingBlock`, `Stars`, `StatusForm`, `SideSheet`, `Icon`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Bars`, `CountUp`, `Stat`, `VizDialog`, `Spark`, `Ring`, `Flow`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`
 - Who can open it: HR (`hr` role); parts shown only with `hr.people`
 - Reads: `branches`, `employees`, `jobDepts`, `kycDocs`
 - Changes:
@@ -904,7 +904,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/hr#resources`
 
-- Source: `components/hr/hr-console.tsx`; components: `HrResources`, `ResourceList`, `ResourceFormView`, `SideSheet`, `Icon`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`
+- Source: `components/hr/hr-console.tsx`; components: `HrResources`, `ResourceList`, `ResourceFormView`, `SideSheet`, `Icon`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`
 - Who can open it: HR (`hr` role); parts shown only with `hr.people`
 - Reads: `policies`, `resources`
 - Changes:
@@ -913,7 +913,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/hr#compliance`
 
-- Source: `components/hr/hr-console.tsx`; components: `CompliancePanels`, `Badge`, `EmptyRow`, `Button`, `DocBadge`, `Who`
+- Source: `components/hr/hr-console.tsx`; components: `CompliancePanels`, `Badge`, `SkelRows`, `Row`, `Skel`, `SkelGroup`, `EmptyRow`, `Button`, `DocBadge`, `Who`
 - Who can open it: HR (`hr` role)
 - Reads: `employees`
 - Changes:

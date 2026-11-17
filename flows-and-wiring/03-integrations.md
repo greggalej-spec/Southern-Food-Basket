@@ -67,6 +67,7 @@ From [generated/externals.md](generated/externals.md):
 | `sfb-session-v1` | the demo session | gone: the auth cookie |
 | `sfb-apply-draft-<job id>` | application drafts | keep in the browser, or save drafts on the server once the applicant has an account |
 | `sfb.staffSkin`, `sfb.staffGlass`, `sfb.staffTheme`, `sfb.navClosed`, `sfb-flow-*` | screen preferences | keep in the browser (or per user) |
+| `sfb.navQuiet` | sidebar lights a person has paused, marked done or acknowledged (and a put-away edge swell); added 17 Nov 2026 | keep per user on the server, so a light quieted on one device stays quiet on the others |
 | `sfb-till-branch` | which store a till is set to | move to the grant or the device registration |
 | `sfb-signin-times`, `sfb-signup-times` | browser-tab rate limits | replace with server limits |
 | `sfb-banner-dismissed`, `sfb-outbox-to`, `sfb-tour-v1` | demo only | remove |

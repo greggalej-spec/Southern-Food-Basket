@@ -41,6 +41,7 @@ Every collection in the demo data (`Seed` in `lib/types.ts`). Each becomes a tab
 | `requests` | `CommunityRequest[]` | submitRequest, logRequest, moveRequest, decideRequest, addRequestMessage, assignRequest | /admin /admin#overview /admin#requests | phone, email |
 | `bulkOrders` | `BulkOrder[]` | addBulkOrder, setBulkQty, advanceBulk | /admin /portal/bulk /admin#overview /admin#bulk |  |
 | `tasks` | `Task[]` | addTask, setTaskDone |  |  |
+| `incidents` | `Incident[]` | seed only |  |  |
 | `resources` | `ResourceDoc[]` | saveResource | /admin /hr /admin#tasks /hr#resources |  |
 | `socialAccounts` | `SocialAccount[]` | setConnected | /admin /admin#analytics /admin#social |  |
 | `socialPosts` | `SocialPost[]` | seed only |  |  |

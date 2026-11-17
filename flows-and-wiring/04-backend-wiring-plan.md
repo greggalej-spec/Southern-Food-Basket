@@ -61,6 +61,7 @@ file; foreign keys are in [generated/relationships.md](generated/relationships.m
 | Mailing | `subscribers`, `consents`, `campaigns`, `campaign_test_sends`, `outbox` | `consents` is the legal record: append-only and kept. `outbox` becomes the send log. |
 | Staff comms | `staff_updates`, `staff_update_reads`, `staff_update_acks`, `announcements` | |
 | Office | `suppliers`, `specials_books`, `supplier_sheets`, `supplier_lines`, `sellouts`, `sellout_lines`, `requests`, `request_messages`, `bulk_orders`, `bulk_allocations`, `bulk_log`, `tasks`, `resources`, `feedback`, `feedback_messages` | Supplier prices and margins are confidential: `suppliers.view` only. |
+| Store incidents | `incidents` (store, title, what has been done, level `critical` or `urgent`, reported by and when, status) | Added 17 Nov 2026 for Today's priority order. Readable by staff with `office.desk` at that store. Needs a report and a resolve write (none exists yet), each with an audit line, and a push or SMS to the office for a critical one. |
 | Marketing | `social_accounts`, `social_posts`, `social_weeks`, `plan` | OAuth tokens live in a separate server-only table, never in `social_accounts`. |
 
 Conventions:

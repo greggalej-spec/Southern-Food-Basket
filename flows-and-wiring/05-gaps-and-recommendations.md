@@ -26,6 +26,7 @@ Severity is for the production app. In the demo, with demo data in one browser, 
 | G14 | Low | Shifts and payslips have no source: seed data only, with no screen or import that creates them | `employees.shifts`, `employees.payslips` | Decision D3 | Phase 4 |
 | G15 | Low | Social figures and connections are simulated | `socialWeeks`, `setConnected()` only flips a flag | Meta and TikTok APIs (03) | Phase 7 |
 | G16 | Low | No role holds till access by default | `perm-unassigned:codes.redeem` | Intended: the Managing Directors grant it per person. Keep. | Accepted |
+| G17 | Medium | Store incidents can be read but not reported, taken or resolved: the two rows are demo data | `incidents` (`lib/seed-incidents.ts`), read by `buildQueue()` | A report form for the stores (or a call logged by the office) with `reportIncident()`, `takeIncident()` and `resolveIncident()`, each checked and audited; a push or SMS to the office for a critical one | Phase 5 |
 
 ### How to close one
 

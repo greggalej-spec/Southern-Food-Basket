@@ -286,6 +286,13 @@ committed to the public repository (an existing rule).
 
 - Today and Overview count what is waiting: requests with the directors, open feedback, bulk orders waiting on
   stores, tasks due.
+- Today puts open store incidents first (`incidents`, read only; added 17 Nov 2026), for anyone with `office.desk` at
+  that store. Each Today line carries an urgency: "critical" for an incident marked critical, "urgent" for anything due
+  within two days or late (`URGENT_DAYS` in `lib/admin/today.ts`). The sidebar's lights (`lib/nav-signals.ts`) are worked
+  out from the same lines, so they write nothing.
+- Nothing yet reports or resolves an incident: the two rows are demo data (`lib/seed-incidents.ts`). The real app needs
+  a way for a store to report one (a form or a call logged by the office), someone to take it, and a resolved state.
+  See G17 in `05-gaps-and-recommendations.md`.
 - A bulk order's total and cost add up from the store quantities.
 
 **Clock:**
