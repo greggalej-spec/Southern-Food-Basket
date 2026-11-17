@@ -11,6 +11,7 @@ export const SITE_NAV = [
   { id: "specials", label: "Specials", href: "/specials" },
   { id: "events", label: "Events & promotions", href: "/events" },
   { id: "restaurant", label: "Restaurant & bakery", href: "/restaurant" },
+  { id: "deliveries", label: "Deliveries", href: "/deliveries" },
   { id: "locations", label: "A store near me", href: "/locations" },
   { id: "departments", label: "Departments", href: "/departments" },
   { id: "about", label: "About us", href: "/about" },

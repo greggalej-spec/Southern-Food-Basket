@@ -11,6 +11,7 @@
     "/careers/[id]/apply",
     "/careers/me",
     "/community",
+    "/deliveries",
     "/departments",
     "/events",
     "/how-it-works",
@@ -24,6 +25,7 @@
     "/outbox",
     "/portal",
     "/portal/bulk",
+    "/portal/deliveries",
     "/portal/docs",
     "/portal/home",
     "/portal/leave",
@@ -45,6 +47,7 @@
     "/admin#codes",
     "/admin#customize",
     "/admin#deals",
+    "/admin#deliveries",
     "/admin#events",
     "/admin#feedback",
     "/admin#list",
@@ -620,6 +623,187 @@
       "collections": [
         "audit",
         "specials"
+      ]
+    },
+    "lib/ops/deliveries.ts#addDeliveryMessage": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.message"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#cancelDelivery": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.cancel"
+      ],
+      "collections": [
+        "audit",
+        "deliveries"
+      ]
+    },
+    "lib/ops/deliveries.ts#declineQuote": {
+      "perms": [],
+      "audits": [
+        "deliveries.decline"
+      ],
+      "collections": [
+        "audit",
+        "deliveries"
+      ]
+    },
+    "lib/ops/deliveries.ts#finishCheck": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.checked"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#finishPicking": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.picked"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#logDelivery": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.log"
+      ],
+      "collections": [
+        "audit",
+        "deliveries"
+      ]
+    },
+    "lib/ops/deliveries.ts#markDelivered": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.done"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#recordPo": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.po"
+      ],
+      "collections": [
+        "audit",
+        "deliveries"
+      ]
+    },
+    "lib/ops/deliveries.ts#reportIssue": {
+      "perms": [],
+      "audits": [
+        "deliveries.issue"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#resolveIssue": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.issue"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#sendQuote": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.quote"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#startPicking": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.pick"
+      ],
+      "collections": [
+        "audit",
+        "deliveries"
+      ]
+    },
+    "lib/ops/deliveries.ts#submitDelivery": {
+      "perms": [],
+      "audits": [
+        "deliveries.submit"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#submitPo": {
+      "perms": [],
+      "audits": [
+        "deliveries.po"
+      ],
+      "collections": [
+        "audit",
+        "deliveries",
+        "outbox"
+      ]
+    },
+    "lib/ops/deliveries.ts#tickLine": {
+      "perms": [
+        "deliveries.handle"
+      ],
+      "audits": [
+        "deliveries.tick"
+      ],
+      "collections": [
+        "audit",
+        "deliveries"
       ]
     },
     "lib/ops/events.ts#addFlyers": {
@@ -1480,6 +1664,7 @@
     "consents",
     "content",
     "customers",
+    "deliveries",
     "departments",
     "employees",
     "entitlements",
@@ -1529,6 +1714,7 @@
     "bulk.store",
     "codes.redeem",
     "codes.view",
+    "deliveries.handle",
     "events.manage",
     "feedback.handle",
     "hr.compliance",
@@ -1626,6 +1812,7 @@
       "bulk.manage",
       "bulk.store",
       "codes.view",
+      "deliveries.handle",
       "events.manage",
       "feedback.handle",
       "newsletter.compose",

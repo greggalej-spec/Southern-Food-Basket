@@ -81,6 +81,7 @@ const NAV = [
   ["#deals", "Specials"],
   ["/events", "Events & promotions"],
   ["/restaurant", "Restaurant & bakery"],
+  ["/deliveries", "Deliveries"],
   ["#stores", "A store near me"],
   ["#aisles", "Departments"],
   ["#who", "About us"],
@@ -488,6 +489,7 @@ export default function HomePage() {
               <li><Link href="/events">Events and promotions</Link></li>
               <li><Link href="/departments">Departments</Link></li>
               <li><Link href="/restaurant">Restaurant and bakery</Link></li>
+              <li><Link href="/deliveries">Deliveries for businesses</Link></li>
               <li><Link href="/locations">A store near me</Link></li>
             </ul>
           </div>

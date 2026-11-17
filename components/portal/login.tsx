@@ -24,7 +24,8 @@ import type { Role } from "@/lib/types";
    code, so switching between accounts is one tap. Typing a demo e-mail into the form still walks all three steps.
    A revoked account's card stays disabled. "?as=<role>" also signs straight in, for the guided tour and the guide. */
 
-type Account = { key: string; role: Exclude<Role, "customer">; user: string; icon: IconName; who: string; can: string };
+/** home: where this person lands when no ?next= says otherwise (inside their role's area). */
+type Account = { key: string; role: Exclude<Role, "customer">; user: string; icon: IconName; who: string; can: string; home?: string };
 
 const ACCOUNTS: Account[] = [
   { key: "owner", role: "owner", user: "emp-vishala", icon: "grid", who: "Mellisa · Managing Director", can: "The overview of every department, approvals, staff access and the activity log." },
@@ -33,11 +34,12 @@ const ACCOUNTS: Account[] = [
   { key: "marketing", role: "marketing", user: "emp-tricia", icon: "chart", who: "Isabel · Marketing", can: "Marketing figures, social accounts, the calendar, offers, events and flyers, posts and the website studio." },
   { key: "hr", role: "hr", user: "emp-devon", icon: "users", who: "Faith · HR Manager", can: "Applications, jobs, the team at all five stores, HR resources." },
   { key: "purchasing", role: "purchasing", user: "emp-sadia", icon: "tag", who: "Sadia · Point of Sale", can: "The supplier specials, to view only. They cannot change anything." },
+  { key: "deliveries", role: "employee", user: "emp-narindra", icon: "truck", who: "Narindra · Supervisor, Couva", can: "The Couva deliveries trial: quotes, purchase orders, picking, the second check and the hand-over.", home: "/portal/deliveries" },
   { key: "employee", role: "employee", user: "emp-keisha", icon: "user", who: "Keisha Ramlogan · Checkout Supervisor, San Fernando", can: "Her shifts, leave and pay, and checking members’ codes at her till." },
   { key: "applicant", role: "applicant", user: "app-aaliyah", icon: "file", who: "Aaliyah Persad · applying for Checkout Associate", can: "Her own application and documents." },
 ];
 
-const TITLE: Record<string, string> = { owner: "Managing Director’s console", owner2: "Managing Director’s console", admin: "Administration", marketing: "Marketing", hr: "HR", purchasing: "Point of Sale", employee: "Employee", applicant: "Applicant" };
+const TITLE: Record<string, string> = { owner: "Managing Director’s console", owner2: "Managing Director’s console", admin: "Administration", deliveries: "Deliveries", marketing: "Marketing", hr: "HR", purchasing: "Point of Sale", employee: "Employee", applicant: "Applicant" };
 const DEMO_CODE = "482615";
 const userFor = (role: Role) => ACCOUNTS.find((c) => c.role === role)?.user ?? null;
 
@@ -113,7 +115,7 @@ export function PortalLogin() {
     setLeaving(true);
     const sess = login(a.role, a.user);
     if (isStaff(a.role)) update((dd) => audit(dd, sess, "auth.signin", a.who.split(" · ")[0], "Demo account picked on the sign-in page"));
-    setTimeout(() => router.push(destinationFor(a.role, queryParam("next"))), 450);
+    setTimeout(() => router.push(destinationFor(a.role, queryParam("next") || a.home)), 450);
   }
 
   /** Anyone on staff with live access, by work e-mail, not only the people on the cards (the Point of Sale team, for
@@ -152,7 +154,7 @@ export function PortalLogin() {
     setLeaving(true);
     const sess = login(picked.role, picked.user);
     if (isStaff(picked.role)) update((dd) => audit(dd, sess, "auth.signin", picked.who.split(" · ")[0], "Password and phone code accepted"));
-    setTimeout(() => router.push(destinationFor(picked.role, queryParam("next"))), 700);
+    setTimeout(() => router.push(destinationFor(picked.role, queryParam("next") || picked.home)), 700);
   }
 
   const u = !s ? null : s.role === "applicant" ? currentApplicant(d, s) : s.role === "customer" ? (d.customers || []).find((c) => c.id === s.userId) : currentEmployee(d, s);

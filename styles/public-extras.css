@@ -27,6 +27,7 @@ body:has(.tour-root .tour-card) .fb{ display: none; }
 .fb-kind:hover{ transform: translateY(-1px); border-color: #C9B6BE; }
 .fb-kind[aria-checked="true"]{ border-color: var(--fb-green); background: #E3F2E6; }
 .fb-kind.fb-complaint[aria-checked="true"]{ border-color: var(--fb-pink); background: #FCE4EC; }
+.fb-kind.fb-delivery{ grid-column: 1 / -1; }
 .fb-hint{ margin: -4px 0 0; font-size: .875rem; line-height: 1.4; color: #5D4A53; }
 .fb-panel label{ display: grid; gap: 5px; font-size: .875rem; font-weight: 700; color: var(--fb-ink); }
 .fb-panel label > span{ line-height: 1.3; }

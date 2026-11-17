@@ -35,6 +35,7 @@ export const PERMISSIONS = {
   "requests.log": "Log partnership, promotion and donation requests, reply to them and follow them up",
   "requests.decide": "Approve or decline partnership, promotion and donation requests",
   "feedback.handle": "Read customer feedback, reply to it and mark it resolved",
+  "deliveries.handle": "Answer delivery quote requests and take each order from purchase order to delivery",
   "events.manage": "Put events, promotions and flyers on the public site",
   "bulk.manage": "Set up bulk orders and place them",
   "bulk.store": "Give your store's quantity for a bulk order",
@@ -74,6 +75,7 @@ export const ROLE_PERMS: Record<Role, Permission[]> = {
   owner: [
     "suppliers.view", "suppliers.edit", "sellout.log", "requests.log", "requests.decide", "bulk.manage", "bulk.store", "tasks.assign",
     "resources.edit", "analytics.view", "social.connect", "plan.edit", "radio.manage", "site.customize", "overview.view", "feedback.handle", "events.manage",
+    "deliveries.handle",
     "portal.self",
     "specials.edit",
     "posts.make",

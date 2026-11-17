@@ -1,6 +1,7 @@
 import "./mailing";
 import "./members";
 import { MORE_GRANTS, MORE_PEOPLE, OPS_AUDIT, OPS_TIER } from "./seed-ops";
+import { DELIVERIES, NARINDRA, NARINDRA_GRANTS } from "./seed-deliveries";
 import { INCIDENTS } from "./seed-incidents";
 import { RADIO_TIER } from "./seed-radio";
 import { STAFF_TIER } from "./seed-staff";
@@ -22,3 +23,5 @@ registerTier("staff", {
 });
 // Its own tier, so a browser that saved the staff demo before 16 Nov 2026 still gets the store incidents.
 registerTier("incidents", { incidents: INCIDENTS });
+// The Couva deliveries trial (17 Nov 2026): Narindra, his access, and the demo orders. Its own tier for the same reason.
+registerTier("deliveries", { deliveries: DELIVERIES, employees: [NARINDRA], grants: NARINDRA_GRANTS });

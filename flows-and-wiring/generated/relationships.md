@@ -51,6 +51,10 @@ Every field that points at a row in another collection, read from the types in `
 | `requests` | `owner` | a person's name stored as text (should become a staff or applicant id) |  |
 | `requests` | `decidedBy` | employees (a staff user id) |  |
 | `requests` | `messages.by` | employees (a staff user id) |  |
+| `deliveries` | `branchId` | branches |  |
+| `deliveries` | `owner` | a person's name stored as text (should become a staff or applicant id) |  |
+| `deliveries` | `checkedBy` | employees (a staff user id) |  |
+| `deliveries` | `messages.by` | employees (a staff user id) |  |
 | `bulkOrders` | `createdBy` | employees (a staff user id) |  |
 | `bulkOrders` | `log.by` | employees (a staff user id) |  |
 | `tasks` | `assignedTo` | employees (a staff user id) |  |
@@ -74,8 +78,8 @@ Every field that points at a row in another collection, read from the types in `
 
 | Collection | Referenced by |
 |---|---|
-| `employees` | `employees.hrFile.notes.by`, `employees.hrFile.ratings.by`, `employees.hrFile.changes.by`, `promotions.createdBy`, `promotions.approvedBy`, `grants.userId`, `grants.grantedBy`, `grants.revokedBy`, `redemptions.by`, `campaigns.createdBy`, `staffUpdates.recipientIds`, `staffUpdates.createdBy`, `staffUpdates.sentBy`, `audit.actor`, `siteVersions.by`, `supplierSheets.checkedBy`, `requests.decidedBy`, `requests.messages.by`, `bulkOrders.createdBy`, `bulkOrders.log.by`, `tasks.assignedTo`, `tasks.assignedBy`, `socialAccounts.connectedBy`, `radioScripts.sentBy`, `feedback.assignedTo`, `feedback.messages.by` |
-| `branches` | `jobs.branchId`, `employees.branchId`, `announcements.branchId`, `promotions.branchIds`, `grants.branchIds`, `customers.preferredBranch`, `redemptions.branchId`, `subscribers.branches`, `requests.branchId`, `incidents.branchId`, `socialPosts.branchId`, `feedback.branchId`, `events.branchIds` |
+| `employees` | `employees.hrFile.notes.by`, `employees.hrFile.ratings.by`, `employees.hrFile.changes.by`, `promotions.createdBy`, `promotions.approvedBy`, `grants.userId`, `grants.grantedBy`, `grants.revokedBy`, `redemptions.by`, `campaigns.createdBy`, `staffUpdates.recipientIds`, `staffUpdates.createdBy`, `staffUpdates.sentBy`, `audit.actor`, `siteVersions.by`, `supplierSheets.checkedBy`, `requests.decidedBy`, `requests.messages.by`, `deliveries.checkedBy`, `deliveries.messages.by`, `bulkOrders.createdBy`, `bulkOrders.log.by`, `tasks.assignedTo`, `tasks.assignedBy`, `socialAccounts.connectedBy`, `radioScripts.sentBy`, `feedback.assignedTo`, `feedback.messages.by` |
+| `branches` | `jobs.branchId`, `employees.branchId`, `announcements.branchId`, `promotions.branchIds`, `grants.branchIds`, `customers.preferredBranch`, `redemptions.branchId`, `subscribers.branches`, `requests.branchId`, `deliveries.branchId`, `incidents.branchId`, `socialPosts.branchId`, `feedback.branchId`, `events.branchIds` |
 | `promotions` | `entitlements.promoId`, `campaigns.promoId` |
 | `specialsBooks` | `supplierSheets.bookId`, `sellouts.bookId` |
 | `suppliers` | `supplierSheets.supplierId`, `sellouts.supplierId` |

@@ -19,6 +19,7 @@ export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
   sellout: { title: "Sell-out reports", purpose: "Which companies are owed a report for each round of specials, which are done, and which have gone out." },
   events: { title: "Events and flyers", purpose: "What customers see on the Events page, and the designer’s flyers that lead the Specials page." },
   feedback: { title: "Customer feedback", purpose: "Compliments, questions, suggestions and complaints sent from the website, each one answered and closed in one place." },
+  deliveries: { title: "Deliveries", purpose: "The Couva trial: business lists in, quotes out within a working day, and every order picked, checked against its purchase order and delivered." },
   requests: { title: "Partnerships and donations", purpose: "Every request from a school, charity, club or company in one list, from the day it arrives to the day it is done." },
   bulk: { title: "Bulk orders", purpose: "One order for all five stores: each store gives its number, the office places the order, and last time’s figures sit alongside." },
   tasks: { title: "Tasks and resources", purpose: "Work handed from one person to another, and the templates and checklists the office keeps to hand." },

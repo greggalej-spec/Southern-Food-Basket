@@ -352,6 +352,9 @@ export interface Seed {
   supplierSheets: SupplierSheet[];
   sellouts: SelloutReport[];
   requests: CommunityRequest[];
+  /** Business quote requests and their orders (the Couva deliveries trial). Optional: a browser's saved demo from
+   *  before 17 Nov 2026 has none until the "deliveries" tier (lib/seed-deliveries.ts) joins it. */
+  deliveries?: DeliveryOrder[];
   bulkOrders: BulkOrder[];
   tasks: Task[];
   /** Something wrong at a store that the office must deal with now (a leak, a failed freezer). Demo rows join with
@@ -708,6 +711,90 @@ export interface RequestMessage {
   text: string;
 }
 
+/* ---------- Deliveries: the business quote service run from Couva (staff meeting, 17 Nov 2026) ---------- */
+
+/** new: waiting for a quote. quoted: the quote went out, waiting for their purchase order. accepted: the PO is in,
+ *  ready to pick. picking: at the shelves. checking: picked, a second person checks every line against the PO.
+ *  ready: out for delivery or waiting to be collected. done: handed over and invoiced. cancelled: no order came of it. */
+export type DeliveryStatus = "new" | "quoted" | "accepted" | "picking" | "checking" | "ready" | "done" | "cancelled";
+export type DeliveryUnit = "each" | "pack" | "case";
+/** VAT treatment of a line, as the till's tax code has it: S standard (12.5%), Z zero-rated, E exempt. */
+export type VatCode = "S" | "Z" | "E";
+
+/** One line of the customer's list, exactly as they asked for it, plus what the store adds as the order moves. */
+export interface DeliveryLine {
+  id: string;
+  item: string;
+  brand?: string;
+  /** "500 ml", "2 kg", "24-pack": the meeting's point that "juice" is not an order. */
+  size: string;
+  qty: number;
+  unit: DeliveryUnit;
+  /** Set on the quote: the price of one unit in TTD before VAT, or null when the store cannot supply it. */
+  price?: number | null;
+  /** Set on the quote: the line's VAT treatment. */
+  vat?: VatCode;
+  /** What the store offers instead, when it is out of the one asked for and the customer allows a swap. */
+  swap?: string;
+  /** Ticked off at the shelf, then again by the checker against the purchase order. */
+  picked?: boolean;
+  checked?: boolean;
+  /** How many the picker found, when fewer than ordered (a short pick). Absent means all of them. */
+  supplied?: number;
+}
+
+export interface DeliveryOrder {
+  id: string;
+  /** "DL-0007", what the customer quotes on the phone and on their purchase order. */
+  ref: string;
+  company: string;
+  contact: string;
+  phone: string;
+  email: string;
+  via: "Website" | "WhatsApp" | "E-mail" | "Phone" | "Walk-in";
+  /** The store that fills it. Couva for the trial. */
+  branchId: string;
+  receivedAt: string;
+  fulfil: "delivery" | "collect";
+  /** A delivery area id (lib/ops/deliveries.ts ZONES) and the address, for deliveries. */
+  zone?: string;
+  address?: string;
+  wantedBy?: string;
+  /** May the store swap an item it is out of for a similar brand or size? */
+  swaps: boolean;
+  notes?: string;
+  /** Who the tax invoice is made out to (the IRD requires the recipient's name and address) and where it is sent. */
+  billing?: { name: string; address: string; email: string };
+  /** Gate pass, safety gear, receiving hours: what the driver needs to know to get in. */
+  site?: string;
+  /** "card": paid by card at the door or the counter. "account": invoiced to their accounts department. */
+  payment?: "card" | "account";
+  /** Their own list, attached as a file (name and size only in this prototype). */
+  list?: FileMeta;
+  lines: DeliveryLine[];
+  status: DeliveryStatus;
+  /** Who is looking after it. */
+  owner?: string;
+  /** payDays: 0 = due on delivery or collection; otherwise days from the invoice date. */
+  quote?: { at: string; by: string; fee: number; feeVat: VatCode; validUntil: string; payDays: number; note?: string };
+  po?: { number: string; at: string; via: string; file?: FileMeta };
+  pickedBy?: string;
+  pickedAt?: string;
+  checkedBy?: string;
+  checkedAt?: string;
+  readyAt?: string;
+  /** The van and driver, or the collection note. */
+  handover?: string;
+  doneAt?: string;
+  /** Proof of delivery: who signed the delivery note, and anything noted at the door. */
+  pod?: { receivedBy: string; at: string; notes?: string; paidByCard?: boolean };
+  invoice?: { no: string; at: string; due: string };
+  cancelReason?: string;
+  /** A shortage, damage or wrong item the customer reported after delivery (24-hour window). */
+  issue?: { at: string; text: string; resolvedAt?: string; resolution?: string };
+  messages: RequestMessage[];
+}
+
 /** A request from outside for the store's help or to work together: a school asking for hampers, a charity drive,
  *  a club's sponsorship, a brand's in-store promotion. One log for all of them, wherever they came in. */
 export interface CommunityRequest {
@@ -785,7 +872,7 @@ export interface Flyer {
   careers?: boolean;
 }
 
-export type FeedbackKind = "compliment" | "suggestion" | "question" | "complaint";
+export type FeedbackKind = "compliment" | "suggestion" | "question" | "complaint" | "delivery";
 
 /** One message from a shopper, sent with the Feedback button on the public site, and what customer service did with it. */
 export interface FeedbackTicket {

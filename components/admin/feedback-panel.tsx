@@ -17,7 +17,7 @@ import type { FeedbackTicket } from "@/lib/types";
    customer said back). Replies go out by e-mail when the customer left an address; otherwise the card says to call. */
 
 const TONE = { warn: "warn", info: "info", ok: "ok", bad: "bad", plain: "neutral" } as const;
-const KIND_TONE: Record<FeedbackTicket["kind"], "bad" | "ok" | "info" | "clay"> = { complaint: "bad", compliment: "ok", question: "info", suggestion: "clay" };
+const KIND_TONE: Record<FeedbackTicket["kind"], "bad" | "ok" | "info" | "clay"> = { complaint: "bad", compliment: "ok", question: "info", suggestion: "clay", delivery: "info" };
 type Show = "open" | "complaint" | "resolved" | "all";
 
 export function FeedbackPanel({ item }: { item: string | null }) {

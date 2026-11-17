@@ -250,7 +250,7 @@ export const SEED: Seed = {
     hiddenBands: []
   },
   /* Operations: filled by the staff tier (lib/seed-ops.ts), never shipped to public pages. */
-  suppliers: [], specialsBooks: [], supplierSheets: [], sellouts: [], requests: [], bulkOrders: [], tasks: [], resources: [],
+  suppliers: [], specialsBooks: [], supplierSheets: [], sellouts: [], requests: [], deliveries: [], bulkOrders: [], tasks: [], resources: [],
   socialAccounts: [], socialPosts: [], socialWeeks: [], sitePages: [], plan: [], feedback: [],
   radioStations: [], radioSheets: [], radioSpots: [], radioScripts: [],
   events: EVENTS, flyers: FLYERS,

@@ -13,6 +13,8 @@ export const FB_KIND: Record<FeedbackKind, { label: string; hint: string }> = {
   suggestion: { label: "Suggestion", hint: "An idea, or a product you would like us to stock" },
   question: { label: "Question", hint: "Something you want to know" },
   complaint: { label: "Complaint", hint: "A problem with a visit, a price or a purchase" },
+  // The staff meeting of 17 Nov 2026: customers of the Couva deliveries trial need a way to reach us about an order.
+  delivery: { label: "Delivery or order", hint: "About a quote, a purchase order or a delivery. Give your DL- reference" },
 };
 export const FB_KINDS = Object.keys(FB_KIND) as FeedbackKind[];
 

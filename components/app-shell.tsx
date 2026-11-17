@@ -71,6 +71,7 @@ const OFFICE: NavItem[] = [
   { id: "suppliers", label: "Supplier specials", href: "/admin#suppliers", icon: "book", perm: ["suppliers.view", "suppliers.edit"] },
   { id: "sellout", label: "Sell-out reports", href: "/admin#sellout", icon: "check", perm: "sellout.log" },
   { id: "requests", label: "Partnerships and donations", href: "/admin#requests", icon: "gift", perm: ["requests.log", "requests.decide"] },
+  { id: "deliveries", label: "Deliveries", href: "/admin#deliveries", icon: "truck", perm: "deliveries.handle" },
   { id: "feedback", label: "Customer feedback", href: "/admin#feedback", icon: "phone", perm: "feedback.handle" },
   { id: "bulk", label: "Bulk orders", href: "/admin#bulk", icon: "boxes", perm: ["bulk.manage", "bulk.store"] },
   { id: "tasks", label: "Tasks and resources", href: "/admin#tasks", icon: "tasks", perm: "office.desk" },
@@ -106,8 +107,15 @@ export const APP_NAV: Record<Role, NavItem[]> = {
     { id: "me", label: "My application", href: "/careers/me", icon: "file" },
     { id: "jobs", label: "Browse jobs", href: "/careers", icon: "search" },
   ],
-  // A store manager gives his store's numbers for bulk orders from his own portal.
-  employee: [...MY_PORTAL.slice(0, 3), { id: "bulk", label: "Bulk orders", href: "/portal/bulk", icon: "boxes", perm: "bulk.store" }, ...MY_PORTAL.slice(3)],
+  // A store manager gives his store's numbers for bulk orders from his own portal; the Couva supervisor runs the
+  // deliveries trial from his.
+  employee: [
+    ...MY_PORTAL.slice(0, 1),
+    { id: "deliveries", label: "Deliveries", href: "/portal/deliveries", icon: "truck", perm: "deliveries.handle" },
+    ...MY_PORTAL.slice(1, 3),
+    { id: "bulk", label: "Bulk orders", href: "/portal/bulk", icon: "boxes", perm: "bulk.store" },
+    ...MY_PORTAL.slice(3),
+  ],
   hr: [
     { id: "pipeline", label: "Hiring pipeline", href: "/hr#pipeline", icon: "briefcase", perm: "hr.pipeline" },
     { id: "roles", label: "Jobs", href: "/hr#roles", icon: "grid", perm: "hr.jobs" },

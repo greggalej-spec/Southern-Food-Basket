@@ -49,20 +49,35 @@ Every function in `lib/` that changes data. Each one is a future server endpoint
 | `sendDue` | `lib/newsletter.ts:240` | system: sends scheduled newsletters when their time comes (becomes a server cron job) |  | `newsletter.send` | audit, campaigns, outbox | subscribers | /admin /admin#newsletter |
 | `sendNow` | `lib/newsletter.ts:226` | `newsletter.send` |  | `newsletter.send` | audit, campaigns, outbox | grants, subscribers |  |
 | `sendTest` | `lib/newsletter.ts:182` | `newsletter.compose` |  | `newsletter.test` | audit, campaigns, outbox | employees, grants |  |
-| `subscribe` | `lib/newsletter.ts:66` | public: anyone signs up; double opt-in follows |  | `newsletter.signup` | audit, consents, outbox, subscribers |  | /about /account /account/sign-in /account/verify /careers/[id]/apply /careers/[id] /careers /community /departments /events /how-it-works /locations /newsletter/confirm /newsletter/preferences /newsletter/unsubscribe /offers/[slug] /offers /outbox /portal /restaurant /specials /tour /wholesale |
+| `subscribe` | `lib/newsletter.ts:66` | public: anyone signs up; double opt-in follows |  | `newsletter.signup` | audit, consents, outbox, subscribers |  | /about /account /account/sign-in /account/verify /careers/[id]/apply /careers/[id] /careers /community /deliveries /departments /events /how-it-works /locations /newsletter/confirm /newsletter/preferences /newsletter/unsubscribe /offers/[slug] /offers /outbox /portal /restaurant /specials /tour /wholesale |
 | `unsubscribe` | `lib/newsletter.ts:134` | public: the e-mailed token is the credential (one click, no sign-in, by law) |  | `newsletter.unsubscribe` | audit, consents, subscribers |  | /newsletter/preferences /newsletter/unsubscribe |
 | `updatePreferences` | `lib/newsletter.ts:122` | public: the e-mailed token is the credential |  | `newsletter.preferences` | audit, consents, subscribers |  | /newsletter/preferences |
 | `endDeal` | `lib/ops/deals.ts:39` | `specials.edit` |  | `specials.end` | audit, specials | grants | /admin /admin#deals |
 | `rerunDeal` | `lib/ops/deals.ts:50` | `specials.edit` |  | `specials.rerun` | audit, specials | grants | /admin /admin#deals |
+| `addDeliveryMessage` | `lib/ops/deliveries.ts:419` | `deliveries.handle` |  | `deliveries.message` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `cancelDelivery` | `lib/ops/deliveries.ts:406` | `deliveries.handle` |  | `deliveries.cancel` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `declineQuote` | `lib/ops/deliveries.ts:191` | public: a company declines its quote; the reference plus the e-mail the quote went to are the check (server must rate-limit) |  | `deliveries.decline` | audit, deliveries |  | /deliveries |
+| `finishCheck` | `lib/ops/deliveries.ts:351` | `deliveries.handle` |  | `deliveries.checked` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `finishPicking` | `lib/ops/deliveries.ts:330` | `deliveries.handle` |  | `deliveries.picked` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `logDelivery` | `lib/ops/deliveries.ts:238` | `deliveries.handle` |  | `deliveries.log` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `markDelivered` | `lib/ops/deliveries.ts:370` | `deliveries.handle` |  | `deliveries.done` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `recordPo` | `lib/ops/deliveries.ts:284` | `deliveries.handle` |  | `deliveries.po` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `reportIssue` | `lib/ops/deliveries.ts:209` | public: a company reports a shortage or damage within 24 hours of delivery; the reference plus the order e-mail are the check (server must rate-limit) |  | `deliveries.issue` | audit, deliveries, outbox |  | /deliveries |
+| `resolveIssue` | `lib/ops/deliveries.ts:393` | `deliveries.handle` |  | `deliveries.issue` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `sendQuote` | `lib/ops/deliveries.ts:253` | `deliveries.handle` |  | `deliveries.quote` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `startPicking` | `lib/ops/deliveries.ts:297` | `deliveries.handle` |  | `deliveries.pick` | audit, deliveries | employees, grants | /admin /portal/deliveries /admin#deliveries |
+| `submitDelivery` | `lib/ops/deliveries.ts:130` | public: a company asks for a delivery quote on /deliveries (server must rate-limit, filter spam and keep the attached list in private storage) |  | `deliveries.submit` | audit, deliveries, outbox |  | /deliveries |
+| `submitPo` | `lib/ops/deliveries.ts:165` | public: a company accepts its quote with its purchase order; the quote reference plus the e-mail the quote went to are the check (server must rate-limit and keep the PO in private storage) |  | `deliveries.po` | audit, deliveries, outbox |  | /deliveries |
+| `tickLine` | `lib/ops/deliveries.ts:311` | `deliveries.handle` |  | `deliveries.tick` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
 | `addFlyers` | `lib/ops/events.ts:63` | `events.manage` |  | `flyers.add` | audit, flyers | grants | /admin /admin#events |
 | `removeEvent` | `lib/ops/events.ts:53` | `events.manage` |  | `events.remove` | audit, events | grants | /admin /admin#events |
 | `removeFlyer` | `lib/ops/events.ts:82` | `events.manage` |  | `flyers.remove` | audit, flyers | grants | /admin /admin#events |
 | `saveEvent` | `lib/ops/events.ts:35` | `events.manage` |  | `events.add` `events.edit` | audit, events | grants | /admin /admin#events |
 | `setFlyer` | `lib/ops/events.ts:72` | `events.manage` |  | `flyers.edit` | audit, flyers | grants | /admin /admin#events |
-| `addFeedbackMessage` | `lib/ops/feedback.ts:67` | `feedback.handle` |  | `feedback.message` | audit, feedback, outbox | grants | /admin /admin#feedback |
-| `assignFeedback` | `lib/ops/feedback.ts:78` | `feedback.handle` |  | `feedback.assign` | audit, feedback | employees, grants | /admin /admin#feedback |
-| `setFeedbackStatus` | `lib/ops/feedback.ts:52` | `feedback.handle` |  | `feedback.status` | audit, feedback | grants | /admin /admin#feedback |
-| `submitFeedback` | `lib/ops/feedback.ts:33` | public: the Feedback button on every page (server must rate-limit and filter spam) |  | `feedback.submit` | audit, feedback, outbox |  | layout / |
+| `addFeedbackMessage` | `lib/ops/feedback.ts:69` | `feedback.handle` |  | `feedback.message` | audit, feedback, outbox | grants | /admin /admin#feedback |
+| `assignFeedback` | `lib/ops/feedback.ts:80` | `feedback.handle` |  | `feedback.assign` | audit, feedback | employees, grants | /admin /admin#feedback |
+| `setFeedbackStatus` | `lib/ops/feedback.ts:54` | `feedback.handle` |  | `feedback.status` | audit, feedback | grants | /admin /admin#feedback |
+| `submitFeedback` | `lib/ops/feedback.ts:35` | public: the Feedback button on every page (server must rate-limit and filter spam) |  | `feedback.submit` | audit, feedback, outbox |  | layout / |
 | `addBulkOrder` | `lib/ops/office.ts:37` | `bulk.manage` |  | `bulk.open` | audit, bulkOrders | branches, grants | /admin /portal/bulk /admin#bulk |
 | `addTask` | `lib/ops/office.ts:91` | `tasks.assign` |  | `tasks.assign` | audit, tasks | employees, grants | /admin /admin#tasks |
 | `advanceBulk` | `lib/ops/office.ts:70` | `bulk.manage` |  | `"bulk." + (next.to === "ordered" ? "order" : next.to)` | audit, bulkOrders | grants | /admin /portal/bulk /admin#bulk |

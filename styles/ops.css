@@ -571,3 +571,85 @@
   .gauge, .spark-dot, .spark-tip, .spark-line, .spark-area, .has-tip::after, .steps-funnel li, .bar-cell span, .mini-bar span, .funnel-bar, .hbar-fill, .pair-bar, .bar-fill, .kpi-bar span, .viz-x, .viz-facts li{ transition: none; }
   .gauge.is-hot, .steps-funnel li:hover, .viz-facts li:hover{ transform: none; }
 }
+
+/* ---------- deliveries board (components/admin/deliveries-panel.tsx) ---------- */
+:where([data-css~="ops"]) .dl-lead{ padding: var(--s4) var(--s5); border-radius: var(--r); background: var(--green-wash); border: 1px solid var(--line); }
+:where([data-css~="ops"]) .dl-lead p{ margin: 0; max-width: 80ch; }
+:where([data-css~="ops"]) .dl-lead p + p{ margin-top: 4px; }
+:where([data-css~="ops"]) .pipe-due.is-late{ color: var(--bad); }
+:where([data-css~="ops"]) .dl-late{ margin: 0 0 var(--s4); padding: var(--s2) var(--s3); border-radius: var(--r-sm); background: var(--bad-bg); color: var(--bad); font-weight: 700; }
+:where([data-css~="ops"]) .dl-qlines{ list-style: none; margin: 0 0 var(--s4); padding: 0; display: grid; gap: var(--s3); }
+:where([data-css~="ops"]) .dl-qlines li{ display: grid; gap: var(--s2); padding: var(--s3); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--flour); }
+:where([data-css~="ops"]) .dl-qlines li.is-off{ background: var(--wash); }
+:where([data-css~="ops"]) .dl-qtext{ margin: 0; font-weight: 700; }
+:where([data-css~="ops"]) .dl-have{ display: flex; align-items: center; gap: var(--s2); min-height: 44px; margin: 0; font: 600 1rem/1.3 var(--ui); cursor: pointer; }
+:where([data-css~="ops"]) .dl-have input{ width: 22px; height: 22px; margin: 0; accent-color: var(--green); flex: none; }
+:where([data-css~="ops"]) .dl-price{ margin: 0; max-width: 280px; }
+:where([data-css~="ops"]) .dl-sum{ margin: 0 0 var(--s3); font-size: 1rem; }
+:where([data-css~="ops"]) .dl-ticks{ list-style: none; margin: 0 0 var(--s3); padding: 0; display: grid; gap: var(--s2); }
+:where([data-css~="ops"]) .dl-ticks label{ display: flex; gap: var(--s3); align-items: center; min-height: 44px; margin: 0; padding: 4px var(--s3); border: 1px solid var(--line); border-radius: var(--r-sm); background: var(--flour); font: 600 1rem/1.35 var(--ui); cursor: pointer; }
+:where([data-css~="ops"]) .dl-ticks input{ width: 22px; height: 22px; margin: 0; accent-color: var(--green); flex: none; }
+:where([data-css~="ops"]) .dl-log .dl-have{ margin-bottom: var(--s4); }
+
+:where([data-css~="ops"]) .dl-alert{ padding: var(--s3) var(--s4); border-radius: var(--r-sm); background: var(--bad-bg); color: var(--bad); }
+:where([data-css~="ops"]) .dl-alert .link-btn{ color: inherit; font-weight: 700; }
+:where([data-css~="ops"]) .dl-docs{ display: flex; flex-wrap: wrap; gap: var(--s2); align-items: center; margin: 0 0 var(--s4); }
+:where([data-css~="ops"]) .dl-qrow{ display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s3); }
+:where([data-css~="ops"]) .dl-qrow .field{ margin: 0; }
+:where([data-css~="ops"]) .dl-ticks li{ display: flex; gap: var(--s2); align-items: stretch; }
+:where([data-css~="ops"]) .dl-ticks li > label{ flex: 1; }
+:where([data-css~="ops"]) .dl-found{ display: flex; flex-direction: column; justify-content: center; gap: 2px; width: 84px; flex: none; }
+:where([data-css~="ops"]) .dl-found label{ font-size: 0.8125rem; margin: 0; }
+:where([data-css~="ops"]) .dl-found input{ min-height: 40px; padding: 6px 8px; }
+:where([data-css~="ops"]) .dl-short{ color: var(--bad); }
+:where([data-css~="ops"]) .dl-issue{ border-color: var(--bad); }
+:where([data-css~="ops"]) .dl-issue > p{ margin: 0 0 var(--s3); }
+
+/* ---------- delivery papers: quotation, pick list, delivery note, tax invoice (components/deliveries/documents.tsx).
+   Unscoped: they show on the public page, in the staff drawer and, for printing, straight under <body>. They are
+   paper, so they keep black on white in every colour scheme. ---------- */
+.dl-doc{ background: #fff; color: #1b1b1b; border: 1px solid #d9d2cf; border-radius: 10px; padding: 24px; font: 400 0.9375rem/1.45 var(--ui, system-ui, sans-serif); display: grid; gap: 16px; overflow-x: auto; }
+.dl-doc p{ margin: 0; max-width: none; color: #1b1b1b; }
+.dl-doc h2{ margin: 0; font: 800 1.375rem/1.2 var(--ui, system-ui, sans-serif); letter-spacing: .02em; text-transform: uppercase; color: #1b1b1b; text-align: right; }
+.dl-doc h3{ margin: 0 0 4px; font: 800 0.75rem/1.3 var(--ui, system-ui, sans-serif); letter-spacing: .08em; text-transform: uppercase; color: #555; }
+.dl-doc-head{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 24px; padding-bottom: 12px; border-bottom: 2px solid #1b1b1b; }
+.dl-doc-from{ font-weight: 800; font-size: 1.0625rem; }
+.dl-doc-meta{ display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px 16px; margin: 0; }
+.dl-doc-meta dt{ font: 700 0.75rem/1.3 var(--ui, system-ui, sans-serif); text-transform: uppercase; letter-spacing: .06em; color: #555; }
+.dl-doc-meta dd{ margin: 0; font-weight: 700; }
+.dl-doc-parties{ display: grid; gap: 12px 24px; }
+@media (min-width: 640px) { .dl-doc-parties{ grid-template-columns: 1fr 1fr; } }
+.dl-doc-lines{ width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.dl-doc-lines th, .dl-doc-lines td{ padding: 8px 10px; border-bottom: 1px solid #e3dcd9; text-align: left; color: #1b1b1b; vertical-align: top; }
+.dl-doc-lines th{ font: 800 0.75rem/1.3 var(--ui, system-ui, sans-serif); letter-spacing: .06em; text-transform: uppercase; color: #555; border-bottom: 2px solid #1b1b1b; }
+.dl-doc-lines .num{ text-align: right; white-space: nowrap; }
+.dl-doc-lines tr.is-off td{ color: #555; font-style: italic; }
+.dl-doc-sums{ margin: 0 0 0 auto; display: grid; gap: 4px; min-width: min(320px, 100%); }
+.dl-doc-sums div{ display: flex; justify-content: space-between; gap: 24px; }
+.dl-doc-sums dt{ color: #444; }
+.dl-doc-sums dd{ margin: 0; font-variant-numeric: tabular-nums; }
+.dl-doc-total{ padding-top: 6px; border-top: 2px solid #1b1b1b; font-weight: 800; font-size: 1.0625rem; }
+.dl-doc-total dt{ color: #1b1b1b !important; }
+.dl-doc-small{ font-size: 0.8125rem; color: #444 !important; }
+.dl-doc-sign{ display: grid; gap: 14px; padding-top: 8px; }
+.dl-doc-demo{ font-size: 0.75rem; color: #666 !important; }
+.dl-print{ display: none; }
+@media print {
+  body:has(> .dl-print) > :not(.dl-print){ display: none !important; }
+  .dl-print{ display: block; }
+  .dl-print .dl-doc{ border: 0; padding: 0; font-size: 11pt; }
+  .dl-print .dl-doc-parties{ grid-template-columns: 1fr 1fr; }
+}
+:where([data-css~="ops"]) .dl-items{ margin: var(--s4) 0; padding: var(--s3) var(--s4); border: 1px solid var(--line); border-radius: var(--r); background: var(--flour); }
+:where([data-css~="ops"]) .dl-items .sub-h{ margin: 0 0 var(--s2); }
+:where([data-css~="ops"]) .dl-items ul{ list-style: none; margin: 0; padding: 0; }
+:where([data-css~="ops"]) .dl-items li{ display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s3); padding: var(--s2) 0; border-bottom: 1px solid var(--line); }
+:where([data-css~="ops"]) .dl-items li > div{ display: grid; gap: 2px; min-width: 0; }
+:where([data-css~="ops"]) .dl-items li strong{ font-weight: 700; overflow-wrap: anywhere; }
+:where([data-css~="ops"]) .dl-items li .meta{ font-size: 0.875rem; color: var(--muted); }
+:where([data-css~="ops"]) .dl-items li.is-off strong{ color: var(--muted); }
+:where([data-css~="ops"]) .dl-amt{ white-space: nowrap; font-variant-numeric: tabular-nums; font-weight: 700; }
+:where([data-css~="ops"]) .dl-totals{ margin: var(--s2) 0 0; display: grid; gap: 4px; }
+:where([data-css~="ops"]) .dl-totals div{ display: flex; justify-content: space-between; gap: var(--s3); }
+:where([data-css~="ops"]) .dl-totals dd{ margin: 0; font-variant-numeric: tabular-nums; }
+:where([data-css~="ops"]) .dl-grand{ padding-top: 6px; border-top: 2px solid var(--ink); font-weight: 800; }

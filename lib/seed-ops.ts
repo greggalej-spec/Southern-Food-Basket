@@ -8,7 +8,7 @@ import type { AuditEvent, BulkOrder, CommunityRequest, Employee, FeedbackTicket,
 
 /* ---------- staff at all five stores (HR's People list). The seven people with full records are in seed-staff. ---------- */
 
-function person(id: string, name: string, role: string, dept: string, branchId: string, startDate: string, no: number, extra: Partial<Employee> = {}): Employee {
+export function person(id: string, name: string, role: string, dept: string, branchId: string, startDate: string, no: number, extra: Partial<Employee> = {}): Employee {
   const slug = name.toLowerCase().replace(/[^a-z]+/g, ".");
   return {
     id, name, role, dept, branchId, startDate, employeeNo: "SFB-" + String(no).padStart(4, "0"),

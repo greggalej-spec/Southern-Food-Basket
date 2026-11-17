@@ -73,7 +73,7 @@ export function FeedbackButton() {
             <form onSubmit={submit} noValidate>
               <div className="fb-kinds" role="radiogroup" aria-label="What kind of message">
                 {FB_KINDS.map((k) => (
-                  <button key={k} type="button" role="radio" aria-checked={v.kind === k} className={"fb-kind fb-" + k} onClick={() => setV({ ...v, kind: k as FeedbackKind, wantsReply: k === "complaint" || k === "question" ? true : v.wantsReply })}>
+                  <button key={k} type="button" role="radio" aria-checked={v.kind === k} className={"fb-kind fb-" + k} onClick={() => setV({ ...v, kind: k as FeedbackKind, wantsReply: k === "complaint" || k === "question" || k === "delivery" ? true : v.wantsReply })}>
                     {FB_KIND[k].label}
                   </button>
                 ))}

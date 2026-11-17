@@ -6,42 +6,44 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 | Screen | Who | Reads | Changes | Links to |
 |---|---|---|---|---|
-| `/` | anyone (public) | branches, events, flyers | nothing | /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /tour |
-| `/about` | anyone (public) | branches, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/account` | `customer` | branches, settings | saveProfile, subscribe | / /about /careers /community /departments /events /how-it-works /locations /offers /portal /restaurant /specials /specials#newsletter |
-| `/account/sign-in` | anyone (public) | branches, settings | finishLeaving, requestSignInLink, subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/account/verify` | anyone (public) | branches, settings | subscribe, verifyOnce | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/admin` | `admin`, `purchasing`, `marketing`, `owner` | announcements, applicants, audit, branches, bulkOrders, campaigns, consents, customers, employees, feedback, flyers, grants, jobs, plan, promotions, radioScripts, radioSpots, radioStations, redemptions, requests, resources, settings, site, sitePages, siteVersions, socialAccounts, socialWeeks, specials, specialsBooks, subscribers, supplierSheets, suppliers | addBook, addBulkOrder, addFeedbackMessage, addFlyers, addGrant, addRequestMessage, addSupplier, addTask, advanceBulk, applyLook, archivePromo, assignFeedback, assignRequest, clearLog, decidePromo, decideRequest, endDeal, endPromo, exportSeed, exportSubscribersCsv, importSheets, logRequest, logSpot, markSelloutSent, markSent, moveRequest, postNotice, remindStaffUpdate, removeDeal, removeEvent, removeFlyer, removeLine, removeNotice, removePlanItem, removeScript, removeSheet, removeSpot, rerunDeal, restoreGrant, restoreSiteVersion, revokeGrant, saveCampaignScoped, saveDeal, saveEvent, saveLine, savePlanItem, savePromo, saveResource, saveScript, saveSellout, saveSheet, saveSite, saveSpot, saveStaffUpdate, saveStore, scheduleScoped, scheduleStaffUpdate, sendDue, sendDueStaffUpdates, sendNowScoped, sendStaffTest, sendStaffUpdateNow, sendTestScoped, setBookStatus, setBulkQty, setCasePrice, setConnected, setFeedbackStatus, setFlyer, setGrantExpiry, setGrantStores, setSheetChecked, setTaskDone, setTillAccess, submitPromo, toggleKey | / /admin#studio /assets/img/sfb-logo.svg /assets/img/sfb-mark.svg /community /portal /specials |
-| `/careers/[id]/apply` | anyone (public) | branches, jobs, settings | addApplicant, subscribe | / /about /careers /careers/me?submitted=1 /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/careers/[id]` | anyone (public) | branches, jobs, kycDocs, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/` | anyone (public) | branches, events, flyers | nothing | /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /tour |
+| `/about` | anyone (public) | branches, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/account` | `customer` | branches, settings | saveProfile, subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /offers /portal /restaurant /specials /specials#newsletter |
+| `/account/sign-in` | anyone (public) | branches, settings | finishLeaving, requestSignInLink, subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/account/verify` | anyone (public) | branches, settings | subscribe, verifyOnce | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/admin` | `admin`, `purchasing`, `marketing`, `owner` | announcements, applicants, audit, branches, bulkOrders, campaigns, consents, customers, deliveries, employees, feedback, flyers, grants, jobs, plan, promotions, radioScripts, radioSpots, radioStations, redemptions, requests, resources, settings, site, sitePages, siteVersions, socialAccounts, socialWeeks, specials, specialsBooks, subscribers, supplierSheets, suppliers | addBook, addBulkOrder, addDeliveryMessage, addFeedbackMessage, addFlyers, addGrant, addRequestMessage, addSupplier, addTask, advanceBulk, applyLook, archivePromo, assignFeedback, assignRequest, cancelDelivery, clearLog, decidePromo, decideRequest, endDeal, endPromo, exportSeed, exportSubscribersCsv, finishCheck, finishPicking, importSheets, logDelivery, logRequest, logSpot, markDelivered, markSelloutSent, markSent, moveRequest, postNotice, recordPo, remindStaffUpdate, removeDeal, removeEvent, removeFlyer, removeLine, removeNotice, removePlanItem, removeScript, removeSheet, removeSpot, rerunDeal, resolveIssue, restoreGrant, restoreSiteVersion, revokeGrant, saveCampaignScoped, saveDeal, saveEvent, saveLine, savePlanItem, savePromo, saveResource, saveScript, saveSellout, saveSheet, saveSite, saveSpot, saveStaffUpdate, saveStore, scheduleScoped, scheduleStaffUpdate, sendDue, sendDueStaffUpdates, sendNowScoped, sendQuote, sendStaffTest, sendStaffUpdateNow, sendTestScoped, setBookStatus, setBulkQty, setCasePrice, setConnected, setFeedbackStatus, setFlyer, setGrantExpiry, setGrantStores, setSheetChecked, setTaskDone, setTillAccess, startPicking, submitPromo, tickLine, toggleKey | / /admin#studio /assets/img/sfb-logo.svg /assets/img/sfb-mark.svg /community /deliveries /portal /specials |
+| `/careers/[id]/apply` | anyone (public) | branches, jobs, settings | addApplicant, subscribe | / /about /careers /careers/me?submitted=1 /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/careers/[id]` | anyone (public) | branches, jobs, kycDocs, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
 | `/careers/me` | `applicant` | branches, customers, jobs | acceptOffer, declineOffer, openOutcome, setDocState, setStage | / /careers /portal |
-| `/careers` | anyone (public) | branches, content, flyers, jobDepts, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/community` | anyone (public) | branches, settings | submitRequest, subscribe | / /about /careers /community /departments /events /how-it-works /locations /outbox /portal /restaurant /specials |
-| `/departments` | anyone (public) | branches, departments, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/events` | anyone (public) | branches, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/how-it-works` | anyone (public) | branches, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /tour |
+| `/careers` | anyone (public) | branches, content, flyers, jobDepts, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/community` | anyone (public) | branches, settings | submitRequest, subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /outbox /portal /restaurant /specials |
+| `/deliveries` | anyone (public) | branches, settings | declineQuote, reportIssue, submitDelivery, submitPo, subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /outbox /portal /restaurant /specials |
+| `/departments` | anyone (public) | branches, departments, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/events` | anyone (public) | branches, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/how-it-works` | anyone (public) | branches, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /tour |
 | `/hr` | `hr` | applicants, branches, customers, employees, jobDepts, jobs, kycDocs, policies, resources, stages | addMessage, addNote, addPerson, addPersonNote, addPersonRating, flagDoc, markNotSelected, moveStage, remindStaffUpdate, saveResource, saveStaffUpdate, scheduleInterview, scheduleStaffUpdate, sendDueStaffUpdates, sendOffer, sendStaffTest, sendStaffUpdateNow, setEmployeeDoc, setJobStatus, setLeaveStatus, setPersonStatus, verifyDoc | / /assets/img/sfb-logo.svg /assets/img/sfb-mark.svg /careers /portal |
-| `/locations` | anyone (public) | branches, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/newsletter/confirm` | anyone (public) | branches, settings | confirmSubscription, subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
-| `/newsletter/preferences` | anyone (public) | branches, settings | subscribe, unsubscribe, updatePreferences | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
-| `/newsletter/unsubscribe` | anyone (public) | branches, settings | subscribe, unsubscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
-| `/offers/[slug]` | anyone (public) | branches, settings | claimCode, subscribe | / /about /account /careers /community /departments /events /how-it-works /locations /offers /portal /restaurant /specials |
-| `/offers` | anyone (public) | branches, settings | subscribe | / /about /account /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
-| `/outbox` | anyone (public) | branches, outbox, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /outbox /portal /restaurant /specials |
+| `/locations` | anyone (public) | branches, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/newsletter/confirm` | anyone (public) | branches, settings | confirmSubscription, subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
+| `/newsletter/preferences` | anyone (public) | branches, settings | subscribe, unsubscribe, updatePreferences | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
+| `/newsletter/unsubscribe` | anyone (public) | branches, settings | subscribe, unsubscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
+| `/offers/[slug]` | anyone (public) | branches, settings | claimCode, subscribe | / /about /account /careers /community /deliveries /departments /events /how-it-works /locations /offers /portal /restaurant /specials |
+| `/offers` | anyone (public) | branches, settings | subscribe | / /about /account /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /specials#newsletter |
+| `/outbox` | anyone (public) | branches, outbox, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /outbox /portal /restaurant /specials |
 | `/portal/bulk` | `<PORTAL_ROLES>` | branches, bulkOrders, customers | addBulkOrder, advanceBulk, setBulkQty | / /portal |
+| `/portal/deliveries` | `<PORTAL_ROLES>` | branches, customers, deliveries, employees | addDeliveryMessage, cancelDelivery, finishCheck, finishPicking, logDelivery, markDelivered, recordPo, resolveIssue, sendQuote, startPicking, tickLine | / /deliveries /portal |
 | `/portal/docs` | `<PORTAL_ROLES>` | branches, customers, kycDocs, policies | setEmployeeDoc, setTrainingDone | / /portal |
 | `/portal/home` | `<PORTAL_ROLES>` | announcements, branches, customers | nothing | / /portal /portal/docs /portal/leave /portal/pay /portal/schedule |
 | `/portal/leave` | `<PORTAL_ROLES>` | branches, customers | requestLeave | / /portal |
-| `/portal` | anyone (public) | applicants, branches, customers, employees, grants, settings | subscribe | / /about /account /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials /tour |
+| `/portal` | anyone (public) | applicants, branches, customers, employees, grants, settings | subscribe | / /about /account /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials /tour |
 | `/portal/pay` | `<PORTAL_ROLES>` | branches, customers | nothing | / /portal |
 | `/portal/profile` | `<PORTAL_ROLES>` | branches, customers | updateEmployee | / /portal /portal/docs#documents |
 | `/portal/schedule` | `<PORTAL_ROLES>` | branches, customers | requestSwap | / /portal |
 | `/portal/till` | `<TILL_ROLES>` | branches, customers, redemptions | redeemCode | / /portal |
 | `/portal/updates` | `<PORTAL_ROLES>` | branches, customers, employees | acknowledgeStaffUpdate, markStaffUpdateRead, sendDueStaffUpdates | / /portal |
-| `/restaurant` | anyone (public) | branches, settings, specials | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/specials` | anyone (public) | branches, departments, flyers, settings, specials | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/tour` | anyone (public) | branches, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /portal /restaurant /specials |
-| `/wholesale` | anyone (public) | branches, settings | subscribe | / /about /careers /community /departments /events /how-it-works /locations /locations#ptown /portal /restaurant /specials |
+| `/restaurant` | anyone (public) | branches, settings, specials | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/specials` | anyone (public) | branches, departments, flyers, settings, specials | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/tour` | anyone (public) | branches, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /portal /restaurant /specials |
+| `/wholesale` | anyone (public) | branches, settings | subscribe | / /about /careers /community /deliveries /departments /events /how-it-works /locations /locations#ptown /portal /restaurant /specials |
 | `layout /` | every page under it | branches, site | submitFeedback | /tour |
 | `layout /` | every page under it | branches, site | submitFeedback | /tour |
 | `/admin#today` | office staff with `office.desk` |  | nothing |  |
@@ -51,6 +53,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 | `/admin#events` | office staff with `events.manage` | branches, flyers | addFlyers, removeEvent, removeFlyer, saveEvent, setFlyer | /specials |
 | `/admin#feedback` | office staff with `feedback.handle` | employees, feedback, grants | addFeedbackMessage, assignFeedback, setFeedbackStatus |  |
 | `/admin#requests` | office staff with `requests.log` or `requests.decide` | branches, employees, grants, requests | addRequestMessage, assignRequest, decideRequest, logRequest, moveRequest | /community |
+| `/admin#deliveries` | office staff with `deliveries.handle` | branches, deliveries, employees | addDeliveryMessage, cancelDelivery, finishCheck, finishPicking, logDelivery, markDelivered, recordPo, resolveIssue, sendQuote, startPicking, tickLine | /deliveries |
 | `/admin#bulk` | office staff with `bulk.manage` or `bulk.store` | bulkOrders | addBulkOrder, advanceBulk, setBulkQty |  |
 | `/admin#tasks` | office staff with `office.desk` | employees, grants, resources | addTask, saveResource, setTaskDone |  |
 | `/admin#customize` | office staff with `site.customize` | site, siteVersions | applyLook, restoreSiteVersion | / /admin#studio |
@@ -87,7 +90,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Who can open it: anyone (public)
 - Reads: `branches`, `events`, `flyers`
 - Changes: nothing
-- Links to: /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /tour
+- Links to: /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /tour
 
 ### `/about`
 
@@ -96,7 +99,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/account`
 
@@ -106,7 +109,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `saveProfile` (`lib/account.ts:133`): checks self (no permission); audit `account.profile`; changes `audit`, `customers`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /offers, /portal, /restaurant, /specials, /specials#newsletter
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /offers, /portal, /restaurant, /specials, /specials#newsletter
 
 ### `/account/sign-in`
 
@@ -117,7 +120,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `finishLeaving` (`lib/account.ts:178`): checks self (no permission); audit `account.delete`; changes `audit`, `customers`, `entitlements`
   - `requestSignInLink` (`lib/account.ts:31`): checks public (no permission); audit `account.link`; changes `audit`, `customers`, `outbox`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/account/verify`
 
@@ -127,17 +130,18 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
   - `verifyOnce` (`lib/account.ts:84`): checks public (no permission); audit `account.signin`; changes `audit`, `customers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/admin`
 
-- Source: `app/(sfb)/admin/page.tsx`; components: `AdminPage`, `AdminConsole`, `NoAccess`, `Icon`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `SectionHead`, `MarketingFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `OfficeFigure`, `DirectorFigure`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`, `AuditPanel`, `Badge`, `AccessPanel`, `GrantEditor`, `StorePicker`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Matrix`, `AddGrant`, `GrantBadge`, `ListPanel`, `History`, `StatusBadge`, `NewsletterPanel`, `Composer`, `EmailPreview`, `Audience`, `Err`, `CampaignBadge`, `SentView`, `CodesPanel`, `StateBadge`, `PromosPanel`, `PromoDetail`, `PromoComposer`, `OfferPreview`, `Err`, `Approvals`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `PublishPanel`, `ChangeRow`, `NoticesPanel`, `StoresPanel`, `StorePanel`, `HoursField`, `PostMaker`, `DealsPanel`, `BulkDeals`, `Working`, `VizDialog`, `DealDrawer`, `DealForm`, `ErrorText`, `PreviewCard`, `PriceSeal`, `Seg`, `RadioPanel`, `ScriptsView`, `ScriptEditor`, `ReportView`, `StateBadge`, `SchedulesView`, `ManualFlow`, `DraftEditor`, `MiniMonth`, `MonthPick`, `ScanFlow`, `LogSheet`, `LogForm`, `CalendarView`, `ExtraSheet`, `ExtraForm`, `SpotRow`, `Stat`, `Spark`, `Ring`, `CountUp`, `PlanPanel`, `PlanFormView`, `Flow`, `SocialPanel`, `AnalyticsPanel`, `Bars`, `TrendChart`, `TrendExtras`, `ShareDonut`, `ChartStats`, `Change`, `StudioPanel`, `CustomizePanel`, `TasksPanel`, `TaskFormView`, `ResourceList`, `ResourceFormView`, `BulkPanel`, `BulkFormView`, `OrderCard`, `PairBars`, `QtyCell`, `RequestsPanel`, `LogForm`, `RequestDetail`, `Card`, `FeedbackPanel`, `Ticket`, `EventsPanel`, `EventEditor`, `SelloutPanel`, `SelloutForm`, `SuppliersPanel`, `CompanyDrawer`, `BookDrawer`, `LineDrawer`, `LineForm`, `ImportSheet`, `LinesTable`, `Margin`, `UnitCost`, `SheetTable`, `CaseCell`, `OverviewPanel`, `Fig`, `Tile`, `TodayPanel`
-- Who can open it: `admin`, `purchasing`, `marketing`, `owner`; parts shown only with `<p>`, `analytics.view`, `bulk.manage`, `bulk.store`, `newsletter.compose`, `newsletter.send`, `notices.post`, `promos.approve`, `promos.draft`, `requests.decide`, `requests.log`, `resources.edit`, `social.connect`, `staff.updates`, `stores.edit`, `subscribers.export`, `suppliers.edit`, `tasks.assign`
-- Reads: `announcements`, `applicants`, `audit`, `branches`, `bulkOrders`, `campaigns`, `consents`, `customers`, `employees`, `feedback`, `flyers`, `grants`, `jobs`, `plan`, `promotions`, `radioScripts`, `radioSpots`, `radioStations`, `redemptions`, `requests`, `resources`, `settings`, `site`, `sitePages`, `siteVersions`, `socialAccounts`, `socialWeeks`, `specials`, `specialsBooks`, `subscribers`, `supplierSheets`, `suppliers`
+- Source: `app/(sfb)/admin/page.tsx`; components: `AdminPage`, `AdminConsole`, `NoAccess`, `Icon`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `SectionHead`, `MarketingFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `OfficeFigure`, `DirectorFigure`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`, `AuditPanel`, `Badge`, `AccessPanel`, `GrantEditor`, `StorePicker`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Matrix`, `AddGrant`, `GrantBadge`, `ListPanel`, `History`, `StatusBadge`, `NewsletterPanel`, `Composer`, `EmailPreview`, `Audience`, `Err`, `CampaignBadge`, `SentView`, `CodesPanel`, `StateBadge`, `PromosPanel`, `PromoDetail`, `PromoComposer`, `OfferPreview`, `Err`, `Approvals`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `PublishPanel`, `ChangeRow`, `NoticesPanel`, `StoresPanel`, `StorePanel`, `HoursField`, `PostMaker`, `DealsPanel`, `BulkDeals`, `Working`, `VizDialog`, `DealDrawer`, `DealForm`, `ErrorText`, `PreviewCard`, `PriceSeal`, `Seg`, `RadioPanel`, `ScriptsView`, `ScriptEditor`, `ReportView`, `StateBadge`, `SchedulesView`, `ManualFlow`, `DraftEditor`, `MiniMonth`, `MonthPick`, `ScanFlow`, `LogSheet`, `LogForm`, `CalendarView`, `ExtraSheet`, `ExtraForm`, `SpotRow`, `Stat`, `Spark`, `Ring`, `CountUp`, `PlanPanel`, `PlanFormView`, `Flow`, `SocialPanel`, `AnalyticsPanel`, `Bars`, `TrendChart`, `TrendExtras`, `ShareDonut`, `ChartStats`, `Change`, `StudioPanel`, `CustomizePanel`, `TasksPanel`, `TaskFormView`, `ResourceList`, `ResourceFormView`, `BulkPanel`, `BulkFormView`, `OrderCard`, `PairBars`, `QtyCell`, `DeliveriesPanel`, `LogForm`, `LineEditor`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Card`, `DeliveryDoc`, `RequestsPanel`, `LogForm`, `RequestDetail`, `Card`, `FeedbackPanel`, `Ticket`, `EventsPanel`, `EventEditor`, `SelloutPanel`, `SelloutForm`, `SuppliersPanel`, `CompanyDrawer`, `BookDrawer`, `LineDrawer`, `LineForm`, `ImportSheet`, `LinesTable`, `Margin`, `UnitCost`, `SheetTable`, `CaseCell`, `OverviewPanel`, `Fig`, `Tile`, `TodayPanel`
+- Who can open it: `admin`, `purchasing`, `marketing`, `owner`; parts shown only with `<p>`, `analytics.view`, `bulk.manage`, `bulk.store`, `deliveries.handle`, `newsletter.compose`, `newsletter.send`, `notices.post`, `promos.approve`, `promos.draft`, `requests.decide`, `requests.log`, `resources.edit`, `social.connect`, `staff.updates`, `stores.edit`, `subscribers.export`, `suppliers.edit`, `tasks.assign`
+- Reads: `announcements`, `applicants`, `audit`, `branches`, `bulkOrders`, `campaigns`, `consents`, `customers`, `deliveries`, `employees`, `feedback`, `flyers`, `grants`, `jobs`, `plan`, `promotions`, `radioScripts`, `radioSpots`, `radioStations`, `redemptions`, `requests`, `resources`, `settings`, `site`, `sitePages`, `siteVersions`, `socialAccounts`, `socialWeeks`, `specials`, `specialsBooks`, `subscribers`, `supplierSheets`, `suppliers`
 - Changes:
   - `addBook` (`lib/ops/specials.ts:308`): checks `suppliers.edit`; audit `suppliers.book`; changes `audit`, `specialsBooks`; reads `grants`
   - `addBulkOrder` (`lib/ops/office.ts:37`): checks `bulk.manage`; audit `bulk.open`; changes `audit`, `bulkOrders`; reads `branches`, `grants`
-  - `addFeedbackMessage` (`lib/ops/feedback.ts:67`): checks `feedback.handle`; audit `feedback.message`; changes `audit`, `feedback`, `outbox`; reads `grants`
+  - `addDeliveryMessage` (`lib/ops/deliveries.ts:419`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `addFeedbackMessage` (`lib/ops/feedback.ts:69`): checks `feedback.handle`; audit `feedback.message`; changes `audit`, `feedback`, `outbox`; reads `grants`
   - `addFlyers` (`lib/ops/events.ts:63`): checks `events.manage`; audit `flyers.add`; changes `audit`, `flyers`; reads `grants`
   - `addGrant` (`lib/admin/access-admin.ts:138`): checks `access.manage`; audit `access.grant`; changes `audit`, `employees`, `grants`; reads `branches`
   - `addRequestMessage` (`lib/ops/requests.ts:116`): checks `requests.log`; audit `requests.message`; changes `audit`, `outbox`, `requests`; reads `grants`
@@ -146,8 +150,9 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `advanceBulk` (`lib/ops/office.ts:70`): checks `bulk.manage`; audit `"bulk." + (next.to === "ordered" ? "order" : next.to)`; changes `audit`, `bulkOrders`; reads `grants`
   - `applyLook` (`lib/ops/site.ts:156`): checks `site.customize`; audit `site.customize`; changes `audit`, `site`, `siteVersions`; reads `grants`
   - `archivePromo` (`lib/promo.ts:349`): checks `promos.approve`, `promos.draft` and the store scope; audit `promo.archive`; changes `audit`, `promotions`; reads `branches`, `entitlements`, `grants`
-  - `assignFeedback` (`lib/ops/feedback.ts:78`): checks `feedback.handle`; audit `feedback.assign`; changes `audit`, `feedback`; reads `employees`, `grants`
+  - `assignFeedback` (`lib/ops/feedback.ts:80`): checks `feedback.handle`; audit `feedback.assign`; changes `audit`, `feedback`; reads `employees`, `grants`
   - `assignRequest` (`lib/ops/requests.ts:126`): checks `requests.log`; audit `requests.assign`; changes `audit`, `requests`; reads `employees`, `grants`
+  - `cancelDelivery` (`lib/ops/deliveries.ts:406`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
   - `clearLog` (`lib/ops/radio.ts:406`): checks `radio.manage`; audit `radio.unlog`; changes `audit`, `radioSpots`; reads `grants`, `radioStations`
   - `decidePromo` (`lib/promo.ts:313`): checks `promos.approve`; audit `promo.approve`, `promo.reject`; changes `audit`, `promotions`; reads `branches`, `grants`
   - `decideRequest` (`lib/ops/requests.ts:97`): checks `requests.decide`; audit `requests.decide`; changes `audit`, `requests`; reads `grants`
@@ -155,13 +160,18 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `endPromo` (`lib/promo.ts:332`): checks `promos.approve` and the store scope; audit `promo.end`; changes `audit`, `promotions`; reads `branches`, `entitlements`, `grants`
   - `exportSeed` (`lib/admin/publish.ts:76`): checks `site.publish`; audit `site.publish`; changes `audit`; reads `grants`, `promotions`
   - `exportSubscribersCsv` (`lib/newsletter.ts:253`): checks `subscribers.export`; audit `subscribers.export`; changes `audit`; reads `grants`, `subscribers`
+  - `finishCheck` (`lib/ops/deliveries.ts:351`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishPicking` (`lib/ops/deliveries.ts:330`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `importSheets` (`lib/ops/specials.ts:354`): checks `suppliers.edit`; audit `suppliers.import`; changes `audit`, `supplierSheets`, `suppliers`; reads `grants`, `specialsBooks`
+  - `logDelivery` (`lib/ops/deliveries.ts:238`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
   - `logRequest` (`lib/ops/requests.ts:63`): checks `requests.log`; audit `requests.log`; changes `audit`, `requests`; reads `grants`
   - `logSpot` (`lib/ops/radio.ts:386`): checks `radio.manage`; audit `radio.log`; changes `audit`, `radioSpots`; reads `grants`, `radioStations`
+  - `markDelivered` (`lib/ops/deliveries.ts:370`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `markSelloutSent` (`lib/ops/specials.ts:452`): checks `sellout.log`; audit `sellout.send`; changes `audit`, `sellouts`; reads `grants`, `specialsBooks`, `suppliers`
   - `markSent` (`lib/ops/radio.ts:439`): checks `radio.manage`; audit `radio.script.sent`; changes `audit`, `radioScripts`; reads `grants`, `radioStations`
   - `moveRequest` (`lib/ops/requests.ts:84`): checks `requests.log`; audit `requests.move`; changes `audit`, `requests`; reads `grants`
   - `postNotice` (`lib/admin/writes.ts:73`): checks `notices.post` and the store scope; audit `notices.post`; changes `announcements`, `audit`; reads `branches`, `grants`
+  - `recordPo` (`lib/ops/deliveries.ts:284`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
   - `remindStaffUpdate` (`lib/staff-updates.ts:162`): checks `staff.updates`; audit `staffnews.remind`; changes `audit`, `outbox`; reads `employees`, `grants`, `staffUpdates`
   - `removeDeal` (`lib/admin/writes.ts:44`): checks `specials.edit`; audit `specials.remove`; changes `audit`, `specials`; reads `grants`
   - `removeEvent` (`lib/ops/events.ts:53`): checks `events.manage`; audit `events.remove`; changes `audit`, `events`; reads `grants`
@@ -173,6 +183,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `removeSheet` (`lib/ops/radio.ts:335`): checks `radio.manage`; audit `radio.sheet.remove`; changes `audit`, `radioSheets`, `radioSpots`; reads `grants`, `radioStations`
   - `removeSpot` (`lib/ops/radio.ts:373`): checks `radio.manage`; audit `radio.spot.remove`; changes `audit`, `radioSpots`; reads `grants`, `radioStations`
   - `rerunDeal` (`lib/ops/deals.ts:50`): checks `specials.edit`; audit `specials.rerun`; changes `audit`, `specials`; reads `grants`
+  - `resolveIssue` (`lib/ops/deliveries.ts:393`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `restoreGrant` (`lib/admin/access-admin.ts:123`): checks `access.manage`; audit `access.restore`; changes `audit`, `grants`; reads `employees`
   - `restoreSiteVersion` (`lib/ops/site.ts:171`): checks `site.customize`; audit `site.customize`; changes `audit`, `site`, `siteVersions`; reads `grants`
   - `revokeGrant` (`lib/admin/access-admin.ts:110`): checks `access.manage`; audit `access.revoke`; changes `audit`, `grants`; reads `employees`
@@ -195,6 +206,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `sendDue` (`lib/newsletter.ts:240`): checks system (no permission); audit `newsletter.send`; changes `audit`, `campaigns`, `outbox`; reads `subscribers`
   - `sendDueStaffUpdates` (`lib/staff-updates.ts:179`): checks system (no permission); audit `staffnews.send`; changes `audit`, `outbox`, `staffUpdates`; reads `employees`
   - `sendNowScoped` (`lib/admin/campaign-admin.ts:129`): checks `newsletter.send` and the store scope; audit `newsletter.send`; changes `audit`, `campaigns`, `outbox`; reads `grants`, `subscribers`
+  - `sendQuote` (`lib/ops/deliveries.ts:253`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `sendStaffTest` (`lib/staff-updates.ts:108`): checks `staff.updates`; audit `staffnews.test`; changes `audit`, `outbox`, `staffUpdates`; reads `employees`, `grants`
   - `sendStaffUpdateNow` (`lib/staff-updates.ts:147`): checks `staff.updates`; audit `staffnews.send`; changes `audit`, `outbox`, `staffUpdates`; reads `employees`, `grants`
   - `sendTestScoped` (`lib/admin/campaign-admin.ts:119`): checks `newsletter.compose` and the store scope; audit `newsletter.test`; changes `audit`, `campaigns`, `outbox`; reads `employees`, `grants`
@@ -202,19 +214,21 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `setBulkQty` (`lib/ops/office.ts:53`): checks `bulk.manage`, `bulk.store`; audit `bulk.qty`; changes `audit`, `bulkOrders`; reads `branches`, `grants`
   - `setCasePrice` (`lib/ops/specials.ts:394`): checks `suppliers.edit`; audit `suppliers.edit`; changes `audit`, `supplierSheets`; reads `grants`, `suppliers`
   - `setConnected` (`lib/ops/social.ts:99`): checks `social.connect`; audit `social.connect`, `social.disconnect`; changes `audit`, `socialAccounts`; reads `grants`
-  - `setFeedbackStatus` (`lib/ops/feedback.ts:52`): checks `feedback.handle`; audit `feedback.status`; changes `audit`, `feedback`; reads `grants`
+  - `setFeedbackStatus` (`lib/ops/feedback.ts:54`): checks `feedback.handle`; audit `feedback.status`; changes `audit`, `feedback`; reads `grants`
   - `setFlyer` (`lib/ops/events.ts:72`): checks `events.manage`; audit `flyers.edit`; changes `audit`, `flyers`; reads `grants`
   - `setGrantExpiry` (`lib/admin/access-admin.ts:82`): checks `access.manage`; audit `access.expiry`; changes `audit`, `grants`; reads `employees`
   - `setGrantStores` (`lib/admin/access-admin.ts:70`): checks `access.manage`; audit `access.scope`; changes `audit`, `grants`; reads `branches`, `employees`
   - `setSheetChecked` (`lib/ops/specials.ts:427`): checks `suppliers.edit`; audit `suppliers.check`; changes `audit`, `supplierSheets`; reads `grants`, `suppliers`
   - `setTaskDone` (`lib/ops/office.ts:100`): checks `portal.self`, `tasks.assign`; audit `tasks.done`, `tasks.reopen`; changes `audit`, `tasks`; reads `grants`
   - `setTillAccess` (`lib/admin/access-admin.ts:97`): checks `access.manage`; audit `access.extra`; changes `audit`, `grants`; reads `employees`
+  - `startPicking` (`lib/ops/deliveries.ts:297`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
   - `submitPromo` (`lib/promo.ts:291`): checks `promos.draft` and the store scope; audit `promo.submit`; changes `audit`, `promotions`; reads `branches`, `grants`
+  - `tickLine` (`lib/ops/deliveries.ts:311`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
   - `toggleKey` (`lib/ops/specials.ts:405`): checks `suppliers.edit`; audit `suppliers.key`; changes `audit`, `supplierSheets`; reads `grants`
-- Console actions logged on refusal: `access.grant`, `access.restore`, `access.revoke`, `bulk.advance`, `bulk.open`, `bulk.qty`, `events.remove`, `feedback.assign`, `feedback.message`, `feedback.status`, `flyers.add`, `flyers.edit`, `flyers.remove`, `newsletter.schedule`, `newsletter.send`, `newsletter.test`, `newsletter.unschedule`, `notices.post`, `notices.remove`, `plan.remove`, `plan.save`, `promo.approve`, `promo.archive`, `promo.end`, `promo.reject`, `promo.submit`, `radio.log`, `radio.script.remove`, `radio.script.sent`, `radio.sheet.add`, `radio.sheet.remove`, `radio.spot.add`, `radio.spot.remove`, `radio.unlog`, `requests.assign`, `requests.decide`, `requests.log`, `requests.message`, `requests.move`, `resources.save`, `sellout.compile`, `sellout.send`, `site.customize`, `site.publish`, `social.connect`, `social.disconnect`, `specials.bulk`, `specials.end`, `specials.remove`, `specials.rerun`, `stores.edit`, `subscribers.export`, `suppliers.book`, `suppliers.check`, `suppliers.company`, `suppliers.edit`, `suppliers.import`, `suppliers.key`, `suppliers.remove`, `tasks.assign`, `tasks.done`
-- Links to: /, /admin#studio, /assets/img/sfb-logo.svg, /assets/img/sfb-mark.svg, /community, /portal, /specials
+- Console actions logged on refusal: `access.grant`, `access.restore`, `access.revoke`, `bulk.advance`, `bulk.open`, `bulk.qty`, `deliveries.cancel`, `deliveries.checked`, `deliveries.done`, `deliveries.issue`, `deliveries.log`, `deliveries.message`, `deliveries.pick`, `deliveries.picked`, `deliveries.po`, `deliveries.quote`, `deliveries.tick`, `events.remove`, `feedback.assign`, `feedback.message`, `feedback.status`, `flyers.add`, `flyers.edit`, `flyers.remove`, `newsletter.schedule`, `newsletter.send`, `newsletter.test`, `newsletter.unschedule`, `notices.post`, `notices.remove`, `plan.remove`, `plan.save`, `promo.approve`, `promo.archive`, `promo.end`, `promo.reject`, `promo.submit`, `radio.log`, `radio.script.remove`, `radio.script.sent`, `radio.sheet.add`, `radio.sheet.remove`, `radio.spot.add`, `radio.spot.remove`, `radio.unlog`, `requests.assign`, `requests.decide`, `requests.log`, `requests.message`, `requests.move`, `resources.save`, `sellout.compile`, `sellout.send`, `site.customize`, `site.publish`, `social.connect`, `social.disconnect`, `specials.bulk`, `specials.end`, `specials.remove`, `specials.rerun`, `stores.edit`, `subscribers.export`, `suppliers.book`, `suppliers.check`, `suppliers.company`, `suppliers.edit`, `suppliers.import`, `suppliers.key`, `suppliers.remove`, `tasks.assign`, `tasks.done`
+- Links to: /, /admin#studio, /assets/img/sfb-logo.svg, /assets/img/sfb-mark.svg, /community, /deliveries, /portal, /specials
 - Browser storage: `localStorage:sfb-flow-*`, `localStorage:sfb.navClosed`, `localStorage:sfb.staffGlass`, `localStorage:sfb.staffSkin`, `localStorage:sfb.staffTheme`
-- File pickers: 7 (file contents are not kept: name, size and type only)
+- File pickers: 8 (file contents are not kept: name, size and type only)
 
 ### `/careers/[id]/apply`
 
@@ -224,7 +238,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `addApplicant` (`lib/store.ts:303`): checks public (no permission); audit none; changes `applicants`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /careers/me?submitted=1, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /careers/me?submitted=1, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 - File pickers: 1 (file contents are not kept: name, size and type only)
 
 ### `/careers/[id]`
@@ -234,7 +248,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `jobs`, `kycDocs`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/careers/me`
 
@@ -259,7 +273,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `content`, `flyers`, `jobDepts`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/community`
 
@@ -269,7 +283,21 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `submitRequest` (`lib/ops/requests.ts:45`): checks public (no permission); audit `requests.submit`; changes `audit`, `outbox`, `requests`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /outbox, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /outbox, /portal, /restaurant, /specials
+
+### `/deliveries`
+
+- Source: `app/(sfb)/deliveries/page.tsx`; components: `DeliveriesPage`, `OrderLookup`, `OrderView`, `DeliveryDoc`, `Icon`, `DeliveryRequestForm`, `LineEditor`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
+- Who can open it: anyone (public)
+- Reads: `branches`, `settings`
+- Changes:
+  - `declineQuote` (`lib/ops/deliveries.ts:191`): checks public (no permission); audit `deliveries.decline`; changes `audit`, `deliveries`
+  - `reportIssue` (`lib/ops/deliveries.ts:209`): checks public (no permission); audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`
+  - `submitDelivery` (`lib/ops/deliveries.ts:130`): checks public (no permission); audit `deliveries.submit`; changes `audit`, `deliveries`, `outbox`
+  - `submitPo` (`lib/ops/deliveries.ts:165`): checks public (no permission); audit `deliveries.po`; changes `audit`, `deliveries`, `outbox`
+  - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /outbox, /portal, /restaurant, /specials
+- File pickers: 2 (file contents are not kept: name, size and type only)
 
 ### `/departments`
 
@@ -278,7 +306,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `departments`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/events`
 
@@ -287,7 +315,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/how-it-works`
 
@@ -296,7 +324,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /tour
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /tour
 - Browser storage: `localStorage:sfb-flow-*`
 
 ### `/hr`
@@ -338,7 +366,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/newsletter/confirm`
 
@@ -348,7 +376,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `confirmSubscription` (`lib/newsletter.ts:104`): checks public (no permission); audit `newsletter.confirm`; changes `audit`, `consents`, `subscribers`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
 
 ### `/newsletter/preferences`
 
@@ -359,7 +387,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
   - `unsubscribe` (`lib/newsletter.ts:134`): checks public (no permission); audit `newsletter.unsubscribe`; changes `audit`, `consents`, `subscribers`
   - `updatePreferences` (`lib/newsletter.ts:122`): checks public (no permission); audit `newsletter.preferences`; changes `audit`, `consents`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
 
 ### `/newsletter/unsubscribe`
 
@@ -369,7 +397,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
   - `unsubscribe` (`lib/newsletter.ts:134`): checks public (no permission); audit `newsletter.unsubscribe`; changes `audit`, `consents`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
 
 ### `/offers/[slug]`
 
@@ -379,7 +407,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Changes:
   - `claimCode` (`lib/promo.ts:113`): checks self (no permission); audit `code.claim`; changes `audit`, `customers`, `entitlements`, `outbox`; reads `branches`, `promotions`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /account, /careers, /community, /departments, /events, /how-it-works, /locations, /offers, /portal, /restaurant, /specials
+- Links to: /, /about, /account, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /offers, /portal, /restaurant, /specials
 
 ### `/offers`
 
@@ -388,7 +416,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /account, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
+- Links to: /, /about, /account, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /specials#newsletter
 
 ### `/outbox`
 
@@ -397,7 +425,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `outbox`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /outbox, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /outbox, /portal, /restaurant, /specials
 - Browser storage: `sessionStorage:sfb-outbox-to`
 
 ### `/portal/bulk`
@@ -412,6 +440,28 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Console actions logged on refusal: `bulk.advance`, `bulk.open`, `bulk.qty`
 - Links to: /, /portal
 - Browser storage: `localStorage:sfb-flow-*`, `localStorage:sfb.navClosed`, `localStorage:sfb.staffGlass`, `localStorage:sfb.staffSkin`, `localStorage:sfb.staffTheme`
+
+### `/portal/deliveries`
+
+- Source: `app/(sfb)/portal/deliveries/page.tsx`; components: `PortalDeliveriesPage`, `PortalDeliveries`, `DeliveriesPanel`, `LogForm`, `LineEditor`, `Icon`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Badge`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Card`, `Seg`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `DeliveryDoc`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
+- Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`, `deliveries.handle`
+- Reads: `branches`, `customers`, `deliveries`, `employees`
+- Changes:
+  - `addDeliveryMessage` (`lib/ops/deliveries.ts:419`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `cancelDelivery` (`lib/ops/deliveries.ts:406`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
+  - `finishCheck` (`lib/ops/deliveries.ts:351`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishPicking` (`lib/ops/deliveries.ts:330`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `logDelivery` (`lib/ops/deliveries.ts:238`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
+  - `markDelivered` (`lib/ops/deliveries.ts:370`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `recordPo` (`lib/ops/deliveries.ts:284`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
+  - `resolveIssue` (`lib/ops/deliveries.ts:393`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `sendQuote` (`lib/ops/deliveries.ts:253`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `startPicking` (`lib/ops/deliveries.ts:297`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
+  - `tickLine` (`lib/ops/deliveries.ts:311`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
+- Console actions logged on refusal: `deliveries.cancel`, `deliveries.checked`, `deliveries.done`, `deliveries.issue`, `deliveries.log`, `deliveries.message`, `deliveries.pick`, `deliveries.picked`, `deliveries.po`, `deliveries.quote`, `deliveries.tick`
+- Links to: /, /deliveries, /portal
+- Browser storage: `localStorage:sfb.navClosed`, `localStorage:sfb.staffGlass`, `localStorage:sfb.staffSkin`, `localStorage:sfb.staffTheme`
+- File pickers: 1 (file contents are not kept: name, size and type only)
 
 ### `/portal/docs`
 
@@ -451,7 +501,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `applicants`, `branches`, `customers`, `employees`, `grants`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /account, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /tour
+- Links to: /, /about, /account, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials, /tour
 - Browser storage: `localStorage:sfb-flow-*`
 - Writes directly from the screen: `components/portal/login.tsx#PortalLogin`
 
@@ -513,7 +563,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`, `specials`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/specials`
 
@@ -522,7 +572,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `departments`, `flyers`, `settings`, `specials`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/tour`
 
@@ -531,7 +581,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /portal, /restaurant, /specials
 
 ### `/wholesale`
 
@@ -540,7 +590,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Reads: `branches`, `settings`
 - Changes:
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
-- Links to: /, /about, /careers, /community, /departments, /events, /how-it-works, /locations, /locations#ptown, /portal, /restaurant, /specials
+- Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /locations#ptown, /portal, /restaurant, /specials
 
 ### `layout /`
 
@@ -548,7 +598,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Who can open it: every page under it
 - Reads: `branches`, `site`
 - Changes:
-  - `submitFeedback` (`lib/ops/feedback.ts:33`): checks public (no permission); audit `feedback.submit`; changes `audit`, `feedback`, `outbox`
+  - `submitFeedback` (`lib/ops/feedback.ts:35`): checks public (no permission); audit `feedback.submit`; changes `audit`, `feedback`, `outbox`
 - Links to: /tour
 
 ### `layout /`
@@ -557,7 +607,7 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Who can open it: every page under it
 - Reads: `branches`, `site`
 - Changes:
-  - `submitFeedback` (`lib/ops/feedback.ts:33`): checks public (no permission); audit `feedback.submit`; changes `audit`, `feedback`, `outbox`
+  - `submitFeedback` (`lib/ops/feedback.ts:35`): checks public (no permission); audit `feedback.submit`; changes `audit`, `feedback`, `outbox`
 - Links to: /tour
 
 ### `/admin#today`
@@ -627,9 +677,9 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Who can open it: office staff with `feedback.handle`
 - Reads: `employees`, `feedback`, `grants`
 - Changes:
-  - `addFeedbackMessage` (`lib/ops/feedback.ts:67`): checks `feedback.handle`; audit `feedback.message`; changes `audit`, `feedback`, `outbox`; reads `grants`
-  - `assignFeedback` (`lib/ops/feedback.ts:78`): checks `feedback.handle`; audit `feedback.assign`; changes `audit`, `feedback`; reads `employees`, `grants`
-  - `setFeedbackStatus` (`lib/ops/feedback.ts:52`): checks `feedback.handle`; audit `feedback.status`; changes `audit`, `feedback`; reads `grants`
+  - `addFeedbackMessage` (`lib/ops/feedback.ts:69`): checks `feedback.handle`; audit `feedback.message`; changes `audit`, `feedback`, `outbox`; reads `grants`
+  - `assignFeedback` (`lib/ops/feedback.ts:80`): checks `feedback.handle`; audit `feedback.assign`; changes `audit`, `feedback`; reads `employees`, `grants`
+  - `setFeedbackStatus` (`lib/ops/feedback.ts:54`): checks `feedback.handle`; audit `feedback.status`; changes `audit`, `feedback`; reads `grants`
 - Console actions logged on refusal: `feedback.assign`, `feedback.message`, `feedback.status`
 - Browser storage: `localStorage:sfb-flow-*`
 
@@ -647,6 +697,27 @@ Every page (route) and every section of the two consoles. For each: who can open
 - Console actions logged on refusal: `requests.assign`, `requests.decide`, `requests.log`, `requests.message`, `requests.move`
 - Links to: /community
 - Browser storage: `localStorage:sfb-flow-*`
+- File pickers: 1 (file contents are not kept: name, size and type only)
+
+### `/admin#deliveries`
+
+- Source: `components/admin/admin-console.tsx`; components: `DeliveriesPanel`, `LogForm`, `LineEditor`, `Icon`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Badge`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Card`, `Seg`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `DeliveryDoc`
+- Who can open it: office staff with `deliveries.handle`; parts shown only with `deliveries.handle`
+- Reads: `branches`, `deliveries`, `employees`
+- Changes:
+  - `addDeliveryMessage` (`lib/ops/deliveries.ts:419`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `cancelDelivery` (`lib/ops/deliveries.ts:406`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
+  - `finishCheck` (`lib/ops/deliveries.ts:351`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishPicking` (`lib/ops/deliveries.ts:330`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `logDelivery` (`lib/ops/deliveries.ts:238`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
+  - `markDelivered` (`lib/ops/deliveries.ts:370`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `recordPo` (`lib/ops/deliveries.ts:284`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
+  - `resolveIssue` (`lib/ops/deliveries.ts:393`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `sendQuote` (`lib/ops/deliveries.ts:253`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `startPicking` (`lib/ops/deliveries.ts:297`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
+  - `tickLine` (`lib/ops/deliveries.ts:311`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
+- Console actions logged on refusal: `deliveries.cancel`, `deliveries.checked`, `deliveries.done`, `deliveries.issue`, `deliveries.log`, `deliveries.message`, `deliveries.pick`, `deliveries.picked`, `deliveries.po`, `deliveries.quote`, `deliveries.tick`
+- Links to: /deliveries
 - File pickers: 1 (file contents are not kept: name, size and type only)
 
 ### `/admin#bulk`

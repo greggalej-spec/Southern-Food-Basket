@@ -49,6 +49,7 @@ export function SiteFooter() {
               <li><Link href="/events">Events and promotions</Link></li>
               <li><Link href="/departments">Departments</Link></li>
               <li><Link href="/restaurant">Restaurant and bakery</Link></li>
+              <li><Link href="/deliveries">Deliveries for businesses</Link></li>
               <li><Link href="/locations">A store near me</Link></li>
             </ul>
           </div>
