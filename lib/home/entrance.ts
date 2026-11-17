@@ -1,7 +1,7 @@
 // Southern Food Basket — design option D, Grand Entrance. Ported from assets/js/grand-entrance.js.
 // app/(home)/page.tsx renders the whole page from the seed; this wires up its behaviour:
 //   1) the arrival: it plays on its own, in about three seconds. After a beat on the wide shot, a camera travels from an aerial, tilted view of
-//      the store front down to the front door; the sliding doors open and the crew in red steps forward waving; the
+//      the store front down to the front door; the sliding doors open and the crew in teal steps forward waving; the
 //      welcome card ("Come on in.") fades in. Nobody has to scroll for it
 //   2) the top bar: mobile menu, the ink pill that follows the pointer, the section spy
 //   3) the specials shelf buttons and the highlights carousel

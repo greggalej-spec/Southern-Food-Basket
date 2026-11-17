@@ -1,7 +1,7 @@
 /* Ported from assets/css/grand-entrance.css by tools/port/scope-css.mjs (home). Edit here; the static file is retired. */
 /* Southern Food Basket — design option D, Grand Entrance.
    The landing page arrives at the Couva store front (gold and teal glass gable, red sign letters on teal glass),
-   zooms to the front door, the doors slide open and the team in red waves you in. */
+   zooms to the front door, the doors slide open and the team in teal waves you in. */
 .ge-root{
   --pink: #E3336F; --pink-ink: #B8195A; --green: #1D6B35; --leaf: #123F22; --red: #D3202D; --sign: #C81A35;
   --yellow: #FFD21A; --gold: #E9C460; --teal: #2F918A; --teal-ink: #1C6863; --teal-deep: #164F4B; --teal-light: #A3DCD5;

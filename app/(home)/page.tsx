@@ -192,7 +192,7 @@ export default function HomePage() {
           </div>
           <div className="intro-copy intro-end" id="intro-end">
             <h2>Come on in.</h2>
-            <p>The team in red is ready for you at all five stores, seven days a week.</p>
+            <p>The team in teal is ready for you at all five stores, seven days a week.</p>
             <div className="intro-actions">
               <Link className="btn btn-sign" href="/careers">
                 See open jobs

@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /* The staff figures in the department banners (Gregg, 14 Nov 2026). Each person is "one of these mini people", built
-   exactly like the home page's crew in red (tools/grand-entrance/make-scene.js): the same body, arms, hands, head, eyes
+   exactly like the home page's crew (tools/grand-entrance/make-scene.js): the same body, arms, hands, head, eyes
    and shading, with only their own features changed, read from photos Gregg supplied (skin colours sampled from them).
    The photos are not stored in the site. They stand waist-up in the open doorway of a little gold-and-teal store
    front, after the home page's entrance, all in the black company polo with the real logo (sfb-logo.svg).

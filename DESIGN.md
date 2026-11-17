@@ -51,7 +51,7 @@ v3 changes (2026-10-28): `--cream` `#FFF8F1` → `#FBF6EC`, `--muted` `#66525A` 
 | `--green` green ink | `#1D6B35` | primary buttons, links, nav band | white on it 6.6:1; on cream 6.2:1 |
 | `--leaf` deep green | `#123F22` | footer, utility bar, portal sidebar | cream on it 11.3:1 |
 | `--green-wash` | `#E3F2E6` | green tint surfaces | green ink on it 5.7:1 |
-| `--red` seal red | `#D3202D` | price seals, "NEW" corner, staff-polo red | white on it 5.2:1 |
+| `--red` seal red | `#D3202D` | price seals, "NEW" corner (from the red company shirts) | white on it 5.2:1 |
 | `--yellow` price pill | `#FFD21A` | price pills, nav active marker | ink on it 11.4:1 |
 | `--orange` fruit | `#F26A2E` | icons and dots only, never text | 2.9:1, decorative |
 | `--cream` page | `#FBF6EC` | page background | |
@@ -88,9 +88,10 @@ Each motif means one thing, so a shopper learns it once:
 - **Seal = a price.** Only on product photos, never as decoration.
 - **Fanlight arch = people.** Taken from the store's arched windows; it frames the careers photo and the
   "In loving memory" card, nothing else.
-- **Red = act, and join.** Primary buttons and the staff polos; the careers line is "Be a part of the family,
+- **Red = act, and join.** Primary buttons; the careers line is "Be a part of the family,
   join the team!" (Gregg, 2026-10-28).
-- **Teal glass = the stores.** "Find your store" buttons and the stores band.
+- **Teal glass = the stores.** "Find your store" buttons and the stores band. The home crew wear the real teal
+  shop-floor shirt (from Gregg's video, 17 Nov 2026), so "the team in teal" in the copy.
 - **Pink and green flags = the company.** Drawn from its real flags, logo included, flying as cloth.
 - **The memorial card is still.** No motion and no ornament beyond the arch; the family supplies any words or
   photograph.

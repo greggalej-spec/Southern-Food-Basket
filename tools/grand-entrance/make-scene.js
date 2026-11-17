@@ -1,5 +1,5 @@
 // Builds the Option D storefront scene as one inline SVG (the Couva store: gold and teal glass gable,
-// red sign letters on light-teal glass, arched fanlights, canopy, sliding doors, staff in red polos, flags, lot).
+// red sign letters on light-teal glass, arched fanlights, canopy, sliding doors, staff in teal shop-floor shirts, flags, lot).
 const fs = require('fs'); const out = process.argv[2];
 const f = n => +n.toFixed(1);
 const MUL = '#F7F3EA';
@@ -106,36 +106,41 @@ s += `<rect x="742" y="650" width="30" height="42" rx="2" fill="#E9D3A0"/><rect 
 // person their own tempo, reach and pauses (data-*). The transforms written here are the still pose for no-JS and
 // reduced motion: one arm up, mid-wave.
 const shade = (hex, k) => '#' + [1, 3, 5].map(i => Math.round(parseInt(hex.slice(i, i + 2), 16) * k).toString(16).padStart(2, '0')).join('');
-const RED = '#D3202D', RED_D = '#A9151F';
+// The shop-floor shirt: mint teal, sampled from Gregg's 17 Nov 2026 video of the real uniform (lit #3FB09A, shade
+// #2F9E83), button-front with a pointed collar.
+const TEAL = '#38AE90', TEAL_D = '#23866D', TEAL_L = '#5CC6A8', BUTTON = '#D8F2E8';
 const hand = (skin, sk, side) => `<g stroke="${skin}" stroke-width="1.2" stroke-linecap="round">${[-1.5, -.5, .5, 1.5].map(x => `<path d="M${x} 3.4L${f(x * 1.3)} ${Math.abs(x) > 1 ? 6.2 : 7}"/>`).join('')}<path d="M${f(side * 1.9)} 1.2L${f(side * 3.5)} 3.6"/></g>` +
   `<ellipse cx="0" cy="2.5" rx="2.3" ry="2.5" fill="${skin}"/><path d="M-1.3 3.4Q0 4.3 1.3 3.4" stroke="${sk}" stroke-width=".5" fill="none"/>`;
 const arm = (cls, side, a1, a2, skin, sk) => `<g class="${cls}" transform="translate(${f(side * 8.6)} -44.6)"><g class="j-sh" transform="rotate(${f(a1)})">` +
   `<path d="M0 5L0 9.5" stroke="${skin}" stroke-width="3.6" stroke-linecap="round"/>` +
   `<g transform="translate(0 9.5)"><g class="j-el" transform="rotate(${f(a2)})"><path d="M0 0L0 8.6" stroke="${skin}" stroke-width="3.3" stroke-linecap="round"/>` +
   `<g transform="translate(0 8.6)"><g class="j-wr">${hand(skin, sk, side)}</g></g></g></g>` +
-  `<path d="M-3 -1.2Q-3.6 3.4 -3.3 5.8L3.3 5.8Q3.6 3.4 3 -1.2Q0 -2.8 -3 -1.2Z" fill="${RED}"/><path d="M-3.3 5.8H3.3" stroke="${RED_D}" stroke-width="1"/></g></g>`;
+  `<path d="M-3 -1.2Q-3.6 3.4 -3.3 5.8L3.3 5.8Q3.6 3.4 3 -1.2Q0 -2.8 -3 -1.2Z" fill="${TEAL}"/><path d="M-3.3 5.8H3.3" stroke="${TEAL_D}" stroke-width="1"/></g></g>`;
 const HAIR = {
   crop: h => ({ front: `<path d="M-7.3 -56.5Q-7.8 -63.8 0 -64.3Q7.8 -63.8 7.3 -56.5Q6.4 -60.4 3.4 -61.2Q0 -60.4 -3.4 -61.2Q-6.4 -60.4 -7.3 -56.5Z" fill="${h}"/>`,
     beard: `<path d="M-6.9 -55Q-6.6 -48.4 0 -47.8Q6.6 -48.4 6.9 -55Q6.4 -51.6 3.4 -50.6Q0 -51.4 -3.4 -50.6Q-6.4 -51.6 -6.9 -55Z" fill="${h}" opacity=".85"/>` }),
   pony: h => ({ back: `<g class="j-pony"><path d="M3.6 -61.5Q11 -60 10.4 -52Q10 -46 7.4 -44.2Q8.4 -50 6.6 -55Q5.6 -58.6 3.6 -58.6Z" fill="${h}"/><circle cx="5.6" cy="-60.4" r="1.5" fill="#E3336F"/></g>`,
     front: `<path d="M-7.6 -54.2Q-8.4 -65 0 -64.8Q8.4 -65 7.6 -54.2Q7.2 -59.4 4.2 -61Q-.8 -59.4 -4.6 -61.6Q-6.8 -59.4 -7.6 -54.2Z" fill="${h}"/>`, studs: 1 }),
   afro: h => ({ back: `<ellipse cx="0" cy="-59.4" rx="9.8" ry="8.4" fill="${h}"/>`, front: `<path d="M-7.4 -57.2Q-6.8 -62.8 0 -63Q6.8 -62.8 7.4 -57.2Q4 -60.8 0 -61Q-4 -60.8 -7.4 -57.2Z" fill="${h}"/>` }),
-  cap: h => ({ back: `<path d="M-7.6 -57Q-9.4 -49 -6.8 -45.6L-3.6 -47.6Q-6.2 -51 -5.8 -56ZM7.6 -57Q9.4 -49 6.8 -45.6L3.6 -47.6Q6.2 -51 5.8 -56Z" fill="${h}"/>`,
-    front: `<path d="M-7.5 -59Q-7.6 -67.4 0 -67.4Q7.6 -67.4 7.5 -59Z" fill="#C81D2A"/><path d="M-8.6 -59.6Q0 -58 8.6 -59.6Q9.8 -58.6 9.1 -57.7Q0 -56.8 -9.1 -57.7Q-9.8 -58.6 -8.6 -59.6Z" fill="${RED_D}"/><circle cx="0" cy="-63.4" r="1.6" fill="#FBF7EF"/>`, noBrows: 1 })
+  // shoulder-length and straight, swept across from a side part (she wore a red cap until 17 Nov 2026; Gregg: take it off)
+  long: h => ({ back: `<path d="M-8.1 -56.4Q-8.9 -65.8 0 -66Q8.9 -65.8 8.1 -56.4Z" fill="${h}"/><path d="M-8.1 -57Q-9.6 -49 -6.9 -45.4L-3.6 -47.5Q-6.2 -51 -5.8 -56ZM8.1 -57Q9.6 -49 6.9 -45.4L3.6 -47.5Q6.2 -51 5.8 -56Z" fill="${h}"/>`,
+    front: `<path d="M-7.4 -55.8Q-8.3 -65 -.6 -65.2Q8.1 -65.2 7.5 -55.2C7.1 -60.6 2 -61.2 -3.2 -62.9Q-6.2 -61.6 -7.4 -55.8Z" fill="${h}"/>`, studs: 1 })
 };
 const person = o => {
   const { x, k, skin, hair, style, side, reach, open } = o, sk = shade(skin, .84), H = HAIR[style](hair);
   return `<g class="staff" transform="translate(${x} 712) scale(${k})" data-side="${side}" data-reach="${reach}" data-tempo="${o.tempo}" data-swing="${o.swing}" data-burst="${o.burst}" data-rest="${o.rest}">` +
     `<ellipse cx="0" cy="0" rx="11" ry="1.8" fill="#3B2A10" opacity=".22"/><g class="j-body">` +
-    // trousers, shoes, neck, polo (shaded side, collar, placket, logo patch, name badge), belt
+    // trousers, shoes, neck, shirt (shaded side, collar, button front, the company logo), belt. The logo sits on the
+    // wearer's left chest where the real one is: level with the top button, a third of its width out from the buttons
+    // (Gregg: "not too close in by the shirt buttons"), and left of x 5.6, where the curve of a lowered sleeve reaches at that height.
     `<path d="M-6.4 -24.5H-.7L-1 -2.2H-5.8Z" fill="#2A2C3B"/><path d="M.7 -24.5H6.4L5.8 -2.2H1Z" fill="#23252F"/>` +
     `<path d="M-6.6 -2.6H-.6Q.2 -2.6 .2 -.8V0H-7.6Q-7.8 -1.8 -6.6 -2.6ZM.6 -2.6H6.6Q7.8 -1.8 7.6 0H-.2V-.8Q-.2 -2.6 .6 -2.6Z" fill="#141418"/>` +
     `<rect x="-2.5" y="-50.6" width="5" height="4" rx="1.6" fill="${sk}"/>` +
-    `<path d="M-10.4 -25.2Q-11.4 -36 -9.6 -44.2Q-7 -47.6 -3.4 -47.8H3.4Q7 -47.6 9.6 -44.2Q11.4 -36 10.4 -25.2Z" fill="${RED}"/>` +
-    `<path d="M4.6 -47.5Q8.6 -46.4 9.6 -44.2Q11.4 -36 10.4 -25.2H6.8Q8.2 -34 7.2 -41Z" fill="${RED_D}" opacity=".5"/>` +
-    `<path d="M-3.2 -47.8L0 -44.2L3.2 -47.8Z" fill="${sk}"/><path d="M-3.8 -48.1L0 -46.4L-1.2 -43.4L-4.9 -46.3ZM3.8 -48.1L0 -46.4L1.2 -43.4L4.9 -46.3Z" fill="#E43744"/>` +
-    `<path d="M0 -44.2V-39.6" stroke="${RED_D}" stroke-width=".8"/><circle cx="0" cy="-42.4" r=".55" fill="#F3E2E2"/><circle cx="0" cy="-40.4" r=".55" fill="#F3E2E2"/>` +
-    `<rect x="3" y="-43.8" width="4.6" height="2.8" rx=".6" fill="#FBF7EF"/><rect x="3" y="-43.8" width="4.6" height=".8" fill="#E3336F"/><rect x="3" y="-41.8" width="4.6" height=".8" fill="#2A8A45"/><rect x="-7.4" y="-42.6" width="3.8" height="1.8" rx=".4" fill="#F6D24A"/>` +
+    `<path d="M-10.4 -25.2Q-11.4 -36 -9.6 -44.2Q-7 -47.6 -3.4 -47.8H3.4Q7 -47.6 9.6 -44.2Q11.4 -36 10.4 -25.2Z" fill="${TEAL}"/>` +
+    `<path d="M4.6 -47.5Q8.6 -46.4 9.6 -44.2Q11.4 -36 10.4 -25.2H6.8Q8.2 -34 7.2 -41Z" fill="${TEAL_D}" opacity=".5"/>` +
+    `<path d="M-3.2 -47.8L0 -44.2L3.2 -47.8Z" fill="${sk}"/><path d="M-3.8 -48.1L0 -46.4L-1.2 -43.4L-4.9 -46.3ZM3.8 -48.1L0 -46.4L1.2 -43.4L4.9 -46.3Z" fill="${TEAL_L}"/>` +
+    `<path d="M0 -44.2V-26.4" stroke="${TEAL_D}" stroke-width=".8"/>${[-42.4, -38.4, -34.4, -30.4].map(y => `<circle cx="0" cy="${y}" r=".5" fill="${BUTTON}"/>`).join('')}` +
+    `<image href="/assets/img/sfb-logo.svg" x="1.65" y="-42.3" width="3.9" height="1.78" preserveAspectRatio="xMidYMid meet"/>` +
     `<rect x="-7.2" y="-26.4" width="14.4" height="2" fill="#141418"/><rect x="-1.2" y="-26.6" width="2.4" height="2.4" rx=".4" fill="#C9A14A"/>` +
     arm('arm-rest', -side, side * 10, -side * 8, skin, sk) + arm('arm-wave', side, -side * reach, -side * (180 - reach) + 6, skin, sk) +
     // head: back hair, ears, face with a shaded side, front hair, brows, eyes (blink group), nose, mouth, cheeks
@@ -155,7 +160,7 @@ s += `<g class="crew">` + [
   { x: 758, k: 1.02, skin: '#8D5524', hair: '#1F1410', style: 'crop', side: -1, reach: 140, tempo: 1.7, swing: 24, burst: '2.6 4.4', rest: '.7 1.4', open: 1 },
   { x: 785, k: .95, skin: '#C68642', hair: '#2B1B12', style: 'pony', side: 1, reach: 150, tempo: 1.25, swing: 18, burst: '2.2 3.6', rest: '1 2', open: 1 },
   { x: 813, k: 1, skin: '#5C3A24', hair: '#121012', style: 'afro', side: 1, reach: 138, tempo: 1, swing: 14, burst: '1.8 3', rest: '1.6 2.8', open: 0 },
-  { x: 841, k: .97, skin: '#E0AC69', hair: '#3A2416', style: 'cap', side: 1, reach: 146, tempo: 1.45, swing: 22, burst: '2.4 4', rest: '.9 1.8', open: 1 }
+  { x: 841, k: .97, skin: '#E0AC69', hair: '#3A2416', style: 'long', side: 1, reach: 146, tempo: 1.45, swing: 22, burst: '2.4 4', rest: '.9 1.8', open: 1 }
 ].map(person).join('') + `</g></g>`;
 // sliding doors (moved apart by the scroll script)
 const door = (x, cls, hx) => `<g class="door ${cls}"><rect x="${x}" y="636" width="64" height="76" fill="url(#teal)" opacity=".82"/><rect x="${x}" y="636" width="64" height="76" fill="none" stroke="#E8E2D4" stroke-width="4"/><rect x="${hx}" y="666" width="3" height="16" rx="1.5" fill="#E8E2D4"/></g>`;
@@ -190,5 +195,5 @@ s += lamp(110) + lamp(1490);
 const car = (x, y, col, k) => `<g transform="translate(${x} ${y}) scale(${k})"><rect x="-70" y="-30" width="140" height="34" rx="12" fill="${col}"/><path d="M-44 -30 Q-36 -58 -8 -58 L22 -58 Q44 -58 52 -30 Z" fill="${col}"/><path d="M-34 -32 Q-28 -52 -8 -52 L4 -52 L4 -32 Z M10 -32 L10 -52 L22 -52 Q38 -52 44 -32 Z" fill="#BFE0EE" opacity=".9"/><circle cx="-40" cy="4" r="13" fill="#2A2C3B"/><circle cx="40" cy="4" r="13" fill="#2A2C3B"/><circle cx="-40" cy="4" r="5" fill="#9AA0A3"/><circle cx="40" cy="4" r="5" fill="#9AA0A3"/></g>`;
 s += car(300, 880, '#F2F2EE', 1) + car(1290, 900, '#C6CDD3', 1.05) + car(1520, 960, '#D3202D', 1.15);
 
-const svg = `<svg class="storefront" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of the Southern Food Basket store front in Couva: a gabled atrium of gold and teal glass, the sign SOUTHERN FOOD BASKET, company flags, and staff in red shirts waving at the door" xmlns="http://www.w3.org/2000/svg">${defs}${s}</svg>`;
+const svg = `<svg class="storefront" viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Illustration of the Southern Food Basket store front in Couva: a gabled atrium of gold and teal glass, the sign SOUTHERN FOOD BASKET, company flags, and staff in teal shirts waving at the door" xmlns="http://www.w3.org/2000/svg">${defs}${s}</svg>`;
 fs.writeFileSync(out, svg); console.log('scene bytes', svg.length);

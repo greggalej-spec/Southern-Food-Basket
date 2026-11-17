@@ -89,7 +89,7 @@ export default function AboutPage() {
               </p>
               <h3>A family business</h3>
               <p>Southern Food Basket has been family-run since {SEED.settings.founded}. Today there are five stores across the south, and this year we are celebrating {YEARS} Years of Rewards with our customers.</p>
-              <p className="who-small">You will know us by the team in red on the shop floor, and by the pink-and-green flags on the road.</p>
+              <p className="who-small">You will know us by the team in teal on the shop floor, and by the pink-and-green flags on the road.</p>
             </article>
             <article className="who-card who-where">
               <h3>Where we are</h3>
