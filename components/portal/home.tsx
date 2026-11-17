@@ -11,22 +11,26 @@ import type { Employee, LeaveBalance, Seed } from "@/lib/types";
 
 // The employee home (portal/home.html, renderHome in portal.js).
 
-type HomeAlert = { tone: "warn" | "bad"; text: string; href: string };
+/** `urgent`: due within two days, or already late. It glows softly, as urgent items do on the office's Today page. */
+type HomeAlert = { tone: "warn" | "bad"; text: string; href: string; urgent?: boolean };
+const URGENT_DAYS = 2;
 
 function complianceAlerts(me: Employee, d: Seed) {
   const out: HomeAlert[] = [];
   (me.compliance || []).forEach((c) => {
     const name = docName(d, c.docId), st = docDisplayState(c), to = "/portal/docs#documents";
-    if (st === "expiring") out.push({ tone: "warn", text: name + " expires " + inDays(daysUntil(c.expiry)) + " (" + fmtDay(c.expiry) + "). Upload the renewal before then.", href: to });
-    else if (st === "expired") out.push({ tone: "bad", text: name + " expired on " + fmtDay(c.expiry) + ". Upload a current one.", href: to });
+    if (st === "expiring") {
+      const n = daysUntil(c.expiry);
+      out.push({ tone: "warn", text: name + " expires " + inDays(n) + " (" + fmtDay(c.expiry) + "). Upload the renewal before then.", href: to, urgent: n != null && n <= URGENT_DAYS });
+    } else if (st === "expired") out.push({ tone: "bad", text: name + " expired on " + fmtDay(c.expiry) + ". Upload a current one.", href: to, urgent: true });
     else if (st === "missing") out.push({ tone: "bad", text: name + " has not been provided.", href: to });
     else if (st === "flagged") out.push({ tone: "bad", text: name + " needs attention" + (c.reason ? ": " + c.reason : "."), href: to });
   });
   (me.training || []).filter((t) => !t.done && t.due).forEach((t) => {
     const n = daysUntil(t.due);
     if (n == null) return;
-    if (n < 0) out.push({ tone: "bad", text: t.name + " training is overdue (due " + fmtDay(t.due) + ").", href: "/portal/docs#training" });
-    else if (n <= 30) out.push({ tone: "warn", text: t.name + " training is due " + inDays(n) + " (" + fmtDay(t.due) + ").", href: "/portal/docs#training" });
+    if (n < 0) out.push({ tone: "bad", text: t.name + " training is overdue (due " + fmtDay(t.due) + ").", href: "/portal/docs#training", urgent: true });
+    else if (n <= 30) out.push({ tone: "warn", text: t.name + " training is due " + inDays(n) + " (" + fmtDay(t.due) + ").", href: "/portal/docs#training", urgent: n <= URGENT_DAYS });
   });
   return out;
 }
@@ -64,14 +68,17 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
         </div>
       </div>
       <div className="alerts" id="alerts">
-        {complianceAlerts(me, d).map((a, i) => (
-          <div className={"alert alert-" + a.tone} key={i}>
-            <Icon name="bell" />
-            <p>
-              {a.text} <Link href={a.href}>Documents &amp; training</Link>
-            </p>
-          </div>
-        ))}
+        {complianceAlerts(me, d)
+          .sort((a, b) => Number(!!b.urgent) - Number(!!a.urgent))
+          .map((a, i) => (
+            <div className={"alert alert-" + a.tone + (a.urgent ? " is-urgent" : "")} key={i}>
+              <Icon name="bell" />
+              <p>
+                {a.urgent ? <span className="urgency-chip is-urgent">Due soon</span> : null}
+                {a.text} <Link href={a.href}>Documents &amp; training</Link>
+              </p>
+            </div>
+          ))}
         {waiting.length ? (
           <div className="alert alert-info" data-tour="home-updates">
             <Icon name="file" />
@@ -91,14 +98,16 @@ function HomeBody({ me, d }: { me: Employee; d: Seed }) {
         <Stat
           label="Annual leave left"
           value={plural(annualLeft, "day")}
+          count
           sub={(lv.annualUsed || 0) + " of " + (lv.annualEntitled || 0) + " days used" + (pendingAnnual ? " · " + plural(pendingAnnual, "day") + " pending" : "")}
         />
-        <Stat label="Training to do" value={plural(todo.length, "course")} sub={nextDue ? "Next due " + fmtDay(nextDue.due) : "Nothing outstanding"} />
+        <Stat label="Training to do" value={plural(todo.length, "course")} count sub={nextDue ? "Next due " + fmtDay(nextDue.due) : "Nothing outstanding"} />
         <Stat
           label="Last payslip"
           value={last ? money(last.net) : "None yet"}
           sub={last ? last.period + " · net pay, paid " + fmtDay(last.paidOn) : "No payslips on file"}
           cls={last ? "money" : ""}
+          count
         />
       </div>
       <div className="two-col">

@@ -258,7 +258,7 @@ html[data-staff-theme="dark"] .hero .gauge-track{ stroke: rgba(255, 255, 255, .2
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 110'%3E%3Cg fill='none' stroke='black' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M10 105a90 90 0 0 1 180 0'/%3E%3Cpath d='M38 105a62 62 0 0 1 124 0'/%3E%3Cpath d='M66 105a34 34 0 0 1 68 0'/%3E%3Cpath d='M100 71V15M76 81 36 41M124 81l40-40M68 97 14 80M132 97l54-17'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat;
   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 110'%3E%3Cg fill='none' stroke='black' stroke-width='5' stroke-linecap='round'%3E%3Cpath d='M10 105a90 90 0 0 1 180 0'/%3E%3Cpath d='M38 105a62 62 0 0 1 124 0'/%3E%3Cpath d='M66 105a34 34 0 0 1 68 0'/%3E%3Cpath d='M100 71V15M76 81 36 41M124 81l40-40M68 97 14 80M132 97l54-17'/%3E%3C/g%3E%3C/svg%3E") center / contain no-repeat; }
 .app .section-head.sec-band .grow, .app .page-head > div:first-child{ flex: 1 1 260px; min-width: 0; }
-.app .section-head.sec-band h1, .app .page-head h1{ margin: 0; color: inherit; font: 700 clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem)/1.1 var(--display); letter-spacing: 0; }
+.app .section-head.sec-band h1, .app .page-head h1, .app .page-head h2{ margin: 0; color: inherit; font: 700 clamp(1.625rem, 1.3rem + 1.2vw, 2.25rem)/1.1 var(--display); letter-spacing: 0; }
 .app .section-head.sec-band p, .app .page-head p{ margin: 6px 0 0; max-width: 62ch; color: inherit; font-size: 1rem; line-height: 1.45; opacity: 1; }
 .app .section-head.sec-band .sec-dept, .app .page-head .eyebrow{ margin: 0 0 6px; color: inherit; font: 800 0.75rem/1 var(--ui); letter-spacing: .14em; text-transform: uppercase; }
 .app .page-head .eyebrow::before{ display: none; }
@@ -346,13 +346,15 @@ html[data-staff-theme="dark"] .kpi-icon{ background: #1A5230; }
 html[data-staff-theme="dark"] .switch.is-on i{ background: #E9B949; }
 html[data-staff-theme="dark"] .switch.is-on i::after{ background: #20141A; }
 .app .event-cards{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.app .event-cards li{ --k: var(--a-pink); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 14px; border: 1px solid var(--card-line); border-left: 6px solid var(--k); border-radius: 14px; background: var(--card); transition: transform 200ms var(--ease, ease), box-shadow 200ms ease; }
+.app .event-cards li{ --k: var(--a-pink); display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 14px; border: 1px solid var(--card-line); border-radius: 14px; background: var(--card); transition: transform 200ms var(--ease, ease), box-shadow 200ms ease; }
 .app .event-cards li:hover{ transform: translateX(4px); box-shadow: var(--glass-shadow); }
 .app .event-cards .kind-event{ --k: var(--a-green); }
 .app .event-cards .kind-community{ --k: #2F918A; }
 .app .event-cards .kind-notice{ --k: var(--a-sun); }
 .app .event-date{ flex: none; display: grid; place-items: center; align-content: center; width: 54px; height: 58px; border-radius: 12px; background: var(--wash); color: var(--ink); font: 700 0.6875rem/1.2 var(--ui); letter-spacing: .06em; text-transform: uppercase; }
 .app .event-date b{ font: 800 1.375rem/1 var(--ui); letter-spacing: 0; }
+/* the kind's colour lives on the date tile, like the coloured head of a calendar page (DESIGN.md: no side stripes) */
+.app .event-cards .event-date{ background: color-mix(in srgb, var(--k) 14%, var(--card)); box-shadow: inset 0 5px 0 var(--k); padding-top: 5px; }
 .app .event-cards .grow{ flex: 1 1 220px; display: grid; gap: 3px; min-width: 0; }
 .app .event-cards strong{ font: 700 1rem/1.25 var(--ui); color: var(--ink); }
 .app .event-cards .meta{ font-size: 0.8125rem; color: var(--muted); }
@@ -557,7 +559,7 @@ html[data-staff-theme="dark"] .sec-band.dept-office, html[data-staff-theme="dark
 .spark-plot{ position: relative; display: block; }
 .spark-base{ stroke: var(--line-strong, var(--line)); stroke-width: 1; vector-effect: non-scaling-stroke; }
 .spark-scale{ display: flex; flex-wrap: wrap; justify-content: space-between; gap: 2px 10px; padding-top: 5px; pointer-events: none; color: inherit; }
-.spark-scale small{ font: 700 .6875rem/1.2 var(--ui); color: inherit; opacity: .9; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.spark-scale small{ font: 700 .6875rem/1.2 var(--ui); color: inherit; opacity: 1; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .gauge-tick{ stroke: var(--line-strong, var(--line)); stroke-width: 1.2; stroke-linecap: round; }
 .gauge-pct{ font: 700 8px/1 var(--ui); fill: var(--muted); font-variant-numeric: tabular-nums; }
 .hero .gauge-tick{ stroke: rgba(255, 255, 255, .55); }
@@ -938,7 +940,9 @@ html:has([data-slot="sheet-overlay"]) .app .sec-figure *, html:has([data-slot="d
 
 /* rows: one segment, one script */
 .radio-rows{ list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.radio-row{ --k: var(--line-strong); display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 16px; padding: 12px 14px; border: 1px solid var(--card-line, var(--line)); border-left: 6px solid var(--k); border-radius: 14px; background: var(--card); }
+.radio-row{ --k: var(--line-strong); display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px 16px; padding: 12px 14px; border: 1px solid var(--card-line, var(--line)); border-radius: 14px; background: var(--card); }
+/* the row's state as a dot at its start, beside the badge that names it (DESIGN.md: no side stripes) */
+.radio-row::before{ content: ""; flex: none; width: 10px; height: 10px; margin-top: 7px; border-radius: 50%; background: var(--k); box-shadow: 0 0 0 3px color-mix(in srgb, var(--k) 22%, transparent); }
 .radio-row.is-done, .radio-row.script-sent{ --k: var(--a-green, #1D6B35); }
 .radio-row.is-nocall, .radio-row.is-missed, .radio-row.script-overdue{ --k: #B42318; }
 .radio-row.is-unlogged, .radio-row.script-today{ --k: #C27A0E; }
@@ -1045,3 +1049,162 @@ html:has([data-slot="sheet-overlay"]) .app .sec-figure *, html:has([data-slot="d
   .radio-line > b{ padding-top: 0; }
   .radio-acts{ align-self: stretch; }
 }
+
+/* ---------- Concentric corners (2026-11-16) ----------
+   A shape that sits in the corner of another takes the outer radius minus the gap between their edges (padding plus
+   border), never less than 6 px; found by measuring every console screen. */
+.app .seg .btn, [data-css~="app"] [data-slot="sheet-content"] .seg .btn, [data-css~="app"] [data-slot="dialog-content"] .seg .btn{ border-radius: calc(var(--r-btn, 12px) - 5px); }
+.cmdk-btn kbd{ white-space: nowrap; border-radius: 999px; padding-inline: 8px; }
+.app .company-list li button{ border-radius: max(6px, calc(var(--r) - var(--s2) - 1px)); }
+.app .cz-theme-art, .app .cz-skin-art, .app .cz-pic-art{ border-radius: 6px; }
+
+/* ---------- The banner between tabs (2026-11-16) ----------
+   The section banner stays put when the tab changes: its colour eases to the new department's while its icon,
+   words and figure blur out and back in (components/admin/section.tsx, useSwap), and the sheen crosses it again. */
+@media (prefers-reduced-motion: no-preference){
+  .app .section-head.sec-band, .app .page-head{ transition: background-color 460ms cubic-bezier(.65, 0, .35, 1), color 460ms cubic-bezier(.65, 0, .35, 1), box-shadow 460ms ease, padding 460ms cubic-bezier(.65, 0, .35, 1), min-height 460ms cubic-bezier(.65, 0, .35, 1); }
+  .app .sec-icon{ transition: background-color 460ms cubic-bezier(.65, 0, .35, 1), color 460ms ease; }
+}
+
+/* ---------- The share donut you can handle (2026-11-16, components/admin/chart.tsx ShareDonut) ----------
+   It lifts when the pointer comes over it; a slice nudges out under the pointer; pressed or dragged it comes out of
+   the ring and follows the pointer with a little resistance; two seconds after letting go it springs back. */
+.donut-row svg{ overflow: visible; touch-action: none; cursor: grab; }
+.chart-donut.is-dragging .donut-row svg{ cursor: grabbing; }
+.donut-row li{ display: block; }
+.donut-row li button{ display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2px 8px; width: calc(100% + 16px); margin: -6px -8px; padding: 6px 8px; border: 0; border-radius: 10px; background: transparent; color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.donut-row li.is-hover button{ background: var(--wash); }
+.donut-row li.is-pulled button{ background: var(--row-a); }
+.chart-donut.has-pull .donut-slice:not(.is-pulled), .chart-donut.has-pull .donut-row li:not(.is-pulled){ opacity: .45; }
+.donut-slice.is-pulled .donut-arc{ stroke-width: 24; }
+@media (prefers-reduced-motion: no-preference){
+  .donut-row svg{ transition: transform 320ms cubic-bezier(.34, 1.56, .64, 1), filter 320ms ease; }
+  .donut-slice{ transition: transform 560ms cubic-bezier(.34, 1.56, .64, 1), opacity 300ms ease; }
+  .chart-donut.is-dragging .donut-slice.is-pulled{ transition: transform 60ms linear, opacity 300ms ease; }
+  .donut-row li{ transition: opacity 300ms ease; }
+  .donut-row li button{ transition: background-color 220ms ease; }
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference){
+  .donut-row svg:hover{ transform: translateY(-3px) scale(1.03); filter: drop-shadow(0 10px 14px rgba(32, 20, 26, .18)); }
+}
+
+/* ---------- Today's priority matrix (2026-11-16, lib/admin/today.ts urgency) ----------
+   Critical (stock, safety or trading at risk now, such as a leak): a red light runs round the card's edge like an LED
+   strip, fast, with a bright pulse cast outward and a little red light falling inside from the top. Urgent (due
+   within two days, or late): a slow, soft red glow, no beam. Each carries a text chip too, so nothing rests on colour
+   alone. Reduced motion: the same light, standing still. */
+@property --beam { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.app .today-sum{ grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.app .today-sum .is-critical{ background: #C81A35; border-color: transparent; color: #FFFFFF; }
+.app .today-sum .is-critical b{ color: #FFFFFF; }
+.app .today-sum .is-urgent{ background: var(--pink-wash); border-color: transparent; color: var(--clay-dark); }
+.app .today-sum .is-urgent b{ color: var(--clay-dark); }
+.app .today-card{ position: relative; isolation: isolate; }
+.app .today-card.is-critical, .app .today-card.is-urgent{ --led: #E5484D; --tc: var(--led); border-color: color-mix(in srgb, var(--led) 45%, var(--card-line)); }
+.app .today-card.is-critical{ border-top-width: 1px; }
+.app .today-card.is-critical::after, .app .today-card.is-urgent::after{ content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(130% 70% at 50% 0%, color-mix(in srgb, var(--led) 12%, transparent), transparent 72%); }
+.app .today-card.is-urgent::after{ background: radial-gradient(130% 60% at 50% 0%, color-mix(in srgb, var(--led) 7%, transparent), transparent 70%); }
+.app .today-card.is-critical::before{ content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; border-radius: 17px; padding: 2.5px;
+  background: conic-gradient(from var(--beam), transparent 0deg 190deg, color-mix(in srgb, var(--led) 25%, transparent) 230deg, var(--led) 296deg, #FFD3CF 312deg, var(--led) 326deg, transparent 352deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); }
+.app .today-card.is-critical{ box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 40%, transparent), 0 0 22px 3px color-mix(in srgb, var(--led) 34%, transparent), 0 16px 30px -14px color-mix(in srgb, var(--led) 60%, transparent); }
+.app .today-card.is-urgent{ box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 22%, transparent), 0 0 18px 1px color-mix(in srgb, var(--led) 18%, transparent), var(--glass-shadow); }
+.app .queue-item.is-critical{ background: color-mix(in srgb, var(--led, #E5484D) 7%, transparent); }
+.app .urgency-chip{ justify-self: start; display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 8px; border-radius: 999px; font: 800 .75rem/1.5 var(--ui); letter-spacing: .05em; text-transform: uppercase; }
+.app .urgency-chip::before{ content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
+.app .urgency-chip.is-critical{ background: #C81A35; color: #FFFFFF; }
+.app .urgency-chip.is-urgent{ background: var(--pink-wash); color: var(--clay-dark); }
+@media (prefers-reduced-motion: no-preference){
+  .app .today-card.is-critical::before{ animation: led-run 1.7s linear infinite; }
+  .app .today-card.is-critical{ animation: led-glow-hot 1.7s ease-in-out infinite; }
+  .app .today-card.is-urgent{ animation: led-glow-soft 3.6s ease-in-out infinite; }
+  .app .urgency-chip.is-critical::before{ animation: led-blink 1.7s ease-in-out infinite; }
+}
+@keyframes led-run { to { --beam: 360deg; } }
+@keyframes led-glow-hot {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 35%, transparent), 0 0 14px 1px color-mix(in srgb, var(--led) 26%, transparent), 0 14px 28px -14px color-mix(in srgb, var(--led) 50%, transparent); }
+  50% { box-shadow: 0 0 0 2px color-mix(in srgb, var(--led) 60%, transparent), 0 0 30px 6px color-mix(in srgb, var(--led) 46%, transparent), 0 18px 34px -12px color-mix(in srgb, var(--led) 70%, transparent); }
+}
+@keyframes led-glow-soft {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 16%, transparent), 0 0 10px 0 color-mix(in srgb, var(--led) 10%, transparent), var(--glass-shadow); }
+  50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 32%, transparent), 0 0 22px 3px color-mix(in srgb, var(--led) 22%, transparent), var(--glass-shadow); }
+}
+@keyframes led-blink { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .35; transform: scale(.7); } }
+@media (prefers-reduced-motion: reduce){
+  .app .today-card.is-critical::before{ background: var(--led); }
+}
+/* on phones the figure cards' padding shrinks to 12 px, so their icon tile's corner follows (18 px less 13 px) */
+@media (max-width: 520px){ .app .kpi-icon{ border-radius: 7px; } }
+
+/* ---------- Hover for everything you can touch on the staff side (2026-11-16) ----------
+   Found by checking every console, HR and portal screen for clickable things no hover rule reached. Each change
+   eases in (styles/motion.css gives every control a default transition). */
+.app :is(select, input:not([type="checkbox"], [type="radio"], [type="range"], [type="file"]), textarea):hover:not(:focus, :disabled){ border-color: var(--line-strong); box-shadow: 0 0 0 3px color-mix(in srgb, var(--line-strong) 25%, transparent); }
+.app .tabs button:hover:not([aria-selected="true"]){ color: var(--ink); border-bottom-color: var(--line-strong); background: color-mix(in srgb, var(--wash) 70%, transparent); }
+.app .flow-reopen:hover{ border-style: solid; border-color: var(--a-green); background: var(--wash); color: var(--ink); }
+.app summary:hover{ color: var(--ink); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.app .link-btn:hover{ text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.app label:hover:has(> input[type="checkbox"], > input[type="radio"]){ color: var(--ink); }
+.app label:hover > input:is([type="checkbox"], [type="radio"]){ box-shadow: 0 0 0 4px color-mix(in srgb, var(--a-green) 18%, transparent); }
+/* Overview's department cards: when a neighbour is taller, the figures stay right under the heading and the spare
+   height sits above the link at the foot, instead of floating the figures in the middle of the card (2026-11-16) */
+.app .dept-body{ align-content: start; }
+@media (max-width: 640px){ .app .today-sum p:last-child:nth-child(odd){ grid-column: 1 / -1; } }
+/* the same soft glow on the employee portal's reminders that fall due within two days, or are late */
+.app .alert.is-urgent{ --led: #E5484D; position: relative; box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 30%, transparent), 0 0 16px 1px color-mix(in srgb, var(--led) 18%, transparent); }
+.app .alert.is-urgent .urgency-chip{ margin-right: 8px; vertical-align: 1px; }
+@media (prefers-reduced-motion: no-preference){ .app .alert.is-urgent{ animation: led-glow-alert 3.6s ease-in-out infinite; } }
+@keyframes led-glow-alert {
+  0%, 100% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 20%, transparent), 0 0 8px 0 color-mix(in srgb, var(--led) 10%, transparent); }
+  50% { box-shadow: 0 0 0 1px color-mix(in srgb, var(--led) 40%, transparent), 0 0 20px 3px color-mix(in srgb, var(--led) 24%, transparent); }
+}
+
+/* ---------- The sidebar's lights (2026-11-16, lib/nav-signals.ts; components/app-shell.tsx) ----------
+   none = fine · green = done, worth a look · blue turning = under way · yellow = waiting for you · red = urgent ·
+   red blinking with the whole entry pulsing = critical. Each light also carries hidden words for screen readers and a
+   tooltip with the line from Today. Reduced motion: the same colours, standing still. */
+.app .app-nav a{ position: relative; }
+.app .nav-sig{ --sig: transparent; flex: none; margin-left: auto; width: 10px; height: 10px; border-radius: 50%; background: var(--sig); box-shadow: 0 0 0 3px color-mix(in srgb, var(--sig) 26%, transparent); }
+.app .nav-sig.is-done{ --sig: #4ADE80; }
+.app .nav-sig.is-pending{ --sig: #FFD21A; }
+.app .nav-sig.is-urgent{ --sig: #FF5A52; }
+.app .nav-sig.is-critical{ --sig: #FF3B30; }
+.app .nav-sig.is-moving{ --sig: #7CC0FF; width: 12px; height: 12px; background: none; border: 2px solid var(--sig); border-right-color: transparent; box-shadow: none; }
+.app button.app-nav-group .nav-sig{ margin: 0 8px 0 auto; }
+/* critical: the whole entry glows red, pulsing */
+.app .app-nav a.sig-critical{ background: linear-gradient(90deg, rgba(255, 59, 48, .34), rgba(255, 59, 48, .1)); box-shadow: inset 3px 0 0 #FF3B30; color: #FFFFFF; }
+.app .app-nav a.sig-critical::before{ content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(90deg, rgba(255, 59, 48, .5), rgba(255, 59, 48, .14)); opacity: .5; }
+.app button.app-nav-group.sig-critical{ color: #FFFFFF; background: rgba(255, 59, 48, .16); }
+/* the Menu button carries the loudest light while the sidebar is shut */
+.app .app-menu-btn{ position: relative; }
+.app .menu-sig{ --sig: #FF5A52; position: absolute; top: -6px; right: -6px; width: 15px; height: 15px; border-radius: 50%; background: var(--sig); border: 2px solid var(--card, #FFFFFF); }
+.app .menu-sig.is-critical{ --sig: #FF3B30; }
+@media (prefers-reduced-motion: no-preference){
+  .app .app-nav a.sig-critical::before{ animation: nav-crit 1.4s ease-in-out infinite; }
+  .app .nav-sig.is-critical, .app .menu-sig.is-critical{ animation: sig-blink 1.4s ease-in-out infinite; }
+  .app .nav-sig.is-moving{ animation: sig-turn .9s linear infinite; }
+}
+@keyframes nav-crit { 0%, 100% { opacity: .15; } 50% { opacity: 1; } }
+@keyframes sig-blink { 0%, 100% { opacity: 1; box-shadow: 0 0 0 3px rgba(255, 59, 48, .35), 0 0 12px 2px rgba(255, 59, 48, .7); } 50% { opacity: .25; box-shadow: 0 0 0 1px rgba(255, 59, 48, .1); } }
+@keyframes sig-turn { to { rotate: 360deg; } }
+
+
+/* ---------- Red entries out of sight in the open sidebar ---------- */
+.app .nav-alerts{ position: sticky; bottom: 0; z-index: 2; display: grid; gap: 6px; margin: -8px -8px 0; padding: 8px; border-radius: 14px; background: color-mix(in srgb, #071F11 94%, transparent); box-shadow: 0 -14px 26px -12px rgba(0, 0, 0, .65); }
+.app .nav-alerts ul{ list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+.app .nav-alerts li button{ display: grid; grid-template-columns: 18px 12px 1fr; align-items: center; gap: 1px 8px; width: 100%; padding: 8px 10px; border: 0; border-radius: 10px; background: rgba(255, 59, 48, .16); color: #FFFFFF; text-align: left; font: 700 .875rem/1.25 var(--ui); cursor: pointer; }
+.app .nav-alerts li button:hover{ background: rgba(255, 59, 48, .28); }
+.app .nav-alerts li button:focus-visible, .app .nav-alerts-more:focus-visible{ outline: 3px solid #FFD21A; outline-offset: 2px; }
+.app .nav-alerts li button.is-urgent{ background: rgba(255, 90, 82, .1); }
+.app .nav-alerts small{ grid-column: 3; font: 600 .75rem/1.2 var(--ui); color: #FFD3CF; }
+.app .nav-alerts .nav-sig{ margin: 0; }
+.app .nav-arrow{ grid-row: span 2; width: 18px; height: 18px; color: #FF7A73; }
+.app .nav-arrow.is-up{ rotate: 180deg; }
+.app .nav-alerts-more{ justify-self: start; min-height: 32px; padding: 4px 12px; border: 1px solid rgba(255, 255, 255, .25); border-radius: 999px; background: transparent; color: #FFFFFF; font: 700 .8125rem/1 var(--ui); cursor: pointer; }
+.app .nav-alerts-more:hover{ background: rgba(255, 255, 255, .1); }
+@media (prefers-reduced-motion: no-preference){
+  .app .nav-alerts li{ animation: alerts-drop 320ms calc(var(--k, 0) * 60ms) cubic-bezier(.34, 1.56, .64, 1) both; }
+  .app .nav-arrow{ animation: arrow-nudge 1.2s ease-in-out infinite; }
+}
+@keyframes alerts-drop { from { opacity: 0; translate: 0 -10px; scale: .96; } to { opacity: 1; translate: none; scale: none; } }
+@keyframes arrow-nudge { 0%, 100% { translate: 0 -2px; } 50% { translate: 0 3px; } }

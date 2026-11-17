@@ -10,6 +10,7 @@ import { HiringLog, HrResources, PeoplePanel } from "@/components/hr/people-pane
 import { PipelineBoard } from "@/components/hr/pipeline-board";
 import { RolesTable } from "@/components/hr/roles-table";
 import { Flow } from "@/components/viz";
+import { SkelTiles } from "@/components/skeleton";
 import { TABS, complianceRows, goToTab, isActive, useHrTab, type HrTab } from "@/lib/hr/hr";
 import { can } from "@/lib/access";
 import { byId, useData, useRequireRole } from "@/lib/store";
@@ -81,7 +82,7 @@ export function HrConsole() {
       </div>
 
       <div className="stats" id="hr-stats">
-        {ready ? <HrStats d={d} /> : null}
+        {ready ? <HrStats d={d} /> : <SkelTiles n={5} />}
       </div>
 
       <div

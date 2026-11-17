@@ -9,3 +9,13 @@ const noSub = () => () => {};
 export function useToday() {
   return useSyncExternalStore(noSub, () => new Date(Date.now() - 4 * 3600000).toISOString().slice(0, 10), () => "");
 }
+
+const MINUTE = 60000;
+function subMinute(cb: () => void) {
+  const t = setInterval(cb, MINUTE);
+  return () => clearInterval(t);
+}
+/** The time to the minute, as milliseconds, ticking over each minute. 0 on the server and on the first paint. */
+export function useNowMinute() {
+  return useSyncExternalStore(subMinute, () => Math.floor(Date.now() / MINUTE) * MINUTE, () => 0);
+}

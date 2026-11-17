@@ -3,6 +3,8 @@
 import { DirectorFigure, MarketingFigure, OfficeFigure } from "@/components/admin/office-figure";
 import { officeMeta } from "@/components/app-shell";
 import { Icon } from "@/components/icon";
+import { useEffect } from "react";
+import { useReducedMotion, useSwap } from "@/components/viz";
 import { PERMISSIONS, activeGrant, type Permission } from "@/lib/access";
 import { grantLine } from "@/lib/admin/access-admin";
 import type { AdminTab } from "@/lib/admin/helpers";
@@ -43,10 +45,28 @@ export const SECTION: Record<AdminTab, { title: string; purpose: string }> = {
 /** A section's banner: its icon in a tile, the department above the title, one line saying what the section is for,
  *  and the section's own controls on the right. The banner takes its department's colour (styles/staff-theme.css),
  *  so a glance at the top of the screen says where you are. */
+// What swaps when the tab changes: everything inside the banner, while the banner itself stays and changes colour.
+const bannerParts = (el: HTMLElement) => Array.from(el.children);
+
+function deptOf(id: AdminTab) {
+  return officeMeta(id)?.group || "Office";
+}
+
 export function SectionHead({ id, children }: { id: AdminTab; children?: React.ReactNode }) {
-  const sec = SECTION[id];
-  const meta = officeMeta(id);
-  const dept = meta?.group || "Office";
+  // The banner stays on screen between tabs. Its colour eases to the new department's (styles/staff-theme.css) while
+  // its icon, words and figure blur out and the new ones blur in (useSwap), so the change reads as one motion.
+  const [shownId, ref] = useSwap<AdminTab, HTMLElement>(id, bannerParts);
+  const reduce = useReducedMotion();
+  // the band of light crosses the banner again as the new section settles in
+  useEffect(() => {
+    const el = ref.current;
+    if (reduce || !el || typeof el.animate !== "function") return;
+    el.animate([{ backgroundPosition: "-60% 0" }, { backgroundPosition: "160% 0" }], { duration: 1100, easing: "ease-out", pseudoElement: "::before" });
+  }, [shownId, reduce, ref]);
+  const sec = SECTION[shownId];
+  const meta = officeMeta(shownId);
+  const dept = deptOf(shownId);
+  const tone = deptOf(id);
   // the orange office banners carry the office's own waving figure in their right corner, the yellow marketing banners
   // the two people on the marketing team, both in a little store front (components/admin/office-figure.tsx)
   // Alexia's figure is the administration office's; in the Managing Director's console the orange banners carry
@@ -56,7 +76,7 @@ export function SectionHead({ id, children }: { id: AdminTab; children?: React.R
   const director = s?.role === "owner";
   const marketing = dept === "Marketing";
   return (
-    <header className={"section-head sec-band dept-" + dept.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing || (office && director) ? " has-pair" : "")}>
+    <header ref={ref} className={"section-head sec-band dept-" + tone.toLowerCase().replace(/[^a-z]+/g, "-") + (office || marketing ? " has-figure" : "") + (marketing || (office && director) ? " has-pair" : "")}>
       <span className="sec-icon" aria-hidden="true">
         <Icon name={meta?.icon || "grid"} />
       </span>

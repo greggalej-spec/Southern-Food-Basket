@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useState } from "react";
 import { Icon } from "@/components/icon";
+import { FormSkeleton } from "@/components/skeleton";
 import { Badge } from "@/components/ui/badge";
 import "@/lib/mailing";
 import { emailOk, normalizeEmail } from "@/lib/newsletter";
@@ -39,7 +40,7 @@ function remember(v: string) {
 
 /** The prerendered page and the Suspense fallback: the form, empty. */
 export function OutboxWaiting() {
-  return <div className="outbox-wait" aria-busy="true" />;
+  return <FormSkeleton fields={1} className="card outbox-wait" />;
 }
 
 export function Outbox() {

@@ -7,6 +7,7 @@ import { OutcomeCard } from "@/components/careers/outcome-card";
 import { FileMeta, Thumb, UploadButton, usePreviews } from "@/components/careers/parts";
 import { useConfirm } from "@/components/confirm";
 import { Icon } from "@/components/icon";
+import { AppSkeleton } from "@/components/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "@/components/ui/sonner";
 import { branchName, fileProblem } from "@/lib/careers/helpers";
@@ -25,9 +26,10 @@ import type { KycDoc } from "@/lib/types";
 
 export function MeDashboard() {
   const s = useRequireRole(["applicant"]);
-  if (!s) return null;
+  const wait = <AppSkeleton tiles={0} panels={2} />;
+  if (!s) return wait;
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={wait}>
       <MeView />
     </Suspense>
   );

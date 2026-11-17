@@ -19,7 +19,15 @@
 :where([data-css~="portal"]) .alerts{ display: grid; gap: var(--s3); margin-bottom: var(--s5); }
 :where([data-css~="portal"]) .alerts:empty{ display: none; }
 :where([data-css~="portal"]) .alert p{ margin: 0; max-width: none; }
-:where([data-css~="portal"]) .alert a{ color: inherit; font-weight: 700; }
+:where([data-css~="portal"]) .alert a:not(.btn){ color: inherit; font-weight: 700; }
+/* demo account cards: the name and role sit together at the top and what they can do sits at the foot, so a row of
+   cards of different lengths lines up instead of spreading each card's words down its height (2026-11-16) */
+:where([data-css~="portal"]) .role-cards > .role-card:not(.team-card){ display: flex; flex-direction: column; align-items: stretch; gap: var(--s2); }
+:where([data-css~="portal"]) .role-cards > .role-card:not(.team-card) > strong{ margin-top: var(--s2); }
+:where([data-css~="portal"]) .role-cards > .role-card .can{ margin-top: auto; }
+/* the team cards hold several people: on wide screens they take two columns, so their names run across and the rows
+   stay level instead of one long card stretching its neighbours */
+@media (min-width: 1100px){ :where([data-css~="portal"]) .role-cards{ grid-auto-flow: row dense; } :where([data-css~="portal"]) .role-cards > .team-card{ grid-column: span 2; } }
 
 /* stats: long money values wrap at the space instead of overflowing at 375 px */
 :where([data-css~="portal"]) .stat .stat-value{ overflow-wrap: anywhere; }

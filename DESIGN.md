@@ -113,9 +113,35 @@ Each motif means one thing, so a shopper learns it once:
   cards with the warm 1 px border and the 14 px radius.
 - Mobile: the bar shows the logo, the two quick links and a labelled "Menu" button; the menu opens below the
   bar as a list with 56 px rows.
-- Cards have a 1 px warm border and almost no shadow; no nested cards; no side-stripe borders.
-- Motion 150–250 ms ease-out on hover and open/close only; `prefers-reduced-motion` removes it. The one
-  exception is the home page's living layer (Brand logic, above).
+- Cards have a 1 px warm border and almost no shadow; no nested cards; no side-stripe borders (a row's colour
+  goes on a dot, a tile or a badge beside its text label).
+- Concentric corners (2026-11-16): a shape sitting in another's corner takes the outer radius minus the gap
+  between their edges (padding plus border), never below 6 px; when the gap is wider than the outer radius the
+  inner shape keeps its own radius. Controls keep their own shape language wherever they sit: buttons (12 px),
+  pills, chips and round icon buttons are not reshaped to fit a corner; the pieces of a segmented control follow its
+  track.
+- Motion: hover and press per `styles/motion.css` (presses 90–140 ms, hovers 180–240 ms, nothing past 400 ms);
+  `prefers-reduced-motion` removes all of it. Since 2026-11-16 also: a page body fades up when you move between
+  public pages (`components/page-transition.tsx`), the browser crossfades between the home and the other pages,
+  page openings arrive in reading order (eyebrow, headline, lede, buttons, 60 ms apart), and public section heads
+  rise in on scroll. The staff side keeps its own arrival (banner settles, sections rise a beat apart). The one
+  long-running exception is the home page's living layer (Brand logic, above).
+- Priority (2026-11-16, `lib/admin/today.ts`): critical items (stock, safety or trading at risk now, such as a leak)
+  run a red light round their Today card and lead the page; urgent items (due within two days, or late) glow softly
+  red; everything else is plain. Each also carries a text chip. The employee portal's reminders follow the same rule.
+- Sidebar lights (2026-11-16, `lib/nav-signals.ts`): none = fine, green = done and worth a look, blue turning = under
+  way, yellow = waiting for you, red = urgent, red blinking with the entry pulsing = critical. A light is a button:
+  Got it (stops the blinking), Pause (an hour, until tomorrow, three days) or Mark as done (until something new),
+  kept per browser (`lib/nav-quiet.ts`). Red entries scrolled out of sight are named in a strip at the sidebar's
+  foot with arrows, three at a time. With the sidebar shut, the Menu button carries the light, and a critical item
+  swells the sidebar's own green skin out of the screen edge until a badge with the number of critical things
+  bursts out (`components/edge-bump.tsx`). It pushes once, then only every ten seconds while untouched. Tap it or
+  pull it outward to open the menu there; slide it back into the edge, or press and hold, to put it away until
+  something new turns critical.
+- Loading (2026-11-16): anything that waits for the session or the address bar shows a skeleton shaped like what
+  is coming (`components/skeleton.tsx`, `styles/skeleton.css`), never an empty box. Skeletons fade in after
+  120 ms so a fast load never flashes them, share one sweep of light, and hold still under reduced motion.
+  Photos show the same grey until they load, then fade in, at their true shape.
 
 ## Imagery
 Real only. The logo is cut from a company photo; product and store photos are the company's own Instagram

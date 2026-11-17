@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { Icon } from "@/components/icon";
+import { Skel, SkelGroup } from "@/components/skeleton";
 import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldHint } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -148,7 +149,14 @@ function VerifyFrame({ title, children }: { title: string; children?: React.Reac
 
 /** The prerendered page, and the Suspense fallback until the query is read. */
 export function VerifyWaiting() {
-  return <VerifyFrame title="Signing you in" />;
+  return (
+    <VerifyFrame title="Signing you in">
+      <SkelGroup label="Signing you in">
+        <Skel w="min(100%, 460px)" />
+        <Skel w="min(70%, 320px)" />
+      </SkelGroup>
+    </VerifyFrame>
+  );
 }
 
 export function Verify() {

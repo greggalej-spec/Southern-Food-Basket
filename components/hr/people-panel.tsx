@@ -5,6 +5,7 @@ import { Seg, Stat, act } from "@/components/admin/bits";
 import { Bars } from "@/components/admin/chart";
 import { SideSheet } from "@/components/admin/side-sheet";
 import { ResourceList } from "@/components/admin/tasks-panel";
+import { AppSkeleton } from "@/components/skeleton";
 import { Badge } from "@/components/ui/badge";
 import { Flow } from "@/components/viz";
 import { can } from "@/lib/access";
@@ -29,7 +30,7 @@ export function PeoplePanel({ ready }: { ready: boolean }) {
   const [status, setStatus] = useState<"current" | "all" | EmployeeStatus>("current");
   const [openId, setOpenId] = useState<string | null>(null);
   const [adding, setAdding] = useState(false);
-  if (!ready) return null;
+  if (!ready) return <AppSkeleton head={false} tiles={0} panels={1} />;
   const all = d.employees || [];
   const query = q.trim().toLowerCase();
   const list = all
@@ -583,7 +584,7 @@ function PersonFormView({ onDone }: { onDone: (id: string) => void }) {
 export function HiringLog({ ready }: { ready: boolean }) {
   const d = useData();
   const [show, setShow] = useState<"all" | "open" | "closed">("all");
-  if (!ready) return null;
+  if (!ready) return <AppSkeleton head={false} tiles={0} panels={1} />;
   const closed = (st: string) => ["hired", "not-selected", "withdrawn"].includes(st);
   const rows = d.applicants.filter((a) => show === "all" || (show === "closed") === closed(a.stage)).sort((a, b) => b.submittedAt.localeCompare(a.submittedAt));
   const fn = funnel(d);
@@ -674,7 +675,7 @@ export function HiringLog({ ready }: { ready: boolean }) {
 export function HrResources({ ready }: { ready: boolean }) {
   const d = useData();
   const s = useSession();
-  if (!ready) return null;
+  if (!ready) return <AppSkeleton head={false} tiles={0} panels={1} />;
   return (
     <div className="section-stack">
       <ResourceList d={d} area={["hr"]} canEdit={can(d, s, "hr.people")} />

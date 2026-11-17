@@ -32,6 +32,7 @@ import { TodayPanel } from "@/components/admin/today-panel";
 import { can } from "@/lib/access";
 import { TABS, TAB_PERMS, goToTab, itemOf, tabOf, type AdminTab } from "@/lib/admin/helpers";
 import { useData, useRequireRole } from "@/lib/store";
+import { AppSkeleton } from "@/components/skeleton";
 
 // The office console: one page for administration, purchasing, marketing and the Managing Director. The sidebar (AppShell) is the
 // navigation; the URL hash picks the section (#today, #promos, ... see TABS), and "#promos/<id>" opens one item in
@@ -159,7 +160,7 @@ export function AdminConsole() {
     <AppShell app="admin" active={tab} title={s?.role === "owner" ? "Managing Director’s console" : "Office console"} css={["app", "admin", "ops"]}>
       <section id={"sec-" + tab} className="admin-section" tabIndex={-1} aria-labelledby={"sec-" + tab + "-h"}>
         <SectionHead id={tab} />
-        {!s ? null : allowed ? content() : <NoAccess id={tab} perms={perms} />}
+        {!s ? <AppSkeleton head={false} /> : allowed ? content() : <NoAccess id={tab} perms={perms} />}
       </section>
     </AppShell>
   );

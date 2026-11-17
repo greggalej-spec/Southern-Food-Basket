@@ -354,6 +354,9 @@ export interface Seed {
   requests: CommunityRequest[];
   bulkOrders: BulkOrder[];
   tasks: Task[];
+  /** Something wrong at a store that the office must deal with now (a leak, a failed freezer). Demo rows join with
+   *  their own "incidents" tier (lib/seed-incidents.ts), so a browser's saved demo picks them up without a reset. */
+  incidents?: Incident[];
   resources: ResourceDoc[];
   socialAccounts: SocialAccount[];
   socialPosts: SocialPost[];
@@ -830,6 +833,22 @@ export interface BulkOrder {
 }
 
 export type Area = "admin" | "marketing" | "hr" | "website" | "owner";
+
+/** How hard Today pushes an item: "critical" (stock, safety or trading at risk now) runs a red light round its card;
+ *  "urgent" (due within two days) glows softly. Anything else is plain. */
+export type Urgency = "critical" | "urgent";
+
+export interface Incident {
+  id: string;
+  branchId: string;
+  title: string;
+  /** What has been done so far, in one sentence. */
+  detail: string;
+  level: Urgency;
+  reportedAt: string;
+  reportedBy: string;
+  status: "open" | "resolved";
+}
 
 export interface Task {
   id: string;

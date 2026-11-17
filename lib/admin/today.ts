@@ -2,7 +2,7 @@ import { can, scopeOf, type Permission } from "@/lib/access";
 import { audience } from "@/lib/newsletter";
 import { approveBlock, lockedUntil, promoState } from "@/lib/promo";
 import { byId } from "@/lib/store";
-import type { Seed, Session } from "@/lib/types";
+import type { Seed, Session, Urgency } from "@/lib/types";
 import { SOON_DAYS, grantState } from "./access-admin";
 import { personName, storeNames } from "./guard";
 import { canon, plural, type AdminTab } from "./helpers";
@@ -22,6 +22,12 @@ export type QueueItem = {
   text: string;
   /** Someone else's words (a reviewer's note), shown as a quote under the sentence. */
   quote?: string;
+  /** "critical": stock, safety or trading at risk now (a red light runs round its card). "urgent": due, ending or
+   *  needed within two days, or already late (a soft red glow). Left out, the item is ordinary. */
+  urgency?: Urgency;
+  /** For the sidebar's lights (lib/nav-signals.ts), where tone alone cannot say it: "moving" is something under way
+   *  in someone else's hands or on a timer (blue); "pending" is something new and unchecked (yellow). */
+  signal?: "moving" | "pending";
   link: { label: string; tab: AdminTab; item?: string };
 };
 
@@ -32,6 +38,8 @@ export const STALE_DAYS = 28;
 const quoted = (v: string) => "“" + v + "”";
 const where = (d: Seed, ids: string[] | null) => (ids ? "at " + storeNames(d, ids) : "at every store");
 const inDays = (n: number) => (n <= 0 ? "today" : n === 1 ? "tomorrow" : "in " + n + " days");
+/** What counts as urgent: due within this many days, or already late. */
+export const URGENT_DAYS = 2;
 
 export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[] {
   const out: QueueItem[] = [];
@@ -41,6 +49,25 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
   const atMyStores = (branchId: string) => !scope || scope.includes(branchId);
   const nowDate = new Date(now);
   const promos = (d.promotions || []).map((p) => ({ p, state: promoState(d, p, nowDate) }));
+  // due within two days (or late): urgent
+  const soon = (when: string | number | undefined | null) => (when == null || when === "" ? undefined : new Date(when).getTime() - now <= URGENT_DAYS * DAY ? ("urgent" as const) : undefined);
+
+  /* 0. something wrong at a store, for whoever runs the office desk: before everything else */
+  if (has("office.desk")) {
+    (d.incidents || [])
+      .filter((x) => x.status === "open" && atMyStores(x.branchId))
+      .sort((a, b) => (a.level === b.level ? b.reportedAt.localeCompare(a.reportedAt) : a.level === "critical" ? -1 : 1))
+      .forEach((x) =>
+        out.push({
+          key: "incident-" + x.id,
+          area: "At the stores",
+          tone: "bad",
+          urgency: x.level,
+          text: x.title + ", reported by " + personName(d, x.reportedBy) + " at " + clockTT(x.reportedAt) + " on " + dayTT(x.reportedAt) + ". " + x.detail,
+          link: { label: x.level === "critical" ? "Send someone" : "Hand it to someone", tab: "tasks" },
+        }),
+      );
+  }
 
   /* 1. decisions */
   if (has("promos.approve")) {
@@ -62,6 +89,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
             key: "own-review-" + p.id,
             area: "Offers",
             tone: "info",
+            signal: "moving",
             text: quoted(p.title) + " is waiting for approval" + when + ". You drafted it, so another director approves it.",
             link: { label: "See it", tab: "promos", item: p.id },
           });
@@ -94,6 +122,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
             key: "review-" + p.id,
             area: "Offers",
             tone: "info",
+            signal: "moving",
             text: quoted(p.title) + " is with the Managing Director for approval" + (p.submittedAt ? ", sent " + dayTT(p.submittedAt) : "") + ".",
             link: { label: "See it", tab: "promos", item: p.id },
           });
@@ -141,6 +170,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
           key: "ending-" + p.id,
           area: "Offers",
           tone: "warn",
+          urgency: soon(p.ends),
           text: quoted(p.title) + " ends " + inDays(left) + ", on " + whenTT(p.ends) + ". Codes stop working at the till after that.",
           link: { label: "See its codes", tab: "codes" },
         });
@@ -157,6 +187,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
           key: "starting-" + p.id,
           area: "Offers",
           tone: "info",
+          signal: "moving",
           text: quoted(p.title) + " starts " + inDays(daysLeft(p.starts, now)) + ", on " + whenTT(p.starts) + ".",
           link: { label: "Open it", tab: "promos", item: p.id },
         });
@@ -174,6 +205,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
         key: "nl-next",
         area: "Newsletter",
         tone: n ? "info" : "warn",
+        signal: n ? "moving" : undefined,
         text:
           quoted(next.subject) + " goes out on " + whenTT(next.scheduledFor) + " Trinidad time, to " + plural(n, "confirmed subscriber") + "." +
           (n ? "" : " Nobody matches its stores and topics, so check the audience."),
@@ -224,7 +256,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
     }
     (d.requests || [])
       .filter((r) => r.status === "approved")
-      .forEach((r) => out.push({ key: "rq-hand-" + r.id, area: "Requests", tone: "info", text: r.org + ": approved, and still to be handed over" + (r.neededBy ? " by " + dayTT(r.neededBy + "T12:00:00-04:00") : "") + ".", link: { label: "Open it", tab: "requests", item: r.id } }));
+      .forEach((r) => out.push({ key: "rq-hand-" + r.id, area: "Requests", tone: "info", urgency: r.neededBy ? soon(r.neededBy + "T12:00:00-04:00") : undefined, text: r.org + ": approved, and still to be handed over" + (r.neededBy ? " by " + dayTT(r.neededBy + "T12:00:00-04:00") : "") + ".", link: { label: "Open it", tab: "requests", item: r.id } }));
   }
   if (has("feedback.handle")) {
     const open = (d.feedback || []).filter((t) => t.status !== "resolved");
@@ -240,7 +272,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
       });
     }
     const other = fresh.filter((t) => t.kind !== "complaint");
-    if (other.length) out.push({ key: "fb-new", area: "Customer feedback", tone: "info", text: plural(other.length, "new message") + " from customers to read.", link: { label: "Read", tab: "feedback" } });
+    if (other.length) out.push({ key: "fb-new", area: "Customer feedback", tone: "info", signal: "pending", text: plural(other.length, "new message") + " from customers to read.", link: { label: "Read", tab: "feedback" } });
   }
   if (has("suppliers.edit")) {
     const openBooks = new Set((d.specialsBooks || []).filter((b) => b.status === "open").map((b) => b.id));
@@ -267,6 +299,8 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
           key: "bulk-" + o.id,
           area: "Bulk orders",
           tone: waiting.length ? "info" : "warn",
+          signal: waiting.length ? "moving" : undefined,
+          urgency: waiting.length ? soon(o.orderBy + "T12:00:00-04:00") : undefined,
           text: waiting.length ? o.item + ": still waiting for " + waiting.join(" and ") + ". Stores answer by " + dayTT(o.orderBy + "T12:00:00-04:00") + "." : o.item + ": every store has answered. It is ready to place.",
           link: { label: waiting.length ? "See the order" : "Place it", tab: "bulk" },
         });
@@ -275,13 +309,13 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
   if (me) {
     const mine = (d.tasks || []).filter((t) => t.assignedTo === me && t.status === "open");
     const today = new Date(now - 4 * 3600000).toISOString().slice(0, 10);
-    mine.forEach((t) => out.push({ key: "task-" + t.id, area: "Your tasks", tone: t.due < today ? "bad" : t.due === today ? "warn" : "plain", text: t.title + (t.due < today ? ". It was due " : ". Due ") + dayTT(t.due + "T12:00:00-04:00") + ".", link: { label: "Open tasks", tab: "tasks" } }));
+    mine.forEach((t) => out.push({ key: "task-" + t.id, area: "Your tasks", tone: t.due < today ? "bad" : t.due === today ? "warn" : "plain", urgency: soon(t.due + "T12:00:00-04:00"), text: t.title + (t.due < today ? ". It was due " : ". Due ") + dayTT(t.due + "T12:00:00-04:00") + ".", link: { label: "Open tasks", tab: "tasks" } }));
   }
   if (has("site.customize")) {
     const se = d.site?.season;
     const today = new Date(now - 4 * 3600000).toISOString().slice(0, 10);
     if (se && se.id !== "none" && se.mode === "dates" && today < se.from) {
-      out.push({ key: "season-soon", area: "Website", tone: "info", text: "The " + (se.id === "christmas" ? "Christmas" : "Divali") + " look goes on by itself on " + dayTT(se.from + "T12:00:00-04:00") + ".", link: { label: "Open the studio", tab: "studio" } });
+      out.push({ key: "season-soon", area: "Website", tone: "info", signal: "moving", text: "The " + (se.id === "christmas" ? "Christmas" : "Divali") + " look goes on by itself on " + dayTT(se.from + "T12:00:00-04:00") + ".", link: { label: "Open the studio", tab: "studio" } });
     }
   }
 
@@ -324,6 +358,7 @@ export function buildQueue(d: Seed, s: Session | null, now: number): QueueItem[]
           key: "grant-" + g.id,
           area: "Staff access",
           tone: "warn",
+          urgency: soon(g.expires),
           text: personName(d, g.userId) + "’s " + roleWord(g.role) + " access ends " + inDays(daysLeft(g.expires!, now)) + ", on " + dayTT(g.expires) + ". Extend it, or let it end.",
           link: { label: "Open their access", tab: "access", item: g.userId },
         });
@@ -351,6 +386,7 @@ const roleWord = (r: string) => ROLE_WORD[r] || r;
 export function watching(d: Seed, s: Session | null) {
   const w: string[] = [];
   const has = (p: Permission) => can(d, s, p);
+  if (has("office.desk")) w.push("anything wrong at a store, like a leak or a failed freezer");
   if (has("requests.decide")) w.push("requests waiting for your decision");
   if (has("requests.log")) w.push("new requests, and approved ones still to hand over");
   if (has("suppliers.edit")) w.push("supplier sheets to check and case prices to add");

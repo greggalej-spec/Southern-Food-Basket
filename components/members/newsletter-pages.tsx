@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { Icon } from "@/components/icon";
+import { FormSkeleton } from "@/components/skeleton";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/sonner";
 import { maskEmail } from "@/lib/access";
@@ -40,7 +41,11 @@ function Frame({ eyebrow = "The weekly e-mail", title, lede, children }: { eyebr
 
 /** Prerendered, and the Suspense fallback until the query is read. */
 export function NewsletterWaiting() {
-  return <Frame title="One moment" />;
+  return (
+    <Frame title="One moment">
+      <FormSkeleton fields={1} />
+    </Frame>
+  );
 }
 
 function BadLink() {

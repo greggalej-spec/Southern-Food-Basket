@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { JobSkeleton } from "@/components/skeleton";
 import { JobDetail } from "@/components/careers/job-detail";
 import { SiteFrame } from "@/components/site-frame";
 import { SEED } from "@/lib/seed";
@@ -28,7 +29,7 @@ export default function JobPage({ params }: Props) {
   return (
     <SiteFrame active="careers" css={["careers"]} page="job" banner>
       <div className="container section" id="job-main">
-        <Suspense fallback={null}>
+        <Suspense fallback={<JobSkeleton />}>
           <JobFromParams params={params} />
         </Suspense>
       </div>

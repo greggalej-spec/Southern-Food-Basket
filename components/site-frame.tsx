@@ -1,3 +1,4 @@
+import { PageTransition } from "@/components/page-transition";
 import { Scope, type CssName } from "@/components/scope";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader, type SiteNavId } from "@/components/site-header";
@@ -20,7 +21,10 @@ export function SiteFrame({
   return (
     <Scope css={css} page={page}>
       <SiteHeader active={active} />
-      <main id="main">{children}</main>
+      {/* a new page body fades up on navigation; the header and footer hold still */}
+      <PageTransition>
+        <main id="main">{children}</main>
+      </PageTransition>
       <SiteFooter />
     </Scope>
   );

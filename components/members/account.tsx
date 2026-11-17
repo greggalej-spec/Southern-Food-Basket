@@ -6,6 +6,7 @@ import { useEffect, useId, useState } from "react";
 import { useConfirm } from "@/components/confirm";
 import { Icon } from "@/components/icon";
 import { CodeTicket, ticketFor } from "@/components/members/code-ticket";
+import { PublicSkeleton } from "@/components/skeleton";
 import { Button } from "@/components/ui/button";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -30,7 +31,7 @@ export function AccountPage() {
     if (s && !me) logout();
   }, [s, me]);
 
-  if (!s || !me) return <div className="account-wait" aria-busy="true" />;
+  if (!s || !me) return <PublicSkeleton className="account-wait" />;
   return <AccountBody key={me.id} me={me} d={d} s={s} />;
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { CountUp, VizDialog } from "@/components/viz";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { CountUp, VizDialog, useReducedMotion, useSwap } from "@/components/viz";
 import type { Platform } from "@/lib/types";
 
 /* The console's one chart: lines over weeks, one per platform. Built by hand as SVG so it carries no library.
@@ -279,14 +279,170 @@ function ChartStats({ lines, labels, from = 0 }: { lines: Line[]; labels: string
   );
 }
 
+type Arc = { id: Platform; name: string; v: number; share: number; off: number };
+
+const DR = 52; // the donut's radius, in its 140 x 140 drawing
+const HOLD_MS = 2000; // how long a pulled slice stays out before it springs back
+
+/** Who holds what share of the latest week, as a donut you can handle. Point at a slice and it lifts; press it, or
+ *  drag it outward, and it comes out of the ring, the others step back, its row jumps to the top of the list and its
+ *  share takes the middle. Let go and two seconds later it springs back into the ring and the list settles into
+ *  share order again. Each row is a button that does the same, for the keyboard and for touch. */
+function ShareDonut({ arcs, total }: { arcs: Arc[]; total: number }) {
+  const reduce = useReducedMotion();
+  const [hover, setHover] = useState<Platform | null>(null);
+  const [pulled, setPulled] = useState<Platform | null>(null);
+  const [pull, setPull] = useState(0);
+  const [dragging, setDragging] = useState(false);
+  const svg = useRef<SVGSVGElement>(null);
+  const start = useRef(0);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rows = useRef(new Map<Platform, HTMLLIElement>());
+  const tops = useRef(new Map<Platform, number>());
+
+  const byShare = [...arcs].sort((a, b) => b.share - a.share);
+  const top = pulled ? byShare.find((a) => a.id === pulled) : undefined;
+  const order = top ? [top, ...byShare.filter((a) => a.id !== pulled)] : byShare;
+  const orderKey = order.map((a) => a.id).join("|");
+  const [mid, midRef] = useSwap<string, SVGTextElement>(top ? Math.round(top.share * 100) + "%" : compact(total));
+  const [sub, subRef] = useSwap<string, SVGTextElement>(top ? top.name : "this week");
+
+  // rows glide to their new places when the order changes, and spring a little as they land
+  useLayoutEffect(() => {
+    rows.current.forEach((el, id) => {
+      const y = el.offsetTop;
+      const was = tops.current.get(id);
+      if (was != null && was !== y && !reduce && typeof el.animate === "function") {
+        el.animate([{ transform: "translateY(" + (was - y) + "px)" }, { transform: "translateY(0)" }], { duration: 460, easing: "cubic-bezier(.34, 1.4, .64, 1)" });
+      }
+      tops.current.set(id, y);
+    });
+  }, [orderKey, reduce]);
+
+  useEffect(
+    () => () => {
+      if (timer.current) clearTimeout(timer.current);
+    },
+    [],
+  );
+
+  const point = (e: React.PointerEvent) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    return { x: ((e.clientX - r.left) / r.width) * 140 - 70, y: ((e.clientY - r.top) / r.height) * 140 - 70 };
+  };
+  const sliceAt = (p: { x: number; y: number }) => {
+    const dist = Math.hypot(p.x, p.y);
+    if (dist < DR - 18 || dist > DR + 24) return null;
+    let f = (Math.atan2(p.y, p.x) + Math.PI / 2) / (2 * Math.PI);
+    if (f < 0) f += 1;
+    return arcs.find((a) => f >= a.off && f < a.off + a.share) || null;
+  };
+  const holdThenReturn = () => {
+    if (timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      setPulled(null);
+      setPull(0);
+    }, HOLD_MS);
+  };
+  const pullOut = (id: Platform) => {
+    setPulled(id);
+    setPull(12);
+    holdThenReturn();
+  };
+
+  return (
+    <figure className={"chart-donut" + (pulled ? " has-pull" : "") + (dragging ? " is-dragging" : "")}>
+      <figcaption>Share of this week</figcaption>
+      <div className="donut-row">
+        <svg
+          ref={svg}
+          viewBox="0 0 140 140"
+          role="img"
+          aria-label={"Share of the latest week: " + byShare.map((a) => a.name + " " + Math.round(a.share * 100) + " percent").join(", ")}
+          onPointerMove={(e) => {
+            const p = point(e);
+            if (!dragging) {
+              setHover(sliceAt(p)?.id ?? null);
+              return;
+            }
+            // pulled outward it follows the pointer, with more and more resistance past 16
+            const d = Math.max(0, Math.hypot(p.x, p.y) - start.current + 8);
+            setPull(d < 16 ? d : 16 + (d - 16) * 0.3);
+          }}
+          onPointerLeave={() => {
+            if (!dragging) setHover(null);
+          }}
+          onPointerDown={(e) => {
+            const p = point(e);
+            const a = sliceAt(p);
+            if (!a) return;
+            e.currentTarget.setPointerCapture(e.pointerId);
+            start.current = Math.hypot(p.x, p.y);
+            if (timer.current) clearTimeout(timer.current);
+            setPulled(a.id);
+            setPull(8);
+            setDragging(true);
+          }}
+          onPointerUp={() => {
+            if (!dragging) return;
+            setDragging(false);
+            setPull((d) => Math.max(d, 12));
+            holdThenReturn();
+          }}
+          onPointerCancel={() => {
+            setDragging(false);
+            holdThenReturn();
+          }}
+        >
+          <circle cx="70" cy="70" r={DR} className="donut-track" />
+          {arcs.map((a) => {
+            const angle = (a.off + a.share / 2) * 2 * Math.PI - Math.PI / 2;
+            const d = a.id === pulled ? pull : a.id === hover ? 4 : 0;
+            const c = 2 * Math.PI * DR;
+            return (
+              <g key={a.id} className={"donut-slice" + (a.id === pulled ? " is-pulled" : "") + (a.id === hover ? " is-hover" : "")} style={{ transform: "translate(" + (Math.cos(angle) * d).toFixed(2) + "px, " + (Math.sin(angle) * d).toFixed(2) + "px)" }}>
+                <circle cx="70" cy="70" r={DR} className="donut-arc" stroke={PLATFORM_COLOR[a.id]} strokeDasharray={Math.max(0, a.share * c - 2).toFixed(2) + " " + c.toFixed(2)} strokeDashoffset={(-a.off * c).toFixed(2)} transform="rotate(-90 70 70)" />
+              </g>
+            );
+          })}
+          <text ref={midRef} x="70" y="69" textAnchor="middle" className="donut-total">
+            {mid}
+          </text>
+          <text ref={subRef} x="70" y="85" textAnchor="middle" className="donut-sub">
+            {sub}
+          </text>
+        </svg>
+        <ul>
+          {order.map((a) => (
+            <li
+              key={a.id}
+              ref={(el) => {
+                if (el) rows.current.set(a.id, el);
+                else rows.current.delete(a.id);
+              }}
+              className={a.id === pulled ? "is-pulled" : a.id === hover && !pulled ? "is-hover" : undefined}
+            >
+              <button type="button" aria-pressed={a.id === pulled} onClick={() => pullOut(a.id)} onPointerEnter={() => setHover(a.id)} onPointerLeave={() => setHover(null)}>
+                <span className="chart-key" style={{ background: PLATFORM_COLOR[a.id] }} />
+                <span>{a.name}</span>
+                <b>{Math.round(a.share * 100) + "%"}</b>
+                <small>{a.v.toLocaleString("en-US")}</small>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </figure>
+  );
+}
+
 /** Two more readings of the same weeks, under a trend chart: who holds what share of the latest week (a donut,
  *  with the total in the middle), and each week's total stacked by account, on its own scale with its own axis. */
 function TrendExtras({ lines, labels, from }: { lines: Line[]; labels: string[]; from: number }) {
   const n = labels.length;
   if (n < 1 || !lines.length) return null;
   const total = lines.reduce((a, l) => a + (l.points[n - 1] ?? 0), 0);
-  const R = 52, C = 2 * Math.PI * R;
-  const arcs = lines.reduce<{ id: Platform; name: string; v: number; share: number; off: number }[]>((out, l) => {
+  const arcs = lines.reduce<Arc[]>((out, l) => {
     const v = l.points[n - 1] ?? 0, off = out.reduce((a, b) => a + b.share, 0);
     return [...out, { id: l.id, name: l.name, v, share: total ? v / total : 0, off }];
   }, []);
@@ -301,33 +457,7 @@ function TrendExtras({ lines, labels, from }: { lines: Line[]; labels: string[];
   });
   return (
     <div className="chart-extras">
-      <figure className="chart-donut">
-        <figcaption>Share of this week</figcaption>
-        <div className="donut-row">
-          <svg viewBox="0 0 140 140" role="img" aria-label={"Share of the latest week: " + arcs.map((a) => a.name + " " + Math.round(a.share * 100) + " percent").join(", ")}>
-            <circle cx="70" cy="70" r={R} className="donut-track" />
-            {arcs.map((a) => (
-              <circle key={a.id} cx="70" cy="70" r={R} className="donut-arc" stroke={PLATFORM_COLOR[a.id]} strokeDasharray={Math.max(0, a.share * C - 2).toFixed(2) + " " + C.toFixed(2)} strokeDashoffset={(-a.off * C).toFixed(2)} transform="rotate(-90 70 70)" />
-            ))}
-            <text x="70" y="69" textAnchor="middle" className="donut-total">
-              {compact(total)}
-            </text>
-            <text x="70" y="85" textAnchor="middle" className="donut-sub">
-              this week
-            </text>
-          </svg>
-          <ul>
-            {arcs.map((a) => (
-              <li key={a.id}>
-                <span className="chart-key" style={{ background: PLATFORM_COLOR[a.id] }} />
-                <span>{a.name}</span>
-                <b>{Math.round(a.share * 100) + "%"}</b>
-                <small>{a.v.toLocaleString("en-US")}</small>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </figure>
+      <ShareDonut arcs={arcs} total={total} />
       <figure className="chart-cols">
         <figcaption>Every week’s total, by account</figcaption>
         <svg viewBox={"0 0 " + CW + " " + CH} role="img" aria-label={"Weekly totals from the week of " + weeks[0].lab + " to the week of " + weeks[weeks.length - 1].lab}>

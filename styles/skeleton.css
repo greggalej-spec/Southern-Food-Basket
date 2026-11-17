@@ -1,0 +1,63 @@
+/* Skeleton loaders (2026-11-16), drawn by components/skeleton.tsx, and the photo placeholder in components/pic.tsx.
+   The grey is the page's own ink mixed into its card colour, so the light staff scheme gets warm grey, the dark one
+   a lighter green, and the public pages the cream they sit on. One band of light sweeps across every shape at once
+   (background-attachment: fixed), so a screen of skeletons reads as one surface, not twenty blinking boxes.
+   Skeletons fade in after 120 ms, so a fast load never flashes them. Reduced motion: still shapes, no sweep, no fade. */
+
+:root{
+  --skel-base: color-mix(in srgb, var(--ink, #2A1A1F) 8%, var(--card, var(--flour, #FFFDFA)));
+  --skel-light: color-mix(in srgb, var(--ink, #2A1A1F) 3%, var(--card, var(--flour, #FFFDFA)));
+}
+.app, [data-css~="app"]{
+  --skel-base: color-mix(in srgb, var(--ink) 8%, var(--card));
+  --skel-light: color-mix(in srgb, var(--ink) 3%, var(--card));
+}
+
+.skel-group{ display: grid; gap: var(--s4, 16px); }
+
+/* ---------- the shapes ---------- */
+.skel{ display: block; flex: none; width: var(--w, 100%); height: var(--h, .875rem); border-radius: 999px; background: var(--skel-base); }
+.skel-title{ height: var(--h, 1.25rem); }
+.skel-block{ border-radius: var(--r-sm, 6px); height: var(--h, 120px); }
+.skel-round{ width: var(--w, 40px); height: var(--h, 40px); border-radius: 50%; }
+.skel-pill{ height: var(--h, 32px); }
+
+/* ---------- containers that stand in for real ones (same border, radius and padding) ---------- */
+.skel-band, .skel-tile, .skel-panel{ background: var(--card, var(--flour)); border: 1px solid var(--card-line, var(--line)); }
+.skel-band{ display: grid; gap: 12px; padding: 22px 26px; border-radius: 22px; }
+.skel-tiles{ display: grid; gap: var(--s4, 16px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 178px), 1fr)); }
+.skel-tile{ display: grid; gap: 10px; align-content: start; min-height: 124px; padding: var(--s4, 16px) var(--s5, 24px); border-radius: var(--r, 14px); }
+.skel-panels{ display: grid; gap: var(--s4, 16px); grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); align-items: start; }
+.skel-panel{ border-radius: var(--r, 14px); overflow: clip; }
+.skel-panel-head{ padding: 14px var(--s5, 24px); background: var(--wash); border-bottom: 1px solid var(--card-line, var(--line)); }
+.skel-panel-body{ display: grid; gap: 4px; padding: 8px var(--s4, 16px) var(--s4, 16px); }
+.skel-row{ display: flex; align-items: center; gap: 12px; min-height: 56px; }
+.skel-stack{ display: grid; gap: 8px; flex: 1; min-width: 0; }
+.skel-stack-lg{ display: grid; gap: 12px; }
+.skel-form{ display: grid; gap: 14px; }
+.skel-field{ display: grid; gap: 8px; }
+.skel-input{ border-radius: var(--r-btn, 12px); }
+.skel-chips{ display: flex; flex-wrap: wrap; gap: 10px; }
+.skel-rows{ gap: 4px; padding: 8px var(--s4, 16px); }
+.skel-tr td{ padding-block: 6px; }
+.skel-board-col .board-card{ display: grid; gap: 8px; }
+@media (max-width: 640px){ .skel-band{ padding: 18px; border-radius: 18px; } .skel-tiles{ gap: var(--s3, 12px); } }
+
+/* ---------- photos: the same grey until the picture has loaded ----------
+   Only a picture the browser has not finished gets .is-loading (set after hydration), so the server's HTML, a
+   cached picture and a page without JavaScript all show the photo straight away. */
+.pic.is-loading{ background: var(--skel-base); }
+
+@media (prefers-reduced-motion: no-preference){
+  .skel-group{ animation: skel-in 240ms 120ms var(--ease-out, ease-out) both; }
+  .skel, .pic.is-loading{
+    background-image: linear-gradient(100deg, transparent 30%, var(--skel-light) 50%, transparent 70%);
+    background-size: 60vw 100%; background-repeat: no-repeat; background-attachment: fixed;
+    animation: skel-sweep 1.6s var(--ease-in-out, ease-in-out) infinite;
+  }
+  .pic img{ transition: opacity 260ms var(--ease-out, ease-out); }
+  .pic.is-loading img{ opacity: 0; }
+}
+
+@keyframes skel-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes skel-sweep { from { background-position: -60vw 0; } to { background-position: 160vw 0; } }

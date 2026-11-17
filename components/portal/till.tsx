@@ -3,6 +3,7 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { AppShell } from "@/components/app-shell";
 import { Icon } from "@/components/icon";
+import { AppSkeleton } from "@/components/skeleton";
 import { AccessError, can, scopeOf } from "@/lib/access";
 import { fmtTT, formatCode, lockedUntil, normalizeCode, redeemCode, type RedeemReason, type RedeemResult } from "@/lib/promo";
 import { byId, useData, useRequireRole } from "@/lib/store";
@@ -47,7 +48,7 @@ export function PortalTill() {
   const d = useData();
   return (
     <AppShell app="portal" active="till" title="Check a code" css={["app", "portal"]} page="till">
-      {s ? can(d, s, "codes.redeem") ? <TillDesk key={s.userId} s={s} d={d} /> : <NoTillAccess /> : null}
+      {s ? can(d, s, "codes.redeem") ? <TillDesk key={s.userId} s={s} d={d} /> : <NoTillAccess /> : <AppSkeleton tiles={0} panels={1} />}
     </AppShell>
   );
 }

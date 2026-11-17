@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { DOC_STATE, docDisplayState } from "@/lib/format";
 import { decisionLine } from "@/components/hr/hr-bits";
+import { BoardSkeleton } from "@/components/skeleton";
 import { CLOSED_STAGES, MAIN_STAGES, branchName, dotClass, fmtDay, jobLine } from "@/lib/hr/hr";
 import { hrStageLabel } from "@/lib/hr/plain";
 import { requiredDocsFor, useData } from "@/lib/store";
@@ -97,7 +98,7 @@ export function PipelineBoard({ ready, onOpen }: { ready: boolean; onOpen: OpenD
                 {c.items.length ? c.items.map((a) => <BoardCard key={a.id} d={d} a={a} onOpen={onOpen} />) : <p className="board-empty">No one here.</p>}
               </section>
             ))
-          : null}
+          : <BoardSkeleton cols={MAIN_STAGES.length + 1} />}
       </div>
     </>
   );

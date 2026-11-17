@@ -4,6 +4,7 @@ import { DocBadge } from "@/components/badges";
 import { useConfirm } from "@/components/confirm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SkelRows } from "@/components/skeleton";
 import { toast } from "@/components/ui/sonner";
 import { daysBetween, fmtDateTime } from "@/lib/format";
 import { branchName, complianceRows, daysLabel, docName, fmtDay } from "@/lib/hr/hr";
@@ -128,7 +129,9 @@ export function CompliancePanels({ ready }: { ready: boolean }) {
                 </tbody>
               </table>
             </div>
-          ) : null}
+          ) : (
+            <SkelRows />
+          )}
         </div>
       </section>
 
@@ -175,7 +178,9 @@ export function CompliancePanels({ ready }: { ready: boolean }) {
                 </tbody>
               </table>
             </div>
-          ) : null}
+          ) : (
+            <SkelRows />
+          )}
         </div>
       </section>
 
@@ -234,7 +239,9 @@ export function CompliancePanels({ ready }: { ready: boolean }) {
                 </tbody>
               </table>
             </div>
-          ) : null}
+          ) : (
+            <SkelRows />
+          )}
         </div>
       </section>
     </div>

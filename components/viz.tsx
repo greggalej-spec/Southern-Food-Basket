@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Icon } from "@/components/icon";
 import { flow, type FlowDef } from "@/lib/flows";
 
@@ -18,6 +18,70 @@ function subscribeReduce(cb: () => void) {
 }
 export function useReducedMotion() {
   return useSyncExternalStore(subscribeReduce, () => matchMedia(REDUCE).matches, () => true);
+}
+
+/* ---------- useSwap: content that changes in place blurs out, then the new content blurs in ----------
+   For anything that stays on screen while what it says changes: a ring's figure on hover, the donut's middle, a
+   section banner when the tab changes. The old content fades and blurs to nothing (130 ms), the new content takes
+   its place and sharpens in (260 ms), like a skeleton resolving. A change that lands mid-swap carries on from
+   where the motion is, so a quick in-and-out never jumps. Reduced motion: the content simply changes. */
+
+const SWAP_OUT: Keyframe = { opacity: 0, filter: "blur(5px)", transform: "translateY(-3px)" };
+const SWAP_IN: Keyframe[] = [
+  { opacity: 0, filter: "blur(5px)", transform: "translateY(4px)" },
+  { opacity: 1, filter: "blur(0px)", transform: "translateY(0px)" },
+];
+
+/** Returns the value to draw and a ref for the element whose content changes. `pick` names the parts to animate
+ *  when the element itself must stay still (a banner keeps its colour; only its text and figure swap); pass a
+ *  function defined outside the component, so it stays the same between renders. */
+export function useSwap<V, T extends Element = Element>(value: V, pick?: (el: T) => Element[]) {
+  const reduce = useReducedMotion();
+  const [shown, setShown] = useState(value);
+  const ref = useRef<T>(null);
+  const shownRef = useRef(value);
+  const running = useRef<Animation[]>([]);
+  useEffect(() => {
+    if (Object.is(value, shownRef.current)) return;
+    shownRef.current = value;
+    const el = ref.current;
+    if (reduce || !el || typeof el.animate !== "function") {
+      queueMicrotask(() => setShown(value));
+      return;
+    }
+    const parts = pick ? pick(el) : [el];
+    // freeze whatever is mid-flight where it is, so the next leg starts from there
+    running.current.forEach((a) => {
+      try {
+        a.commitStyles();
+      } catch {}
+      a.cancel();
+    });
+    const clear = (p: Element) => {
+      const st = (p as HTMLElement).style;
+      if (!st) return;
+      st.removeProperty("opacity");
+      st.removeProperty("filter");
+      st.removeProperty("transform");
+    };
+    const outs = parts.map((p) => p.animate([SWAP_OUT], { duration: 130, easing: "cubic-bezier(.65, 0, .35, 1)", fill: "forwards" }));
+    running.current = outs;
+    Promise.all(outs.map((a) => a.finished)).then(
+      () => {
+        // a newer change took over while this one was leaving: it carries on from here
+        if (!Object.is(shownRef.current, value)) return;
+        setShown(value);
+        requestAnimationFrame(() => {
+          if (!Object.is(shownRef.current, value)) return;
+          parts.forEach(clear);
+          outs.forEach((a) => a.cancel());
+          running.current = parts.map((p) => p.animate(SWAP_IN, { duration: 260, easing: "cubic-bezier(.22, .8, .3, 1)" }));
+        });
+      },
+      () => {},
+    );
+  }, [value, reduce, pick]);
+  return [reduce ? value : shown, ref] as const;
 }
 
 /* ---------- Flow: a process as a row of stages with a parcel travelling through them ---------- */
@@ -181,16 +245,109 @@ const toggleKey = (fn: () => void) => (e: React.KeyboardEvent) => {
 
 /* ---------- Ring: a share of a whole, drawn round a circle, with the figure in the middle ---------- */
 
+const RING_R = 40, RING_C = 2 * Math.PI * RING_R;
+const easeOut = (x: number) => 1 - Math.pow(1 - x, 3);
+const easeIn = (x: number) => x * x * x;
+const easeInOut = (x: number) => (x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2);
+const mix = (a: number, b: number, t: number) => a + (b - a) * t;
+
+/** The arc as drawn: where its tail and head sit, as fractions of the way round from the top. They may run past 1
+ *  while it travels a lap; the drawing wraps them. */
+type Arc = { t: number; h: number };
+
 /** Point at it (or focus it) and the ring redraws and shows the share as a percentage with what is left; click or
  *  press Enter to keep it that way. `interactive={false}` is for a ring inside a card that is itself a button: it
- *  still answers the pointer but takes no focus or click of its own. */
+ *  still answers the pointer but takes no focus or click of its own.
+ *
+ *  The arc is moved frame by frame from wherever it is drawn at that moment, so nothing ever jumps: it sweeps in from
+ *  empty when it appears, eases to a new value when the figure changes, and on hover it either bounces back to zero
+ *  and out again (when it is more than half full) or carries on round the circle, the head running ahead and the tail
+ *  catching up, until it lands back on its value (when it is half full or less). Leaving mid-way lets it finish. */
 export function Ring({ value, of, label, tone = "green", size = 96, interactive = true }: { value: number; of: number; label: string; tone?: "green" | "clay" | "teal" | "gold"; size?: number; interactive?: boolean }) {
   const [hot, setHot] = useState(false);
   const [pin, setPin] = useState(false);
   const on = hot || pin;
+  const reduce = useReducedMotion();
   const share = of > 0 ? Math.max(0, Math.min(1, value / of)) : 0;
   const pct = Math.round(share * 100);
-  const r = 40, c = 2 * Math.PI * r;
+  const r = RING_R, c = RING_C;
+  const restDash = share * c + " " + (c - share * c);
+  // the three lines in the middle swap with a blur instead of jumping (useSwap)
+  const [big, bigRef] = useSwap<string, SVGTextElement>(on ? pct + "%" : String(value));
+  const [mid, midRef] = useSwap<string, SVGTextElement>(on ? Math.max(0, of - value) + " to go" : "of " + of);
+  const [low, lowRef] = useSwap<string, SVGTextElement>(on ? "" : pct + "%");
+
+  const fill = useRef<SVGCircleElement>(null);
+  const arc = useRef<Arc>({ t: 0, h: 0 });
+  const frame = useRef(0);
+  // Draws an arc and remembers it, so the next motion starts from exactly here.
+  const draw = (s: Arc) => {
+    const el = fill.current;
+    if (!el) return;
+    const len = Math.max(0, Math.min(1, s.h - s.t)) * c;
+    el.style.strokeDasharray = len.toFixed(2) + " " + (c - len + 0.01).toFixed(2);
+    el.style.strokeDashoffset = (-(((s.t % 1) + 1) % 1) * c).toFixed(2);
+    arc.current = s;
+  };
+  const drawRef = useRef(draw);
+  useEffect(() => {
+    drawRef.current = draw;
+  });
+  // Runs a motion from the arc as it stands: `to(from, p)` gives the arc at progress p (0 to 1).
+  const run = useRef((to: (from: Arc, p: number) => Arc, ms: number, rest: Arc) => {
+    cancelAnimationFrame(frame.current);
+    const from = arc.current;
+    const start = performance.now();
+    const tick = (now: number) => {
+      const p = Math.min(1, (now - start) / ms);
+      drawRef.current(p < 1 ? to(from, p) : rest);
+      if (p < 1) frame.current = requestAnimationFrame(tick);
+    };
+    frame.current = requestAnimationFrame(tick);
+  });
+  useEffect(() => () => cancelAnimationFrame(frame.current), []);
+
+  // Appearing, or the figure changing: ease from the arc as drawn to the new value. A layout effect, so the first
+  // frame on screen is the arc as remembered (empty, the first time), never the finished ring flashing first.
+  useLayoutEffect(() => {
+    const rest = { t: 0, h: share };
+    if (reduce) {
+      cancelAnimationFrame(frame.current);
+      drawRef.current(rest);
+      return;
+    }
+    drawRef.current(arc.current);
+    run.current((f, p) => {
+      const e = easeOut(p);
+      // a tail mid-lap finishes its lap rather than running backwards
+      const t = f.t % 1 === 0 ? f.t : Math.ceil(f.t);
+      return { t: mix(f.t, t, e), h: mix(f.h, t + share, e) };
+    }, 1100, rest);
+  }, [share, reduce]);
+
+  // Pointing at it: bounce back to zero and out again, or go round, depending on how full it is right now.
+  useEffect(() => {
+    if (!on || reduce) return;
+    const rest = { t: 0, h: share };
+    const now = arc.current;
+    const len = now.h - now.t;
+    if (len > 0.5) {
+      run.current((f, p) => {
+        const lap = f.t % 1 === 0 ? f.t : Math.ceil(f.t);
+        if (p < 0.42) {
+          const e = easeInOut(p / 0.42);
+          return { t: f.t, h: mix(f.h, f.t, e) };
+        }
+        const e = easeOut((p - 0.42) / 0.58);
+        return { t: mix(f.t, lap, e), h: mix(f.t, lap + share, e) };
+      }, 1000, rest);
+    } else {
+      run.current((f, p) => {
+        const lap = Math.floor(f.t) + 1;
+        return { t: mix(f.t, lap, easeIn(p)), h: mix(f.h, lap + share, easeOut(p)) };
+      }, 1150, rest);
+    }
+  }, [on, reduce, share]);
   const own = interactive ? { tabIndex: 0, role: "button", "aria-pressed": pin, onClick: () => setPin(!pin), onKeyDown: toggleKey(() => setPin(!pin)), onFocus: () => setHot(true), onBlur: () => setHot(false) } : {};
   return (
     <figure className={"gauge gauge-" + tone + (on ? " is-hot" : "")} style={{ width: size }} aria-label={label + ": " + value + " of " + of + ", " + pct + " percent"} onPointerEnter={() => setHot(true)} onPointerLeave={() => setHot(false)} {...own}>
@@ -199,18 +356,16 @@ export function Ring({ value, of, label, tone = "green", size = 96, interactive 
           <line key={i} x1="50" y1="1.5" x2="50" y2="5" transform={"rotate(" + i * 36 + " 50 50)"} className="gauge-tick" />
         ))}
         <circle cx="50" cy="50" r={r} className="gauge-track" />
-        <circle key={on ? "hot" : "rest"} cx="50" cy="50" r={r} className="gauge-fill" strokeDasharray={c} style={{ "--gap": c * (1 - share), "--full": c } as React.CSSProperties} transform="rotate(-90 50 50)" />
-        <text x="50" y="48" textAnchor="middle" className="gauge-value">
-          {on ? pct + "%" : value}
+        <circle ref={fill} cx="50" cy="50" r={r} className="gauge-fill is-driven" style={{ strokeDasharray: restDash, strokeDashoffset: 0 }} transform="rotate(-90 50 50)" />
+        <text ref={bigRef} x="50" y="48" textAnchor="middle" className="gauge-value">
+          {big}
         </text>
-        <text x="50" y="64" textAnchor="middle" className="gauge-of">
-          {on ? Math.max(0, of - value) + " to go" : "of " + of}
+        <text ref={midRef} x="50" y="64" textAnchor="middle" className="gauge-of">
+          {mid}
         </text>
-        {on ? null : (
-          <text x="50" y="76" textAnchor="middle" className="gauge-pct">
-            {pct + "%"}
-          </text>
-        )}
+        <text ref={lowRef} x="50" y="76" textAnchor="middle" className="gauge-pct">
+          {low}
+        </text>
       </svg>
       <figcaption>{label}</figcaption>
     </figure>
@@ -255,14 +410,11 @@ export function Spark({ points, color = "var(--green)", label, names }: { points
           <polygon className="spark-area" points={d + " 98,29 2,29"} fill={color} />
           <polyline className="spark-line" points={d} fill="none" stroke={color} pathLength={1} />
         </svg>
-        {at != null ? (
-          <>
-            <i className="spark-dot" style={{ left: x(at) + "%", top: (y(points[at]) / 30) * 100 + "%", background: color }} />
-            <b className="spark-tip" style={{ left: x(at) + "%" }} data-side={at > last / 2 ? "left" : "right"}>
-              {name(at) + ": " + points[at].toLocaleString("en-US")}
-            </b>
-          </>
-        ) : null}
+        {/* always drawn, so they fade in and out and glide between points instead of popping (styles/ops.css) */}
+        <i className="spark-dot" style={{ left: x(at ?? last) + "%", top: (y(points[at ?? last]) / 30) * 100 + "%", background: color }} />
+        <b className="spark-tip" style={{ left: x(at ?? last) + "%" }} data-side={(at ?? last) > last / 2 ? "left" : "right"} aria-hidden={at == null}>
+          {name(at ?? last) + ": " + points[at ?? last].toLocaleString("en-US")}
+        </b>
       </span>
       <span className="spark-scale" aria-hidden="true">
         <small>{"Low " + min.toLocaleString("en-US")}</small>

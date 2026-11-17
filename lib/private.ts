@@ -1,6 +1,7 @@
 import "./mailing";
 import "./members";
 import { MORE_GRANTS, MORE_PEOPLE, OPS_AUDIT, OPS_TIER } from "./seed-ops";
+import { INCIDENTS } from "./seed-incidents";
 import { RADIO_TIER } from "./seed-radio";
 import { STAFF_TIER } from "./seed-staff";
 import { STAFF_UPDATES } from "./seed-staff-updates";
@@ -19,3 +20,5 @@ registerTier("staff", {
   grants: [...(STAFF_TIER.grants || []), ...MORE_GRANTS],
   audit: [...OPS_AUDIT, ...(STAFF_TIER.audit || [])],
 });
+// Its own tier, so a browser that saved the staff demo before 16 Nov 2026 still gets the store incidents.
+registerTier("incidents", { incidents: INCIDENTS });

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { FormSkeleton } from "@/components/skeleton";
 import { ApplyView } from "@/components/careers/apply-form";
 import { SiteFrame } from "@/components/site-frame";
 import { SEED } from "@/lib/seed";
@@ -29,7 +30,7 @@ export default function ApplyPage({ params }: Props) {
     <SiteFrame active="careers" css={["app", "careers"]} page="apply" banner>
       <div className="container section apply-wrap">
         <div id="apply-root">
-          <Suspense fallback={null}>
+          <Suspense fallback={<FormSkeleton fields={3} />}>
             <ApplyFromParams params={params} />
           </Suspense>
         </div>

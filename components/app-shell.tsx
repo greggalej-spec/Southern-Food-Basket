@@ -7,9 +7,14 @@ import { ResetDemoButton } from "@/components/reset-demo-button";
 import { Scope, type CssName } from "@/components/scope";
 import { CommandPalette } from "@/components/command-palette";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { useNowMinute } from "@/components/use-today";
+import { EdgeBump } from "@/components/edge-bump";
+import { applyQuiet, clearQuiet, fingerprint, setQuiet, tomorrowMorning, useQuiet } from "@/lib/nav-quiet";
+import { navSignals, SIGNAL_RANK, SIGNAL_WORD, type NavSignal, type SignalLevel } from "@/lib/nav-signals";
 import { activeGrant, can, isStaff, ROLE_NAME, type Permission } from "@/lib/access";
 import { DISCLAIMER, fmtDate, initials } from "@/lib/format";
 import "@/lib/private";
+import "@/styles/sidebar.css";
 import { currentApplicant, currentEmployee, useData, useSession } from "@/lib/store";
 import type { Role, Seed, Session } from "@/lib/types";
 
@@ -153,10 +158,123 @@ function scopeLine(d: Seed, s: Session | null) {
 }
 
 const WIDE = "(min-width: 910px)";
+/** Where a put-away edge swell is remembered (lib/nav-quiet.ts), beside the lights. */
+const BUMP_KEY = "__edge-swell";
 function subscribeWide(cb: () => void) {
   const mq = matchMedia(WIDE);
   mq.addEventListener("change", cb);
   return () => mq.removeEventListener("change", cb);
+}
+
+/** What a light can be told: got it (a critical one stops blinking), pause for a while, or done until something new
+ *  arrives. Kept in this browser (lib/nav-quiet.ts); Today itself is unchanged. */
+function LightMenu({ x, y, label, sig, now, onPick }: { x: number; y: number; label: string; sig: NavSignal & { acked?: boolean }; now: number; onPick: (q: Parameters<typeof setQuiet>[1]) => void }) {
+  const fp = fingerprint(sig);
+  const first = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    first.current?.focus();
+  }, []);
+  const HOUR = 3600000;
+  const style = { left: Math.min(x + 8, (typeof innerWidth === "number" ? innerWidth : 400) - 268), top: Math.max(8, Math.min(y - 8, (typeof innerHeight === "number" ? innerHeight : 800) - 300)) };
+  return (
+    <div className={"sig-menu is-" + sig.level} role="menu" aria-label={"Options for the light on " + label} style={style}>
+      <p className="sig-menu-head">
+        <i className={"nav-sig is-" + sig.level} aria-hidden="true" />
+        <b>{SIGNAL_WORD[sig.level]}</b>
+        <span>{label}</span>
+      </p>
+      <p className="sig-menu-text">{sig.text}</p>
+      {(sig.level === "critical" || sig.level === "urgent") && !sig.acked ? (
+        <button ref={first} type="button" role="menuitem" onClick={() => onPick({ ack: fp })}>
+          <b>Got it</b>
+          <small>Stop the blinking; it stays red until it is dealt with</small>
+        </button>
+      ) : null}
+      <button ref={(sig.level === "critical" || sig.level === "urgent") && !sig.acked ? undefined : first} type="button" role="menuitem" onClick={() => onPick({ until: now + HOUR })}>
+        <b>Pause for an hour</b>
+      </button>
+      <button type="button" role="menuitem" onClick={() => onPick({ until: tomorrowMorning(now) })}>
+        <b>Pause until tomorrow</b>
+        <small>Back at 7:00 am</small>
+      </button>
+      <button type="button" role="menuitem" onClick={() => onPick({ until: now + 72 * HOUR })}>
+        <b>Pause for 3 days</b>
+      </button>
+      <button type="button" role="menuitem" className="is-done" onClick={() => onPick({ done: fp })}>
+        <b>Mark as done</b>
+        <small>Off until something new comes in here</small>
+      </button>
+    </div>
+  );
+}
+
+/** Red entries out of sight in the open sidebar: a strip held at its foot names them, each with an arrow pointing to
+ *  where it sits, at most three at a time and the rest behind "more", which cascades open. Tapping one takes you to
+ *  it. Measured again on every scroll, resize and group opening or shutting, so the arrows always point the right way. */
+function NavAlerts({ items, aside, onGo }: { items: { id: string; label: string; level: SignalLevel }[]; aside: React.RefObject<HTMLElement | null>; onGo: (id: string) => void }) {
+  const [away, setAway] = useState<Record<string, "up" | "down">>({});
+  const [more, setMore] = useState(false);
+  const key = items.map((i) => i.id).join("|");
+  useEffect(() => {
+    const root = aside.current;
+    if (!root || !key) return;
+    const ids = key.split("|");
+    let frame = 0;
+    // Where each red entry sits against the sidebar's visible part (less the strip's own height at the foot).
+    const measure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const box = root.getBoundingClientRect();
+        const next: Record<string, "up" | "down"> = {};
+        ids.forEach((id) => {
+          const el = root.querySelector<HTMLElement>('[data-nav-id="' + id + '"]');
+          if (!el) return;
+          const r = el.getBoundingClientRect();
+          if (r.height > 0 && r.top >= box.top && r.bottom <= box.bottom - 72) return;
+          next[id] = r.top < box.top ? "up" : "down";
+        });
+        setAway((prev) => (JSON.stringify(prev) === JSON.stringify(next) ? prev : next));
+      });
+    };
+    measure();
+    root.addEventListener("scroll", measure, { passive: true });
+    addEventListener("resize", measure);
+    // groups opening and shutting change the heights without a scroll
+    const ro = new ResizeObserver(measure);
+    root.querySelectorAll(".app-nav-items > div").forEach((el) => ro.observe(el));
+    return () => {
+      cancelAnimationFrame(frame);
+      root.removeEventListener("scroll", measure);
+      removeEventListener("resize", measure);
+      ro.disconnect();
+    };
+  }, [aside, key]);
+  const list = items.filter((i) => away[i.id]);
+  if (!list.length) return null;
+  const first = more ? list : list.slice(0, 3);
+  return (
+    <div className="nav-alerts" role="region" aria-label="Alerts further along the menu">
+      <ul>
+        {first.map((i, k) => (
+          <li key={i.id} style={{ "--k": k } as React.CSSProperties}>
+            <button type="button" className={"is-" + i.level} onClick={() => onGo(i.id)}>
+              <svg className={"nav-arrow" + (away[i.id] === "up" ? " is-up" : "")} viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 5v14M6 13l6 6 6-6" />
+              </svg>
+              <i className={"nav-sig is-" + i.level} aria-hidden="true" />
+              <span>{i.label}</span>
+              <small>{SIGNAL_WORD[i.level]}</small>
+            </button>
+          </li>
+        ))}
+      </ul>
+      {list.length > 3 ? (
+        <button type="button" className="nav-alerts-more" aria-expanded={more} onClick={() => setMore(!more)}>
+          {more ? "Show fewer" : "+" + (list.length - 3) + " more"}
+        </button>
+      ) : null}
+    </div>
+  );
 }
 
 /** The portal frame: sidebar, top bar and demo banner around the page's <main>. Hash links (HR and admin tabs) are
@@ -205,23 +323,113 @@ export function AppShell({
       sections[sections.length - 1].items.push(n);
     }
   }
+  // The lights beside each entry (lib/nav-signals.ts). They read the clock, so they arrive after the first paint.
+  const now = useNowMinute();
+  const quiet = useQuiet();
+  // paused and done lights are dropped here; "got it" ones stay, holding still (lib/nav-quiet.ts)
+  const { lights: signals, off } = now && s ? applyQuiet(navSignals(d, s, now), quiet, now) : { lights: {} as Record<string, NavSignal & { acked?: boolean }>, off: 0 };
+  const acked = Object.values(signals).some((x) => x.acked);
+  const shown = sections.flatMap((sec) => sec.items.map((n) => ({ ...n, group: sec.group })));
+  const loud = shown
+    .filter((n) => signals[n.id] && SIGNAL_RANK[signals[n.id].level] <= SIGNAL_RANK.urgent)
+    .sort((a, b) => SIGNAL_RANK[signals[a.id].level] - SIGNAL_RANK[signals[b.id].level]);
+  // the section itself, rather than Today, which only gathers everything
+  const crit = loud.filter((n) => signals[n.id].level === "critical" && !signals[n.id].acked);
+  const critical = crit.find((n) => n.id !== "today") || crit[0] || null;
+  // how many critical things the edge swell carries: Today gathers them all, so it counts once
+  const critCount = signals.today && !signals.today.acked && signals.today.critical ? signals.today.critical : crit.reduce((a, n) => a + (signals[n.id].critical || 1), 0);
+  const bumpPrint = crit.map((n) => n.id + ":" + signals[n.id].critical + ":" + signals[n.id].text).join("|");
+  const alarm: SignalLevel | null = critical ? "critical" : loud.length ? "urgent" : null;
+
+  // The small menu a light opens: got it, pause, or done.
+  const [menu, setMenu] = useState<{ id: string; x: number; y: number } | null>(null);
+  useEffect(() => {
+    if (!menu) return;
+    const shut = (e: Event) => {
+      if (e instanceof KeyboardEvent && e.key !== "Escape") return;
+      if (e.type === "pointerdown" && (e.target as Element).closest?.(".sig-menu, .nav-sig-btn")) return;
+      setMenu(null);
+    };
+    document.addEventListener("pointerdown", shut);
+    document.addEventListener("keydown", shut);
+    aside.current?.addEventListener("scroll", shut, { passive: true });
+    const box = aside.current;
+    return () => {
+      document.removeEventListener("pointerdown", shut);
+      document.removeEventListener("keydown", shut);
+      box?.removeEventListener("scroll", shut);
+    };
+  }, [menu]);
+
   const link = (n: NavLink) => {
+    const sig = signals[n.id];
     const inner = (
       <>
         <Icon name={n.icon} />
         <span>{n.label}</span>
+        {sig ? <span className="visually-hidden">{", " + SIGNAL_WORD[sig.level].toLowerCase()}</span> : null}
       </>
     );
     const current = n.id === active ? ("page" as const) : undefined;
-    return n.href.includes("#") ? (
-      <a key={n.id} href={n.href} aria-current={current}>
+    const props = { "data-nav-id": n.id, className: sig ? "sig-" + sig.level + (sig.acked ? " is-acked" : "") : undefined, "aria-current": current };
+    const a = n.href.includes("#") ? (
+      <a key={n.id} href={n.href} {...props}>
         {inner}
       </a>
     ) : (
-      <Link key={n.id} href={n.href} aria-current={current}>
+      <Link key={n.id} href={n.href} {...props}>
         {inner}
       </Link>
     );
+    if (!sig) return a;
+    // the light is a button of its own beside the link: it opens the menu to quiet it
+    return (
+      <div className="nav-row" key={n.id}>
+        {a}
+        <button
+          type="button"
+          className="nav-sig-btn"
+          aria-label={SIGNAL_WORD[sig.level] + " in " + n.label + ": " + sig.text + " Options for this light"}
+          aria-haspopup="menu"
+          aria-expanded={menu?.id === n.id}
+          title={SIGNAL_WORD[sig.level] + ": " + sig.text}
+          onClick={(e) => {
+            const r = e.currentTarget.getBoundingClientRect();
+            setMenu(menu?.id === n.id ? null : { id: n.id, x: r.right, y: r.top });
+          }}
+        >
+          <i className={"nav-sig is-" + sig.level + (sig.acked ? " is-acked" : "")} />
+        </button>
+      </div>
+    );
+  };
+
+  // Bring an entry into view: open its group if it is shut, scroll to it, and let it flash.
+  const aside = useRef<HTMLElement>(null);
+  const reveal = (id: string) => {
+    const item = shown.find((n) => n.id === id);
+    if (item?.group && closed.has(item.group)) toggleNavGroup(item.group);
+    const go = () => {
+      const el = aside.current?.querySelector<HTMLElement>('[data-nav-id="' + id + '"]');
+      if (!el) return;
+      el.scrollIntoView({ block: "center", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+      el.animate?.([{ boxShadow: "0 0 0 0 rgba(255, 59, 48, .9)" }, { boxShadow: "0 0 0 10px rgba(255, 59, 48, 0)" }], { duration: 900, iterations: 2 });
+    };
+    setTimeout(go, 320);
+  };
+  // the edge was tapped: once the sidebar is open, take them to the critical entry
+  const revealOnOpen = useRef<string | null>(null);
+  useEffect(() => {
+    if (!open || !revealOnOpen.current) return;
+    const id = revealOnOpen.current;
+    revealOnOpen.current = null;
+    reveal(id);
+  });
+
+  const swipe = useRef<{ x: number; y: number; dx: number; live: boolean } | null>(null);
+  const closeMenu = () => {
+    setOpen(false);
+    btn.current?.focus();
   };
 
   useEffect(() => {
@@ -250,13 +458,59 @@ export function AppShell({
           Skip to content
         </a>
         {/* a closed off-canvas sidebar must leave the tab order and the accessibility tree */}
-        <aside className="app-sidebar" id="app-sidebar" aria-label="Portal menu" inert={!wide && !open}>
-          <Link className="app-brand" href="/">
-            <img className="sfb-mark" src="/assets/img/sfb-mark.svg" alt="" width="96" height="96" decoding="async" />
-            <span>
-              Southern Food Basket<small>{isStaff(role) ? "Staff portal" : ROLE_LABEL[role]}</small>
-            </span>
-          </Link>
+        <aside
+          ref={aside}
+          className="app-sidebar"
+          id="app-sidebar"
+          aria-label="Portal menu"
+          inert={!wide && !open}
+          // On a phone the open sidebar also closes with a swipe to the left: it follows the finger, and goes if
+          // pulled far enough, or springs back.
+          onPointerDown={(e) => {
+            if (wide || !open || e.pointerType !== "touch") return;
+            swipe.current = { x: e.clientX, y: e.clientY, dx: 0, live: false };
+          }}
+          onPointerMove={(e) => {
+            const sw = swipe.current;
+            if (!sw) return;
+            const dx = Math.min(0, e.clientX - sw.x);
+            if (!sw.live && Math.abs(e.clientY - sw.y) > Math.abs(dx)) {
+              swipe.current = null; // a scroll, not a swipe
+              return;
+            }
+            sw.live = sw.live || dx < -8;
+            if (!sw.live) return;
+            sw.dx = dx;
+            e.currentTarget.style.transition = "none";
+            e.currentTarget.style.transform = "translateX(" + dx + "px)";
+          }}
+          onPointerUp={(e) => {
+            const sw = swipe.current;
+            swipe.current = null;
+            if (!sw || !sw.live) return;
+            e.currentTarget.style.transition = "";
+            e.currentTarget.style.transform = "";
+            if (sw.dx < -70) closeMenu();
+          }}
+          onPointerCancel={(e) => {
+            swipe.current = null;
+            e.currentTarget.style.transition = "";
+            e.currentTarget.style.transform = "";
+          }}
+        >
+          <div className="app-sidebar-head">
+            <Link className="app-brand" href="/">
+              <img className="sfb-mark" src="/assets/img/sfb-mark.svg" alt="" width="96" height="96" decoding="async" />
+              <span>
+                Southern Food Basket<small>{isStaff(role) ? "Staff portal" : ROLE_LABEL[role]}</small>
+              </span>
+            </Link>
+            {/* phones and narrow tablets only (styles/staff-theme.css): the top bar's Close sits under the open sidebar */}
+            <button type="button" className="app-sidebar-close" aria-label="Close the menu" onClick={closeMenu}>
+              <Icon name="close" />
+              <span>Close</span>
+            </button>
+          </div>
           <nav className="app-nav" aria-label="Portal">
             {sections.map((sec) => {
               if (!sec.group) return sec.items.map(link);
@@ -264,10 +518,20 @@ export function AppShell({
               const group = sec.group;
               const id = "nav-" + group.toLowerCase().replace(/[^a-z0-9]+/g, "-");
               const holdsCurrent = sec.items.some((n) => n.id === active);
+              // a shut heading shows the strongest light of what is inside it
+              const inside = sec.items
+                .map((n) => signals[n.id])
+                .filter(Boolean)
+                .sort((a, b) => SIGNAL_RANK[a.level] - SIGNAL_RANK[b.level])[0];
               return (
                 <div className={"app-nav-sec" + (shut ? " is-shut" : "")} key={group}>
-                  <button type="button" className={"app-nav-group" + (shut && holdsCurrent ? " has-current" : "")} aria-expanded={!shut} aria-controls={id} onClick={() => toggleNavGroup(group)}>
+                  <button type="button" className={"app-nav-group" + (shut && holdsCurrent ? " has-current" : "") + (shut && inside ? " sig-" + inside.level : "")} aria-expanded={!shut} aria-controls={id} onClick={() => toggleNavGroup(group)}>
                     <span>{group}</span>
+                    {shut && inside ? (
+                      <i className={"nav-sig is-" + inside.level}>
+                        <span className="visually-hidden">{", " + SIGNAL_WORD[inside.level].toLowerCase() + " inside"}</span>
+                      </i>
+                    ) : null}
                     <svg className="app-nav-chev" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m6 9 6 6 6-6" />
                     </svg>
@@ -280,6 +544,12 @@ export function AppShell({
               );
             })}
           </nav>
+          {off || acked ? (
+            <button type="button" className="nav-quiet-reset" onClick={clearQuiet}>
+              {off ? "Turn " + off + (off === 1 ? " light" : " lights") + " back on" : "Let the lights blink again"}
+            </button>
+          ) : null}
+          <NavAlerts items={loud.map((n) => ({ id: n.id, label: n.label, level: signals[n.id].level }))} aside={aside} onGo={reveal} />
           <div className="app-sidebar-foot">
             {scope && (
               <p className="app-scope small">
@@ -298,11 +568,43 @@ export function AppShell({
             <p className="small">{DISCLAIMER}</p>
           </div>
         </aside>
+        {/* Something critical while the sidebar is shut: the sidebar's skin swells out of the screen's edge and the
+            notification bursts out of it (components/edge-bump.tsx). Tapping it opens the menu at that entry. */}
+        {critical && !wide && !open && quiet[BUMP_KEY]?.done !== bumpPrint ? (
+          <EdgeBump
+            count={critCount}
+            label={critCount + (critCount === 1 ? " critical thing" : " critical things") + ", in " + critical.label}
+            onOpen={() => {
+              revealOnOpen.current = critical.id;
+              setOpen(true);
+            }}
+            // put away: it stays gone until the set of critical things changes
+            onDismiss={() => setQuiet(BUMP_KEY, { done: bumpPrint })}
+          />
+        ) : null}
+        {menu && signals[menu.id] ? (
+          <LightMenu
+            x={menu.x}
+            y={menu.y}
+            label={shown.find((n) => n.id === menu.id)?.label || ""}
+            sig={signals[menu.id]}
+            onPick={(q) => {
+              setQuiet(menu.id, q);
+              setMenu(null);
+            }}
+            now={now}
+          />
+        ) : null}
         <div className="app-body">
           <header className="app-topbar">
             <button ref={btn} className="app-menu-btn" type="button" aria-expanded={open} aria-controls="app-sidebar" onClick={() => setOpen(!open)}>
               <Icon name={open ? "close" : "menu"} />
               <span>{open ? "Close" : "Menu"}</span>
+              {alarm && !open ? (
+                <i className={"menu-sig is-" + alarm}>
+                  <span className="visually-hidden">{", " + SIGNAL_WORD[alarm].toLowerCase() + " inside"}</span>
+                </i>
+              ) : null}
             </button>
             <div className="app-topbar-title">
               <span className="eyebrow bare" style={{ margin: 0 }}>

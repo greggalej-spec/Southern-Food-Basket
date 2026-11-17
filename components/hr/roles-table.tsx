@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useConfirm } from "@/components/confirm";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { SkelTableRows } from "@/components/skeleton";
 import { toast } from "@/components/ui/sonner";
 import { activeFor, branchName, fmtDay, setJobStatus } from "@/lib/hr/hr";
 import { byId, useData } from "@/lib/store";
@@ -87,7 +88,7 @@ export function RolesTable({ ready }: { ready: boolean }) {
                   </tr>
                 );
               })
-            : null}
+            : <SkelTableRows cols={7} />}
         </tbody>
       </table>
     </div>

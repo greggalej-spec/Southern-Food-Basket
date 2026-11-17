@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import { FormSkeleton } from "@/components/skeleton";
 import { SignInForm } from "@/components/members/sign-in";
 import { SiteFrame } from "@/components/site-frame";
 
@@ -20,7 +21,7 @@ export default function ShopperSignInPage() {
       </section>
       <section className="section signin-band">
         <div className="container narrow">
-          <Suspense fallback={<div className="card signin-card" aria-busy="true" />}>
+          <Suspense fallback={<FormSkeleton fields={1} className="card signin-card" />}>
             <SignInForm />
           </Suspense>
         </div>

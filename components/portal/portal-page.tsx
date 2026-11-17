@@ -1,9 +1,11 @@
 "use client";
 
 import { Fragment, useEffect } from "react";
+import { AppSkeleton } from "@/components/skeleton";
 import { AppShell } from "@/components/app-shell";
 import type { CssName } from "@/components/scope";
 import { Badge } from "@/components/ui/badge";
+import { CountUp } from "@/components/viz";
 import { currentEmployee, logout, useData, useRequireRole } from "@/lib/store";
 import type { Employee, LeaveStatus, Role, Seed } from "@/lib/types";
 
@@ -45,7 +47,7 @@ export function PortalPage({
 
   return (
     <AppShell app="portal" active={active} title={title} css={css} page={page}>
-      {me ? <Fragment key={me.id}>{children(me, d)}</Fragment> : null}
+      {me ? <Fragment key={me.id}>{children(me, d)}</Fragment> : <AppSkeleton />}
     </AppShell>
   );
 }
@@ -63,11 +65,30 @@ export function StatusBadge({ status }: { status: string }) {
   return <Badge>{String(status || "").replace(/^./, (c) => c.toUpperCase())}</Badge>;
 }
 
-export function Stat({ label, value, sub, cls }: { label: string; value: string; sub?: string; cls?: string }) {
+/** A figure's number, counted up from zero as the tile arrives (as the office console's tiles do). Only the first
+ *  number in the text counts, keeping its decimals and thousands commas: "14 days", "TTD 1,234.50". */
+function Counted({ text }: { text: string }) {
+  const m = /^(\D*?)(\d[\d,]*)(\.\d+)?(.*)$/.exec(text);
+  if (!m) return text;
+  const n = Number((m[2] + (m[3] || "")).replace(/,/g, ""));
+  const dec = m[3] ? m[3].length - 1 : 0;
+  const grouped = m[2].includes(",");
+  const format = (x: number) => x.toLocaleString("en-US", { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: grouped });
+  return (
+    <>
+      {m[1]}
+      <CountUp value={n} format={format} />
+      {m[4]}
+    </>
+  );
+}
+
+/** A stat tile. `count` counts its number up as it arrives; leave it off for dates and names. */
+export function Stat({ label, value, sub, cls, count }: { label: string; value: string; sub?: string; cls?: string; count?: boolean }) {
   return (
     <div className="stat">
       <div className="stat-label">{label}</div>
-      <div className={"stat-value" + (cls ? " " + cls : "")}>{value}</div>
+      <div className={"stat-value" + (cls ? " " + cls : "")}>{count ? <Counted text={value} /> : value}</div>
       {sub ? <div className="stat-sub">{sub}</div> : null}
     </div>
   );

@@ -13,8 +13,12 @@ import { currentEmployee, useData, useSession } from "@/lib/store";
 const AREA_ICON: Record<string, IconName> = {
   Offers: "gift", Newsletter: "file", Requests: "gift", "Sell-out reports": "check", Specials: "tag", "Supplier specials": "book", Website: "brush",
   "Bulk orders": "boxes", Codes: "tag", "Customer feedback": "phone", "Audit log": "shield", "Staff access": "lock", "Your tasks": "tasks",
+  "At the stores": "store",
 };
 const RANK = { bad: 0, warn: 1, info: 2, ok: 3, plain: 4 } as const;
+// The priority matrix: how pressing an item is comes before what kind of item it is.
+const URGENCY_RANK = { critical: 0, urgent: 1 } as const;
+const URGENCY_LABEL = { critical: "Critical", urgent: "Due soon" } as const;
 
 const href = (l: QueueItem["link"]) => "#" + l.tab + (l.item ? "/" + encodeURIComponent(l.item) : "");
 
@@ -30,8 +34,12 @@ export function TodayPanel() {
   const byArea = new Map<string, QueueItem[]>();
   items.forEach((it) => byArea.set(it.area, [...(byArea.get(it.area) || []), it]));
   const rank = (t: string) => RANK[t as keyof typeof RANK] ?? 4;
-  const groups = [...byArea.entries()].map(([area, list]) => [area, list.slice().sort((x, y) => rank(x.tone) - rank(y.tone))] as const).sort((x, y) => rank(x[1][0].tone) - rank(y[1][0].tone) || y[1].length - x[1].length);
+  const press = (it: QueueItem) => (it.urgency ? URGENCY_RANK[it.urgency] : 2);
+  const order = (x: QueueItem, y: QueueItem) => press(x) - press(y) || rank(x.tone) - rank(y.tone);
+  const groups = [...byArea.entries()].map(([area, list]) => [area, list.slice().sort(order)] as const).sort((x, y) => order(x[1][0], y[1][0]) || y[1].length - x[1].length);
   const urgent = items.filter((it) => it.tone === "warn" || it.tone === "bad").length;
+  const critical = items.filter((it) => it.urgency === "critical").length;
+  const dueSoon = items.filter((it) => it.urgency === "urgent").length;
 
   return (
     <div className="today" data-tour="admin-today">
@@ -42,6 +50,12 @@ export function TodayPanel() {
               <b>{items.length}</b>
               {items.length === 1 ? "thing needs you" : "things need you"}
             </p>
+            {critical || dueSoon ? (
+              <p className={critical ? "is-critical" : "is-urgent"}>
+                <b>{critical || dueSoon}</b>
+                {critical ? "critical, now" : "due within 2 days"}
+              </p>
+            ) : null}
             <p className="is-act">
               <b>{urgent}</b>
               to act on
@@ -60,7 +74,7 @@ export function TodayPanel() {
           </h2>
           <div className="today-grid">
             {groups.map(([area, list]) => (
-              <section key={area} className={"today-card tone-" + list[0].tone} aria-label={area}>
+              <section key={area} className={"today-card tone-" + list[0].tone + (list[0].urgency ? " is-" + list[0].urgency : "")} aria-label={area + (list[0].urgency ? ", " + URGENCY_LABEL[list[0].urgency].toLowerCase() : "")}>
                 <header>
                   <span className="today-icon" aria-hidden="true">
                     <Icon name={AREA_ICON[area] || "bell"} />
@@ -70,7 +84,8 @@ export function TodayPanel() {
                 </header>
                 <ol className="queue">
                   {list.map((it) => (
-                    <li key={it.key} className={"queue-item tone-" + it.tone}>
+                    <li key={it.key} className={"queue-item tone-" + it.tone + (it.urgency ? " is-" + it.urgency : "")}>
+                      {it.urgency ? <span className={"urgency-chip is-" + it.urgency}>{URGENCY_LABEL[it.urgency]}</span> : null}
                       <p className="queue-text">{it.text}</p>
                       {it.quote ? <blockquote className="queue-quote">{it.quote}</blockquote> : null}
                       <a className="today-go" href={href(it.link)}>

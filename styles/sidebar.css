@@ -1,0 +1,71 @@
+/* The staff sidebar on phones and narrow tablets: its own Close button and swipe to close. Imported by
+   components/app-shell.tsx, unlayered like styles/staff-theme.css. */
+
+/* ---------- Closing the sidebar on a phone (2026-11-16) ----------
+   The open sidebar covers the top bar's Close, so it carries its own, beside the logo; it also closes with a swipe
+   to the left (components/app-shell.tsx), a tap on the dimmed page, or Escape. Wide screens never hide it. */
+.app .app-sidebar-head{ display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.app .app-sidebar-close{ flex: none; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px; border: 1px solid rgba(255, 255, 255, .28); border-radius: 12px; background: rgba(255, 255, 255, .08); color: #FFFFFF; font: 700 .875rem/1 var(--ui); cursor: pointer; }
+.app .app-sidebar-close .icon{ width: 18px; height: 18px; }
+.app .app-sidebar-close:hover{ background: rgba(255, 255, 255, .16); border-color: rgba(255, 255, 255, .45); }
+.app .app-sidebar-close:focus-visible{ outline: 3px solid #FFD21A; outline-offset: 2px; }
+.app .app-sidebar{ touch-action: pan-y; }
+@media (min-width: 910px){ .app .app-sidebar-close{ display: none; } }
+
+/* ---------- A light is a button: it opens a small menu to quiet it (lib/nav-quiet.ts) ---------- */
+.app .nav-row{ position: relative; display: grid; }
+.app .nav-row > a{ padding-right: 46px; }
+.app .nav-sig-btn{ position: absolute; right: 4px; top: 50%; translate: 0 -50%; z-index: 1; display: grid; place-items: center; width: 38px; height: 38px; padding: 0; border: 0; border-radius: 10px; background: transparent; cursor: pointer; transition: background-color 180ms ease; }
+.app .nav-sig-btn:hover, .app .nav-sig-btn[aria-expanded="true"]{ background: rgba(255, 255, 255, .12); }
+.app .nav-sig-btn:focus-visible{ outline: 3px solid #FFD21A; outline-offset: 1px; }
+.app .nav-sig-btn .nav-sig{ margin: 0; }
+/* "Got it": a critical light holds still, steady red, and its entry stops pulsing */
+.app .nav-sig.is-acked{ animation: none !important; opacity: 1; }
+.app .app-nav a.sig-critical.is-acked::before{ animation: none !important; opacity: .3; }
+
+.sig-menu{ position: fixed; z-index: 80; width: 260px; display: grid; gap: 2px; padding: 10px; border-radius: 16px; background: #0B2E19; color: #FFFFFF; border: 1px solid rgba(255, 255, 255, .14); box-shadow: 0 26px 50px -18px rgba(0, 0, 0, .7), 0 0 0 1px rgba(0, 0, 0, .2); transform-origin: left top; }
+.sig-menu-head{ display: flex; align-items: center; gap: 8px; margin: 2px 6px 2px; font: 800 .75rem/1.2 var(--ui); letter-spacing: .08em; text-transform: uppercase; }
+.sig-menu-head span{ margin-left: auto; color: #C9D8CD; font-weight: 600; letter-spacing: 0; text-transform: none; text-align: right; }
+.sig-menu .nav-sig{ flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--sig); }
+.sig-menu.is-critical .nav-sig{ --sig: #FF3B30; }
+.sig-menu.is-urgent .nav-sig{ --sig: #FF5A52; }
+.sig-menu.is-pending .nav-sig{ --sig: #FFD21A; }
+.sig-menu.is-done .nav-sig{ --sig: #4ADE80; }
+.sig-menu.is-moving .nav-sig{ --sig: #7CC0FF; }
+.sig-menu-text{ margin: 2px 6px 8px; font: 500 .8125rem/1.45 var(--ui); color: #DCE5DD; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden; }
+.sig-menu button{ display: grid; gap: 2px; padding: 9px 10px; border: 0; border-radius: 10px; background: transparent; color: #FFFFFF; text-align: left; font: 700 .875rem/1.25 var(--ui); cursor: pointer; transition: background-color 160ms ease; }
+.sig-menu button:hover, .sig-menu button:focus-visible{ background: rgba(255, 255, 255, .1); outline: none; }
+.sig-menu button:focus-visible{ box-shadow: inset 0 0 0 2px #FFD21A; }
+.sig-menu button small{ font: 500 .75rem/1.3 var(--ui); color: #B9C9BC; }
+.sig-menu button.is-done b{ color: #8BE3A8; }
+.app .nav-quiet-reset{ justify-self: start; margin: -8px 12px 0; padding: 7px 12px; border: 1px dashed rgba(255, 255, 255, .32); border-radius: 999px; background: transparent; color: #DCE5DD; font: 700 .8125rem/1 var(--ui); cursor: pointer; }
+.app .nav-quiet-reset:hover{ background: rgba(255, 255, 255, .08); color: #FFFFFF; }
+@media (prefers-reduced-motion: no-preference){
+  .sig-menu{ animation: sig-menu-in 260ms cubic-bezier(.34, 1.4, .64, 1) both; }
+  .sig-menu > *{ animation: sig-menu-item 240ms cubic-bezier(.22, .8, .3, 1) both; }
+  .sig-menu > :nth-child(3){ animation-delay: 30ms; }
+  .sig-menu > :nth-child(4){ animation-delay: 60ms; }
+  .sig-menu > :nth-child(5){ animation-delay: 90ms; }
+  .sig-menu > :nth-child(n+6){ animation-delay: 120ms; }
+}
+@keyframes sig-menu-in { from { opacity: 0; scale: .9; translate: -8px 0; } to { opacity: 1; scale: 1; translate: none; } }
+@keyframes sig-menu-item { from { opacity: 0; translate: -6px 0; } to { opacity: 1; translate: none; } }
+
+/* ---------- The sidebar's skin swells out of the edge (components/edge-bump.tsx) ----------
+   Same green as the sidebar, a broad concave base, the red notification bursting out at the crest. */
+.nav-bump{ --bump-skin: #1C5A33; --bump-skin-deep: #0E3A1F; position: fixed; left: 0; top: calc(46vh - 110px); z-index: 55; width: 96px; height: 220px; padding: 0; border: 0; background: none; cursor: pointer; -webkit-tap-highlight-color: transparent; filter: drop-shadow(4px 0 10px rgba(0, 0, 0, .35)); }
+html[data-staff-theme="dark"] .nav-bump{ --bump-skin: #134427; --bump-skin-deep: #04170C; }
+.nav-bump svg{ display: block; overflow: visible; }
+.nav-bump-badge{ position: absolute; left: 0; top: 50%; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: #E5242C; color: #FFFFFF; transform-origin: left center; box-shadow: 0 0 0 3px rgba(255, 59, 48, .22), 0 8px 16px -6px rgba(160, 20, 40, .9); }
+.nav-bump-badge .icon{ width: 18px; height: 18px; }
+.nav-bump:focus-visible{ outline: none; }
+.nav-bump:focus-visible .nav-bump-badge{ outline: 3px solid #FFD21A; outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference){
+  .nav-bump-badge::after{ content: ""; position: absolute; inset: -3px; border-radius: 50%; border: 2px solid #FF3B30; animation: bump-ring 1.6s ease-out infinite; }
+}
+@keyframes bump-ring { from { opacity: .9; scale: 1; } to { opacity: 0; scale: 1.9; } }
+@media (min-width: 910px){ .nav-bump{ display: none; } }
+
+/* the swell is handled with the finger: no page scroll while dragging it; the badge carries a number */
+.nav-bump{ touch-action: none; user-select: none; -webkit-user-select: none; }
+.nav-bump-badge b{ font: 800 1.0625rem/1 var(--ui, system-ui, sans-serif); font-variant-numeric: tabular-nums; }

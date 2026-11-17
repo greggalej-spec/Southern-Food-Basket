@@ -471,7 +471,9 @@
 @media (max-width: 639px){ .app .band-table{ table-layout: auto; } .app .band-table tbody th{ width: auto; } }
 .app .band-table .cell-title{ display: inline; text-align: left; }
 .app .band-table .meta{ display: block; margin-top: 2px; }
-.app .fb-quote{ margin: 0 0 var(--s4); padding: var(--s3) var(--s4); border-left: 4px solid var(--a-pink, #D92C66); border-radius: 0 var(--r-sm) var(--r-sm) 0; background: var(--wash); font-size: 1rem; line-height: 1.5; }
+.app .fb-quote{ position: relative; margin: 0 0 var(--s4); padding: var(--s3) var(--s4) var(--s3) 44px; border-radius: var(--r-sm); background: var(--wash); font-size: 1rem; line-height: 1.5; }
+/* a quotation mark, not a side stripe (DESIGN.md) */
+.app .fb-quote::before{ content: "\201C"; position: absolute; left: 12px; top: 4px; font: 700 2.25rem/1 var(--display, Georgia, serif); color: var(--a-pink, #D92C66); }
 .app .fb-fix{ flex: 1 1 200px; min-height: 40px; padding: 6px 10px; border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
 
 /* =====================================================================================================
@@ -515,6 +517,14 @@
 .spark-dot{ position: absolute; z-index: 2; width: 11px; height: 11px; border-radius: 50%; border: 2px solid var(--flour, #fff); transform: translate(-50%, -50%); box-shadow: 0 2px 6px rgba(0, 0, 0, .35); pointer-events: none; transition: left 90ms linear, top 90ms linear; }
 .spark-tip{ position: absolute; z-index: 3; bottom: calc(100% + 6px); padding: 3px 9px; border-radius: 7px; background: #20141A; color: #FFFFFF; border: 1px solid rgba(255, 255, 255, .18); font: 700 0.75rem/1.4 var(--ui, system-ui); white-space: nowrap; pointer-events: none; transform: translateX(-12%); }
 .spark-tip[data-side="left"]{ transform: translateX(-88%); }
+/* the dot and its label are always drawn: they fade in, glide from point to point, and fade out (2026-11-16) */
+.spark-dot, .spark-tip{ opacity: 0; transition: opacity 200ms var(--ease, ease), left 160ms cubic-bezier(.22, .8, .3, 1), top 160ms cubic-bezier(.22, .8, .3, 1), transform 220ms var(--ease, ease), scale 220ms cubic-bezier(.34, 1.56, .64, 1); }
+.spark-dot{ scale: .3; }
+.spark-wrap.is-hot .spark-dot, .spark-wrap.is-hot .spark-tip{ opacity: 1; scale: 1; }
+.spark-line, .spark-area{ transition: stroke-width 220ms var(--ease, ease), opacity 220ms var(--ease, ease); }
+.gauge text{ transition: fill 240ms var(--ease, ease); }
+/* a ring drawn frame by frame from components/viz.tsx (Ring) takes no keyframe of its own */
+.gauge-fill.is-driven{ animation: none; }
 
 /* figure cards are buttons: a corner mark says so, and the card opens large */
 .kpi[role="button"]{ cursor: pointer; }
@@ -558,6 +568,6 @@
 .viz-dialog .chart-plot{ min-width: 0; }
 @media (prefers-reduced-motion: reduce){
   .viz-dialog[open], .viz-dialog::backdrop, .row-detail, .viz-bar span{ animation: none; }
-  .gauge, .spark-dot, .has-tip::after, .steps-funnel li, .bar-cell span, .mini-bar span, .funnel-bar, .hbar-fill, .pair-bar, .bar-fill, .kpi-bar span, .viz-x, .viz-facts li{ transition: none; }
+  .gauge, .spark-dot, .spark-tip, .spark-line, .spark-area, .has-tip::after, .steps-funnel li, .bar-cell span, .mini-bar span, .funnel-bar, .hbar-fill, .pair-bar, .bar-fill, .kpi-bar span, .viz-x, .viz-facts li{ transition: none; }
   .gauge.is-hot, .steps-funnel li:hover, .viz-facts li:hover{ transform: none; }
 }
