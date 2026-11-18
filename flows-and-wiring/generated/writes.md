@@ -54,21 +54,21 @@ Every function in `lib/` that changes data. Each one is a future server endpoint
 | `updatePreferences` | `lib/newsletter.ts:122` | public: the e-mailed token is the credential |  | `newsletter.preferences` | audit, consents, subscribers |  | /newsletter/preferences |
 | `endDeal` | `lib/ops/deals.ts:39` | `specials.edit` |  | `specials.end` | audit, specials | grants | /admin /admin#deals |
 | `rerunDeal` | `lib/ops/deals.ts:50` | `specials.edit` |  | `specials.rerun` | audit, specials | grants | /admin /admin#deals |
-| `addDeliveryMessage` | `lib/ops/deliveries.ts:419` | `deliveries.handle` |  | `deliveries.message` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
-| `cancelDelivery` | `lib/ops/deliveries.ts:406` | `deliveries.handle` |  | `deliveries.cancel` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
-| `declineQuote` | `lib/ops/deliveries.ts:191` | public: a company declines its quote; the reference plus the e-mail the quote went to are the check (server must rate-limit) |  | `deliveries.decline` | audit, deliveries |  | /deliveries |
-| `finishCheck` | `lib/ops/deliveries.ts:351` | `deliveries.handle` |  | `deliveries.checked` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
-| `finishPicking` | `lib/ops/deliveries.ts:330` | `deliveries.handle` |  | `deliveries.picked` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
-| `logDelivery` | `lib/ops/deliveries.ts:238` | `deliveries.handle` |  | `deliveries.log` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
-| `markDelivered` | `lib/ops/deliveries.ts:370` | `deliveries.handle` |  | `deliveries.done` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
-| `recordPo` | `lib/ops/deliveries.ts:284` | `deliveries.handle` |  | `deliveries.po` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
-| `reportIssue` | `lib/ops/deliveries.ts:209` | public: a company reports a shortage or damage within 24 hours of delivery; the reference plus the order e-mail are the check (server must rate-limit) |  | `deliveries.issue` | audit, deliveries, outbox |  | /deliveries |
-| `resolveIssue` | `lib/ops/deliveries.ts:393` | `deliveries.handle` |  | `deliveries.issue` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
-| `sendQuote` | `lib/ops/deliveries.ts:253` | `deliveries.handle` |  | `deliveries.quote` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
-| `startPicking` | `lib/ops/deliveries.ts:297` | `deliveries.handle` |  | `deliveries.pick` | audit, deliveries | employees, grants | /admin /portal/deliveries /admin#deliveries |
-| `submitDelivery` | `lib/ops/deliveries.ts:130` | public: a company asks for a delivery quote on /deliveries (server must rate-limit, filter spam and keep the attached list in private storage) |  | `deliveries.submit` | audit, deliveries, outbox |  | /deliveries |
-| `submitPo` | `lib/ops/deliveries.ts:165` | public: a company accepts its quote with its purchase order; the quote reference plus the e-mail the quote went to are the check (server must rate-limit and keep the PO in private storage) |  | `deliveries.po` | audit, deliveries, outbox |  | /deliveries |
-| `tickLine` | `lib/ops/deliveries.ts:311` | `deliveries.handle` |  | `deliveries.tick` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `addDeliveryMessage` | `lib/ops/deliveries.ts:408` | `deliveries.handle` |  | `deliveries.message` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `cancelDelivery` | `lib/ops/deliveries.ts:395` | `deliveries.handle` |  | `deliveries.cancel` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `declineQuote` | `lib/ops/deliveries.ts:180` | public: a company declines its quote; the reference plus the e-mail the quote went to are the check (server must rate-limit) |  | `deliveries.decline` | audit, deliveries |  | /deliveries |
+| `finishCheck` | `lib/ops/deliveries.ts:340` | `deliveries.handle` |  | `deliveries.checked` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `finishPicking` | `lib/ops/deliveries.ts:319` | `deliveries.handle` |  | `deliveries.picked` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `logDelivery` | `lib/ops/deliveries.ts:227` | `deliveries.handle` |  | `deliveries.log` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `markDelivered` | `lib/ops/deliveries.ts:359` | `deliveries.handle` |  | `deliveries.done` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `recordPo` | `lib/ops/deliveries.ts:273` | `deliveries.handle` |  | `deliveries.po` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
+| `reportIssue` | `lib/ops/deliveries.ts:198` | public: a company reports a shortage or damage within 24 hours of delivery; the reference plus the order e-mail are the check (server must rate-limit) |  | `deliveries.issue` | audit, deliveries, outbox |  | /deliveries |
+| `resolveIssue` | `lib/ops/deliveries.ts:382` | `deliveries.handle` |  | `deliveries.issue` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `sendQuote` | `lib/ops/deliveries.ts:242` | `deliveries.handle` |  | `deliveries.quote` | audit, deliveries, outbox | grants | /admin /portal/deliveries /admin#deliveries |
+| `startPicking` | `lib/ops/deliveries.ts:286` | `deliveries.handle` |  | `deliveries.pick` | audit, deliveries | employees, grants | /admin /portal/deliveries /admin#deliveries |
+| `submitDelivery` | `lib/ops/deliveries.ts:119` | public: a company asks for a delivery quote on /deliveries (server must rate-limit, filter spam and keep the attached list in private storage) |  | `deliveries.submit` | audit, deliveries, outbox |  | /deliveries |
+| `submitPo` | `lib/ops/deliveries.ts:154` | public: a company accepts its quote with its purchase order; the quote reference plus the e-mail the quote went to are the check (server must rate-limit and keep the PO in private storage) |  | `deliveries.po` | audit, deliveries, outbox |  | /deliveries |
+| `tickLine` | `lib/ops/deliveries.ts:300` | `deliveries.handle` |  | `deliveries.tick` | audit, deliveries | grants | /admin /portal/deliveries /admin#deliveries |
 | `addFlyers` | `lib/ops/events.ts:63` | `events.manage` |  | `flyers.add` | audit, flyers | grants | /admin /admin#events |
 | `removeEvent` | `lib/ops/events.ts:53` | `events.manage` |  | `events.remove` | audit, events | grants | /admin /admin#events |
 | `removeFlyer` | `lib/ops/events.ts:82` | `events.manage` |  | `flyers.remove` | audit, flyers | grants | /admin /admin#events |

@@ -148,6 +148,11 @@ Each motif means one thing, so a shopper learns it once:
 Real only. The logo is cut from a company photo; product and store photos are the company's own Instagram
 posts, cropped to remove their baked-in logo and price badges (prices are re-rendered as live text). No photos
 of children; event photos only of staff in uniform. Provenance in `docs/SOURCES.md`.
+Two exceptions, both stock photographs under the Unsplash licence and both listed in `docs/SOURCES.md`: the produce
+photographs behind page headings (13 Nov 2026), and the Deliveries catalogue (17 Nov 2026), where each standard item
+and each type of good has a square photograph of the kind of item, because no stock is counted yet. Catalogue
+pictures are 640 px square files shown whole (never cropped by the page), carry alt text saying what the photograph
+shows, and never show a readable brand; the page states that they show the kind of item, not the brand.
 
 ## Honesty
 - Footer disclaimer on every page; dismissable banner on careers, HR and portal pages.

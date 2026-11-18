@@ -3,6 +3,7 @@ import { money } from "@/lib/format";
 import { mail } from "@/lib/newsletter";
 import { audit, byId, nowIso, uid, update } from "@/lib/store";
 import type { DeliveryLine, DeliveryOrder, DeliveryStatus, DeliveryUnit, FileMeta, Seed, Session, Tone, VatCode } from "@/lib/types";
+import { CATALOGUE, catalogueItem, isGoodsType } from "./delivery-catalogue";
 import { CLAIM_HOURS, REPLY_HOURS, SUPPLIER, VAT, payText } from "./delivery-terms";
 
 /* Deliveries: the business quote service agreed at the staff meeting of 17 Nov 2026, run from Couva as a trial and
@@ -45,26 +46,9 @@ export const UNITS: { id: DeliveryUnit; label: string }[] = [
 ];
 export const unitLabel = (u: DeliveryUnit, n: number) => (u === "each" ? "" : n === 1 ? u : u + "s");
 
-/** What offices ask for most (the meeting: coffee, tea, sugar, creamer, water, drinks, cleaning supplies). Generic
- *  names only, with an example size: the customer says the exact size and brand, and the quote confirms what Couva has. */
-export const PANTRY: { item: string; unit: DeliveryUnit; example: string }[] = [
-  { item: "Instant coffee", unit: "each", example: "200 g jar" },
-  { item: "Tea bags", unit: "pack", example: "100 bags" },
-  { item: "White sugar", unit: "each", example: "2 kg" },
-  { item: "Brown sugar", unit: "each", example: "2 kg" },
-  { item: "Coffee creamer", unit: "each", example: "1 kg" },
-  { item: "Bottled water", unit: "case", example: "500 ml × 24" },
-  { item: "Juice", unit: "case", example: "250 ml boxes × 24" },
-  { item: "Soft drinks", unit: "case", example: "355 ml cans × 24" },
-  { item: "Biscuits", unit: "pack", example: "family pack" },
-  { item: "Paper cups", unit: "pack", example: "8 oz × 50" },
-  { item: "Paper towels", unit: "pack", example: "6 rolls" },
-  { item: "Toilet paper", unit: "pack", example: "12 rolls" },
-  { item: "Dish soap", unit: "each", example: "1 L" },
-  { item: "Hand soap", unit: "each", example: "500 ml" },
-  { item: "Bleach", unit: "each", example: "3.8 L" },
-  { item: "Garbage bags", unit: "pack", example: "30 large" },
-];
+/** The standard items, for the quick-add row staff use when they type in an order that came by WhatsApp or phone:
+ *  generic names with an example size. The customer says the exact size and brand, and the quote confirms what Couva has. */
+export const PANTRY: { item: string; unit: DeliveryUnit; example: string; sku: string }[] = CATALOGUE.map((c) => ({ item: c.name, unit: c.sizes[0].unit, example: c.sizes[0].size, sku: c.id }));
 
 export const VIAS: DeliveryOrder["via"][] = ["WhatsApp", "E-mail", "Phone", "Walk-in", "Website"];
 
@@ -123,7 +107,12 @@ export type DeliveryForm = Pick<DeliveryOrder, "company" | "contact" | "phone" |
   lines: Omit<DeliveryLine, "id">[];
 };
 
-const clean = (lines: DeliveryForm["lines"]): DeliveryLine[] => lines.map((l) => ({ id: uid("dl"), item: l.item.trim(), brand: l.brand?.trim() || undefined, size: l.size.trim(), qty: l.qty, unit: l.unit }));
+/** Keeps only what a new line may carry. The picture code and the type must be ones the catalogue knows. */
+const clean = (lines: DeliveryForm["lines"]): DeliveryLine[] =>
+  lines.map((l) => ({
+    id: uid("dl"), item: l.item.trim(), brand: l.brand?.trim() || undefined, size: l.size.trim(), qty: l.qty, unit: l.unit,
+    ...(catalogueItem(l.sku) ? { sku: l.sku } : isGoodsType(l.cat) ? { cat: l.cat } : {}),
+  }));
 
 /** The public form on /deliveries. No sign-in: it adds the request for Couva, "sends" an acknowledgement to the demo
  *  outbox and returns the reference the customer is shown. */

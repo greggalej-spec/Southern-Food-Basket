@@ -1858,6 +1858,7 @@
     "localStorage:sfb-data-v1",
     "localStorage:sfb-flow-*",
     "localStorage:sfb-session-v1",
+    "localStorage:sfb.dlBasket",
     "localStorage:sfb.navClosed",
     "localStorage:sfb.navQuiet",
     "localStorage:sfb.staffGlass",

@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { useToday } from "@/components/use-today";
 import { dayTT } from "@/lib/admin/tt";
 import { fmtDate, money } from "@/lib/format";
+import { groupLines } from "@/lib/ops/delivery-catalogue";
 import { CLAIM_HOURS, SUPPLIER, VAT, lineText, payText, shortOf, suppliedOf, sums, toPack, unitLabel, zoneLabel } from "@/lib/ops/deliveries";
 import { useData } from "@/lib/store";
 import type { DeliveryOrder } from "@/lib/types";
@@ -37,6 +38,8 @@ export function DeliveryDoc({ o, kind }: { o: DeliveryOrder; kind: DocKind }) {
   const mode = kind === "invoice" || kind === "note" ? "invoice" : "quote";
   const t = sums(o, mode);
   const lines = kind === "quote" ? o.lines : toPack(o);
+  // The pick list goes by type of good, so the picker walks the store once; the other papers keep the customer's order.
+  const groups: { type: { id: string; name: string } | null; lines: typeof lines }[] = kind === "pick" ? groupLines(lines) : [{ type: null, lines }];
   const bill = o.billing || { name: o.company, address: o.address || "", email: o.email };
   const meta: [string, string][] =
     kind === "quote"
@@ -121,7 +124,15 @@ export function DeliveryDoc({ o, kind }: { o: DeliveryOrder; kind: DocKind }) {
           )}
         </thead>
         <tbody>
-          {lines.map((l) => {
+          {groups.map((g) => [
+            g.type ? (
+              <tr key={"type-" + g.type.id} className="dl-doc-group">
+                <th colSpan={5} scope="colgroup">
+                  {g.type.name}
+                </th>
+              </tr>
+            ) : null,
+            ...g.lines.map((l) => {
             const q = mode === "invoice" ? suppliedOf(l) : l.qty;
             const u = unitLabel(l.unit, l.qty);
             const what = l.item + (l.brand ? ", " + l.brand : "") + ", " + l.size;
@@ -165,7 +176,8 @@ export function DeliveryDoc({ o, kind }: { o: DeliveryOrder; kind: DocKind }) {
                 <td className="num" data-label="Amount">{money(l.price * q)}</td>
               </tr>
             );
-          })}
+            }),
+          ])}
         </tbody>
       </table>
 

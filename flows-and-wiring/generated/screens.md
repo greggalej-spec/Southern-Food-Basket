@@ -134,13 +134,13 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/admin`
 
-- Source: `app/(sfb)/admin/page.tsx`; components: `AdminPage`, `AdminConsole`, `NoAccess`, `Icon`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `SectionHead`, `MarketingFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `OfficeFigure`, `DirectorFigure`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`, `AuditPanel`, `Badge`, `AccessPanel`, `GrantEditor`, `StorePicker`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Matrix`, `AddGrant`, `GrantBadge`, `ListPanel`, `History`, `StatusBadge`, `NewsletterPanel`, `Composer`, `EmailPreview`, `Audience`, `Err`, `CampaignBadge`, `SentView`, `CodesPanel`, `StateBadge`, `PromosPanel`, `PromoDetail`, `PromoComposer`, `OfferPreview`, `Err`, `Approvals`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `PublishPanel`, `ChangeRow`, `NoticesPanel`, `StoresPanel`, `StorePanel`, `HoursField`, `PostMaker`, `DealsPanel`, `BulkDeals`, `Working`, `VizDialog`, `DealDrawer`, `DealForm`, `ErrorText`, `PreviewCard`, `PriceSeal`, `Seg`, `RadioPanel`, `ScriptsView`, `ScriptEditor`, `ReportView`, `StateBadge`, `SchedulesView`, `ManualFlow`, `DraftEditor`, `MiniMonth`, `MonthPick`, `ScanFlow`, `LogSheet`, `LogForm`, `CalendarView`, `ExtraSheet`, `ExtraForm`, `SpotRow`, `Stat`, `Spark`, `Ring`, `CountUp`, `PlanPanel`, `PlanFormView`, `Flow`, `SocialPanel`, `AnalyticsPanel`, `Bars`, `TrendChart`, `TrendExtras`, `ShareDonut`, `ChartStats`, `Change`, `StudioPanel`, `CustomizePanel`, `TasksPanel`, `TaskFormView`, `ResourceList`, `ResourceFormView`, `BulkPanel`, `BulkFormView`, `OrderCard`, `PairBars`, `QtyCell`, `DeliveriesPanel`, `LogForm`, `LineEditor`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Card`, `DeliveryDoc`, `RequestsPanel`, `LogForm`, `RequestDetail`, `Card`, `FeedbackPanel`, `Ticket`, `EventsPanel`, `EventEditor`, `SelloutPanel`, `SelloutForm`, `SuppliersPanel`, `CompanyDrawer`, `BookDrawer`, `LineDrawer`, `LineForm`, `ImportSheet`, `LinesTable`, `Margin`, `UnitCost`, `SheetTable`, `CaseCell`, `OverviewPanel`, `Fig`, `Tile`, `TodayPanel`
+- Source: `app/(sfb)/admin/page.tsx`; components: `AdminPage`, `AdminConsole`, `NoAccess`, `Icon`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `SectionHead`, `MarketingFigure`, `Person`, `Sleeve`, `Hand`, `StoreFront`, `OfficeFigure`, `DirectorFigure`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`, `AuditPanel`, `Badge`, `AccessPanel`, `GrantEditor`, `StorePicker`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Matrix`, `AddGrant`, `GrantBadge`, `ListPanel`, `History`, `StatusBadge`, `NewsletterPanel`, `Composer`, `EmailPreview`, `Audience`, `Err`, `CampaignBadge`, `SentView`, `CodesPanel`, `StateBadge`, `PromosPanel`, `PromoDetail`, `PromoComposer`, `OfferPreview`, `Err`, `Approvals`, `StaffUpdatesPanel`, `Editor`, `MailPreview`, `Sent`, `PublishPanel`, `ChangeRow`, `NoticesPanel`, `StoresPanel`, `StorePanel`, `HoursField`, `PostMaker`, `DealsPanel`, `BulkDeals`, `Working`, `VizDialog`, `DealDrawer`, `DealForm`, `ErrorText`, `PreviewCard`, `PriceSeal`, `Seg`, `RadioPanel`, `ScriptsView`, `ScriptEditor`, `ReportView`, `StateBadge`, `SchedulesView`, `ManualFlow`, `DraftEditor`, `MiniMonth`, `MonthPick`, `ScanFlow`, `LogSheet`, `LogForm`, `CalendarView`, `ExtraSheet`, `ExtraForm`, `SpotRow`, `Stat`, `Spark`, `Ring`, `CountUp`, `PlanPanel`, `PlanFormView`, `Flow`, `SocialPanel`, `AnalyticsPanel`, `Bars`, `TrendChart`, `TrendExtras`, `ShareDonut`, `ChartStats`, `Change`, `StudioPanel`, `CustomizePanel`, `TasksPanel`, `TaskFormView`, `ResourceList`, `ResourceFormView`, `BulkPanel`, `BulkFormView`, `OrderCard`, `PairBars`, `QtyCell`, `DeliveriesPanel`, `LogForm`, `LineEditor`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `LineThumb`, `Pic`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Card`, `CardPics`, `DeliveryDoc`, `RequestsPanel`, `LogForm`, `RequestDetail`, `Card`, `FeedbackPanel`, `Ticket`, `EventsPanel`, `EventEditor`, `SelloutPanel`, `SelloutForm`, `SuppliersPanel`, `CompanyDrawer`, `BookDrawer`, `LineDrawer`, `LineForm`, `ImportSheet`, `LinesTable`, `Margin`, `UnitCost`, `SheetTable`, `CaseCell`, `OverviewPanel`, `Fig`, `Tile`, `TodayPanel`
 - Who can open it: `admin`, `purchasing`, `marketing`, `owner`; parts shown only with `<p>`, `analytics.view`, `bulk.manage`, `bulk.store`, `deliveries.handle`, `newsletter.compose`, `newsletter.send`, `notices.post`, `promos.approve`, `promos.draft`, `requests.decide`, `requests.log`, `resources.edit`, `social.connect`, `staff.updates`, `stores.edit`, `subscribers.export`, `suppliers.edit`, `tasks.assign`
 - Reads: `announcements`, `applicants`, `audit`, `branches`, `bulkOrders`, `campaigns`, `consents`, `customers`, `deliveries`, `employees`, `feedback`, `flyers`, `grants`, `jobs`, `plan`, `promotions`, `radioScripts`, `radioSpots`, `radioStations`, `redemptions`, `requests`, `resources`, `settings`, `site`, `sitePages`, `siteVersions`, `socialAccounts`, `socialWeeks`, `specials`, `specialsBooks`, `subscribers`, `supplierSheets`, `suppliers`
 - Changes:
   - `addBook` (`lib/ops/specials.ts:308`): checks `suppliers.edit`; audit `suppliers.book`; changes `audit`, `specialsBooks`; reads `grants`
   - `addBulkOrder` (`lib/ops/office.ts:37`): checks `bulk.manage`; audit `bulk.open`; changes `audit`, `bulkOrders`; reads `branches`, `grants`
-  - `addDeliveryMessage` (`lib/ops/deliveries.ts:419`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `addDeliveryMessage` (`lib/ops/deliveries.ts:408`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `addFeedbackMessage` (`lib/ops/feedback.ts:69`): checks `feedback.handle`; audit `feedback.message`; changes `audit`, `feedback`, `outbox`; reads `grants`
   - `addFlyers` (`lib/ops/events.ts:63`): checks `events.manage`; audit `flyers.add`; changes `audit`, `flyers`; reads `grants`
   - `addGrant` (`lib/admin/access-admin.ts:138`): checks `access.manage`; audit `access.grant`; changes `audit`, `employees`, `grants`; reads `branches`
@@ -152,7 +152,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `archivePromo` (`lib/promo.ts:349`): checks `promos.approve`, `promos.draft` and the store scope; audit `promo.archive`; changes `audit`, `promotions`; reads `branches`, `entitlements`, `grants`
   - `assignFeedback` (`lib/ops/feedback.ts:80`): checks `feedback.handle`; audit `feedback.assign`; changes `audit`, `feedback`; reads `employees`, `grants`
   - `assignRequest` (`lib/ops/requests.ts:126`): checks `requests.log`; audit `requests.assign`; changes `audit`, `requests`; reads `employees`, `grants`
-  - `cancelDelivery` (`lib/ops/deliveries.ts:406`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
+  - `cancelDelivery` (`lib/ops/deliveries.ts:395`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
   - `clearLog` (`lib/ops/radio.ts:406`): checks `radio.manage`; audit `radio.unlog`; changes `audit`, `radioSpots`; reads `grants`, `radioStations`
   - `decidePromo` (`lib/promo.ts:313`): checks `promos.approve`; audit `promo.approve`, `promo.reject`; changes `audit`, `promotions`; reads `branches`, `grants`
   - `decideRequest` (`lib/ops/requests.ts:97`): checks `requests.decide`; audit `requests.decide`; changes `audit`, `requests`; reads `grants`
@@ -160,18 +160,18 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `endPromo` (`lib/promo.ts:332`): checks `promos.approve` and the store scope; audit `promo.end`; changes `audit`, `promotions`; reads `branches`, `entitlements`, `grants`
   - `exportSeed` (`lib/admin/publish.ts:76`): checks `site.publish`; audit `site.publish`; changes `audit`; reads `grants`, `promotions`
   - `exportSubscribersCsv` (`lib/newsletter.ts:253`): checks `subscribers.export`; audit `subscribers.export`; changes `audit`; reads `grants`, `subscribers`
-  - `finishCheck` (`lib/ops/deliveries.ts:351`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `finishPicking` (`lib/ops/deliveries.ts:330`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishCheck` (`lib/ops/deliveries.ts:340`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishPicking` (`lib/ops/deliveries.ts:319`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `importSheets` (`lib/ops/specials.ts:354`): checks `suppliers.edit`; audit `suppliers.import`; changes `audit`, `supplierSheets`, `suppliers`; reads `grants`, `specialsBooks`
-  - `logDelivery` (`lib/ops/deliveries.ts:238`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
+  - `logDelivery` (`lib/ops/deliveries.ts:227`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
   - `logRequest` (`lib/ops/requests.ts:63`): checks `requests.log`; audit `requests.log`; changes `audit`, `requests`; reads `grants`
   - `logSpot` (`lib/ops/radio.ts:386`): checks `radio.manage`; audit `radio.log`; changes `audit`, `radioSpots`; reads `grants`, `radioStations`
-  - `markDelivered` (`lib/ops/deliveries.ts:370`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `markDelivered` (`lib/ops/deliveries.ts:359`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `markSelloutSent` (`lib/ops/specials.ts:452`): checks `sellout.log`; audit `sellout.send`; changes `audit`, `sellouts`; reads `grants`, `specialsBooks`, `suppliers`
   - `markSent` (`lib/ops/radio.ts:439`): checks `radio.manage`; audit `radio.script.sent`; changes `audit`, `radioScripts`; reads `grants`, `radioStations`
   - `moveRequest` (`lib/ops/requests.ts:84`): checks `requests.log`; audit `requests.move`; changes `audit`, `requests`; reads `grants`
   - `postNotice` (`lib/admin/writes.ts:73`): checks `notices.post` and the store scope; audit `notices.post`; changes `announcements`, `audit`; reads `branches`, `grants`
-  - `recordPo` (`lib/ops/deliveries.ts:284`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
+  - `recordPo` (`lib/ops/deliveries.ts:273`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
   - `remindStaffUpdate` (`lib/staff-updates.ts:162`): checks `staff.updates`; audit `staffnews.remind`; changes `audit`, `outbox`; reads `employees`, `grants`, `staffUpdates`
   - `removeDeal` (`lib/admin/writes.ts:44`): checks `specials.edit`; audit `specials.remove`; changes `audit`, `specials`; reads `grants`
   - `removeEvent` (`lib/ops/events.ts:53`): checks `events.manage`; audit `events.remove`; changes `audit`, `events`; reads `grants`
@@ -183,7 +183,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `removeSheet` (`lib/ops/radio.ts:335`): checks `radio.manage`; audit `radio.sheet.remove`; changes `audit`, `radioSheets`, `radioSpots`; reads `grants`, `radioStations`
   - `removeSpot` (`lib/ops/radio.ts:373`): checks `radio.manage`; audit `radio.spot.remove`; changes `audit`, `radioSpots`; reads `grants`, `radioStations`
   - `rerunDeal` (`lib/ops/deals.ts:50`): checks `specials.edit`; audit `specials.rerun`; changes `audit`, `specials`; reads `grants`
-  - `resolveIssue` (`lib/ops/deliveries.ts:393`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `resolveIssue` (`lib/ops/deliveries.ts:382`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `restoreGrant` (`lib/admin/access-admin.ts:123`): checks `access.manage`; audit `access.restore`; changes `audit`, `grants`; reads `employees`
   - `restoreSiteVersion` (`lib/ops/site.ts:171`): checks `site.customize`; audit `site.customize`; changes `audit`, `site`, `siteVersions`; reads `grants`
   - `revokeGrant` (`lib/admin/access-admin.ts:110`): checks `access.manage`; audit `access.revoke`; changes `audit`, `grants`; reads `employees`
@@ -206,7 +206,7 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `sendDue` (`lib/newsletter.ts:240`): checks system (no permission); audit `newsletter.send`; changes `audit`, `campaigns`, `outbox`; reads `subscribers`
   - `sendDueStaffUpdates` (`lib/staff-updates.ts:179`): checks system (no permission); audit `staffnews.send`; changes `audit`, `outbox`, `staffUpdates`; reads `employees`
   - `sendNowScoped` (`lib/admin/campaign-admin.ts:129`): checks `newsletter.send` and the store scope; audit `newsletter.send`; changes `audit`, `campaigns`, `outbox`; reads `grants`, `subscribers`
-  - `sendQuote` (`lib/ops/deliveries.ts:253`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `sendQuote` (`lib/ops/deliveries.ts:242`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
   - `sendStaffTest` (`lib/staff-updates.ts:108`): checks `staff.updates`; audit `staffnews.test`; changes `audit`, `outbox`, `staffUpdates`; reads `employees`, `grants`
   - `sendStaffUpdateNow` (`lib/staff-updates.ts:147`): checks `staff.updates`; audit `staffnews.send`; changes `audit`, `outbox`, `staffUpdates`; reads `employees`, `grants`
   - `sendTestScoped` (`lib/admin/campaign-admin.ts:119`): checks `newsletter.compose` and the store scope; audit `newsletter.test`; changes `audit`, `campaigns`, `outbox`; reads `employees`, `grants`
@@ -221,9 +221,9 @@ Every page (route) and every section of the two consoles. For each: who can open
   - `setSheetChecked` (`lib/ops/specials.ts:427`): checks `suppliers.edit`; audit `suppliers.check`; changes `audit`, `supplierSheets`; reads `grants`, `suppliers`
   - `setTaskDone` (`lib/ops/office.ts:100`): checks `portal.self`, `tasks.assign`; audit `tasks.done`, `tasks.reopen`; changes `audit`, `tasks`; reads `grants`
   - `setTillAccess` (`lib/admin/access-admin.ts:97`): checks `access.manage`; audit `access.extra`; changes `audit`, `grants`; reads `employees`
-  - `startPicking` (`lib/ops/deliveries.ts:297`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
+  - `startPicking` (`lib/ops/deliveries.ts:286`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
   - `submitPromo` (`lib/promo.ts:291`): checks `promos.draft` and the store scope; audit `promo.submit`; changes `audit`, `promotions`; reads `branches`, `grants`
-  - `tickLine` (`lib/ops/deliveries.ts:311`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
+  - `tickLine` (`lib/ops/deliveries.ts:300`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
   - `toggleKey` (`lib/ops/specials.ts:405`): checks `suppliers.edit`; audit `suppliers.key`; changes `audit`, `supplierSheets`; reads `grants`
 - Console actions logged on refusal: `access.grant`, `access.restore`, `access.revoke`, `bulk.advance`, `bulk.open`, `bulk.qty`, `deliveries.cancel`, `deliveries.checked`, `deliveries.done`, `deliveries.issue`, `deliveries.log`, `deliveries.message`, `deliveries.pick`, `deliveries.picked`, `deliveries.po`, `deliveries.quote`, `deliveries.tick`, `events.remove`, `feedback.assign`, `feedback.message`, `feedback.status`, `flyers.add`, `flyers.edit`, `flyers.remove`, `newsletter.schedule`, `newsletter.send`, `newsletter.test`, `newsletter.unschedule`, `notices.post`, `notices.remove`, `plan.remove`, `plan.save`, `promo.approve`, `promo.archive`, `promo.end`, `promo.reject`, `promo.submit`, `radio.log`, `radio.script.remove`, `radio.script.sent`, `radio.sheet.add`, `radio.sheet.remove`, `radio.spot.add`, `radio.spot.remove`, `radio.unlog`, `requests.assign`, `requests.decide`, `requests.log`, `requests.message`, `requests.move`, `resources.save`, `sellout.compile`, `sellout.send`, `site.customize`, `site.publish`, `social.connect`, `social.disconnect`, `specials.bulk`, `specials.end`, `specials.remove`, `specials.rerun`, `stores.edit`, `subscribers.export`, `suppliers.book`, `suppliers.check`, `suppliers.company`, `suppliers.edit`, `suppliers.import`, `suppliers.key`, `suppliers.remove`, `tasks.assign`, `tasks.done`
 - Links to: /, /admin#studio, /assets/img/sfb-logo.svg, /assets/img/sfb-mark.svg, /community, /deliveries, /portal, /specials
@@ -287,14 +287,14 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/deliveries`
 
-- Source: `app/(sfb)/deliveries/page.tsx`; components: `DeliveriesPage`, `OrderLookup`, `OrderView`, `DeliveryDoc`, `Icon`, `DeliveryRequestForm`, `LineEditor`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
+- Source: `app/(sfb)/deliveries/page.tsx`; components: `DeliveriesPage`, `OrderLookup`, `OrderView`, `DeliveryDoc`, `Icon`, `LineThumb`, `Pic`, `DeliveryOrder`, `Details`, `Review`, `ReviewRow`, `Stepper`, `Shop`, `OwnItem`, `ItemCard`, `Sent`, `DeliveryPortal`, `SiteFrame`, `SiteFooter`, `ResetDemoButton`, `SocialLinks`, `Logo`, `NewsletterSignup`, `PageTransition`, `SiteHeader`, `Scope`
 - Who can open it: anyone (public)
 - Reads: `branches`, `settings`
 - Changes:
-  - `declineQuote` (`lib/ops/deliveries.ts:191`): checks public (no permission); audit `deliveries.decline`; changes `audit`, `deliveries`
-  - `reportIssue` (`lib/ops/deliveries.ts:209`): checks public (no permission); audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`
-  - `submitDelivery` (`lib/ops/deliveries.ts:130`): checks public (no permission); audit `deliveries.submit`; changes `audit`, `deliveries`, `outbox`
-  - `submitPo` (`lib/ops/deliveries.ts:165`): checks public (no permission); audit `deliveries.po`; changes `audit`, `deliveries`, `outbox`
+  - `declineQuote` (`lib/ops/deliveries.ts:180`): checks public (no permission); audit `deliveries.decline`; changes `audit`, `deliveries`
+  - `reportIssue` (`lib/ops/deliveries.ts:198`): checks public (no permission); audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`
+  - `submitDelivery` (`lib/ops/deliveries.ts:119`): checks public (no permission); audit `deliveries.submit`; changes `audit`, `deliveries`, `outbox`
+  - `submitPo` (`lib/ops/deliveries.ts:154`): checks public (no permission); audit `deliveries.po`; changes `audit`, `deliveries`, `outbox`
   - `subscribe` (`lib/newsletter.ts:66`): checks public (no permission); audit `newsletter.signup`; changes `audit`, `consents`, `outbox`, `subscribers`
 - Links to: /, /about, /careers, /community, /deliveries, /departments, /events, /how-it-works, /locations, /outbox, /portal, /restaurant, /specials
 - File pickers: 2 (file contents are not kept: name, size and type only)
@@ -443,21 +443,21 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/portal/deliveries`
 
-- Source: `app/(sfb)/portal/deliveries/page.tsx`; components: `PortalDeliveriesPage`, `PortalDeliveries`, `DeliveriesPanel`, `LogForm`, `LineEditor`, `Icon`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Badge`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Card`, `Seg`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `DeliveryDoc`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
+- Source: `app/(sfb)/portal/deliveries/page.tsx`; components: `PortalDeliveriesPage`, `PortalDeliveries`, `DeliveriesPanel`, `LogForm`, `LineEditor`, `Icon`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `LineThumb`, `Pic`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Badge`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Card`, `CardPics`, `Seg`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `DeliveryDoc`, `PortalPage`, `AppSkeleton`, `SkelPanel`, `Row`, `Skel`, `SkelTiles`, `SkelGroup`, `AppShell`, `ThemeToggle`, `CommandPalette`, `LightMenu`, `EdgeBump`, `ResetDemoButton`, `NavAlerts`, `Scope`
 - Who can open it: `<PORTAL_ROLES>`; parts shown only with `<p>`, `deliveries.handle`
 - Reads: `branches`, `customers`, `deliveries`, `employees`
 - Changes:
-  - `addDeliveryMessage` (`lib/ops/deliveries.ts:419`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `cancelDelivery` (`lib/ops/deliveries.ts:406`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
-  - `finishCheck` (`lib/ops/deliveries.ts:351`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `finishPicking` (`lib/ops/deliveries.ts:330`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `logDelivery` (`lib/ops/deliveries.ts:238`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
-  - `markDelivered` (`lib/ops/deliveries.ts:370`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `recordPo` (`lib/ops/deliveries.ts:284`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
-  - `resolveIssue` (`lib/ops/deliveries.ts:393`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `sendQuote` (`lib/ops/deliveries.ts:253`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `startPicking` (`lib/ops/deliveries.ts:297`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
-  - `tickLine` (`lib/ops/deliveries.ts:311`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
+  - `addDeliveryMessage` (`lib/ops/deliveries.ts:408`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `cancelDelivery` (`lib/ops/deliveries.ts:395`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
+  - `finishCheck` (`lib/ops/deliveries.ts:340`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishPicking` (`lib/ops/deliveries.ts:319`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `logDelivery` (`lib/ops/deliveries.ts:227`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
+  - `markDelivered` (`lib/ops/deliveries.ts:359`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `recordPo` (`lib/ops/deliveries.ts:273`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
+  - `resolveIssue` (`lib/ops/deliveries.ts:382`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `sendQuote` (`lib/ops/deliveries.ts:242`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `startPicking` (`lib/ops/deliveries.ts:286`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
+  - `tickLine` (`lib/ops/deliveries.ts:300`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
 - Console actions logged on refusal: `deliveries.cancel`, `deliveries.checked`, `deliveries.done`, `deliveries.issue`, `deliveries.log`, `deliveries.message`, `deliveries.pick`, `deliveries.picked`, `deliveries.po`, `deliveries.quote`, `deliveries.tick`
 - Links to: /, /deliveries, /portal
 - Browser storage: `localStorage:sfb.navClosed`, `localStorage:sfb.staffGlass`, `localStorage:sfb.staffSkin`, `localStorage:sfb.staffTheme`
@@ -701,21 +701,21 @@ Every page (route) and every section of the two consoles. For each: who can open
 
 ### `/admin#deliveries`
 
-- Source: `components/admin/admin-console.tsx`; components: `DeliveriesPanel`, `LogForm`, `LineEditor`, `Icon`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Badge`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Card`, `Seg`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `DeliveryDoc`
+- Source: `components/admin/admin-console.tsx`; components: `DeliveriesPanel`, `LogForm`, `LineEditor`, `Icon`, `OrderDetail`, `Thread`, `CloseStep`, `LinesTable`, `LineThumb`, `Pic`, `DoneStep`, `Ticks`, `PickStart`, `PoStep`, `QuoteForm`, `Row`, `IssueStep`, `Badge`, `SideSheet`, `SheetTitle`, `SheetContent`, `SheetPortal`, `Sheet`, `Card`, `CardPics`, `Seg`, `Stat`, `VizDialog`, `Spark`, `Ring`, `CountUp`, `DeliveryDoc`
 - Who can open it: office staff with `deliveries.handle`; parts shown only with `deliveries.handle`
 - Reads: `branches`, `deliveries`, `employees`
 - Changes:
-  - `addDeliveryMessage` (`lib/ops/deliveries.ts:419`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `cancelDelivery` (`lib/ops/deliveries.ts:406`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
-  - `finishCheck` (`lib/ops/deliveries.ts:351`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `finishPicking` (`lib/ops/deliveries.ts:330`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `logDelivery` (`lib/ops/deliveries.ts:238`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
-  - `markDelivered` (`lib/ops/deliveries.ts:370`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `recordPo` (`lib/ops/deliveries.ts:284`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
-  - `resolveIssue` (`lib/ops/deliveries.ts:393`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `sendQuote` (`lib/ops/deliveries.ts:253`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
-  - `startPicking` (`lib/ops/deliveries.ts:297`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
-  - `tickLine` (`lib/ops/deliveries.ts:311`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
+  - `addDeliveryMessage` (`lib/ops/deliveries.ts:408`): checks `deliveries.handle`; audit `deliveries.message`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `cancelDelivery` (`lib/ops/deliveries.ts:395`): checks `deliveries.handle`; audit `deliveries.cancel`; changes `audit`, `deliveries`; reads `grants`
+  - `finishCheck` (`lib/ops/deliveries.ts:340`): checks `deliveries.handle`; audit `deliveries.checked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `finishPicking` (`lib/ops/deliveries.ts:319`): checks `deliveries.handle`; audit `deliveries.picked`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `logDelivery` (`lib/ops/deliveries.ts:227`): checks `deliveries.handle`; audit `deliveries.log`; changes `audit`, `deliveries`; reads `grants`
+  - `markDelivered` (`lib/ops/deliveries.ts:359`): checks `deliveries.handle`; audit `deliveries.done`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `recordPo` (`lib/ops/deliveries.ts:273`): checks `deliveries.handle`; audit `deliveries.po`; changes `audit`, `deliveries`; reads `grants`
+  - `resolveIssue` (`lib/ops/deliveries.ts:382`): checks `deliveries.handle`; audit `deliveries.issue`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `sendQuote` (`lib/ops/deliveries.ts:242`): checks `deliveries.handle`; audit `deliveries.quote`; changes `audit`, `deliveries`, `outbox`; reads `grants`
+  - `startPicking` (`lib/ops/deliveries.ts:286`): checks `deliveries.handle`; audit `deliveries.pick`; changes `audit`, `deliveries`; reads `employees`, `grants`
+  - `tickLine` (`lib/ops/deliveries.ts:300`): checks `deliveries.handle`; audit `deliveries.tick`; changes `audit`, `deliveries`; reads `grants`
 - Console actions logged on refusal: `deliveries.cancel`, `deliveries.checked`, `deliveries.done`, `deliveries.issue`, `deliveries.log`, `deliveries.message`, `deliveries.pick`, `deliveries.picked`, `deliveries.po`, `deliveries.quote`, `deliveries.tick`
 - Links to: /deliveries
 - File pickers: 1 (file contents are not kept: name, size and type only)

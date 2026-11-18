@@ -1,4 +1,5 @@
 import { money } from "./format";
+import { itemOfLine } from "./ops/delivery-catalogue";
 import { sums } from "./ops/deliveries";
 import { person } from "./seed-ops";
 import type { DeliveryLine, DeliveryOrder, Employee, Grant, VatCode } from "./types";
@@ -20,7 +21,7 @@ const PICKER = "emp-kiran";
 const t = (day: string, time: string) => "2026-11-" + day + "T" + time + ":00-04:00";
 let n = 0;
 const line = (item: string, size: string, qty: number, unit: DeliveryLine["unit"], price?: number | null, vat: VatCode = "S", more: Partial<DeliveryLine> = {}): DeliveryLine => ({
-  id: "dl-seed-" + ++n, item, size, qty, unit, ...(price !== undefined ? { price, vat: price === null ? undefined : vat } : {}), ...more,
+  id: "dl-seed-" + ++n, item, size, qty, unit, ...(itemOfLine({ item }) ? { sku: itemOfLine({ item })!.id } : {}), ...(price !== undefined ? { price, vat: price === null ? undefined : vat } : {}), ...more,
 });
 const note = (at: string, text: string, by = N) => ({ at, by, kind: "internal" as const, text });
 const done = { picked: true, checked: true };

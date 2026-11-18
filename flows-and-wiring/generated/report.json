@@ -1,14 +1,14 @@
 {
-  "generatedAt": "2026-11-17T20:48:54.060Z",
+  "generatedAt": "2026-11-18T14:01:35.971Z",
   "counts": {
-    "files": 243,
+    "files": 249,
     "routes": 38,
     "sections": 35,
     "writes": 137,
     "collections": 50,
     "permissions": 40,
     "hosts": 8,
-    "storageKeys": 15
+    "storageKeys": 16
   },
   "findings": [
     {

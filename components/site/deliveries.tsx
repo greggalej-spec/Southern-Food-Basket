@@ -1,22 +1,26 @@
 "use client";
 
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { DOC_TITLE, DeliveryDoc, docsFor, usePrintDoc, type DocKind } from "@/components/deliveries/documents";
+import { LineThumb } from "@/components/deliveries/line-thumb";
 import { Icon } from "@/components/icon";
-import { toast } from "@/components/ui/sonner";
+import { EMAIL, MAX_FILE, REORDER_EVENT, fileMeta, type Reorder } from "@/components/site/delivery-shared";
 import { useNowMinute, useToday } from "@/components/use-today";
 import { plural } from "@/lib/admin/helpers";
 import { whenTT } from "@/lib/admin/tt";
-import { CLAIM_HOURS, PANTRY, TRACK, UNITS, ZONES, declineQuote, expired, findForCustomer, quoteDueAt, reportIssue, shortOf, submitDelivery, submitPo, zoneLabel, type DeliveryForm } from "@/lib/ops/deliveries";
+import { itemOfLine } from "@/lib/ops/delivery-catalogue";
+import { CLAIM_HOURS, PANTRY, TRACK, UNITS, declineQuote, expired, findForCustomer, quoteDueAt, reportIssue, shortOf, submitPo, zoneLabel, type DeliveryForm } from "@/lib/ops/deliveries";
 import { useData } from "@/lib/store";
 import type { DeliveryOrder, DeliveryUnit, FileMeta } from "@/lib/types";
 
-/* The public side of Deliveries (/deliveries): a company sends its list and asks for a quote; then, under "Your order",
-   follows it, accepts the quote with its purchase order (or declines it), prints its quotation and tax invoice, reports
-   a problem within the claim window, or orders the same again. Everything writes into the Couva order list
-   (lib/ops/deliveries.ts) that Narindra works from in the staff portal. In this prototype nothing is sent anywhere:
-   the e-mails land in the demo outbox, and an attached file keeps only its name and size. */
+export { fileMeta };
+
+/* "Your order" on /deliveries: a company follows the list it sent (components/site/delivery-order.tsx), accepts the
+   quote with its purchase order (or declines it), prints its quotation and tax invoice, reports a problem within the
+   claim window, or orders the same again. Also here: the typed line editor staff use to log an order that came by
+   WhatsApp or phone. Everything writes into the Couva order list (lib/ops/deliveries.ts) that Narindra works from in
+   the staff portal. In this prototype nothing is sent anywhere: the e-mails land in the demo outbox, and an attached
+   file keeps only its name and size. */
 
 export type LineDraft = { key: string; item: string; brand: string; size: string; qty: string; unit: DeliveryUnit; example?: string };
 
@@ -36,7 +40,7 @@ export function readLines(lines: LineDraft[]): { lines: DeliveryForm["lines"]; e
     if (!l.item.trim()) return { lines: [], error: "Line " + (i + 1) + ": say what the item is.", at: "item-" + l.key };
     if (!l.size.trim()) return { lines: [], error: "Line " + (i + 1) + ": add the size or pack, for example 500 ml or 24-pack, so we pack the right one.", at: "size-" + l.key };
     if (!Number.isInteger(qty) || qty < 1 || qty > 999) return { lines: [], error: "Line " + (i + 1) + ": the quantity should be a whole number from 1 to 999.", at: "qty-" + l.key };
-    out.push({ item: l.item.trim(), brand: l.brand.trim() || undefined, size: l.size.trim(), qty, unit: l.unit });
+    out.push({ item: l.item.trim(), brand: l.brand.trim() || undefined, size: l.size.trim(), qty, unit: l.unit, sku: itemOfLine({ item: l.item })?.id });
   }
   return { lines: out, error: "", at: null };
 }
@@ -126,302 +130,6 @@ export function LineEditor({ lines, setLines, idPrefix, error }: { lines: LineDr
   );
 }
 
-/** A picked file's name, size and type; the file itself stays on the device in this prototype. */
-export function fileMeta(f: File | undefined | null): FileMeta | undefined {
-  return f ? { fileName: f.name, size: f.size, type: f.type || "application/octet-stream" } : undefined;
-}
-const MAX_FILE = 10 * 1024 * 1024;
-const LIST_TYPES = ".pdf,.jpg,.jpeg,.png,.heic,.xlsx,.xls,.csv,.doc,.docx";
-const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
-
-/** "Order the same again" on a customer's order fills the request form through this event. */
-export const REORDER_EVENT = "sfb-reorder";
-type Reorder = { form: Partial<Form>; lines: DeliveryForm["lines"] };
-
-type Form = Omit<DeliveryForm, "lines" | "list" | "billing"> & { billName: string; billAddress: string; billEmail: string; billSame: boolean };
-const EMPTY: Form = { company: "", contact: "", phone: "", email: "", fulfil: "delivery", zone: "lisas", address: "", wantedBy: undefined, swaps: true, notes: "", site: "", payment: "account", billName: "", billAddress: "", billEmail: "", billSame: true };
-type Errs = Partial<Record<"company" | "contact" | "phone" | "email" | "address" | "billAddress" | "billEmail" | "lines" | "list", string>>;
-
-export function DeliveryRequestForm() {
-  const [v, setV] = useState<Form>(EMPTY);
-  const [lines, setLines] = useState<LineDraft[]>(() => [blankLine({ key: "first" })]);
-  const [list, setList] = useState<FileMeta | undefined>();
-  const [errs, setErrs] = useState<Errs>({});
-  const [ref, setRef] = useState("");
-  const fileInput = useRef<HTMLInputElement>(null);
-  const set = <K extends keyof Form>(key: K, val: Form[K]) => setV((p) => ({ ...p, [key]: val }));
-
-  useEffect(() => {
-    const onReorder = (e: Event) => {
-      const r = (e as CustomEvent<Reorder>).detail;
-      setRef("");
-      setV({ ...EMPTY, ...r.form });
-      setLines(r.lines.map((l) => blankLine({ item: l.item, brand: l.brand || "", size: l.size, qty: String(l.qty), unit: l.unit })));
-      setErrs({});
-      requestAnimationFrame(() => document.getElementById("request")?.scrollIntoView({ behavior: "smooth", block: "start" }));
-      toast("Your last order is in the form. Change anything, then ask for your quote.", "ok");
-    };
-    window.addEventListener(REORDER_EVENT, onReorder);
-    return () => window.removeEventListener(REORDER_EVENT, onReorder);
-  }, []);
-
-  function pickList(f: File | undefined) {
-    if (f && f.size > MAX_FILE) {
-      setErrs((e) => ({ ...e, list: "That file is over 10 MB. Send a smaller copy, or type the list below." }));
-      if (fileInput.current) fileInput.current.value = "";
-      return;
-    }
-    setErrs((e) => ({ ...e, list: undefined }));
-    setList(fileMeta(f));
-  }
-
-  function submit(e: React.FormEvent) {
-    e.preventDefault();
-    const er: Errs = {};
-    if (!v.company.trim()) er.company = "Enter your company’s name.";
-    if (!v.contact.trim()) er.contact = "Enter the name of the person we should send the quote to.";
-    if (!v.phone.trim()) er.phone = "Enter a phone number, in case we need to check an item.";
-    if (!EMAIL.test(v.email.trim())) er.email = "Enter the e-mail address the quote should go to, like name@company.com.";
-    if (v.fulfil === "delivery" && !(v.address || "").trim()) er.address = "Enter the delivery address.";
-    const billAddress = v.billSame && v.fulfil === "delivery" ? (v.address || "").trim() : v.billAddress.trim();
-    if (!billAddress && !er.address) er.billAddress = "Enter the address for the tax invoice.";
-    if (v.billEmail.trim() && !EMAIL.test(v.billEmail.trim())) er.billEmail = "Check the accounts e-mail: it should look like accounts@company.com.";
-    const read = readLines(lines);
-    let focus: string | null = null;
-    if (read.error) {
-      er.lines = read.error;
-      focus = "dr-" + read.at;
-    } else if (!read.lines.length && !list) er.lines = "Add at least one item, or attach your list.";
-    setErrs(er);
-    const first = Object.keys(er).filter((x) => x !== "list")[0];
-    if (first) {
-      document.getElementById(first === "lines" ? focus || "dr-item-" + lines[0].key : "dr-" + first)?.focus();
-      toast("Check the highlighted fields.", "bad");
-      return;
-    }
-    setRef(
-      submitDelivery({
-        company: v.company.trim(), contact: v.contact.trim(), phone: v.phone.trim(), email: v.email.trim(), fulfil: v.fulfil, swaps: v.swaps, payment: v.payment,
-        zone: v.fulfil === "delivery" ? v.zone : undefined, address: v.fulfil === "delivery" ? (v.address || "").trim() : undefined,
-        site: v.fulfil === "delivery" ? (v.site || "").trim() || undefined : undefined, wantedBy: v.wantedBy,
-        billing: { name: v.billName.trim() || v.company.trim(), address: billAddress, email: v.billEmail.trim() || v.email.trim() },
-        notes: (v.notes || "").trim() || undefined, list, lines: read.lines,
-      }),
-    );
-    setV(EMPTY);
-    setLines([blankLine()]);
-    setList(undefined);
-  }
-
-  const bad = (f: keyof Errs) => (errs[f] ? { "aria-invalid": true as const, "aria-describedby": "dr-" + f + "-e" } : {});
-  const err = (f: keyof Errs) => (errs[f] ? <p className="error-text" id={"dr-" + f + "-e"}>{errs[f]}</p> : null);
-
-  if (ref)
-    return (
-      <div className="card request-done" role="status">
-        <span className="done-tick" aria-hidden="true">
-          <Icon name="check" />
-        </span>
-        <h2>Thank you. Your list is with our Couva store.</h2>
-        <p>
-          Your reference is <strong className="request-ref">{ref}</strong>. Quote it on your purchase order.
-        </p>
-        <p className="muted">
-          We reply with a priced quote within one working day. Follow it, accept it and print it under <a href="#track">Your order</a> with {ref} and your e-mail address. In this prototype nothing is sent: the acknowledgement is in the demo outbox, and the list is now in the staff portal’s Deliveries.
-        </p>
-        <div className="cluster">
-          <button className="btn btn-outline" type="button" onClick={() => setRef("")}>
-            Send another list
-          </button>
-          <Link className="link-btn" href="/outbox">
-            See the acknowledgement
-          </Link>
-        </div>
-      </div>
-    );
-
-  return (
-    <form className="card request-form dl-form" onSubmit={submit} noValidate>
-      <h2>Ask for a quote</h2>
-
-      <fieldset className="dl-group">
-        <legend>Your company</legend>
-        <div className="form-row">
-          <div className="field">
-            <label htmlFor="dr-company">Company</label>
-            <input id="dr-company" type="text" value={v.company} onChange={(e) => set("company", e.target.value)} autoComplete="organization" {...bad("company")} />
-            {err("company")}
-          </div>
-          <div className="field">
-            <label htmlFor="dr-contact">Your name and role</label>
-            <input id="dr-contact" type="text" value={v.contact} onChange={(e) => set("contact", e.target.value)} autoComplete="name" placeholder="Name, job title" {...bad("contact")} />
-            {err("contact")}
-          </div>
-        </div>
-        <div className="form-row">
-          <div className="field">
-            <label htmlFor="dr-phone">Phone</label>
-            <input id="dr-phone" type="tel" value={v.phone} onChange={(e) => set("phone", e.target.value)} autoComplete="tel" {...bad("phone")} />
-            {err("phone")}
-          </div>
-          <div className="field">
-            <label htmlFor="dr-email">E-mail for the quote</label>
-            <input id="dr-email" type="email" value={v.email} onChange={(e) => set("email", e.target.value)} autoComplete="email" {...bad("email")} />
-            {err("email")}
-          </div>
-        </div>
-      </fieldset>
-
-      <fieldset className="dl-group">
-        <legend>Your list</legend>
-        <p className="hint">Be exact: the size and, if it matters, the brand. “Juice” could be one of twenty things; “Orange juice, 250 ml boxes, 3 cases of 24” is one.</p>
-        <LineEditor lines={lines} setLines={setLines} idPrefix="dr" error={errs.lines} />
-        <div className="field dl-file">
-          <label htmlFor="dr-list">Or attach your own list</label>
-          <input ref={fileInput} id="dr-list" type="file" accept={LIST_TYPES} onChange={(e) => pickList(e.target.files?.[0])} aria-describedby={errs.list ? "dr-list-e" : "dr-list-h"} />
-          <p className="hint" id="dr-list-h">
-            A spreadsheet, PDF or photo, up to 10 MB. Typed lines are quicker to quote than a photo of a handwritten list.
-          </p>
-          {err("list")}
-        </div>
-      </fieldset>
-
-      <fieldset className="kind-pick">
-        <legend>If we are out of something</legend>
-        <label className={"kind-option" + (v.swaps ? " is-on" : "")}>
-          <input type="radio" name="dr-swaps" checked={v.swaps} onChange={() => set("swaps", true)} />
-          <span>
-            <strong>Offer a similar item</strong>
-            <small>Same kind and size, another brand. The quote shows every swap before you accept.</small>
-          </span>
-        </label>
-        <label className={"kind-option" + (!v.swaps ? " is-on" : "")}>
-          <input type="radio" name="dr-swaps" checked={!v.swaps} onChange={() => set("swaps", false)} />
-          <span>
-            <strong>Leave it off</strong>
-            <small>Quote only what we have exactly as asked.</small>
-          </span>
-        </label>
-      </fieldset>
-
-      <fieldset className="kind-pick">
-        <legend>Delivery or collection</legend>
-        <label className={"kind-option" + (v.fulfil === "delivery" ? " is-on" : "")}>
-          <input type="radio" name="dr-fulfil" checked={v.fulfil === "delivery"} onChange={() => set("fulfil", "delivery")} />
-          <span>
-            <strong>Deliver to us</strong>
-            <small>A small fee by distance, shown on your quote.</small>
-          </span>
-        </label>
-        <label className={"kind-option" + (v.fulfil === "collect" ? " is-on" : "")}>
-          <input type="radio" name="dr-fulfil" checked={v.fulfil === "collect"} onChange={() => set("fulfil", "collect")} />
-          <span>
-            <strong>We will collect</strong>
-            <small>From our Couva store, 696 Southern Main Road. No charge.</small>
-          </span>
-        </label>
-      </fieldset>
-
-      {v.fulfil === "delivery" ? (
-        <>
-          <div className="form-row">
-            <div className="field">
-              <label htmlFor="dr-zone">Area</label>
-              <select id="dr-zone" value={v.zone} onChange={(e) => set("zone", e.target.value)}>
-                {ZONES.map((z) => (
-                  <option key={z.id} value={z.id}>
-                    {z.label}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="field">
-              <label htmlFor="dr-address">Delivery address</label>
-              <input id="dr-address" type="text" value={v.address || ""} onChange={(e) => set("address", e.target.value)} autoComplete="street-address" {...bad("address")} />
-              {err("address")}
-            </div>
-          </div>
-          <div className="field">
-            <label htmlFor="dr-site">Getting in and receiving</label>
-            <textarea id="dr-site" rows={2} value={v.site || ""} onChange={(e) => set("site", e.target.value)} placeholder="Gate or security hut, ID or gate pass, safety boots or hi-vis, receiving hours" aria-describedby="dr-site-h" />
-            <p className="hint" id="dr-site-h">
-              Optional, but it saves a wasted trip. Industrial estates often have their own rules at the gate.
-            </p>
-          </div>
-        </>
-      ) : null}
-
-      <fieldset className="dl-group">
-        <legend>Invoicing</legend>
-        <div className="form-row">
-          <div className="field">
-            <label htmlFor="dr-billName">Name on the tax invoice</label>
-            <input id="dr-billName" type="text" value={v.billName} onChange={(e) => set("billName", e.target.value)} placeholder={v.company ? v.company : "Your registered company name"} aria-describedby="dr-billName-h" />
-            <p className="hint" id="dr-billName-h">
-              If it is not the company name above, for example “… Limited”.
-            </p>
-          </div>
-          <div className="field">
-            <label htmlFor="dr-billEmail">Accounts e-mail for invoices</label>
-            <input id="dr-billEmail" type="email" value={v.billEmail} onChange={(e) => set("billEmail", e.target.value)} placeholder={v.email || "accounts@company.com"} {...bad("billEmail")} />
-            {err("billEmail")}
-          </div>
-        </div>
-        {v.fulfil === "delivery" ? (
-          <label className="check dl-same">
-            <input type="checkbox" checked={v.billSame} onChange={(e) => set("billSame", e.target.checked)} /> Bill to the delivery address
-          </label>
-        ) : null}
-        {!v.billSame || v.fulfil === "collect" ? (
-          <div className="field">
-            <label htmlFor="dr-billAddress">Billing address</label>
-            <input id="dr-billAddress" type="text" value={v.billAddress} onChange={(e) => set("billAddress", e.target.value)} autoComplete="billing street-address" {...bad("billAddress")} />
-            {err("billAddress")}
-          </div>
-        ) : null}
-        <fieldset className="kind-pick dl-pay">
-          <legend>How you will pay</legend>
-          <label className={"kind-option" + (v.payment === "account" ? " is-on" : "")}>
-            <input type="radio" name="dr-pay" checked={v.payment === "account"} onChange={() => set("payment", "account")} />
-            <span>
-              <strong>On invoice</strong>
-              <small>To your accounts department. The terms are on your quote.</small>
-            </span>
-          </label>
-          <label className={"kind-option" + (v.payment === "card" ? " is-on" : "")}>
-            <input type="radio" name="dr-pay" checked={v.payment === "card"} onChange={() => set("payment", "card")} />
-            <span>
-              <strong>By card when it arrives</strong>
-              <small>Debit or credit card on our portable machine, or at the Couva counter. No cash on delivery.</small>
-            </span>
-          </label>
-        </fieldset>
-      </fieldset>
-
-      <div className="form-row">
-        <div className="field">
-          <label htmlFor="dr-when">Needed by</label>
-          <input id="dr-when" type="date" value={v.wantedBy || ""} onChange={(e) => set("wantedBy", e.target.value || undefined)} aria-describedby="dr-when-h" />
-          <p className="hint" id="dr-when-h">
-            Optional. We confirm the day on your quote.
-          </p>
-        </div>
-        <div className="field">
-          <label htmlFor="dr-notes">Anything else</label>
-          <textarea id="dr-notes" rows={2} value={v.notes || ""} onChange={(e) => set("notes", e.target.value)} placeholder="Who receives it, anything we should know" />
-        </div>
-      </div>
-
-      <button className="btn btn-sign" type="submit">
-        Ask for my quote
-      </button>
-      <p className="hint">
-        No prices or payment on this website. We use these details only to quote, deliver and invoice this order (<a href="#terms-privacy">how we use your details</a>).
-      </p>
-    </form>
-  );
-}
-
 /* ---------- Your order: follow it, accept or decline the quote, print the papers, report a problem, order again ---------- */
 
 export function OrderLookup() {
@@ -504,9 +212,10 @@ function OrderView({ o, who, now, todayIso, print }: { o: DeliveryOrder; who: { 
   function again() {
     const detail: Reorder = {
       form: { company: o.company, contact: o.contact, phone: o.phone, email: o.email, fulfil: o.fulfil, zone: o.zone || "lisas", address: o.address || "", site: o.site || "", swaps: o.swaps, payment: o.payment || "account", billName: o.billing?.name || "", billEmail: o.billing?.email || "", billAddress: o.billing?.address || "", billSame: !o.billing || o.billing.address === o.address },
-      lines: o.lines.map((l) => ({ item: l.item, brand: l.brand, size: l.size, qty: l.qty, unit: l.unit })),
+      lines: o.lines.map((l) => ({ item: l.item, brand: l.brand, size: l.size, qty: l.qty, unit: l.unit, sku: l.sku, cat: l.cat })),
     };
     window.dispatchEvent(new CustomEvent(REORDER_EVENT, { detail }));
+    window.location.hash = "order";
   }
 
   const docs = docsFor(o).filter((k) => k === "quote" || k === "invoice" || k === "note");
@@ -521,6 +230,15 @@ function OrderView({ o, who, now, todayIso, print }: { o: DeliveryOrder; who: { 
           </p>
         </div>
       </header>
+
+      <ul className="dv-sent-lines" aria-label="What you asked for">
+        {o.lines.map((l) => (
+          <li key={l.id}>
+            <LineThumb line={l} />
+            <span>{l.qty + " × " + l.item}</span>
+          </li>
+        ))}
+      </ul>
 
       <ol className="dl-steps-track">
         {TRACK.map((st) => {

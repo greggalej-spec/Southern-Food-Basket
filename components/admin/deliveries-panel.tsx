@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Seg, Stat, act } from "@/components/admin/bits";
 import { SideSheet } from "@/components/admin/side-sheet";
 import { DOC_TITLE, docsFor, usePrintDoc, type DocKind } from "@/components/deliveries/documents";
+import { LineThumb } from "@/components/deliveries/line-thumb";
 import { LineEditor, blankLine, fileMeta, readLines, type LineDraft } from "@/components/site/deliveries";
 import { Badge } from "@/components/ui/badge";
 import { useNowMinute, useToday } from "@/components/use-today";
@@ -13,6 +14,7 @@ import { personName } from "@/lib/admin/guard";
 import { plural } from "@/lib/admin/helpers";
 import { whenTT } from "@/lib/admin/tt";
 import { fileSize, fmtDate, money } from "@/lib/format";
+import { groupLines, itemOfLine, photoOf } from "@/lib/ops/delivery-catalogue";
 import {
   PAY_DAYS, QUOTE_DAYS, VAT, VIAS, ZONES, addDeliveryMessage, cancelDelivery, deliveryCounts, expired, finishCheck, finishPicking, lineText, logDelivery, markDelivered, nextInvoiceNo,
   payText, quoteDueAt, recordPo, resolveIssue, sendQuote, stage, startPicking, suppliedOf, sums, tickLine, toPack, zoneLabel, type DeliveryForm,
@@ -56,6 +58,7 @@ function Card({ o, now, today, onOpen }: { o: DeliveryOrder; now: number; today:
     <button type="button" className="pipe-card" onClick={() => onOpen(o.id)} data-order={o.ref}>
       <span className="pipe-kind">{o.fulfil === "delivery" ? "Delivery" : "Collect at Couva"}</span>
       <strong>{o.company}</strong>
+      <CardPics o={o} />
       <span className="pipe-ask">
         {plural(o.lines.length, "item")}: {o.lines.slice(0, 3).map((l) => l.item.toLowerCase()).join(", ") + (o.lines.length > 3 ? "…" : "")}
       </span>
@@ -66,6 +69,21 @@ function Card({ o, now, today, onOpen }: { o: DeliveryOrder; now: number; today:
       </span>
       {due ? <span className={"pipe-due" + (due.late ? " is-late" : "")}>{due.text}</span> : null}
     </button>
+  );
+}
+
+/** The first few things on the order, as pictures: what kind of order it is, at a glance. Decorative; the card's
+ *  text names the items. Plain images, because the card is a button. */
+function CardPics({ o }: { o: DeliveryOrder }) {
+  const ids = [...new Set(o.lines.flatMap((l) => itemOfLine(l)?.id || []))];
+  if (!ids.length) return null;
+  return (
+    <span className="dl-card-pics" aria-hidden="true">
+      {ids.slice(0, 4).map((id) => (
+        <img key={id} src={photoOf(id)} alt="" loading="lazy" decoding="async" />
+      ))}
+      {ids.length > 4 ? <span>{"+" + (ids.length - 4)}</span> : null}
+    </span>
   );
 }
 
@@ -288,21 +306,29 @@ function LinesTable({ o }: { o: DeliveryOrder }) {
   return (
     <section className="dl-items" aria-label={mode === "invoice" ? "The order, as supplied" : "The order, as quoted"}>
       <h3 className="sub-h">{mode === "invoice" ? "The order, as supplied" : "The order, as quoted"}</h3>
-      <ul>
-        {o.lines.map((l) => {
-          const q = mode === "invoice" ? suppliedOf(l) : l.qty;
-          return (
-            <li key={l.id} className={l.price === null ? "is-off" : undefined}>
-              <div>
-                <strong>{lineText(l, q)}</strong>
-                {l.price != null ? <span className="meta">{money(l.price) + " each excl. VAT · " + VAT[l.vat || "S"].label}</span> : <span className="meta">{"Not available" + (l.swap ? ". Offered: " + l.swap : "")}</span>}
-                {l.price != null && q < l.qty ? <span className="meta dl-short">{"Short: " + q + " of " + l.qty + " supplied"}</span> : null}
-              </div>
-              <span className="dl-amt">{l.price != null ? money(l.price * q) : "–"}</span>
-            </li>
-          );
-        })}
-      </ul>
+      {groupLines(o.lines).map((g) => (
+        <div key={g.type.id} className="dl-items-group">
+          <h4>
+            {g.type.name} <span>{plural(g.lines.length, "line")}</span>
+          </h4>
+          <ul>
+            {g.lines.map((l) => {
+              const q = mode === "invoice" ? suppliedOf(l) : l.qty;
+              return (
+                <li key={l.id} className={l.price === null ? "is-off" : undefined}>
+                  <LineThumb line={l} />
+                  <div>
+                    <strong>{lineText(l, q)}</strong>
+                    {l.price != null ? <span className="meta">{money(l.price) + " each excl. VAT · " + VAT[l.vat || "S"].label}</span> : <span className="meta">{"Not available" + (l.swap ? ". Offered: " + l.swap : "")}</span>}
+                    {l.price != null && q < l.qty ? <span className="meta dl-short">{"Short: " + q + " of " + l.qty + " supplied"}</span> : null}
+                  </div>
+                  <span className="dl-amt">{l.price != null ? money(l.price * q) : "–"}</span>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
       <dl className="dl-totals">
         <div>
           <dt>Goods, excl. VAT</dt>
@@ -388,7 +414,10 @@ function QuoteForm({ o, today }: { o: DeliveryOrder; today: string }) {
       <ol className="dl-qlines">
         {o.lines.map((l) => (
           <li key={l.id} className={have[l.id] ? undefined : "is-off"}>
-            <p className="dl-qtext">{lineText(l)}</p>
+            <div className="dl-qhead">
+              <LineThumb line={l} />
+              <p className="dl-qtext">{lineText(l)}</p>
+            </div>
             <label className="dl-have">
               <input type="checkbox" checked={!!have[l.id]} onChange={(e) => setHave((p) => ({ ...p, [l.id]: e.target.checked }))} /> We have it
             </label>
@@ -559,7 +588,8 @@ function PickStart({ o, d, onPrint }: { o: DeliveryOrder; d: Seed; onPrint: () =
 function Ticks({ o, d, onPrint }: { o: DeliveryOrder; d: Seed; onPrint: () => void }) {
   const s = useSession();
   const field = o.status === "picking" ? "picked" : "checked";
-  const lines = toPack(o);
+  // By type of good, the way the pick list is printed, so the picker walks the store once.
+  const lines = groupLines(toPack(o)).flatMap((g) => g.lines);
   const left = lines.filter((l) => !l[field]).length;
   const [found, setFound] = useState<Record<string, string>>(() => Object.fromEntries(lines.map((l) => [l.id, String(suppliedOf(l))])));
   const [handover, setHandover] = useState(o.fulfil === "delivery" ? "Panel van" : "");
@@ -580,6 +610,7 @@ function Ticks({ o, d, onPrint }: { o: DeliveryOrder; d: Seed; onPrint: () => vo
           <li key={l.id}>
             <label>
               <input type="checkbox" checked={!!l[field]} disabled={field === "checked" && isPicker} onChange={(e) => tick(l.id, e.target.checked)} />
+              <LineThumb line={l} />
               <span>
                 {lineText(l)}
                 {field === "checked" && suppliedOf(l) < l.qty ? <strong className="dl-short"> Short: {suppliedOf(l)} going</strong> : null}

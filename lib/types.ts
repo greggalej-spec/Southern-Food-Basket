@@ -730,6 +730,10 @@ export interface DeliveryLine {
   size: string;
   qty: number;
   unit: DeliveryUnit;
+  /** The catalogue item it was picked from (lib/ops/delivery-catalogue.ts), which gives the line its picture. */
+  sku?: string;
+  /** The type of good the customer filed their own line under, when it is not a catalogue item. */
+  cat?: string;
   /** Set on the quote: the price of one unit in TTD before VAT, or null when the store cannot supply it. */
   price?: number | null;
   /** Set on the quote: the line's VAT treatment. */
